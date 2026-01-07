@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Life on Life and Shell</title>
+    <link>https://lifeandshell.com/categories/life/</link>
+    <description>Recent content in Life on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Tue, 16 Sep 2025 09:59:24 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/categories/life/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Automate LinkedIn Posts with Python 2025</title>
+      <link>https://lifeandshell.com/posts/how-to-automate-linkedin-posts-with-python-the-2025-guide/</link>
+      <pubDate>Tue, 16 Sep 2025 09:59:24 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/how-to-automate-linkedin-posts-with-python-the-2025-guide/</guid>
+      <description>I have a simple workflow: I write my posts in WordPress, and once they&amp;#8217;re ready, a workflow kicks off to get them published. A key part of this process is announcing the new post on LinkedIn to let my network know it&amp;#8217;s live.&#xA;Sounds easy, right? Well, I quickly discovered that most Python libraries for the LinkedIn API are outdated. LinkedIn has deprecated large parts of its old API, leaving many tools broken.</description>
+    </item>
+    <item>
+      <title>Running Wazuh Agents in Docker – From Traditional HIDS to Ingest Agents</title>
+      <link>https://lifeandshell.com/posts/wa/</link>
+      <pubDate>Sun, 13 Apr 2025 08:56:12 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wa/</guid>
+      <description>Wazuh Wazuh is a powerful open-source security platform built to monitor systems for threats, intrusions, and anomalies. Traditionally, the Wazuh agent is installed on physical or virtual Linux servers to perform host-based intrusion detection (HIDS). It passively monitors the system and reports any suspicious changes or activity to the Wazuh manager.&#xA;This works well in environments where systems are treated as immutable infrastructure — where servers are expected to remain unchanged.</description>
+    </item>
+    <item>
+      <title>Device Tracker using Dhpcd server and bash</title>
+      <link>https://lifeandshell.com/posts/device-tracker-using-dhpcd-server-and-bash/</link>
+      <pubDate>Wed, 21 Dec 2022 14:07:01 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/device-tracker-using-dhpcd-server-and-bash/</guid>
+      <description>I have used Home Assistance for some time. And have always used the device tracker to set different actions based if I&amp;#8217;m home or not.&#xA;But when my pfsense died and a install a clean Linux box as my fw and DHCP server I lost all my tracking for devices.&#xA;But I did found out that the dhcpd server can run a command every time it hands out a dhcpds leese.</description>
+    </item>
+    <item>
+      <title>Vault EKS / AWS to pod The complete guide</title>
+      <link>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</link>
+      <pubDate>Thu, 29 Oct 2020 09:17:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</guid>
+      <description>I have bean working some time with vault and to deploy it to our EKS cluster and then to get the secrets into our pods.&#xA;After many hours of searching i have found out that using kube-vault and vault-env. This gude uses tarraform to setup the resources you need in AWS.&#xA;Then deploy the kubevault with ui into to cluster that will use a s3 bucket and backend and autoseal it self during boot</description>
+    </item>
+    <item>
+      <title>Running Counter-strike 1.6 and CSGO in kubernetes !</title>
+      <link>https://lifeandshell.com/posts/running-counter-strike-1-6-and-csgo-in-kubernetes/</link>
+      <pubDate>Wed, 29 Apr 2020 14:09:45 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/running-counter-strike-1-6-and-csgo-in-kubernetes/</guid>
+      <description>Yee so it was a long time ago when I spend days playing counter strike 1.6. And now when i got some more power full servers and some time I was thinking of setting up a some counter-strike server for me and some friends so we can play.&#xA;I have a nice kubernetes cluster in my garage and a run all my stuff inside kubernetes so it was natural to make them into a kubernetes deploy.</description>
+    </item>
+    <item>
+      <title>Raspberry pi And Tellusd</title>
+      <link>https://lifeandshell.com/posts/raspberry-pi-and-tellusd/</link>
+      <pubDate>Mon, 20 Apr 2015 09:24:02 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/raspberry-pi-and-tellusd/</guid>
+      <description>Im using tellus to get info from my sensors like huminity and temp.&#xA;And to get to work am using my rasp pi to recive and send siganls.&#xA;Here is a quick guide to install and setup tellusd on you raspberry.&#xA;&amp;nbsp;&#xA;1. Verify that tellus is there pi@raspberrypi ~ $ lsusb&#xD;Bus 001 Device 002: ID 0424:9512 Standard Microsystems Corp. Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub&#xD;Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp.</description>
+    </item>
+    <item>
+      <title>Recover you python files from rm -rf *</title>
+      <link>https://lifeandshell.com/posts/recover-you-python-files-from-rm-rf/</link>
+      <pubDate>Thu, 03 Apr 2014 14:49:50 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/recover-you-python-files-from-rm-rf/</guid>
+      <description>So after cleaning up my work i run rm -rf * in the woring folder. Deleting all my work!.&#xA;After fighting holding back some tears I set down and start see if i could recover my lost work.&#xA;First recover you file from the filesystem and my laptop is an ubuntu desktop&#xA;sudo apt-get install extundelete Then its time to recover the files i run this command to get my lost folder back</description>
+    </item>
+    <item>
+      <title>Installing Plex Mediaserver Centos 6</title>
+      <link>https://lifeandshell.com/posts/installing-plex-mediaserver-centos-6/</link>
+      <pubDate>Sun, 16 Feb 2014 11:34:53 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installing-plex-mediaserver-centos-6/</guid>
+      <description>So I use plex for my media and i have a small server running with my plex server on it.&#xA;and here is how I install plex server on my home centos server.&#xA;This guide will work on several Linux dist&#xA;1. Grab latest plex server&#xA;go to https://plex.tv/downloads and choose the one best match for you system&#xA;I got&#xA;wget http://downloads.plexapp.com/plex-media-server/0.9.8.18.290-11b7fdd/plexmediaserver-0.9.8.18.290-11b7fdd.x86_64.rpm Install the package&#xA;rpm -i plexmediaserver-0.9.8.18.290-11b7fdd.x86_64.rpm Start the plex server</description>
+    </item>
+    <item>
+      <title>Mining Litecoins and Feathercoin</title>
+      <link>https://lifeandshell.com/posts/mining-litecoins-and-feathercoin/</link>
+      <pubDate>Mon, 23 Dec 2013 11:05:37 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mining-litecoins-and-feathercoin/</guid>
+      <description>Start mining some coins right now. First you need to sign up to some mining pools.&#xA;I use for Litecoins http://pool-x.eu and for Feathercoin https://ftc.d2.cc.&#xA;You can have differnt mining task running on you GPU ore on you CPU.&#xA;I at the moment only using my CPU but it i get the GPU runing as well i will update the blog.&#xA;This is and great blog on how to get started with minerd</description>
+    </item>
+    <item>
+      <title>Install Diaspora one Centos 6.4 with Apache</title>
+      <link>https://lifeandshell.com/posts/install-diaspora-one-centos-6-4-with-apache/</link>
+      <pubDate>Sun, 24 Nov 2013 21:25:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-diaspora-one-centos-6-4-with-apache/</guid>
+      <description>So Im going to test diaspora on one of my virtual server with run centos 6.4.&#xA;Setup Centos Setup Repos&#xA;wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm&#xD;wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm&#xD;rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm&#34; Install packages&#xA;yum install tar make automake gcc gcc-c++ git net-tools libcurl-devel libxml2-devel libffi-devel libxslt-devel tcl redis ImageMagick npm mysql-server mysql-devel httpd mod_ssl libyaml libyaml-devel patch readline-devel libtool bison Start services&#xA;chkconfig --level 3 httpd on chkconfig --level 3 mysqld on chkconfig --level 3 redis on &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Rolling back Andrioid on your Nexus 4 after Ubuntu</title>
+      <link>https://lifeandshell.com/posts/rolling-back-andrioid-on-your-nexus-4-after-ubuntu/</link>
+      <pubDate>Mon, 04 Nov 2013 16:58:16 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/rolling-back-andrioid-on-your-nexus-4-after-ubuntu/</guid>
+      <description>So i had to roll back to andriod. ubunut is not realy ready for my phone.&#xA;So this is how you do.&#xA;1. download you andriod images from here&#xA;https://developers.google.com/android/nexus/images#nakasi&#xA;Download and untar in nice folder.&#xA;2. Connect with USB to phone and power it on (Booting to ubuntu is ok)&#xA;run&#xA;adb reboot-bootloader&#xA;This will make the phone go into boot image.&#xA;&amp;nbsp;&#xA;3. Install andriod&#xA;in the folder that the downloadin andriod image is in run</description>
+    </item>
+    <item>
+      <title>Ubuntu Phone First Week</title>
+      <link>https://lifeandshell.com/posts/ubuntu-phone-first-week/</link>
+      <pubDate>Sat, 26 Oct 2013 19:47:46 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ubuntu-phone-first-week/</guid>
+      <description>&amp;nbsp;&#xA;&amp;nbsp;&#xA;So my first week has gone since i rooted my Nexus 4 and installed the new Ubuntu phone.&#xA;It was realy easy to root and install the phone the hole process was done in 30 min including backup.&#xA;It has bean I hard week but now at the end life with the phone is better.&#xA;So the ONLY things that really work in the phone is.&#xA;Make and receives calls Send and receives SMS With i browser surf (Only from wifi ) That about it so my connections to the world when Im on the road is dead.</description>
+    </item>
+    <item>
+      <title>Install Bitsync on Raspberry Pi</title>
+      <link>https://lifeandshell.com/posts/install-bitsync-on-raspberry-pi/</link>
+      <pubDate>Fri, 13 Sep 2013 19:50:03 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-bitsync-on-raspberry-pi/</guid>
+      <description>So today im using dropbox to sync all my stuff between devices. But now there are so much there so my free space is almost full. So now its time for me to move to bitsync an then sync all my devices.&#xA;Install bitsync&#xA;Go to folder /opt&#xA;cd /opt Download bitsync&#xA;wget &#34;http://btsync.s3-website-us-east-1.amazonaws.com/btsync_arm.tar.gz&#34; unpack it&#xA;chmod 700 btsync_arm.tar.gz&#xD;tarr zxvf btsync_arm.tar.gz Start it&#xA;cd bitsync&#xD;./bitsync go to the webbpage</description>
+    </item>
+  </channel>
+</rss>

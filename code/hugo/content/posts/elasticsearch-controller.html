@@ -1,0 +1,149 @@
+---
+title: Elasticsearch controller
+date: 2015-11-06 15:23:27
+tags:
+    
+    - Code
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Web
+    
+     
+---
+<p>So we uses alot of easticsearch. And here is i small script to get status and do some simple task with es server.<br />
+You can get cluster status and cron for index deletions.</p>
+<p>&nbsp;</p>
+<pre>import urllib2
+#
+#
+# Clean up elastich search index by removing old stuff.
+#The defult ip to es server
+dhost='10.101.1.31'
+#The index name you are using
+index_name='logstash-syslog'
+#Drop index back in time
+drop_index_back=90
+
+def date_back_in_time(days_back):
+ '''
+ Get the date back in time the days you send in
+ '''
+ import datetime as DT
+ today = DT.date.today()
+ back_in_time = today - DT.timedelta(days=days_back)
+ return str(back_in_time).replace('-','.')
+
+def connect(hostname=dhost,command='_cluster/health',pretty=True,drop=False):
+ '''
+ Run the command against the es server
+ '''
+ if drop:
+ print "dropping index {0}".format(command)
+ req = urllib2.Request("http://{0}:9200/{1}".format(hostname,command))
+ req.get_method = lambda: 'DELETE'
+ else:
+ if pretty: 
+ req = urllib2.Request("http://{0}:9200/{1}?pretty".format(hostname,command))
+ else:
+ req = urllib2.Request("http://{0}:9200/{1}".format(hostname,command))
+
+print req
+ response = urllib2.urlopen(req)
+ result = response.read()
+ print result
+
+def check_cluster_status():
+ '''
+ Do some basic checks to get es cluster status
+ '''
+ connect(command='_cluster/health')
+
+def check_index_size():
+ '''
+ check the index stat
+
+us and size
+'''
+connect(command='_cat/indices?v')
+
+def check_index_status():
+'''
+check the index status and size
+'''
+connect(command='{0}-2015.10.17/_status'.format(index_name))
+
+def check_es_recovery():
+'''
+check the index status and size
+'''
+connect(command='_recovery')
+
+def do_full_check():
+'''
+Rann all test 
+'''
+
+check_cluster_status()
+check_index_size()
+check_index_status()
+check_es_recovery()
+
+def cron_drop_es_index():
+'''
+Drop is index 90 days back.
+This function get thte date 90 days back and drops that index
+This function should be run everyday to performe daly drops.
+IMPORTANT
+If you cange the number of days to drop run clean_out_es_index() to clean out all index between
+365 days and your drop date. 
+'''
+drop = "{0}-{1}/".format(index_name,date_back_in_time(drop_index_back))
+connect(command=drop,drop=True)
+
+def clean_out_es_index():
+'''
+Clean out index from 365 days and to the set drop_index_back value
+'''
+for x in range(drop_index_back,365):
+print date_back_in_time(x)
+
+
+if args.run == "cron_drop_es_index":
+ cron_drop_es_index()
+
+elif args.run == "clean_out_es_index":
+ clean_out_es_index()
+
+elif args.run == "do_full_check":
+ do_full_check()
+
+elif args.run == "check_es_recovery":
+ check_es_recovery()
+
+elif args.run == "check_index_status":
+ check_index_status()
+
+elif args.run == "check_index_size":
+ check_index_size()
+
+elif args.run == "check_cluster_status":
+ check_cluster_status()
+
+else:
+ print "Please enter i correct command "</pre>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Life, Python on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-life-python/</link>
+    <description>Recent content in Lifeandshell, Life, Python on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Thu, 03 Apr 2014 14:49:50 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-life-python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Recover you python files from rm -rf *</title>
+      <link>http://localhost:1313/posts/recover-you-python-files-from-rm-rf/</link>
+      <pubDate>Thu, 03 Apr 2014 14:49:50 +0000</pubDate>
+      <guid>http://localhost:1313/posts/recover-you-python-files-from-rm-rf/</guid>
+      <description>&lt;p&gt;So after cleaning up my work i run rm -rf * in the woring folder. Deleting all my work!.&lt;br /&gt;&#xA;After fighting holding back some tears I set down and start see if i could recover my lost work.&lt;/p&gt;&#xA;&lt;p&gt;First recover you file from the filesystem and my laptop is an ubuntu desktop&lt;/p&gt;&#xA;&lt;pre&gt;sudo apt-get install extundelete&lt;/pre&gt;&#xA;&lt;p&gt;Then its time to recover the files i run this command to get my lost folder back&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

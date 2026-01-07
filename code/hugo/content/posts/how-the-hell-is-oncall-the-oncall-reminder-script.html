@@ -1,0 +1,130 @@
+---
+title: How the HELL is oncall ? (the oncall reminder script)
+date: 2013-08-05 21:59:17
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+---
+<p>When you have oncall often sometimes is easy to forget hows oncall and when you are not. So for the last time wonder how is oncall and ask some python for some help,</p>
+<p>&nbsp;</p>
+<p>The script</p>
+<pre>#!/usr/bin/env python
+#
+# Mattias Hemmingsson
+# matte@elino.se
+#
+# Script for reminder friend when to bet
+# Uses and csv file and send email to remind when its time to bet.
+#
+# 
+import csv
+import smtplib
+from datetime import datetime, timedelta, date</pre>
+<pre></pre>
+<pre>#Get users and send email to users
+sender = 'noreply@elino.se'
+emails =[]
+better = ""
+week = 2</pre>
+<pre>def save_to_file(name):
+ '''
+ Saves the oncall to file
+ '''
+ f = open("oncall.txt", "w")
+ f.write(name)
+ f.close()</pre>
+<pre>def read_file():
+ '''
+ read the oncall to file
+ '''
+ f = open("oncall.txt", "r")
+ return int(f.readline()) + 1
+ f.close()</pre>
+<pre>def send_oncall():
+ '''
+ Send an reminder ho is oncall
+ '''</pre>
+<pre>#Get cont on oncall staff and next oncall
+ numeroncall = str(int(len(open("people.csv").readlines())) +1)
+ nextoncall = str(read_file())
+
+ #Loop to begning of file 
+ if nextoncall == numeroncall:
+ nextoncall = '1'
+
+ #Send email to oncall staff
+ emails=[]</pre>
+<pre>#Get how is oncall
+ with open('people.csv', 'rb') as f:
+ reader = csv.reader(f)
+ for row in reader:
+ emails.append(row[2])
+ if row[0] == nextoncall:
+ oncall = row[1]
+ #Save oncall to file
+ save_to_file(row[0])</pre>
+<pre> 
+
+ message = """From: SYCO &lt;noreply@elino.se&gt;
+ To: SYSOP
+ Subject: {0} IS NOW ONCALL
+
+ This is an reminder that {0} is now oncall.
+ """.format(oncall)</pre>
+<pre>send_email(emails,message)</pre>
+<pre></pre>
+<pre>#Sending the email
+def send_email(emails,message):
+ sender = "sycoreply@elino.se"
+ '''
+ Send the email
+ '''
+
+ try:
+ smtpObj = smtplib.SMTP('localhost')
+ smtpObj.sendmail(sender, emails, message) 
+ print "Successfully sent email"
+ except SMTPException:
+ print "Error: unable to send email"
+
+ print emails
+ print sender + message</pre>
+<pre>send_oncall()</pre>
+<p>And then a file with the oncall staff</p>
+<pre>1,Mattias Hemmingsson,matte@elino.se
+2,oncall one,oncall@elino.se
+3,oncall two,oncall2@elino.se
+4,oncall tre,oncall3@elino.se</pre>
+<p>&nbsp;</p>
+<p>More update in my github</p>
+<p><a href="https://github.com/mattiashem/Scripts/tree/master/reminer">https://github.com/mattiashem/Scripts/tree/master/reminer</a></p>

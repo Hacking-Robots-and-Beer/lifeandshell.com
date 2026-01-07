@@ -1,0 +1,154 @@
+---
+title: Build Openvpn centos 7
+date: 2015-06-17 22:33:25
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>Here is how i build and setup openvpn on my centos 7 box.</p>
+<p>1. Download and install openvpn latest</p>
+<p>Some yum packages</p>
+<p>&nbsp;</p>
+<pre>yum install openssl-devel lzo-devel pam-devel</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>https://openvpn.net/index.php/open-source/downloads.html</p>
+<p>&nbsp;</p>
+<pre>wget https://swupdate.openvpn.org/community/releases/openvpn-2.3.7.tar.gz</pre>
+<pre>tar zxvf openvpn-2.3.7.tar.gz</pre>
+<pre>cd openvpn-2.3.7</pre>
+<pre>./configure</pre>
+<pre>make</pre>
+<pre>make install</pre>
+<pre># /usr/local/sbin/openvpn --version</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>So now we have the latest version setup and lets create some cert that we can use for the server ans clients.</p>
+<p>&nbsp;</p>
+<p>2. Setup certs for server and clients</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre>wget https://github.com/OpenVPN/easy-rsa/archive/master.zip</pre>
+<pre>unzip master.zip</pre>
+<pre>cd easy-rsa-master/</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>So time for making the CA and Server certs</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre class="wiki">./easyrsa init-pki
+./easyrsa build-ca
+./easyrsa gen-req vpn.ollebo.com nopass 
+./easyrsa import-req /opt/easy-rsa-master/easyrsa3/pki/reqs/vpn.ollebo.com.req vpn
+./easyrsa show-req vpn
+./easyrsa sign server vpn
+./easyrsa gen-dh
+
+/usr/local/sbin/openvpn --genkey --secret ta.key
+
+
+
+</pre>
+<p>&nbsp;</p>
+<p>More info here https://community.openvpn.net/openvpn/wiki/EasyRSA3-OpenVPN-Howto</p>
+<p>&nbsp;</p>
+<p>Now create the folder /etc/openvpn and copy the certs into that folder.<br />
+You shold have the following certs</p>
+<pre>[root@control openvpn]# ls
+ca.crt dh.pem server.conf ta.key vpn.crt vpn.ollebo.com.key</pre>
+<p>If must match the names to you certs names.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>3. Time to setup openvpn server and client</p>
+<p>&nbsp;</p>
+<p>here is my server.conf</p>
+<pre>;local a.b.c.d
+port 1194
+;proto tcp
+proto udp
+;dev tap
+dev tun
+ca ca.crt
+cert vpn.crt
+key vpn.ollebo.com.key # This file should be kept secret
+dh dh.pem
+server 10.8.0.0 255.255.255.0
+ifconfig-pool-persist ipp.txt
+;push "route 192.168.10.0 255.255.255.0"
+;push "route 192.168.20.0 255.255.255.0"
+client-to-client
+keepalive 10 120
+tls-auth ta.key 0 # This file is secret
+comp-lzo
+persist-key
+persist-tun
+status openvpn-status.log
+verb 3</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>4. Setup my client config</p>
+<p>&nbsp;</p>
+<p>first some keys</p>
+<p>&nbsp;</p>
+<pre>#Gen keys
+./easyrsa gen-req mattes-vpn.ollebo.com
+./easyrsa import-req pki/reqs/mattes-vpn.ollebo.com.req mattes-vpn.ollebo.com
+./easyrsa show-req mattes-vpn.ollebo.com
+#sign with ca on openvpn server
+./easyrsa sign client mattes-vpn.ollebo.com
+
+</pre>
+<p>&nbsp;</p>
+<p>Then create a folder and get the keys that you need. You should have the following keys and certs</p>
+<pre>[root@control matte]# ls
+ca.crt mattes-vpn.ollebo.com.crt mattes-vpn.ollebo.com.key ta.key</pre>
+<p>&nbsp;</p>
+<p>Client config CHANGE Remote to you dns name ore ip</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre>### Client configuration file for OpenVPN</pre>
+<pre># Specify that this is a client
+ client</pre>
+<pre># Bridge device setting
+ dev tap</pre>
+<pre># Host name and port for the server (default port is 1194)
+ # note: replace with the correct values your server set up
+ remote 127.0.0.1 1194</pre>
+<pre># Client does not need to bind to a specific local port
+ nobind</pre>
+<pre># Keep trying to resolve the host name of OpenVPN server.
+ ## The windows GUI seems to dislike the following rule.
+ ##You may need to comment it out.
+ resolv-retry infinite</pre>
+<pre># Preserve state across restarts
+ persist-key
+ persist-tun</pre>
+<pre># SSL/TLS parameters - files created previously
+ ca ca.crt
+ cert mattes-vpn.ollebo.com.crt
+ key mattes-vpn.ollebo.com.key</pre>
+<pre># Since we specified the tls-auth for server, we need it for the client
+ # note: 0 = server, 1 = client
+ tls-auth ta.key 1</pre>
+<pre># Specify same cipher as server
+ cipher BF-CBC</pre>
+<pre># Use compression
+ comp-lzo</pre>
+<pre># Log verbosity (to help if there are problems)
+ verb 3</pre>
+<pre></pre>
+<p>&nbsp;</p>

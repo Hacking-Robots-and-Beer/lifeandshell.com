@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Elino, Linux, Security, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-elino-linux-security-web/</link>
+    <description>Recent content in Lifeandshell, Elino, Linux, Security, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sat, 22 Mar 2014 13:10:54 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-elino-linux-security-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Install Pandora fms monitoring system on Centos</title>
+      <link>http://localhost:1313/posts/install-pandora-fms-monitoring-system-on-centos/</link>
+      <pubDate>Sat, 22 Mar 2014 13:10:54 +0000</pubDate>
+      <guid>http://localhost:1313/posts/install-pandora-fms-monitoring-system-on-centos/</guid>
+      <description>&lt;p&gt;So for many years i use nagios to monitor my server and now im would say i can handle nagios config files good. But I fund pandora fms monitoring and this i must try.&lt;/p&gt;&#xA;&lt;p&gt;From the pandora console its mutch easy to from the webbrowser setup new task and tweek task so you alarms realy are correct. Doing this in nagios then i had to change config files and restart nagios and nrpe.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

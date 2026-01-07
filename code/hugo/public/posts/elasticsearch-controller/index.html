@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Elasticsearch controller | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/elasticsearch-controller/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/elasticsearch-controller/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Elasticsearch controller">
+  <meta property="og:description" content="So we uses alot of easticsearch. And here is i small script to get status and do some simple task with es server.
+You can get cluster status and cron for index deletions.
+ 
+import urllib2### Clean up elastich search index by removing old stuff.#The defult ip to es serverdhost=&#39;10.101.1.31&#39;#The index name you are usingindex_name=&#39;logstash-syslog&#39;#Drop index back in timedrop_index_back=90def date_back_in_time(days_back):&#39;&#39;&#39;Get the date back in time the days you send in&#39;&#39;&#39;import datetime as DTtoday = DT.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2015-11-06T15:23:27+00:00">
+    <meta property="article:modified_time" content="2015-11-06T15:23:27+00:00">
+    <meta property="article:tag" content="Code">
+    <meta property="article:tag" content="Web">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Elasticsearch controller">
+  <meta name="twitter:description" content="So we uses alot of easticsearch. And here is i small script to get status and do some simple task with es server.
+You can get cluster status and cron for index deletions.
+ 
+import urllib2### Clean up elastich search index by removing old stuff.#The defult ip to es serverdhost=&#39;10.101.1.31&#39;#The index name you are usingindex_name=&#39;logstash-syslog&#39;#Drop index back in timedrop_index_back=90def date_back_in_time(days_back):&#39;&#39;&#39;Get the date back in time the days you send in&#39;&#39;&#39;import datetime as DTtoday = DT.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/python-dos-protection-iptablesdos/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/mesos-cluster-with-marathon-running-docker/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&text=Elasticsearch%20controller" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&title=Elasticsearch%20controller" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&is_video=false&description=Elasticsearch%20controller" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Elasticsearch%20controller&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&title=Elasticsearch%20controller" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&title=Elasticsearch%20controller" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&name=Elasticsearch%20controller&description=So%20we%20uses%20alot%20of%20easticsearch.%20And%20here%20is%20i%20small%20script%20to%20get%20status%20and%20do%20some%20simple%20task%20with%20es%20server.%0aYou%20can%20get%20cluster%20status%20and%20cron%20for%20index%20deletions.%0a%26nbsp%3b%0aimport%20urllib2%0d%23%0d%23%0d%23%20Clean%20up%20elastich%20search%20index%20by%20removing%20old%20stuff.%0d%23The%20defult%20ip%20to%20es%20server%0ddhost%3d%2710.101.1.31%27%0d%23The%20index%20name%20you%20are%20using%0dindex_name%3d%27logstash-syslog%27%0d%23Drop%20index%20back%20in%20time%0ddrop_index_back%3d90%0ddef%20date_back_in_time%28days_back%29%3a%0d%27%27%27%0dGet%20the%20date%20back%20in%20time%20the%20days%20you%20send%20in%0d%27%27%27%0dimport%20datetime%20as%20DT%0dtoday%20%3d%20DT." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&t=Elasticsearch%20controller" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Elasticsearch controller
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2015-11-06 15:23:27 &#43;0000 UTC" itemprop="datePublished">2015-11-06</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          1 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/code">Code</a>
+            
+             ,  
+            <a class="category-link" href="/categories/web">Web</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/code" rel="tag">Code</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/web" rel="tag">Web</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>So we uses alot of easticsearch. And here is i small script to get status and do some simple task with es server.<br />
+You can get cluster status and cron for index deletions.</p>
+<p>&nbsp;</p>
+<pre>import urllib2
+#
+#
+# Clean up elastich search index by removing old stuff.
+#The defult ip to es server
+dhost='10.101.1.31'
+#The index name you are using
+index_name='logstash-syslog'
+#Drop index back in time
+drop_index_back=90
+
+def date_back_in_time(days_back):
+ '''
+ Get the date back in time the days you send in
+ '''
+ import datetime as DT
+ today = DT.date.today()
+ back_in_time = today - DT.timedelta(days=days_back)
+ return str(back_in_time).replace('-','.')
+
+def connect(hostname=dhost,command='_cluster/health',pretty=True,drop=False):
+ '''
+ Run the command against the es server
+ '''
+ if drop:
+ print "dropping index {0}".format(command)
+ req = urllib2.Request("http://{0}:9200/{1}".format(hostname,command))
+ req.get_method = lambda: 'DELETE'
+ else:
+ if pretty: 
+ req = urllib2.Request("http://{0}:9200/{1}?pretty".format(hostname,command))
+ else:
+ req = urllib2.Request("http://{0}:9200/{1}".format(hostname,command))
+
+print req
+ response = urllib2.urlopen(req)
+ result = response.read()
+ print result
+
+def check_cluster_status():
+ '''
+ Do some basic checks to get es cluster status
+ '''
+ connect(command='_cluster/health')
+
+def check_index_size():
+ '''
+ check the index stat
+
+us and size
+'''
+connect(command='_cat/indices?v')
+
+def check_index_status():
+'''
+check the index status and size
+'''
+connect(command='{0}-2015.10.17/_status'.format(index_name))
+
+def check_es_recovery():
+'''
+check the index status and size
+'''
+connect(command='_recovery')
+
+def do_full_check():
+'''
+Rann all test 
+'''
+
+check_cluster_status()
+check_index_size()
+check_index_status()
+check_es_recovery()
+
+def cron_drop_es_index():
+'''
+Drop is index 90 days back.
+This function get thte date 90 days back and drops that index
+This function should be run everyday to performe daly drops.
+IMPORTANT
+If you cange the number of days to drop run clean_out_es_index() to clean out all index between
+365 days and your drop date. 
+'''
+drop = "{0}-{1}/".format(index_name,date_back_in_time(drop_index_back))
+connect(command=drop,drop=True)
+
+def clean_out_es_index():
+'''
+Clean out index from 365 days and to the set drop_index_back value
+'''
+for x in range(drop_index_back,365):
+print date_back_in_time(x)
+
+
+if args.run == "cron_drop_es_index":
+ cron_drop_es_index()
+
+elif args.run == "clean_out_es_index":
+ clean_out_es_index()
+
+elif args.run == "do_full_check":
+ do_full_check()
+
+elif args.run == "check_es_recovery":
+ check_es_recovery()
+
+elif args.run == "check_index_status":
+ check_index_status()
+
+elif args.run == "check_index_size":
+ check_index_size()
+
+elif args.run == "check_cluster_status":
+ check_cluster_status()
+
+else:
+ print "Please enter i correct command "</pre>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&text=Elasticsearch%20controller" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&title=Elasticsearch%20controller" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&is_video=false&description=Elasticsearch%20controller" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Elasticsearch%20controller&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&title=Elasticsearch%20controller" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&title=Elasticsearch%20controller" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&name=Elasticsearch%20controller&description=So%20we%20uses%20alot%20of%20easticsearch.%20And%20here%20is%20i%20small%20script%20to%20get%20status%20and%20do%20some%20simple%20task%20with%20es%20server.%0aYou%20can%20get%20cluster%20status%20and%20cron%20for%20index%20deletions.%0a%26nbsp%3b%0aimport%20urllib2%0d%23%0d%23%0d%23%20Clean%20up%20elastich%20search%20index%20by%20removing%20old%20stuff.%0d%23The%20defult%20ip%20to%20es%20server%0ddhost%3d%2710.101.1.31%27%0d%23The%20index%20name%20you%20are%20using%0dindex_name%3d%27logstash-syslog%27%0d%23Drop%20index%20back%20in%20time%0ddrop_index_back%3d90%0ddef%20date_back_in_time%28days_back%29%3a%0d%27%27%27%0dGet%20the%20date%20back%20in%20time%20the%20days%20you%20send%20in%0d%27%27%27%0dimport%20datetime%20as%20DT%0dtoday%20%3d%20DT." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2felasticsearch-controller%2f&t=Elasticsearch%20controller" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

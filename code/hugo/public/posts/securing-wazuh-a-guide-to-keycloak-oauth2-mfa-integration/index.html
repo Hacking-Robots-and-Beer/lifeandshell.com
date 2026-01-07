@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Securing Wazuh- A Guide to Keycloak OAuth2 &amp;amp; MFA Integration | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/securing-wazuh-a-guide-to-keycloak-oauth2-mfa-integration/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/securing-wazuh-a-guide-to-keycloak-oauth2-mfa-integration/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Securing Wazuh- A Guide to Keycloak OAuth2 &amp;amp; MFA Integration">
+  <meta property="og:description" content="If you’re running Wazuh in an environment with compliance requirements like PCI DSS, SOC 2, or HIPAA, you know that multi-factor authentication (MFA) and strict access control are non-negotiable. The need to prove who has access to sensitive security logs—and who can modify configurations—means that shared accounts and simple passwords are no longer enough.
+It’s time to connect Wazuh to a modern authentication provider. This guide will walk you through integrating Wazuh with Keycloak, a powerful open-source Identity and Access Management (IAM) solution.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-22T10:11:02+00:00">
+    <meta property="article:modified_time" content="2025-09-22T10:11:02+00:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Samma">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Securing Wazuh- A Guide to Keycloak OAuth2 &amp;amp; MFA Integration">
+  <meta name="twitter:description" content="If you’re running Wazuh in an environment with compliance requirements like PCI DSS, SOC 2, or HIPAA, you know that multi-factor authentication (MFA) and strict access control are non-negotiable. The need to prove who has access to sensitive security logs—and who can modify configurations—means that shared accounts and simple passwords are no longer enough.
+It’s time to connect Wazuh to a modern authentication provider. This guide will walk you through integrating Wazuh with Keycloak, a powerful open-source Identity and Access Management (IAM) solution.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/how-to-automate-linkedin-posts-with-python-the-2025-guide/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/choosing-your-web-server-a-guide-to-apache-and-nginx-on-ubuntu/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&text=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&title=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&is_video=false&description=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&title=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&title=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&name=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration&description=If%20you%26%238217%3bre%20running%20Wazuh%20in%20an%20environment%20with%20compliance%20requirements%20like%20PCI%20DSS%2c%20SOC%202%2c%20or%20HIPAA%2c%20you%20know%20that%20multi-factor%20authentication%20%28MFA%29%20and%20strict%20access%20control%20are%20non-negotiable.%20The%20need%20to%20prove%20who%20has%20access%20to%20sensitive%20security%20logs%e2%80%94and%20who%20can%20modify%20configurations%e2%80%94means%20that%20shared%20accounts%20and%20simple%20passwords%20are%20no%20longer%20enough.%0aIt%26%238217%3bs%20time%20to%20connect%20Wazuh%20to%20a%20modern%20authentication%20provider.%20This%20guide%20will%20walk%20you%20through%20integrating%20Wazuh%20with%20Keycloak%2c%20a%20powerful%20open-source%20Identity%20and%20Access%20Management%20%28IAM%29%20solution." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&t=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Securing Wazuh- A Guide to Keycloak OAuth2 &amp;amp; MFA Integration
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2025-09-22 10:11:02 &#43;0000 UTC" itemprop="datePublished">2025-09-22</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          5 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+             ,  
+            <a class="category-link" href="/categories/samma">samma</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/samma" rel="tag">samma</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      
+<p>If you&#8217;re running Wazuh in an environment with compliance requirements like <strong>PCI DSS</strong>, <strong>SOC 2</strong>, or <strong>HIPAA</strong>, you know that <strong>multi-factor authentication (MFA)</strong> and strict access control are non-negotiable. The need to prove who has access to sensitive security logs—and who can modify configurations—means that shared accounts and simple passwords are no longer enough.</p>
+
+
+
+<p>It&#8217;s time to connect Wazuh to a modern authentication provider. This guide will walk you through integrating Wazuh with <strong>Keycloak</strong>, a powerful open-source Identity and Access Management (IAM) solution.</p>
+
+
+
+<p>Connecting Keycloak to Wazuh accomplishes two key goals:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Elevates Security &amp; Compliance</strong>: It immediately brings Wazuh&#8217;s authentication up to modern standards with support for SSO, MFA, and centralized user management.</li>
+
+
+
+<li><strong>Improves Usability</strong>: It allows you to grant role-based access to more people on your team, like developers and analysts, without managing separate credentials for each tool. By centralizing identity, everyone can log in and view the alerts relevant to them securely.</li>
+</ul>
+
+
+
+<h2 class="wp-block-heading">Github guide with code<br><br><a href="https://github.com/samma-io/wazuh-help/blob/main/1-before-prod/setupUsers.md">https://github.com/samma-io/wazuh-help/blob/main/1-before-prod/setupUsers.md</a></h2>
+
+
+
+<h2 class="wp-block-heading"><br>The End Result: A Seamless Login Flow</h2>
+
+
+
+<p>Once this integration is complete, the default Wazuh login screen is completely bypassed. When a user navigates to the Wazuh dashboard, they are automatically redirected to Keycloak to authenticate, providing a single, secure entry point for your entire team.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p><strong>Login Flow:</strong> User navigates to Wazuh Dashboard → Automatic redirect to Keycloak login page → User authenticates (with MFA) → Redirect back to Wazuh Dashboard with a valid session.</p>
+</blockquote>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Step 1: Deploying Keycloak with Docker Compose</h2>
+
+
+
+<p>There are many ways to set up Keycloak, including Helm charts for Kubernetes. For this guide, we&#8217;ll use a simple <code>docker-compose</code> file to get a server running quickly. This setup includes a PostgreSQL database for persistence.</p>
+
+
+
+<p>Create a file named <code>docker-compose.yml</code>:</p>
+
+
+
+<pre class="wp-block-code"><code>version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16.2
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - keycloak_network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.6
+    command: start
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT_BACKCHANNEL: 'false'
+      KC_HTTP_ENABLED: 'true'
+      KC_HOSTNAME_STRICT_HTTPS: 'false'
+      KC_HEALTH_ENABLED: 'true'
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/${POSTGRES_DB}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - postgres
+    networks:
+      - keycloak_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  keycloak_network:
+    driver: bridge</code></pre>
+
+
+
+<p>This <code>docker-compose.yml</code> file references environment variables for your secrets. Create a <code>.env</code> file in the same directory to store them:</p>
+
+
+
+<pre class="wp-block-code"><code># .env file
+POSTGRES_DB=keycloak
+POSTGRES_USER=keycloak
+POSTGRES_PASSWORD=your_strong_postgres_password
+
+KEYCLOAK_ADMIN=admin
+KEYCLOAK_ADMIN_PASSWORD=your_strong_admin_password</code></pre>
+
+
+
+<p>Now, launch Keycloak by running:</p>
+
+
+
+<pre class="wp-block-code"><code>docker-compose up -d</code></pre>
+
+
+
+<p>You should be able to access the Keycloak admin console at <code>http://localhost:8080</code>.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Step 2: Configuring the Keycloak Realm for Wazuh</h2>
+
+
+
+<p>Setting up Keycloak is the easy part. Now we need to configure it to act as an authentication provider for Wazuh. This involves creating a client and mapping users to the correct groups.</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Create a Client</strong>: In the Keycloak admin console, create a new client for Wazuh. Let&#8217;s call the <strong>Client ID</strong> <code>wazuh</code>. Ensure the client has <strong>Standard flow</strong> enabled and add your Wazuh dashboard URL to the <strong>Valid Redirect URIs</strong> (e.g., <code>https://your-wazuh-host.com/*</code>).</li>
+
+
+
+<li><strong>Configure Groups</strong>: Using groups is the best way to manage user permissions. Keycloak can pass group membership to Wazuh, which then maps them to roles. Ensure your users are members of the following groups:
+<ul class="wp-block-list">
+<li><code>security_analytics_full_access</code></li>
+
+
+
+<li><code>security_analytics_read_access</code></li>
+
+
+
+<li><code>admin</code>: Add your administrative users to this group in Keycloak. When they log in, they will be granted admin privileges in Wazuh.</li>
+</ul>
+</li>
+</ul>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p><strong>Shortcut</strong>: To make this easier, I have exported my Keycloak realm setup. You can download the <code>wazuh-keycloak.json</code> file and import it into your Keycloak instance.</p>
+</blockquote>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Step 3: Configuring Wazuh to Use Keycloak</h2>
+
+
+
+<p>To make Wazuh work with Keycloak, we need to perform three key steps:</p>
+
+
+
+<ol class="wp-block-list">
+<li>Configure the <strong>Wazuh Dashboard</strong> to use OpenID and redirect users to Keycloak.</li>
+
+
+
+<li>Configure the <strong>Wazuh Indexer</strong> to validate tokens from Keycloak and map user groups to roles.</li>
+
+
+
+<li>Run the <strong>securityadmin tool</strong> to apply the new security configuration to the indexer cluster.</li>
+</ol>
+
+
+
+<h3 class="wp-block-heading">1. Configure the Dashboard</h3>
+
+
+
+<p>SSH into your Wazuh server and edit <code>/etc/wazuh-dashboard/opensearch_dashboards.yml</code>.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p><strong>Important</strong>: Before editing, make a backup of this file!<br><code>cp /etc/wazuh-dashboard/opensearch_dashboards.yml /etc/wazuh-dashboard/opensearch_dashboards.yml.bak</code></p>
+</blockquote>
+
+
+
+<pre class="wp-block-code"><code># /etc/wazuh-dashboard/opensearch_dashboards.yml
+opensearch_security.auth.type: "openid"
+opensearch_security.openid:
+  connect_url: "http://YOUR_KEYCLOAK_IP:8080/realms/master/.well-known/openid-configuration"
+  client_id: "wazuh"
+  client_secret: "YOUR_CLIENT_SECRET_FROM_KEYCLOAK" # Find this in your 'wazuh' client credentials tab
+  scope: "openid profile email"</code></pre>
+
+
+
+<ul class="wp-block-list">
+<li>Update the <code>connect_url</code> to point to your Keycloak server&#8217;s IP or hostname.</li>
+
+
+
+<li>Retrieve your <code>client_secret</code> from the <strong>Credentials</strong> tab of your <code>wazuh</code> client in Keycloak.</li>
+</ul>
+
+
+
+<p>After saving the file, restart the Wazuh dashboard to apply the changes:</p>
+
+
+
+<pre class="wp-block-code"><code>systemctl restart wazuh-dashboard</code></pre>
+
+
+
+<h3 class="wp-block-heading">2. Configure the Indexer</h3>
+
+
+
+<p>Open the file <code>config.yml</code> within the OpenSearch security plugin directory (e.g., <code>/usr/share/wazuh-indexer/plugins/opensearch-security/securityconfig/config.yml</code>) and add the settings for the OpenID authentication domain.</p>
+
+
+
+<pre class="wp-block-code"><code>config:
+  dynamic:
+    http:
+      anonymous_auth_enabled: false
+      xff:
+        enabled: false
+        internalProxies: '192\.168\.0\.10|192\.168\.0\.11' # regex pattern
+    authc:
+      basic_internal_auth_domain:
+        description: "Authenticate via HTTP Basic against internal users database"
+        http_enabled: true
+        transport_enabled: true
+        order: 0
+        http_authenticator:
+          type: basic
+          challenge: false
+        authentication_backend:
+          type: intern
+      openid_auth_domain:
+        http_enabled: true
+        transport_enabled: true
+        order: 1
+        http_authenticator:
+          type: openid
+          challenge: true
+          config:
+            subject_key: preferred_username
+            roles_key: groups
+            openid_connect_url: http://YOUR_KEYCLOAK_IP:8080/realms/master/.well-known/openid-configuration
+            required_audience: wazuh
+        authentication_backend:
+          type: noop</code></pre>
+
+
+
+<h3 class="wp-block-heading">3. Apply the Security Configuration</h3>
+
+
+
+<p>Run the <code>securityadmin.sh</code> script on the indexer node to load the new configuration into the cluster. Note that this tool may be deprecated in future versions.</p>
+
+
+
+<p><em>(I&#8217;m running this in Docker, so please modify the paths to your certificates and config files to match your environment).</em></p>
+
+
+
+<pre class="wp-block-code"><code>export JAVA_HOME=/usr/share/wazuh-indexer/jdk/ &amp;&amp; \
+bash /usr/share/wazuh-indexer/plugins/opensearch-security/tools/securityadmin.sh \
+-f /path/to/your/config.yml \
+-icl \
+-key /usr/share/wazuh-indexer/certs/admin-key.pem \
+-cert /usr/share/wazuh-indexer/certs/admin.pem \
+-cacert /usr/share/wazuh-indexer/certs/root-ca.pem \
+-h 127.0.0.1 \
+-nhnv</code></pre>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Troubleshooting Tips</h2>
+
+
+
+<p>The most common issue is a misconfiguration in the JWT token. If the user&#8217;s groups aren&#8217;t being passed correctly from Keycloak, the role mapping in Wazuh will fail.</p>
+
+
+
+<p>You can verify the token directly in Keycloak:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Go to <strong>Clients > <code>wazuh</code> > Client Scopes</strong>.</li>
+
+
+
+<li>Click on the <strong>Evaluate</strong> tab.</li>
+
+
+
+<li>Select a user who is a member of your Wazuh groups.</li>
+
+
+
+<li>Click <strong>Evaluate</strong> and inspect the <strong>Generated Access Token</strong>. In the decoded token, you should see a <code>groups</code> array containing the expected group names. If it&#8217;s not there, check your Client Scope and Mapper configurations in Keycloak.</li>
+</ul>
+
+
+
+<p>Here is an example of a valid user token:</p>
+
+
+
+<pre class="wp-block-code"><code>{
+  "sub": "0a11ca94-142f-4bb5-b056-8b0e65696126",
+  "email_verified": true,
+  "groups": &#91;
+    "wazuh_admin",
+    "default-roles-master",
+    "offline_access",
+    "uma_authorization",
+    "security_analytics_full_access",
+    "admin"
+  ],
+  "preferred_username": "matte45",
+  "email": "matte45@gmail.com"
+}</code></pre>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Kubernetes Deployment</h2>
+
+
+
+<p>I run my Wazuh instance in Kubernetes. In my public repository, you will find the ConfigMaps I&#8217;m using to manage these settings declaratively, as well as a Helm deployment for Wazuh.</p>
+
+
+
+<h2 class="wp-block-heading">A Quick Note on Production Security </h2>
+
+
+
+<p>The configurations in this guide use <strong>HTTP</strong> for simplicity. <strong>In a production environment, you must configure proper TLS/HTTPS for both Keycloak and Wazuh.</strong> Exposing your authentication system over an unencrypted channel is a major security risk.</p>
+
+
+
+<h2 class="wp-block-heading">References</h2>
+
+
+
+<ul class="wp-block-list">
+<li><a href="https://documentation.wazuh.com/current/user-manual/user-administration/single-sign-on/administrator/keycloak.html" target="_blank" rel="noreferrer noopener">Wazuh Docs: SSO with Keycloak</a></li>
+
+
+
+<li><a href="https://docs.opensearch.org/latest/security/authentication-backends/openid-connect/" target="_blank" rel="noreferrer noopener">OpenSearch Docs: OpenID Connect</a></li>
+</ul>
+
+
+
+<p></p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&text=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&title=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&is_video=false&description=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&title=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&title=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&name=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration&description=If%20you%26%238217%3bre%20running%20Wazuh%20in%20an%20environment%20with%20compliance%20requirements%20like%20PCI%20DSS%2c%20SOC%202%2c%20or%20HIPAA%2c%20you%20know%20that%20multi-factor%20authentication%20%28MFA%29%20and%20strict%20access%20control%20are%20non-negotiable.%20The%20need%20to%20prove%20who%20has%20access%20to%20sensitive%20security%20logs%e2%80%94and%20who%20can%20modify%20configurations%e2%80%94means%20that%20shared%20accounts%20and%20simple%20passwords%20are%20no%20longer%20enough.%0aIt%26%238217%3bs%20time%20to%20connect%20Wazuh%20to%20a%20modern%20authentication%20provider.%20This%20guide%20will%20walk%20you%20through%20integrating%20Wazuh%20with%20Keycloak%2c%20a%20powerful%20open-source%20Identity%20and%20Access%20Management%20%28IAM%29%20solution." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fsecuring-wazuh-a-guide-to-keycloak-oauth2-mfa-integration%2f&t=Securing%20Wazuh-%20A%20Guide%20to%20Keycloak%20OAuth2%20%26amp%3b%20MFA%20Integration" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

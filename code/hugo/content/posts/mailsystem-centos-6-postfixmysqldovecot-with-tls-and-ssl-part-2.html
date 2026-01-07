@@ -1,0 +1,149 @@
+---
+title: Mailsystem Centos 6 (Postfix,Mysql,Dovecot) with TLS and SSL Part 2
+date: 2013-12-25 22:49:09
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>So now I have en working Postfix that receive email i need something so that I can read me emails.<br />
+So we will setup dovecot to use our mysql for users. and use SSL on all our connections.</p>
+<p>&nbsp;</p>
+<h2>Setup Mysql</h2>
+<p>Create a file called dovecot-sql.conf.ext in /etc/dovecot (Ore where you want to have it)</p>
+<p>Add the following settings to the config file</p>
+<pre>driver = mysql
+connect = host=localhost dbname=virtual_mail user=postfix password=some_pass
+default_pass_scheme = MD5-CRYPT
+user_query = SELECT '/home/vmail/%n@%d/' as home, 5000 AS uid, 5000 AS gid FROM mailbox WHERE username = '%u'
+password_query = SELECT password FROM mailbox WHERE username = '%u'</pre>
+<p>Update so it match you config. You only need the read user for mysql.</p>
+<p>Open the file /etc/dovecot/conf.d/auth-sql.conf.ext and se the it looks like mine (Deafult it should) I cut out some comments</p>
+<pre>passdb {
+ driver = sql
+ # Path for SQL configuration file, see example-config/dovecot-sql.conf.ext
+ args = /etc/dovecot/dovecot-sql.conf.ext
+}
+userdb {
+ driver = sql
+ args = /etc/dovecot/dovecot-sql.conf.ext
+}
+ #driver = static
+ #args = uid=vmail gid=vmail home=/var/vmail/%u</pre>
+<p>Now we should activate dovecot so it uses our mysql for useres.</p>
+<p>In file 10-auth.conf alter this settings</p>
+<pre>auth_mechanisms = plain login cram-md5
+!include auth-sql.conf.ext
+#!include auth-system.conf.ext</pre>
+<p>In file 10-master.conf add the following</p>
+<pre>service auth {
+...
+  unix_listener /var/spool/postfix/private/auth {
+    mode = 0660
+    # Assuming the default Postfix user and group
+    user = postfix
+    group = postfix        
+  }
+  ...
+}</pre>
+<h2>Activate SSL</h2>
+<p>Open the file 10-ssl.conf And make the following changes</p>
+<pre>ssl = yes
+ssl_cert = &lt;/etc/pki/tls/certs/mail.elinodrift.se.crt
+ssl_key = &lt;/etc/pki/tls/private/mail.elinodrift.se.key</pre>
+<p>Here I use the same certs that we created for postfix</p>
+<p>Setup mail locations in the file 10-mail.conf add this line</p>
+<pre>mail_location = maildir:/home/vmail/%n@%d/:INDEX=/home/vmail/%n@%d/indexes</pre>
+<h2>Test</h2>
+<p>Restart dovecot</p>
+<pre>service dovecot restart</pre>
+<p><strong>See that dovecot listen on correct ports</strong></p>
+<pre>netstat -anp | grep LISTEN | grep dovecot</pre>
+<pre>tcp 0 0 0.0.0.0:993 0.0.0.0:* LISTEN 7252/dovecot 
+tcp 0 0 0.0.0.0:995 0.0.0.0:* LISTEN 7252/dovecot 
+tcp 0 0 0.0.0.0:110 0.0.0.0:* LISTEN 7252/dovecot 
+tcp 0 0 0.0.0.0:143 0.0.0.0:* LISTEN 7252/dovecot 
+tcp 0 0 :::993 :::* LISTEN 7252/dovecot 
+tcp 0 0 :::995 :::* LISTEN 7252/dovecot 
+tcp 0 0 :::110 :::* LISTEN 7252/dovecot 
+tcp 0 0 :::143 :::* LISTEN 7252/dovecot</pre>
+<p><strong>Test our SSL</strong></p>
+<pre>openssl s_client -showcerts -connect localhost:993</pre>
+<pre>Verify return code: 18 (self signed certificate)
+---
+* OK [CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE IDLE AUTH=PLAIN] Dovecot ready.</pre>
+<p>Test with openssl our IMAP</p>
+<pre>openssl s_client -connect localhost:993
+*OK [CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE IDLE AUTH=PLAIN] Dovecot ready.</pre>
+<pre><strong>a1 LOGIN matte@elinodrift.se password</strong>
+a1 OK [CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT SORT=DISPLAY THREAD=REFERENCES THREAD=REFS MULTIAPPEND UNSELECT CHILDREN NAMESPACE UIDPLUS LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN CONTEXT=SEARCH LIST-STATUS] Logged in
+<strong>a2 LIST "" "*"</strong>
+* LIST (\HasNoChildren) "." "INBOX"
+a2 OK List completed.
+<strong>a3 EXAMINE INBOX</strong>
+* FLAGS (\Answered \Flagged \Deleted \Seen \Draft)
+* OK [PERMANENTFLAGS ()] Read-only mailbox.
+* 5 EXISTS
+* 5 RECENT
+* OK [UNSEEN 1] First unseen.
+* OK [UIDVALIDITY 1387973157] UIDs valid
+* OK [UIDNEXT 6] Predicted next UID
+* OK [HIGHESTMODSEQ 1] Highest
+a3 OK [READ-ONLY] Select completed.
+<strong>a4 FETCH 1 BODY[]</strong>
+* 1 FETCH (BODY[] {312}
+Return-Path: &lt;test@elino.se&gt;
+X-Original-To: matte@elinodrift.se
+Delivered-To: matte@elinodrift.se
+Received: from mail.elino.se (37-46-182-158.customers.ownit.se [37.46.182.158])
+ by us1.elino.se (Postfix) with SMTP id 7429514130B
+ for &lt;matte@elinodrift.se&gt;; Mon, 23 Dec 2013 16:08:45 -0500 (EST)</pre>
+<pre><span style="color: #ff0000;">hejsan</span>
+)
+a4 OK Fetch completed.
+<strong>a5 LOGOUT</strong>
+* BYE Logging out
+a5 OK Logout completed.
+closed</pre>
+<p>As you can see I got the test email we sent when we tested the postfix</p>
+<p>And the maillog on the server looks like this</p>
+<pre>Dec 25 07:05:13 us1 dovecot: imap-login: Login: user=&lt;matte@elinodrift.se&gt;, method=PLAIN, rip=37.463.182.158, lip=192.33.116.189, mpid=7428, TLS
+Dec 25 07:06:49 us1 dovecot: imap(matte@elinodrift.se): Disconnected: Logged out bytes=59/1054</pre>
+<p>&nbsp;</p>
+<h2>Install webmail Squrrelmail for webmail</h2>
+<p>&nbsp;</p>
+<p>Download squrrelmail from <a href="http://squirrelmail.org/download.php">http://squirrelmail.org/download.php</a></p>
+<p>In folder /var/www/html</p>
+<pre>wget http://squirrelmail.org/countdl.php?fileurl=http%3A%2F%2Fprdownloads.sourceforge.net%2Fsquirrelmail%2Fsquirrelmail-webmail-1.4.22.tar.gz
+tar zxvf squirrelmail-webmail-1.4.22.tar.gz
+mv squirrelmail-webmail-1.4.22 webmail
+
+Open file /etc/php.ini and change</pre>
+<pre>short_open_tag = On</pre>
+<p>Run some commands for squrrelmail</p>
+<pre>mkdir -p /var/local/squirrelmail/data/
+mkdir -p /var/local/squirrelmail/attach/
+chown apache:apache -R /var/local/squirrelmail/
+chmod 774 -R /var/local/squirrelmail/</pre>
+<p>Then go into squrrelmail folder and run</p>
+<pre>./configure</pre>
+<p>Sett you local settings and set the IMAP server settings</p>
+<pre>4. IMAP Server : localhost
+5. IMAP Port : 993
+6. Authentication type : login
+7. Secure IMAP (TLS) : true
+8. Server software : dovecot
+9. Delimiter : detect</pre>
+<p>Then run the squrreylmail to see so that everything is working</p>
+<p><a href="http://wwwexample.se/webmail/src/configtest.php">http://yourdomain/webmail/src/configtest.php</a></p>

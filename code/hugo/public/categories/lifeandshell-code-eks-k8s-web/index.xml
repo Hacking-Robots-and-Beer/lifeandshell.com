@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Eks, K8s, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-eks-k8s-web/</link>
+    <description>Recent content in Lifeandshell, Code, Eks, K8s, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Thu, 15 Sep 2022 16:02:06 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-eks-k8s-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>kubernetes update 1.22 -&gt;1.23 Helm Error</title>
+      <link>http://localhost:1313/posts/kubernetes-update-1-22-1-23-helm-error/</link>
+      <pubDate>Thu, 15 Sep 2022 16:02:06 +0000</pubDate>
+      <guid>http://localhost:1313/posts/kubernetes-update-1-22-1-23-helm-error/</guid>
+      <description>&lt;p&gt;I was in the progress of updating my cluster and in version 1.23 we have breaking changes.&lt;br&gt;What I did not know was that helm saves the latest deployed version in secret.&lt;br&gt;&lt;br&gt;So I updated the cluster to version 1.23 and started getting helm errors.&lt;br&gt;And it does not matter if I delete the resources in the cluster. The issue is that helm has saved the last deployment with a API version that with the new k8s version is no longer supported.&lt;br&gt;&lt;br&gt;So I tried to manually delete all the different resources but with no success.&lt;br&gt;In the end, I started to delete the helm secrets and then applied the helm again using update &amp;#8211;install&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

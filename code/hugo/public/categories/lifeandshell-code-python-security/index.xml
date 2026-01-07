@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Python, Security on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-python-security/</link>
+    <description>Recent content in Lifeandshell, Code, Python, Security on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Fri, 30 May 2014 20:04:05 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-python-security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OAuth2 Server on Python (with flask on Centos)</title>
+      <link>http://localhost:1313/posts/oauth2-server-on-python-with-flask-on-centos/</link>
+      <pubDate>Fri, 30 May 2014 20:04:05 +0000</pubDate>
+      <guid>http://localhost:1313/posts/oauth2-server-on-python-with-flask-on-centos/</guid>
+      <description>&lt;p&gt;So at work we have started to look at OAuth2 for our web apps. So on our creativ friday today i started looking at putting together an OAuth2 server using python and flask.&lt;/p&gt;&#xA;&lt;p&gt;I followed the guide from this page &lt;a title=&#34;http://lepture.com/en/2013/create-oauth-server&#34; href=&#34;http://lepture.com/en/2013/create-oauth-server&#34; target=&#34;_blank&#34;&gt;http://lepture.com/en/2013/create-oauth-server&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;And after some work I got an working server and client running on my Centos server.&lt;/p&gt;&#xA;&lt;p&gt;The code only uses an sqlite db and are only testing the OAuth functions so for a working solutions there are some more work.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

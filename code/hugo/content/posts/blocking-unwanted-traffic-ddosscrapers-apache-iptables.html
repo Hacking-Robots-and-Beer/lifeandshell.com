@@ -1,0 +1,62 @@
+---
+title: Blocking unwanted traffic (ddos,scrapers) Apache, Iptables
+date: 2014-02-11 23:16:22
+tags:
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+---
+<p>So spent last evning blocking ip comming from <a title="packetflip" href="http://www.packetflip.com/">packetflip</a> to our server. Looks in our Apache access log that there was some evil scraping going on so we started blocking. But its not that funny to block many ip manually so time for some scripts.</p>
+<p>&nbsp;</p>
+<p><strong>First some info to use </strong></p>
+<p>Packetflip user agent was</p>
+<pre>Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022</pre>
+<p>And the request was hitting the link</p>
+<pre>POST /search/22122/station?requestId</pre>
+<p><strong>First </strong></p>
+<p>Some taling and grepping to get out the ip that matches or request url and user agent.</p>
+<pre>tail -n 1000  apache_access_log  |grep "POST /search/22122/station?requestId" | grep "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022" | awk '{print $1}' | sort | uniq -c | awk '{print $2}'</pre>
+<p>&nbsp;</p>
+<p><strong>Step two </strong></p>
+<p>Lets make some output that we can use</p>
+<pre>tail -n 1000  apache_access_log  |grep "POST /search/22122/station?requestId" | grep "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022" | awk '{print $1}' | sort | uniq -c | awk '{system ("iptables -I INPUT 1 -s " $2 " -j DROP")}'</pre>
+<p>This will generate some Iptables output that you can run to block the ip</p>
+<p><strong>Step tree</strong></p>
+<p>No the last one i test with some tail -f  but did not work. So i made i bash loop.<br />
+I put the following content in i file and the run the file</p>
+<pre>vi block.sh</pre>
+<p>Content</p>
+<pre>while sleep 40;</pre>
+<pre>do tail -n 300 apache_access_log |grep "POST /search/22122/station?requestId" | grep "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022" | awk '{print $1}' | sort | uniq -c | awk '{system ("iptables -I INPUT 1 -s " $2 " -j DROP")}';
+done</pre>
+<p>This will run and every 40 sec it will tail the logs and block the ip that matches the url and user agent.</p>
+<p>Done do some looks in iptables to see that new ip are added.</p>

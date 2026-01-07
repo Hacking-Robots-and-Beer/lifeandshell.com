@@ -1,0 +1,49 @@
+---
+title: Set up Openvpn client on Centos 6.4
+date: 2013-07-21 22:39:45
+tags:
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+---
+<p>I often use Openvpn to connect my servers toghter over several cloud servers provider.<br />
+This is my small how to for setting up the openvpn client.</p>
+<h2>Install the openvpn server</h2>
+<pre>yum install wget
+wget http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+rpm -Uvh epel-release-6-8.noarch.rpm 
+yum install openvpn</pre>
+<p>&nbsp;</p>
+<p>Set up the Vpn client</p>
+<p>In <strong>/etc/openvpn</strong> extract you vpn config</p>
+<p>Save you openvpn config file as <strong>client.conf</strong></p>
+<p>Test you vpn</p>
+<pre>openvpn --config client.conf 
+
+
+</pre>
+<p>Now when its working restart you openvpn with</p>
+<pre>/etc/init.d/openvpn restart</pre>
+<p>And now you will have vpn between you server.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

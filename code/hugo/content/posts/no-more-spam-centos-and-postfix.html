@@ -1,0 +1,81 @@
+---
+title: No more spam (Centos and postfix)
+date: 2013-12-25 23:11:32
+tags:
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+---
+<p>So i HATE spam and now to get rid of as so many as possible i go for 3 step.</p>
+<p><strong>1. Postfix </strong></p>
+<p>Get postfix to restrict witch is to allow to send email to me.<br />
+No strange name and use spam block lists. Also restrict time in how many connections you can do.</p>
+<p><strong>2. Greylisting</strong></p>
+<p>So the first time some server tries to send email greylist says no resend that email.<br />
+all propper config servers will resind the email. But spamservers will not.</p>
+<p><strong>3. Run spam filter on the email still passing</strong></p>
+<p>Install packages</p>
+<pre>yum install spamassassin postgrey</pre>
+<p>some bash server settings</p>
+<pre id="pre-4">sudo groupadd spamd
+sudo useradd -g spamd -s /bin/false -d /var/log/spamassassin spamd
+sudo chown spamd:spamd /var/log/spamassassin</pre>
+<pre id="pre-2">nano /etc/mail/spamassassin/local.cf</pre>
+<pre id="pre-3">required_hits 5.0
+report_safe 0
+required_score 5
+rewrite_header Subject ***SPAM***</pre>
+<pre id="pre-5">sudo nano /etc/postfix/master.cf</pre>
+<p>In the end of the file add this</p>
+<pre id="pre-7">spamassassin unix - n n - - pipe flags=R user=spamd argv=/usr/bin/spamc -e /usr/sbin/sendmail -oi -f ${sender} ${recipient}</pre>
+<p>add this in the file /etc/postfix/main.cf</p>
+<pre>#spam fighting
+disable_vrfy_command = yes
+smtpd_delay_reject = yes
+smtpd_helo_required = yes</pre>
+<pre>smtpd_helo_restrictions = permit_mynetworks,
+ reject_non_fqdn_hostname,
+ reject_invalid_hostname,
+ permit</pre>
+<pre>smtpd_recipient_restrictions =
+ permit_sasl_authenticated,
+ permit_mynetworks,
+ check_policy_service unix:postgrey/socket,
+ reject_invalid_hostname,
+ reject_non_fqdn_hostname,
+ reject_unauth_destination,
+ reject_rbl_client list.dsbl.org,
+ reject_rbl_client sbl.spamhaus.org,
+ reject_rbl_client cbl.abuseat.org,
+ reject_rbl_client dul.dnsbl.sorbs.net,
+ permit
+smtpd_error_sleep_time = 1s
+smtpd_soft_error_limit = 10
+smtpd_hard_error_limit = 20</pre>
+<pre id="pre-8">sa-update</pre>
+<p>restart postfix greylist and spamassassin and then you done</p>
+<h2>Read more here</h2>
+<p><a href="http://www.rackspace.com/knowledge_center/article/installing-and-configuring-spamassassin-on-centos">http://www.rackspace.com/knowledge_center/article/installing-and-configuring-spamassassin-on-centos</a></p>
+<p><a href="http://wiki.centos.org/HowTos/postgrey">http://wiki.centos.org/HowTos/postgrey</a></p>
+<p><a href="http://www.cyberciti.biz/tips/postfix-spam-filtering-with-blacklists-howto.html">http://www.cyberciti.biz/tips/postfix-spam-filtering-with-blacklists-howto.html</a></p>
+<p>&nbsp;</p>

@@ -1,0 +1,93 @@
+---
+title: Python DOS protection (iptables,dos)
+date: 2015-11-06 15:18:51
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+---
+<p>here are a small script I use to have some sort of dos protection on my webservers.</p>
+<p>&nbsp;</p>
+<pre>import subprocess
+
+whitelist=['192.168.1.2']
+blockvalue=2
+alertvalue=1
+
+proc = subprocess.Popen("netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n", shell=True,stdout=subprocess.PIPE)
+running = proc.stdout.read()
+runing_sorted = running.split('\n')
+
+for r in runing_sorted:
+ con =r.split()
+ if len(con) ==2:
+ #If ip has more conenctions then block value ip block
+ if con[0] &lt;= blockvalue:
+ print "BLOCKING " + str(con[1])+ " - "+str(con[0]) 
+
+ else:
+ print "Ok " + str(con[1])+ " - "+str(con[0])
+
+#If ip has more values the alertvalue send alert
+ if con[0] &lt;= alertvalue:
+ print "BLOCKING " + str(con[1])+ " - "+str(con[0]) 
+ else:
+ print "Ok " + str(con[1])+ " - "+str(con[0])
+
+def block_ip(ip):
+ '''
+ Get ip from list and block with iptables
+ '''
+ if ip in whitelist:
+ print "Ip are a whitelisted"
+ else:
+ subprocess.Popen('iptables -I INPUT 1 -s {0} -j DROP'.format(ip))
+ subprocess.Popen('logger "IP {0} BLOCKED by script"'.format(ip))
+
+def alert_ip(ip):
+ '''
+ Get ip from list and block with iptables
+ '''
+ if ip in whitelist:
+ print "Ip are a whitelisted"
+ else:
+ subprocess.Popen('echo "Ip varning for {0}" "&gt; mail -s "Ip warning on ip {0} " alert@lifenadshell.com'.format(ip))
+ subprocess.Popen('logger "Warning IP {0} has many conenctions" '.format(ip))</pre>

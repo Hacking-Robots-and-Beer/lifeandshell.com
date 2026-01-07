@@ -1,0 +1,105 @@
+---
+title: Dra upp TLS på openldap server ubuntu 12.04
+date: 2012-02-17 20:41:05
+tags:
+    
+    - Security
+    
+     
+categories:
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Security
+    
+     
+---
+<p>Daxs att sätta upp openldap server och lägga på TLS på den.<br />
+Första steget fixa till så det finns certifikat till server.</p>
+<p>installera lite paket som behövs</p>
+<pre>
+sudo apt-get install gnutls-bin ssl-cert
+</pre>
+<p>Fixa en ca nyckel som kommer vara som en bas</p>
+<pre>
+sudo sh -c "certtool --generate-privkey > /etc/ssl/private/cakey.pem"
+
+</pre>
+<p>skapa en fil som heter /etc/ssl/ca.info<br />
+och lägg följande i den</p>
+<pre>
+cn = Example Company
+ca
+cert_signing_key
+</pre>
+<p>Daxs att göra en nyckel till server och signa den med våran ca nyckel</p>
+<pre>
+sudo certtool --generate-self-signed \
+--load-privkey /etc/ssl/private/cakey.pem \ 
+--template /etc/ssl/ca.info \
+--outfile /etc/ssl/certs/cacert.pem
+</pre>
+<p>Nu är våran ca klart coh vi ska göra en nyckel till<br />
+ldap server</p>
+<pre>
+sudo certtool --generate-privkey \
+--bits 1024 \
+--outfile /etc/ssl/private/ldap01_slapd_key.pem
+</pre>
+<p>Nu har vi en nyckel till vårat cert nu ska fi göra en fil med lite info till certifikatet</p>
+<pre>
+organization = Example Company
+cn = ldap01.example.com
+tls_www_server
+encryption_key
+signing_key
+expiration_days = 3650
+</pre>
+<p>Sedan ska vi ta och skapa certet</p>
+<pre>
+sudo certtool --generate-certificate \
+--load-privkey /etc/ssl/private/ldap01_slapd_key.pem \
+--load-ca-certificate /etc/ssl/certs/cacert.pem \
+--load-ca-privkey /etc/ssl/private/cakey.pem \
+--template /etc/ssl/ldap01.info \
+--outfile /etc/ssl/certs/ldap01_slapd_cert.pem
+</pre>
+<p>Nu har vi vårat cetr klart nu är det daxs att kadda in våra värden in i ldap servern<br />
+Skapa en ldif fil som heter tld.ldif</p>
+<pre>
+dn: cn=config
+add: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/ssl/certs/cacert.pem
+-
+add: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/ssl/certs/ldap01_slapd_cert.pem
+-
+add: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/ssl/private/ldap01_slapd_key.pem
+</pre>
+<p>Ladda in ldif filen i ldap</p>
+<pre>
+
+sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f tls.ldif
+</pre>
+<p>Ta och ge slapd server rättigheter med apparmor att läsa certifikaten</p>
+<p>OBS KOLLA FILNAMNEN SÅ DE STÄMMER MED DINA !!!!</p>
+<pre>
+/etc/ssl/cert/cacert.pem r,
+/etc/ssl/private/ldap01.elinofied.se.pem r,
+/etc/ssl/cert/ldap01_slapd_cert.pem r,
+</pre>
+<p>Ta och ge slap användaren rättigheter till certen</p>
+<pre>
+sudo adduser openldap ssl-cert
+sudo chgrp ssl-cert /etc/ssl/private/ldap01_slapd_key.pem
+sudo chmod g+r /etc/ssl/private/ldap01_slapd_key.pem
+sudo chmod o-r /etc/ssl/private/ldap01_slapd_key.pem
+</pre>
+<p>Nu är det bara att starta om apparmor och slapd och du ska ha en ldapserver som kan köra TLS.</p>
+<p>Guden som jag använnt finns här.<br />
+<a href="https://help.ubuntu.com/11.10/serverguide/C/openldap-server.html">https://help.ubuntu.com/11.10/serverguide/C/openldap-server.html</a></p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

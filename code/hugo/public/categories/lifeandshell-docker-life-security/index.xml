@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Docker, Life, Security on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-docker-life-security/</link>
+    <description>Recent content in Lifeandshell, Docker, Life, Security on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Wed, 29 Apr 2020 14:09:45 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-docker-life-security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Running Counter-strike 1.6 and CSGO in kubernetes !</title>
+      <link>http://localhost:1313/posts/running-counter-strike-1-6-and-csgo-in-kubernetes/</link>
+      <pubDate>Wed, 29 Apr 2020 14:09:45 +0000</pubDate>
+      <guid>http://localhost:1313/posts/running-counter-strike-1-6-and-csgo-in-kubernetes/</guid>
+      <description>&lt;p&gt;Yee so it was a long time ago when I spend days playing counter strike 1.6. And now when i got some more power full servers and some time I was thinking of setting up a some counter-strike server for me and some friends so we can play.&lt;br&gt;&lt;br&gt;I have a nice kubernetes cluster in my garage and a run all my stuff inside kubernetes so it was natural to make them into a kubernetes deploy.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,50 @@
+---
+title: Install Heartbeat HA cluster on Centos
+date: 2013-07-30 19:40:01
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>So the backbone of my webcluster i use Heartbeat to monitor the server performance.<br />
+Heartbeat is setup to monitor the servers and to take actions if anything happens with some of the nodes.<br />
+This guide is for migraing and ip addres from one node to the secondary of the first node goes down.</p>
+<p>Then i configure the other servers like apache ore mysql ontop.</p>
+<p>First begin to enabling EPEL repos.</p>
+<pre>rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</pre>
+<p>Install heartbeat</p>
+<pre>yum install heartbeat</pre>
+<p>Setup so your host fiile is ok</p>
+<pre>10.20.0.21 web1
+10.20.0.22 web2</pre>
+<p>Create the file /etc/ha.d/ha.cf and ad the following in it</p>
+<pre>keepalive 2
+deadtime 30
+bcast eth0
+node web1 web2</pre>
+<p>Create the file vi /etc/ha.d/haresources and ad the following into it</p>
+<pre>web1 IPaddr::10.0.0.100/24/eth0</pre>
+<p>&nbsp;</p>
+<p>The ip 10.0.0.100 is the ip that will first be in web1. If web1 goes down the ip will be transfer to web2 that will take over the reqest.</p>
+<p>Create the file vi /etc/ha.d/authkeys and fill it with (alter the password)</p>
+<pre>auth 3
+3 md5 password6asd567hajksdhjkhkjjkahdsk</pre>
+<p>Setting correct chmod to authkeys</p>
+<pre>chmod 600 /etc/ha.d/authkeys</pre>
+<p>Copy the config files to your heartbeat nodes. And then restart you heartbeat service</p>
+<pre>/etc/init.d/heartbeat restart</pre>
+<p>And run an ifconfig to se where your ip is</p>
+<pre>ifconfig</pre>
+<p>And thats it. Now when you first node is down the ip will come up at your secondary server.</p>
+<p>&nbsp;</p>

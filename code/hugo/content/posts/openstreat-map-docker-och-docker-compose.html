@@ -1,0 +1,141 @@
+---
+title: Openstreat map Docker och docker compose
+date: 2022-11-17 16:53:00
+tags:
+    
+    - Code
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+
+<p>Split up in separate containers !<br></p>
+
+
+
+<p>Running openstreetmap map in docker was hard. And the docs all wanted to run it bounded with postgress and not in separate containers.<br>I setup so we can run osm I different containers for you to scale</p>
+
+
+
+<p></p>
+
+
+
+<p><a href="https://github.com/mattiashem/osm">https://github.com/mattiashem/osm</a></p>
+
+
+
+<p>Clone this GitHub repo and then start it with</p>
+
+
+
+<p><code>docker compose build</code></p>
+
+
+
+<p><strong>then to start it, run </strong></p>
+
+
+
+<p><code>docker compose up</code></p>
+
+
+
+<h2 class="wp-block-heading">What is happening </h2>
+
+
+
+<p>First we are building a custom Postgres docker image. The image loads the extension that OSM needs.<br>Then we start the containers postgres, osm, tile-importer and web<br><br>Tile importer will look for the file /status/importer id the file DONT exist it will start the script to provision the Postgres SQL server by loading all the extensions and plugins.<br>It will then move on to importing tiles of Sweden.<br>And then install some extra scripts.<br><br>Then the init process is done it will write the file /status/imported</p>
+
+
+
+<p></p>
+
+
+
+<p>OSM container wait to start until the file /status/importer is present.<br>When the file is present, it will start up the rendered and apache service to start rendering tiles.</p>
+
+
+
+<pre class="wp-block-code"><code>url -v http://localhost:8080/hot/0/0/0.png</code></pre>
+
+
+
+<p></p>
+
+
+
+<p>Then web container connects to OSM over localhost:8080 and displays the tiles. Go to HTTP://localhost:8081 to display the content<br><br>IF you want to change any port ore localhost, some more changes are needed.</p>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+<p><br></p>
+
+
+
+<h2 class="wp-block-heading">To do<br></h2>
+
+
+
+<p>Make then run from ENV and make helm chart to deploy them into a Kubernetes cluster.<br></p>
+
+
+
+<p></p>
+
+
+
+<p></p>

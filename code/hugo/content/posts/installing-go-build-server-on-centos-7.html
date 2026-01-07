@@ -1,0 +1,79 @@
+---
+title: Installing Go build server on centos 7
+date: 2015-02-11 21:39:35
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>Installing the go build server in centos 7 with some easy step</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>1. First head over to the go page and have a look around</h3>
+<p><a title="http://www.go.cd/" href="http://www.go.cd/" target="_blank">http://www.go.cd/</a></p>
+<h3></h3>
+<h3>2. Download go server to you centos box</h3>
+<p>&nbsp;</p>
+<pre>wget http://download.go.cd/gocd-rpm/go-server-14.4.0-1356.noarch.rpm
+wget http://download.go.cd/gocd-rpm/go-agent-14.4.0-1356.noarch.rpm</pre>
+<h3></h3>
+<h3>3. Install it</h3>
+<p>First start by adding the go user (something broken in install)</p>
+<pre>useradd go</pre>
+<p>Now run yum localinstall to install local packages</p>
+<pre>yum install java-1.7.0-openjdk -y
+yum localinstall go-server-14.4.0-1356.noarch.rpm
+yum localinstall go-agent-14.4.0-1356.noarch.rpm
+/etc/init.d/go-agent restart
+/etc/init.d/go-server restart</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>4. Start using it</h3>
+<pre>firewall-cmd --zone=public --add-port=8153/tcp --permanent
+firewall-cmd --zone=public --add-port=8154/tcp --permanent
+firewall-cmd --reload</pre>
+<p>http://&lt;your ip ore hostname&gt;:8153</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>5. Use apache to proxy</h3>
+<pre><code class="lang-{.code}">Listen nnn.nnn.nnn.nnn:80
+NameVirtualHost nnn.nnn.nnn.nnn:80
+
+&lt;VirtualHost nnn.nnn.nnn.nnn:80&gt;
+    ServerName go.yourdomain.com
+    DocumentRoot /var/www/html
+    SSLProxyEngine on
+    SSLEngine on
+    ProxyPass / https://localhost:8154/
+    ProxyPassReverse / https://localhost:8154/
+&lt;/VirtualHost&gt;</code></pre>
+<p>&nbsp;</p>

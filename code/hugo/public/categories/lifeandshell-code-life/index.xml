@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Life on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-life/</link>
+    <description>Recent content in Lifeandshell, Code, Life on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Mon, 20 Apr 2015 09:24:02 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-life/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Raspberry pi And Tellusd</title>
+      <link>http://localhost:1313/posts/raspberry-pi-and-tellusd/</link>
+      <pubDate>Mon, 20 Apr 2015 09:24:02 +0000</pubDate>
+      <guid>http://localhost:1313/posts/raspberry-pi-and-tellusd/</guid>
+      <description>&lt;p&gt;Im using tellus to get info from my sensors like huminity and temp.&lt;/p&gt;&#xA;&lt;p&gt;And to get to work am using my rasp pi to recive and send siganls.&lt;br /&gt;&#xA;Here is a quick guide to install and setup tellusd on you raspberry.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;1. Verify that tellus is there&lt;/h2&gt;&#xA;&lt;pre&gt;pi@raspberrypi ~ $ &lt;strong&gt;lsusb&lt;/strong&gt;&#xD;&#xA;Bus 001 Device 002: ID 0424:9512 Standard Microsystems Corp. &#xD;&#xA;Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub&#xD;&#xA;Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp. &#xD;&#xA;&lt;strong&gt;Bus 001 Device 004: ID 1781:0c31 Multiple Vendors Telldus TellStick Duo&lt;/strong&gt;&#xD;&#xA;Bus 001 Device 005: ID 148f:5370 Ralink Technology, Corp. RT5370 Wireless Adapter&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

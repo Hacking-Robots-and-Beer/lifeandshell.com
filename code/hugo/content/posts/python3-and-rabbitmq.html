@@ -1,0 +1,70 @@
+---
+title: Python3 and rabbitmq
+date: 2015-04-21 22:38:05
+tags:
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+---
+<p>Im using rabbitmq in some of my python apps. Here is a small guide to get pyton3 to send and recive data from rabbitmq</p>
+<p>&nbsp;</p>
+<p>I uses the code from</p>
+<p><a title="https://code.google.com/p/py-amqplib/" href="https://code.google.com/p/py-amqplib/" target="_blank">https://code.google.com/p/py-amqplib/</a></p>
+<p>And read some guide from</p>
+<p><a title="http://blogs.digitar.com/jjww/2009/01/rabbits-and-warrens/" href="http://blogs.digitar.com/jjww/2009/01/rabbits-and-warrens/" target="_blank">http://blogs.digitar.com/jjww/2009/01/rabbits-and-warrens/</a> from 2009 !!!!</p>
+<p>&nbsp;</p>
+<p>Get the pip you need to connect</p>
+<pre>sudo pip3 install amqp</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>My python code for sending and reciving</p>
+<p>&nbsp;</p>
+<pre>#!/usr/bin/env python
+from amqplib import client_0_8 as amqp
+import time
+
+conn = amqp.Connection(host="192.168.122.208:5672 ", userid="guest",
+password="guest", virtual_host="/", insist=False)
+chan = conn.channel()
+
+#Setup que
+chan.queue_declare(queue="work", durable=True,
+exclusive=False, auto_delete=False)
+chan.exchange_declare(exchange="sorting_room", type="direct", durable=True,
+auto_delete=False,)
+chan.queue_bind(queue="work", exchange="sorting_room",
+routing_key="domain")
+
+#Send messages
+send = amqp.Message("Test message!")
+send.properties["delivery_mode"] = 2
+chan.basic_publish(send,exchange="sorting_room",routing_key="domain")
+
+#Get data runns and lissen for the loop
+def recv_callback(msg):
+    print('Received: ' + msg.body + ' from channel #' + str(msg.channel.channel_id))
+
+chan.basic_consume(queue='work', no_ack=True, callback=recv_callback, consumer_tag="testtag")
+while True:
+    chan.wait()
+chan.basic_cancel("testtag")</pre>

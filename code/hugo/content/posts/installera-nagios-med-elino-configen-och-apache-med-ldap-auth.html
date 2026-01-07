@@ -1,0 +1,117 @@
+---
+title: Installera nagios med Elino configen och Apache med LDAP Auth
+date: 2012-04-17 07:42:29
+tags:
+    
+    - Random
+    
+     
+categories:
+    
+    - Random
+    
+     
+keywords: 
+    
+    - Random
+    
+     
+---
+<p>Denna guden visar hur du s&#8217;tter upp nagios övervakning och sedna kopplar den till<br />
+en openldap server med apache för att auth användarna.<br />
+I guiden så tar jag INTE med hur du sätter upp nagios för att övervaka dina servrar.<br />
+Det får bli en annan guide.</p>
+<p><strong>Install nagios</strong></p>
+<pre>
+yum install nagios nagios-plugins-all
+</pre>
+<p><strong>Skapa och sätt upp elino configfiler</strong></p>
+<p>Vi skapar en elino katalog.<br />
+Sedan kopierar vi ner elino configiler i den.<br />
+Swdan skapas en orginal katalog och i den sparas de orginal config filer som följde med i installationen.</p>
+<pre>
+mkdir /etc/nagios/objects/elino
+mkdir /etc/nagios/objects/orginal
+
+cd /etc/nagios/objects
+cp * orginal/
+cd elino
+</pre>
+<p>För att fylla elino katalogen med configfiler se github för rätt filer.</p>
+<p>Sätt upp nagios att använda våra ny configfiler.</p>
+<p>Börja med att bortmarkera alla fil rader som börjar med</p>
+<p>*cfg_file=*</p>
+<p>Och sedan lägg till våran elino katalog.</p>
+<p>Verifiera att allt fungerar med</p>
+<pre>
+/usr/sbin/nagios -v /etc/nagios/nagios.cfg
+</pre>
+<p><strong>Sätt upp apache config för att visa upp nagios</strong></p>
+<pre>
+# SAMPLE CONFIG SNIPPETS FOR APACHE WEB SERVER
+# Last Modified: 11-26-2005
+#
+# This file contains examples of entries that need
+# to be incorporated into your Apache web server
+# configuration file.  Customize the paths, etc. as
+# needed to fit your system.
+
+LDAPTrustedGlobalCert CA_BASE64 /etc/openldap/cacerts/ca.crt
+LDAPTrustedClientCert CERT_BASE64 /etc/openldap/cacerts/client.pem
+LDAPTrustedClientCert KEY_BASE64 /etc/openldap/cacerts/client.pem
+
+LDAPVerifyServerCert on
+LDAPTrustedMode SSL
+
+ScriptAlias /nagios/cgi-bin/ "/usr/lib64/nagios/cgi-bin/"
+
+<Directory "/usr/lib64/nagios/cgi-bin/">
+#  SSLRequireSSL
+   Options ExecCGI
+   AllowOverride None
+   Order allow,deny
+   Allow from all
+	AuthType Basic
+        AuthName "Enter the password!"
+        AuthBasicProvider ldap
+        AuthzLDAPAuthoritative on
+        AuthLDAPGroupAttributeIsDN off
+        AuthLDAPBindDN cn=admin,dc=elino,dc=se
+        AuthLDAPBindPassword *****************
+        AuthLDAPURL  ldaps://ldap.elino.se:636/ou=people,dc=elino,dc=se?uid
+        Require valid-user
+
+
+</Directory>
+
+Alias /nagios "/usr/share/nagios/html"
+#Alias /nagios "/var/www/html"
+<Directory "/usr/share/nagios/html">
+   Options None
+   AllowOverride None
+   Order allow,deny
+   Allow from all
+	AuthType Basic
+        AuthName "Enter the password!"
+        AuthBasicProvider ldap
+        AuthzLDAPAuthoritative on
+        AuthLDAPGroupAttributeIsDN off
+        AuthLDAPBindDN cn=admin,dc=elino,dc=se
+        AuthLDAPBindPassword *****************
+        AuthLDAPURL  ldaps://ldap.elino.se:636/ou=people,dc=elino,dc=se?uid
+        Require valid-user
+
+
+</Directory>
+</pre>
+<p><strong>Starta upp tjänster</strong></p>
+<pre>
+/etc/init.d/nagios start
+/etcinit.d/httd start
+</pre>
+<p>Teta nu att logga in på nagios med http://ip-address/nagios</p>
+<p>Om du ser något fel kolla rättigheterna på katalogerna</p>
+<p>*/usr/share/nagios/html<br />
+*/var/log/nagios</p>
+<p>Dessa kataloger MÅSTE alla kunna gå in i och apache användaren kan behöva kunna läsa från de.</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

@@ -1,0 +1,37 @@
+---
+title: Move Bind DNS config to Route53 CloudFormations
+date: 2019-10-16 13:18:26
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+
+<p>I have started migrate our bind server into AWS and Route53. We have all our config as code so to migrate over our DNS I needed to convert our bind Zone files into Route53 Cloudformations.</p>
+
+
+
+<p>I found that one of our ZONE files was big so i wrote a small Python script in docker that converts zone files into route53 Cloudformations.</p>
+
+
+
+<p>After the convert is done a did some manual check to verify i looks good and add any TXT record.</p>
+
+
+
+<p><a href="https://github.com/Ollebo/bindToRoute53">https://github.com/Ollebo/bindToRoute53</a></p>
+
+
+
+<p>Here is a git repo with docker and docker-compose that will run and convert bind ZONE files into Route53 Cloudformations</p>

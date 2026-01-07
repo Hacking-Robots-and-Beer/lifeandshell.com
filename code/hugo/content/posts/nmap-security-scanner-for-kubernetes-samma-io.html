@@ -1,0 +1,33 @@
+---
+title: Nmap security scanner for kubernetes (samma.io)
+date: 2020-02-24 14:45:56
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+
+<p>I have worked with many of the diffent scanners around i i have a hard time liking them. What a miss is a scanner that can be run fast and simple and that send it outut in JSON so I can load the data into my own kibana.</p>
+
+
+
+<p>For this i have created the project samma.io and the first scanner was the nmap scanner.<br><br>You can simply deploy the scanner with helm as a cronob. The nmap scanner will start tree different scanners into you cluster</p>
+
+
+
+<ul class="wp-block-list"><li>TLS (Goes to you https port and get all the chiffers that are used) gret way to verify if you are using any old chifferns in your env</li><li>PORT SCAN The classic nmap port scan to get all openports in your env. Great way of verify that no bad ports are open</li><li>HTTP RECON get all the different webbservers you are using and what version they are</li></ul>
+
+
+
+<p>The nmap scanners will send all there output as JSON for you to use in your own dashboard.<br>For more info and to get started go to <a href="https://samma.io">https://samma.io</a></p>

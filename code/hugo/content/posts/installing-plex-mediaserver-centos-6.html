@@ -1,0 +1,47 @@
+---
+title: Installing Plex Mediaserver Centos 6
+date: 2014-02-16 11:34:53
+tags:
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+categories:
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+---
+<p>So I use plex for my media and i have a small server running with my plex server on it.<br />
+and here is how I install plex server on my home centos server.<br />
+This guide will work on several Linux dist</p>
+<p>1. Grab latest plex server</p>
+<p>go to https://plex.tv/downloads and choose the one best match for you system</p>
+<p>I got</p>
+<pre>wget http://downloads.plexapp.com/plex-media-server/0.9.8.18.290-11b7fdd/plexmediaserver-0.9.8.18.290-11b7fdd.x86_64.rpm</pre>
+<p>Install the package</p>
+<pre>rpm -i plexmediaserver-0.9.8.18.290-11b7fdd.x86_64.rpm</pre>
+<p>Start the plex server</p>
+<pre>/etc/init.d/plexmediaserver start</pre>
+<p>Then from <strong>MY UBUNTU LAPTOP</strong> i run</p>
+<pre>ssh -f root@192.168.44.2 -L 2000:localhost:32400 -N</pre>
+<p>Where 192.168.44.2 is my ip to my centos/plex server</p>
+<p>Then from MY UBUNTU LAPTOP i start chrome and browse to</p>
+<pre>http://localhost:2000/web/index.html#!/dashboard</pre>
+<p>And after plex is configures its up and running and you can start using plex.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

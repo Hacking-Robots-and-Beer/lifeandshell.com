@@ -1,0 +1,51 @@
+---
+title: Glassfish Monitoring with VisualVM
+date: 2013-09-25 14:45:28
+tags:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>For monitoring Glassfish performance i use VisualVM. I have visual installed on my laptop and the connects using jmx to my glassfish servers to get server stats.</p>
+<p>This is only to get the current data and to se how mutch memory my apps are using and so on.</p>
+<p>&nbsp;</p>
+<h2>1. Download and start VisualVM</h2>
+<p>Go here and download VisualVM <a href="http://visualvm.java.net/">http://visualvm.java.net/</a><br />
+Install visual on you local computer.</p>
+<p>&nbsp;</p>
+<h2>2. Set up Glassfish for reciving JMX connections from external ip</h2>
+<p>On your glassfish you need to add som jvm values so in your <strong>server-config &#8211;&gt; jvm-settings &#8211;&gt; JVM options</strong> add the following.</p>
+<p>&nbsp;</p>
+<pre>-Dcom.sun.management.jmxremote
+-Dcom.sun.management.jmxremote.port=8686
+-Dcom.sun.management.jmxremote.local.only=false
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false
+-Djava.rmi.server.hostname=192.168.0.1 &lt;--- IP of you server</pre>
+<p>Now <strong>restart</strong> you glassfish.<br />
+And <strong>enabel secure-admin</strong> and set <strong>admin password</strong>.<br />
+Se my post on <strong>installing Glassfish</strong> for how</p>
+<p>&nbsp;</p>
+<p>3. Setup VisualVm to get data from Glassfish</p>
+<p>Add a new remote host, then add new JMX connection and add the ip and port(8686) to the settings and connect.</p>
+<p>Now you should see monitroing data from you glassfish.</p>

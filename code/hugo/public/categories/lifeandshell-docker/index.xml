@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Docker on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-docker/</link>
+    <description>Recent content in Lifeandshell, Docker on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sat, 19 Mar 2016 23:25:36 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Roll you own Docker Registry with nginx (In Docker)</title>
+      <link>http://localhost:1313/posts/roll-you-own-docker-registry-with-nginx-in-docker/</link>
+      <pubDate>Sat, 19 Mar 2016 23:25:36 +0000</pubDate>
+      <guid>http://localhost:1313/posts/roll-you-own-docker-registry-with-nginx-in-docker/</guid>
+      <description>&lt;p&gt;When yor private numbers of docker images grow is time to setup you own private repo.&lt;br /&gt;&#xA;Do have you own docker repo you need 1. the docker registry 2. nginx to handel users 3. tls so that all conenctions are encrypted.&lt;/p&gt;&#xA;&lt;p&gt;So here is what yu do to have you own docker repo running.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Install docker-compsoe and setup the followin docker-compose file&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;pre&gt;storage: &#xD;&#xA; image: busybox &#xD;&#xA; volumes: &#xD;&#xA; - /backup/docker/registry:/var/lib/docker/registry &#xD;&#xA;cache: &#xD;&#xA; image: redis &#xD;&#xA;registry: &#xD;&#xA; image: registry &#xD;&#xA; ports: &#xD;&#xA; - 127.0.0.1:5000:5000 &#xD;&#xA; links: &#xD;&#xA; - cache &#xD;&#xA; - storage &#xD;&#xA; volumes_from: &#xD;&#xA; - storage&#xD;&#xA; environment: &#xD;&#xA; STANDALONE: true&#xD;&#xA; SETTINGS_FLAVOR: local &#xD;&#xA; STORAGE_PATH: /var/lib/docker/registry &#xD;&#xA; SEARCH_BACKEND: sqlalchemy &#xD;&#xA; CACHE_REDIS_HOST: cache &#xD;&#xA; CACHE_REDIS_PORT: 6379 &#xD;&#xA; CACHE_LRU_REDIS_HOST: cache &#xD;&#xA; CACHE_LRU_REDIS_PORT: 6379&#xD;&#xA;webb:&#xD;&#xA; #image: mattiashem/nginx-registry&#xD;&#xA; build: registry-front/&#xD;&#xA; ports:&#xD;&#xA; - 443:443&#xD;&#xA; - 80:80&#xD;&#xA; links:&#xD;&#xA; - registry&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

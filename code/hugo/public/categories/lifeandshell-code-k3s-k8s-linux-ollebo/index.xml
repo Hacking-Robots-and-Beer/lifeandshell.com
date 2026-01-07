@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, K3s, K8s, Linux, Ollebo on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-k3s-k8s-linux-ollebo/</link>
+    <description>Recent content in Lifeandshell, Code, K3s, K8s, Linux, Ollebo on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sat, 07 Jan 2023 11:31:43 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-k3s-k8s-linux-ollebo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>k3s Cluster on setup master and node</title>
+      <link>http://localhost:1313/posts/k3s-cluster-on-setup-master-and-node/</link>
+      <pubDate>Sat, 07 Jan 2023 11:31:43 +0000</pubDate>
+      <guid>http://localhost:1313/posts/k3s-cluster-on-setup-master-and-node/</guid>
+      <description>&lt;p&gt;For some IoT setups a need a k3s cluster running. To make it spread and to add more nodes a installed the k3s Master on my firewall running a small atom processor. But wanted to run the nodes on raspberry or rock nodes to handle the load.&lt;br&gt;Then by using labels on nodes I want to apply different workloads on the nodes.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;h2 class=&#34;wp-block-heading&#34;&gt;Pre&lt;/h2&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;So before installing k3s master. I had my pihole running on port 80 and that did not work that well. The default installation of k3s will install the traefik ingress and will bind to ports 80 and 443.&lt;br&gt;So before you start verify if you have any other service running on the server.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

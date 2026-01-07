@@ -1,0 +1,48 @@
+---
+title: Send logs to localsyslog (Apache,Mysql,Glassfish)
+date: 2013-05-30 15:04:34
+tags:
+    
+    - Security
+    
+     
+categories:
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Security
+    
+     
+---
+<p>Adding you logfiles to an syslog server is an easy way to get all logs collected in one place.</p>
+<div>I Use to set all my service (apache,mysqlmmm) to log there logs to the local syslog server.</div>
+<div>Then I config the local syslog to send al its log to an central logserver.</div>
+<div></div>
+<div>This way I get all my logs collected and displayd at one place.</div>
+<div></div>
+<div><b>Apache</b></div>
+<div></div>
+<div>In the file httpd.con fins the line ErrorLogs and replace the line with</div>
+<div></div>
+<div>
+<pre>ErrorLog syslog:local1</pre>
+<pre></pre>
+<p><b>Mysql</b><br />
+In the file my.cnf fins the section [mysqld_safe] And add at top</p>
+</div>
+<div>
+<pre>[mysqld_safe]</pre>
+<pre>syslog</pre>
+</div>
+<div></div>
+<div>Glassfish</div>
+<div></div>
+<div>To make the glassfish server send its log to you localsyslog find the command asadmin locaed in you glassfish folder.</div>
+<div>and run the command.</div>
+<div></div>
+<div>
+<pre>./asadmin set-log-attributes com.sun.enterprise.server.logging.SyslogHandler.useSystemLogging=true</pre>
+</div>

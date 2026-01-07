@@ -1,0 +1,134 @@
+---
+title: Mesos cluster with Marathon running Docker
+date: 2015-12-11 21:47:19
+tags:
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+---
+<p>Hi</p>
+<p>So for hosting docker in large scale i have tested mesos cluster.  Here is a guide for setting up 3 nodes in mesos running Centos 7. And the adding Marathon to controll the dockers running.</p>
+<p><strong>The network</strong></p>
+<p>mesos-master 172.0.0.10<br />
+mesos-slave1 172.0.0.11<br />
+mesos-slave2 172.0.0.12</p>
+<p>&nbsp;</p>
+<p>The node also have on nic connect to the network with internet access.</p>
+<p>&nbsp;</p>
+<p><strong>Security</strong></p>
+<p>For this guide stop iptables and turn selinux off</p>
+<pre>setenforce 0
+systemect stop firewalld</pre>
+<p>&nbsp;</p>
+<p>Install deps on <strong>ALL</strong> nodes</p>
+<pre><code>sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre>sudo yum groupinstall -y "Development Tools"
+sudo yum install -y tar wget apache-maven python-devel java-1.8.0-openjdk-devel zlib-devel libcurl-devel openssl-devel cyrus-sasl-devel cyrus-sasl-md5 apr-devel subversion-devel apr-util-devel</pre>
+<p>&nbsp;</p>
+<p>Verify that you are running java 1.8 maven want 1.7 but marathon wants 1.8</p>
+<pre>alternatives --config java</pre>
+<p>&nbsp;</p>
+<pre>[root@node1 mathem]# java -version
+openjdk version "1.8.0_65"
+OpenJDK Runtime Environment (build 1.8.0_65-b17)
+OpenJDK 64-Bit Server VM (build 25.65-b01, mixed mode)
+[root@node1 mathem]#</pre>
+<p>&nbsp;</p>
+<p>Install docker</p>
+<p>&nbsp;</p>
+<pre>curl -sSL http<span class="hljs-variable">s:</span>//<span class="hljs-built_in">get</span>.docker.<span class="hljs-keyword">com</span>/ | <span class="hljs-keyword">sh
+systemctl restart docker
+systemctl enable docker
+</span></pre>
+<p>Building mesos</p>
+<pre>cd /opt
+<code>wget http://www.apache.org/dist/mesos/0.25.0/mesos-0.25.0.tar.gz
+tar zxvf mesos-0.25.0.tar.gz
+cd mesos-0.25.0
+mkdir build
+cd build/
+
+</code></pre>
+<pre><code>../configure
+make
+make check
+make install</code></pre>
+<p>&nbsp;</p>
+<p>Install Marthan to control docker</p>
+<p><strong>On master</strong></p>
+<pre>cd opt
+curl -O http://downloads.mesosphere.com/marathon/v0.11.1/marathon-0.11.1.tgz
+tar zxvf marathon-0.11.1.tgz</pre>
+<p>&nbsp;</p>
+<p>Now we have all the stuff ready and here are the startup scrips</p>
+<p>&nbsp;</p>
+<p><strong>MASTER</strong></p>
+<pre>#/bin/bash
+
+echo "Starting zookepper"
+/opt/mesos-0.25.0/build/3rdparty/zookeeper-3.4.5/bin/zkServer.sh stop
+/opt/mesos-0.25.0/build/3rdparty/zookeeper-3.4.5/bin/zkServer.sh start
+
+echo "Starting mesos server"
+/usr/local/sbin/mesos-master --zk=zk://172.0.0.10:2181/mesos --work_dir=/var/lib/mesos --quorum=1 &amp;
+
+#echo "Start mesos Slave"
+#/usr/local/sbin/mesos-slave --master=zk://172.0.0.10:2181/mesos &amp;
+
+echo "Start marathon"
+/opt/marathon-0.11.1/bin/start --master zk://172.0.0.10:2181/mesos --zk zk://172.0.0.10:2181/marathon</pre>
+<p>&nbsp;</p>
+<p><strong>SLAVE</strong></p>
+<pre>#/bin/bash
+/opt/mesos-0.25.0/build/bin/mesos-slave.sh --master=172.0.0.10:5050 --containerizers=docker,mesos --executor_registration_timeout=5mins</pre>
+<p>&nbsp;</p>
+<p>Now you should have a cluster up and running verify the mesos cluster</p>
+<p>&nbsp;</p>
+<p>http://{IP-TO-MASTER}:5050/#/ to se that your mesos cluster is working</p>
+<p><a href="http://lifeandshell.com/wp-content/uploads/2015/12/Skärmbild-från-2015-12-11-20-42-55.png" rel="attachment wp-att-415"><img loading="lazy" decoding="async" class="alignnone  wp-image-415" src="http://lifeandshell.com/wp-content/uploads/2015/12/Skärmbild-från-2015-12-11-20-42-55-300x169.png" alt="Skärmbild från 2015-12-11 20-42-55" width="726" height="409" /></a></p>
+<p>http://{IP-TO-MASTER}:8080/ui/ this is your marathon to deploy docker images from</p>
+<p>&nbsp;</p>
+<p><a href="http://lifeandshell.com/wp-content/uploads/2015/12/Skärmbild-från-2015-12-11-20-43-26.png" rel="attachment wp-att-413"><img loading="lazy" decoding="async" class="alignnone size-medium wp-image-413" src="http://lifeandshell.com/wp-content/uploads/2015/12/Skärmbild-från-2015-12-11-20-43-26-300x169.png" alt="Skärmbild från 2015-12-11 20-43-26" width="300" height="169" /></a> <a href="http://lifeandshell.com/wp-content/uploads/2015/12/Skärmbild-från-2015-12-11-20-43-08.png" rel="attachment wp-att-414"><img loading="lazy" decoding="async" class="alignnone size-medium wp-image-414" src="http://lifeandshell.com/wp-content/uploads/2015/12/Skärmbild-från-2015-12-11-20-43-08-300x169.png" alt="Skärmbild från 2015-12-11 20-43-08" width="300" height="169" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

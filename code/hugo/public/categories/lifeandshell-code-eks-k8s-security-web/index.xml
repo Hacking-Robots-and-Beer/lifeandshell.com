@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Eks, K8s, Security, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-eks-k8s-security-web/</link>
+    <description>Recent content in Lifeandshell, Code, Eks, K8s, Security, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Thu, 01 Dec 2022 13:17:35 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-eks-k8s-security-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Migrate Elasticsearch helm to Elasticsearch Operator</title>
+      <link>http://localhost:1313/posts/migrate-elasticsearch-helm-to-elasticsearch-operator/</link>
+      <pubDate>Thu, 01 Dec 2022 13:17:35 +0000</pubDate>
+      <guid>http://localhost:1313/posts/migrate-elasticsearch-helm-to-elasticsearch-operator/</guid>
+      <description>&lt;p&gt;Migrate elasticsearch helm to elasticsearch operator and from version 7 to version 8.&lt;br&gt;So in the start, I used the helm chart for elasticsearch, and everything worked fine. Then elasticsearch 8 comes and the Elasticsearch operator.&lt;br&gt;This broke by helm chart and kind of left me in a stalled state.&lt;br&gt;But now I have to migrate my current elasticsearch that uses a helm chart to start using the operator.&lt;br&gt;&lt;br&gt;The migration is done in steps &lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

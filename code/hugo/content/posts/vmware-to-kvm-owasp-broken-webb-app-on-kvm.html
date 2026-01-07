@@ -1,0 +1,57 @@
+---
+title: vmware to kvm (OWASP broken webb app on KVM)
+date: 2014-09-09 10:38:29
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+---
+<p>So I uses kvm for my virtual server. But i got OWASP broken webb app in vmware format and its not ok.<br />
+But with the help from google i found some help to get the OWASP Broken Webb App on my kvm hosts.</p>
+<p>I follewed the info from this page</p>
+<p>&nbsp;</p>
+<p><a title="http://blog.bodhizazen.net/linux/convert-vmware-vmdk-to-kvm-qcow2-or-virtualbox-vdi/" href="http://blog.bodhizazen.net/linux/convert-vmware-vmdk-to-kvm-qcow2-or-virtualbox-vdi/">http://blog.bodhizazen.net/linux/convert-vmware-vmdk-to-kvm-qcow2-or-virtualbox-vdi/</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>1. Download and unzip Owasp Broken Webb app to you folder (It uses 7zip for some reason)</h3>
+<p><a title="https://www.owasp.org/index.php/OWASP_Broken_Web_Applications_Project" href="https://www.owasp.org/index.php/OWASP_Broken_Web_Applications_Project">https://www.owasp.org/index.php/OWASP_Broken_Web_Applications_Project</a></p>
+<h3>2. Convert you images in two steeps</h3>
+<pre>qemu-img convert OWASP\ Broken\ Web\ Apps.vmdk -O qcow2 owasp.qemu
+
+qemu-img convert owasp.qemu -O qcow2 owasp2.qemu
+
+</pre>
+<h3>3. start the kvm hosts</h3>
+<pre>kvm -hda owasp2.qemu -net nic -net user -m 512</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>And now you owasp images will boot up in kvm 🙂</p>

@@ -1,0 +1,94 @@
+---
+title: Filebeat => logstash => Elasticsearch and working modules
+date: 2020-03-16 14:39:23
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+
+<p>Setting up filbeat modules to work when you are uisng logstash to send logs over to elastic.</p>
+
+
+
+<p>So i started setting up filbeat to ship my mysql-slow.log and planned to use the filbeat module.</p>
+
+
+
+<p><strong>The logs started flowing and after some time i got the logs into the correct index. But to my surprise the logs where not correct parsed. ?</strong></p>
+
+
+
+<p>The problem is that filebeat want to connect direct to elastic and ad a pipline script (grokparser in elastic )</p>
+
+
+
+<p>And my setup was </p>
+
+
+
+<p>Filebeat &#8211;> logstash &#8211;> Elasticsearch</p>
+
+
+
+<h4 class="wp-block-heading">1. Setup Logstash to filter out filebeat logs and add them to a own output and use the pipline</h4>
+
+
+
+<p>Here a pick out the filebeat slow logs logs and give them the field log_type = filebeat</p>
+
+
+
+<pre class="wp-block-code"><code>        else if &#91;fileset]&#91;name] == "slowlog" {
+                mutate {
+                add_field => {
+                        "log_type" => "filebeat"
+                        }
+                }}
+</code></pre>
+
+
+
+<p>Then i use that field in my output to send it to the correct endex in elasticsearch. And also tell eleastic to use a pipline script to parse the incomming data (It runs grok)</p>
+
+
+
+<pre class="wp-block-code"><code>	else if &#91;log_type] == "filebeat" {
+         elasticsearch {
+                hosts => &#91;"http://localhost:9200"]
+                index => "filebeat-%{+YYYY.MM.dd}"
+		pipeline => "%{&#91;@metadata]&#91;pipeline]}"
+ 		 }
+	}
+</code></pre>
+
+
+
+<p>Yee so that pipline script where is it and how to a upload it to elasticsearch.<br>The file is in the folder <br><strong>/usr/share/filebeat/module/mysql/slowlog/ingest/pipeline.json</strong></p>
+
+
+
+<p>So run this curl to load it into elasticsearch</p>
+
+
+
+<pre class="wp-block-code"><code>  curl -X PUT "localhost:9200/_ingest/pipeline/filebeat-7.6.1-mysql-slowlog-pipeline?pretty" -H 'Content-Type: application/json' -d @pipline.json
+  
+
+curl -X GET "localhost:9200/_ingest/pipeline/?pretty"
+</code></pre>
+
+
+
+<p>So now restart stuff and then we have fine parsed logs from filebeat going trow logstash 🙂</p>

@@ -1,0 +1,89 @@
+---
+title: Setup SPI on Raspberry pi (mcp3008, Adafruit)
+date: 2015-04-19 20:25:33
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+---
+<p>Im building my own watering system and to that I will have some sensores..<br />
+They are connected to my pi over SFI and a mcp3008 from Adafruit.</p>
+<p>&nbsp;</p>
+<h2>The gear</h2>
+<p><a title="http://www.adafruit.com/products/1989" href="http://www.adafruit.com/products/1989" target="_blank">http://www.adafruit.com/products/1989</a></p>
+<p><a title="http://www.adafruit.com/products/856" href="http://www.adafruit.com/products/856" target="_blank">http://www.adafruit.com/products/856</a></p>
+<p><a title="http://www.kjell.com/sortiment/el/elektronik/elektroniklab/kopplingsplatta-lodfri-p87886" href="http://www.kjell.com/sortiment/el/elektronik/elektroniklab/kopplingsplatta-lodfri-p87886" target="_blank">http://www.kjell.com/sortiment/el/elektronik/elektroniklab/kopplingsplatta-lodfri-p87886</a></p>
+<p><a title="http://www.elecfreaks.com/store/octopus-soil-moisture-sensor-brick-p-422.html" href="http://www.elecfreaks.com/store/octopus-soil-moisture-sensor-brick-p-422.html" target="_blank">http://www.elecfreaks.com/store/octopus-soil-moisture-sensor-brick-p-422.html</a></p>
+<p>&nbsp;</p>
+<h2>Setup the cables</h2>
+<p>Use this guide and se how the you should connect the mcp3008 and the sensore.</p>
+<p><a title="http://www.raspberrypi-spy.co.uk/2013/10/analogue-sensors-on-the-raspberry-pi-using-an-mcp3008/" href="http://www.raspberrypi-spy.co.uk/2013/10/analogue-sensors-on-the-raspberry-pi-using-an-mcp3008/" target="_blank">http://www.raspberrypi-spy.co.uk/2013/10/analogue-sensors-on-the-raspberry-pi-using-an-mcp3008/</a></p>
+<p>&nbsp;</p>
+<h2>Get the Pi ready</h2>
+<p>&nbsp;</p>
+<p>1. First enable SFI on the board here</p>
+<p><a title="http://www.raspberrypi-spy.co.uk/2014/08/enabling-the-spi-interface-on-the-raspberry-pi/" href="http://www.raspberrypi-spy.co.uk/2014/08/enabling-the-spi-interface-on-the-raspberry-pi/" target="_blank">http://www.raspberrypi-spy.co.uk/2014/08/enabling-the-spi-interface-on-the-raspberry-pi/</a></p>
+<p>I uses the raspi-config and enabled the SFI</p>
+<p>&nbsp;</p>
+<p>2. Test the SFI</p>
+<p>download the tester</p>
+<pre>wget http://git.kernel.org/?p=linux/kernel/git/torvalds/linux.git;a=blob_plain;f=Documentation/spi/spidev_test.c -O spidev_test.c</pre>
+<p>install the dep</p>
+<pre>apt-get install python-dev</pre>
+<p>Open the file and change this</p>
+<pre>static const char *device = "/dev/spidev0.1";</pre>
+<p>Build it</p>
+<pre>gcc spidev_test.c</pre>
+<p>Run it</p>
+<pre>./a.out</pre>
+<p>This is what you should see</p>
+<pre>spi mode: 0
+bits per word: 8
+max speed: 500000 Hz (500 KHz)</pre>
+<pre>00 02 20 00 00 00 
+00 00 00 00 00 00 
+00 00 00 00 00 00 
+00 00 00 00 00 00 
+00 00 00 00 00 00 
+00 00 00 00 00 00 
+00 00</pre>
+<p>Install python and deps</p>
+<p>&nbsp;</p>
+<pre>wget https://github.com/Gadgetoid/py-spidev/archive/master.zip
+unzip master.zip
+rm master.zip
+cd py-spidev-master
+sudo python setup.py install</pre>
+<p>get my test file to run to see output from alla channels on the mcp3008</p>
+<p><a title="https://github.com/mattiashem/r-pi/blob/master/sensor/test.py" href="https://github.com/mattiashem/r-pi/blob/master/sensor/test.py" target="_blank">https://github.com/mattiashem/r-pi/blob/master/sensor/test.py</a></p>
+<p>&nbsp;</p>
+<p>The python file will loop over all the channels on you mcp3008 and print the output.</p>

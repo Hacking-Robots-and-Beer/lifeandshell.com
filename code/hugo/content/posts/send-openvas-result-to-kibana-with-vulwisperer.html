@@ -1,0 +1,37 @@
+---
+title: Send Openvas result to Kibana with vulwisperer
+date: 2020-02-24 14:55:26
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+
+<p>Vulwisperer is a tool to read the finding from a openvas scanner and to send them to a other tools. Here i want them to be sent to a elasticsearch and kibana. </p>
+
+
+
+<ul class="wp-block-list"><li>To do this i first need to start a openvas scan and get some results. &#8211;</li><li>Then use vulwisperer to get the results from openvas and store the results in json files.</li><li>From the json files a then uses logstash to send the finding to elastic.</li></ul>
+
+
+
+<p>Here is a full decription with working code how to get results from openvas to elastic working </p>
+
+
+
+<p><a href="https://github.com/mattiashem/VulnWhisperer">https://github.com/mattiashem/VulnWhisperer</a></p>
+
+
+
+<p></p>

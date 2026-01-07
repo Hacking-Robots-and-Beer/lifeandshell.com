@@ -1,0 +1,53 @@
+---
+title: Fail2Ban on Centos
+date: 2013-12-16 20:58:10
+tags:
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+---
+<p>Fail2Ban is a small service to block unwanted traffic to you server. I use it to block ssh,and postfix loggins in to my virtual hosts.<br />
+Fail2Ban scans the service loggfiles and if it find any strange traffik like ssh bruteforce. That ip will be blocket for some time.<br />
+All settings are done in /etc/fail2ban/ folder.</p>
+<p>Install</p>
+<p>Have  epel repo aktivated on server tha run</p>
+<pre> yum install fail2ban</pre>
+<p>Then do your local config in</p>
+<pre>vi /etc/fail2ban/jail.conf</pre>
+<p>Activate and restart fail2ban</p>
+<pre>chkonfig fail2ban on
+/etc/init.d/fail2ban restart
+
+</pre>
+<p>&nbsp;</p>
+<p>If you looking for more advanced host based monitoring OSSEC (<a href="http://www.ossec.net/">http://www.ossec.net/</a> )is i realy nice tool<br />
+And it handels many agente to one server.</p>

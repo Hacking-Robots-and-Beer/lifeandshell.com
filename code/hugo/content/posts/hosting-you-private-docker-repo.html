@@ -1,0 +1,102 @@
+---
+title: Hosting you private docker repo
+date: 2015-02-11 16:41:19
+tags:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>We are staring using docker in our developing process. and in that we need to have our own docker repo for hosting our private docker.</p>
+<p>The path is</p>
+<p>[public docker cloud(centos img)] <strong>&#8211;public docker image- &gt;</strong> [jenkins build our code and docker img] <strong>&#8212;&gt; our docker images &#8212;&gt;</strong> [private docker repo]<strong>&#8211;our docker image-&gt;</strong>[Servers [int,qa,prod]</p>
+<p>&nbsp;</p>
+<h3>1. Setting up the docker imaged for the docker repo</h3>
+<p>make a folder that will hold you data</p>
+<pre>mkdir /docker_repo</pre>
+<p>Start the docker registry</p>
+<pre>docker run -p 5000:5000 -e STORAGE_PATH=/docker_repo registry</pre>
+<p>To have it running in the background</p>
+<pre>docker run -d -p 5000:5000 -e STORAGE_PATH=/docker_repo registry</pre>
+<p>&nbsp;</p>
+<h3>2. Making apache proxy to docker use https else docker will not push image</h3>
+<p>here is link for setting up tls with apache <a title="http://wiki.centos.org/HowTos/Https" href="http://wiki.centos.org/HowTos/Https" target="_blank">http://wiki.centos.org/HowTos/Https</a></p>
+<pre>&lt;VirtualHost *:443&gt;
+ ServerName docker.xxxxx.net
+ ServerAlias docker.xxxx.net
+ DocumentRoot /var/www/html
+ProxyPreserveHost On
+ProxyPass / http://127.0.0.1:5000/
+<span style="line-height: 1.428571429;">ProxyPassReverse / http://127.0.0.1:5000/
+ 
+SSLEngine on
+ SSLProtocol -all +TLSv1
+ #NEW ENTORY
+ SSLHonorCipherOrder On
+ SSLCipherSuite ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256:RC4:HIGH:!MD5:!aNULL:!EDH
+
+
+ SSLCertificateFile /etc/httpd/ssl/wild.xxxxx.net.crt
+ SSLCertificateKeyFile /etc/httpd/ssl/wild.xxxxx.net.key
+ SSLCertificateChainFile /etc/httpd/ssl/ca/geotrust-ca.pem
+
+</span>&lt;/VirtualHost&gt;</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Now you should be able to see the &#8220;docker registry service&#8221; if you go to the doman docker.xxxxx.net.</p>
+<p>&nbsp;</p>
+<h3>3. Adding images</h3>
+<p>&nbsp;</p>
+<p>Download a image</p>
+<pre>[root@test mahe]# docker pull centos
+Pulling repository centos
+dade6cb4530a: Download complete 
+511136ea3c5a: Download complete 
+5b12ef8fd570: Download complete 
+Status: Downloaded newer image for centos:latest</pre>
+<p>Show images</p>
+<pre>[root@test mahe]# docker images
+REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE
+centos 7 <strong>dade6cb4530a</strong> 4 days ago 224 MB
+centos centos7 dade6cb4530a 4 days ago 224 MB
+centos latest dade6cb4530a 4 days ago 224 MB</pre>
+<p>Tag the images</p>
+<pre class="commandline">docker tag <strong>dade6cb4530a </strong>docker.xxxxx.net/centos:latest</pre>
+<p>Show the images</p>
+<pre>[root@test mahe]# docker images
+REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE
+centos 7 dade6cb4530a 4 days ago 224 MB
+centos centos7 dade6cb4530a 4 days ago 224 MB
+centos latest dade6cb4530a 4 days ago 224 MB
+<strong>docker.xxxxx.net/centos</strong> latest dade6cb4530a 4 days ago 224 MB</pre>
+<p>push the images to our private repo</p>
+<p>&nbsp;</p>
+<pre>[root@test sysconfig]#<strong>docker push docker.xxxxx.net/centos</strong>
+The push refers to a repository [docker.xxxxx.net/centos] (len: 1)
+Sending image list
+Pushing repository docker.xxxxx.net/centos (1 tags)
+511136ea3c5a: Image successfully pushed 
+5b12ef8fd570: Image successfully pushed 
+dade6cb4530a: Image successfully pushed 
+Pushing tag for rev [dade6cb4530a] on {https://docker.xxxxx.net/v1/repositories/centos/tags/latest}</pre>
+<p>&nbsp;</p>
+<p>And now you have the image in your own repo and ready .</p>

@@ -1,0 +1,74 @@
+---
+title: centos6 rsyslog och mysql
+date: 2012-09-03 14:38:56
+tags:
+    
+    - Uncategorized
+    
+     
+categories:
+    
+    - Uncategorized
+    
+     
+keywords: 
+    
+    - Uncategorized
+    
+     
+---
+<p>För att få lite kontroll på alla loggar ska jag installera en central rsyslog server.<br />
+Vi ska spara alla loggar i mysql så man lätt kan komma åt loggarna och även kunna se de i &#8220;live&#8221;.</p>
+<pre>
+yum install rsyslog rsyslog-mysql mysql-server
+</pre>
+<p>Sätt upp mysql för att kunna ta imot loggarna.<br />
+Vi laddar in en sql fil från syslog som sätter upp en databas som heter Syslog och laddar den med tabeller.<br />
+Och skapa en användare som får tillgång till den nya databasen.</p>
+<p><b>Daxs att ladda in lite tabeller i dataasen </b></p>
+<pre>
+mysql -u root -p syslog < /usr/share/doc/rsyslog-mysql-5.8.10/createDB.sql
+</pre>
+<p><b>Lägg till en ny användare </b></p>
+<pre>
+CREATE USER 'syslog'@'localhost' IDENTIFIED BY 'syslog_password';
+GRANT ALL PRIVILEGES ON Syslog.* TO 'syslog'@'localhost';
+FLUSH PRIVILEGES;
+
+
+</pre>
+<p>Glöm också att inte sätta ett lösenord till root användaren.</p>
+<p><b>Daxs att sätt upp rsyslog att använda mysql för att logga </b></p>
+<pre>
+vi /etc/rsyslog.conf
+</pre>
+<p><b>Lägg in följande saker eller avmarkera de</b> </p>
+<pre>
+$ModLoad ommysql  #  Load mysql support for rsyslog
+$ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
+$ModLoad imklog   # provides kernel logging support (previously done by rklogd)
+#$ModLoad immark  # provides --MARK-- message capability
+
+# Provides UDP syslog reception
+$ModLoad imudp
+$UDPServerRun 514
+$UDPServerAddress 0.0.0.0
+
+# Provides TCP syslog reception
+$ModLoad imtcp
+$InputTCPServerRun 514
+
+
+
+</pre>
+<p>Och lägg denna över bland loggnings värderna </p>
+<pre>
+
+*.*       : ommysql:localhost,Syslog,syslog,syslog-password
+</pre>
+<p><b>Ändra filen så den ser ut såhär<b></p>
+<p>vi /etc/sysconfig/rsyslog</p>
+<pre>
+SYSLOGD_OPTIONS="-m 0 -r"
+</pre>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

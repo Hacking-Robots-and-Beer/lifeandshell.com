@@ -1,0 +1,59 @@
+---
+title: Starting with Go on Ubuntu
+date: 2014-05-24 20:56:02
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+     
+---
+<p>So I starting to test to use the go language for some projects. Here is how i set up go on my ubuntu laptop.</p>
+<p>&nbsp;</p>
+<h2>1. Installing go language</h2>
+<pre class="default prettyprint prettyprinted" style="color: #000000;"><code><span class="pln" style="color: #000000;">sudo apt</span><span class="pun" style="color: #000000;">-</span><span class="kwd" style="color: #00008b;">get</span><span class="pln" style="color: #000000;"> install python</span><span class="pun" style="color: #000000;">-</span><span class="pln" style="color: #000000;">software</span><span class="pun" style="color: #000000;">-</span><span class="pln" style="color: #000000;">properties </span><span class="pln" style="color: #000000;">
+sudo add</span><span class="pun" style="color: #000000;">-</span><span class="pln" style="color: #000000;">apt</span><span class="pun" style="color: #000000;">-</span><span class="pln" style="color: #000000;">repository ppa</span><span class="pun" style="color: #000000;">:</span><span class="pln" style="color: #000000;">duh</span><span class="pun" style="color: #000000;">/</span><span class="pln" style="color: #000000;">golang
+sudo apt</span><span class="pun" style="color: #000000;">-</span><span class="kwd" style="color: #00008b;">get</span><span class="pln" style="color: #000000;"> update
+sudo apt</span><span class="pun" style="color: #000000;">-</span><span class="kwd" style="color: #00008b;">get</span><span class="pln" style="color: #000000;"> install golang</span></code></pre>
+<p>verify</p>
+<pre class="default prettyprint prettyprinted" style="color: #000000;"><code><span class="pln" style="color: #000000;">go version</span></code></pre>
+<h2>2. Getting an good IDE</h2>
+<p>I uses sublime text find if here and install it</p>
+<p><a title="http://www.sublimetext.com/" href="http://www.sublimetext.com/">http://www.sublimetext.com/</a></p>
+<h2>3. Write you first line of code in GO</h2>
+<p>Start up an new file in sublime and past this in the file (I call the file main.go)</p>
+<pre style="color: #333333;">package main
+
+import "fmt"
+
+// this is a comment
+
+func main() {
+    fmt.Println("Hello World")
+}</pre>
+<p>Time to run it</p>
+<pre>mattias@mathem:~/Dokument/go/First$ <strong>go run main.go</strong> 
+<strong>Hello World</strong>
+mattias@mathem:~/Dokument/go/First$</pre>
+<p>There it is first run of go code</p>
+<p>Here is where i now hang to learn more go</p>
+<p><a title="http://www.golang-book.com/2/index.htm" href="http://www.golang-book.com/2/index.htm" target="_blank">http://www.golang-book.com/2/index.htm</a></p>
+<p>&nbsp;</p>

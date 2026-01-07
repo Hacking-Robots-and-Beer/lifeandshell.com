@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ruby on Cactus theme example</title>
+    <link>http://localhost:1313/tags/ruby/</link>
+    <description>Recent content in Ruby on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Thu, 08 Dec 2016 22:54:49 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/ruby/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ruby学习笔记</title>
+      <link>http://localhost:1313/posts/2016-12-08-ruby-notes/</link>
+      <pubDate>Thu, 08 Dec 2016 22:54:49 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2016-12-08-ruby-notes/</guid>
+      <description>&lt;h2 id=&#34;regular-expressions&#34;&gt;regular expressions&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;=~&lt;/code&gt;是用于正则表达式的匹配操作符。返回匹配到的字符串位置或nil。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;abcdef&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;=~&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;/d/&lt;/span&gt; &lt;span style=&#34;color:#6272a4&#34;&gt;# return 3&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;aaaaaa&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;=~&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;/d/&lt;/span&gt; &lt;span style=&#34;color:#6272a4&#34;&gt;# return nil&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;和&#34;&gt;!和?&lt;/h2&gt;&#xA;&lt;p&gt;The exclamation point (!, sometimes pronounced aloud as &amp;ldquo;bang!&amp;rdquo;) indicates something potentially destructive, that is to say, something that can change the value of what it touches.&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ruby&amp;gt; s1 = &amp;#34;forth&amp;#34;&#xA;  &amp;#34;forth&amp;#34;&#xA;ruby&amp;gt; s1.chop!       # This changes s1.&#xA;  &amp;#34;fort&amp;#34;&#xA;ruby&amp;gt; s2 = s1.chop   # This puts a changed copy in s2,&#xA;  &amp;#34;for&amp;#34;&#xA;ruby&amp;gt; s1             # ... without disturbing s1.&#xA;  &amp;#34;fort&amp;#34;&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You&amp;rsquo;ll also sometimes see chomp and chomp! used. These are more selective: the end of a string gets bit off only if it happens to be a newline.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

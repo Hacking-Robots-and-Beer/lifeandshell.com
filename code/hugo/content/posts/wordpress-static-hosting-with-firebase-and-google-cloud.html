@@ -1,0 +1,69 @@
+---
+title: WordPress static hosting with firebase and google cloud
+date: 2020-02-24 14:07:35
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+
+<p>Some time ago i started looking to move this wordpress blog into a static file blog system. So to find the best tool a started to test the different blog tools like jekyll and hugo.</p>
+
+
+
+<p>They all worked good but a found it hard to edit my blogs in static files and also to generate and then deploy the site. Its hard to move away from wordpress when you have started. So then gave up the work on moving to a static file blog.</p>
+
+
+
+<p>But during the latest time i have started to work more and more on firebase and cloud functions on the google cloud platform.<br>So then i started to again think about moving wordpress to a static file hosting and this time i got it to work !</p>
+
+
+
+<h2 class="wp-block-heading">WordPress, Firebase rendering at request</h2>
+
+
+
+<p>The first approtch was to use the wordpress API and fetch all the post and pages. I then saved the json from the api into the firebase database.<br>Then a added a small request webbserver and then a got a request to /blog/name i could query the firebase database for the post then render the json trow a teplate and return the html to the client.</p>
+
+
+
+<p>This work well for <a href="https://hacking.robots.beer">https://hacking.robots.beer</a> that i have setup to use this way. But the speed for getting the pages are slow and its not really any better then my wordpress I had (will its less request ).</p>
+
+
+
+<h2 class="wp-block-heading">WordPress, Firebase render to bucket</h2>
+
+
+
+<p>To get the speed a wanted then a need to render tha pages as one as store them into a bucket. Now in firebase you can access the hosting bucket (Dont now why) so i need to use a other bucket and a Google Loadbalanser to get the the traffic to my page.<br>So for this i hade to first create a cloud fucntions that connected to the wordpress api and got all the post and pages. Then run them trow my templating to get html pages.<br>The html pages where then uploaded to a google cloud bucket.<br>And the result is the blog you are reading now.<br><br>To upload the media i use the wp-stateless plugin in wordpress that are connected to the same bucket.</p>
+
+
+
+<p></p>
+
+
+
+<h2 class="wp-block-heading">The code</h2>
+
+
+
+<p>Here is a link to the code i use https://github.com/mattiashem/wordpress-firebase This is the raw and i will work some more to have the code render multiple sites to different buckets and also clean up the code 🙂</p>
+
+
+
+<p></p>
+
+
+
+<p></p>

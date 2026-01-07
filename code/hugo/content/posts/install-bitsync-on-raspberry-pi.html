@@ -1,0 +1,64 @@
+---
+title: Install Bitsync on Raspberry Pi
+date: 2013-09-13 19:50:03
+tags:
+    
+    - Code
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+---
+<p>So today im using dropbox to sync all my stuff between devices. But now there are so much there so my free space is almost full. So now its time for me to move to bitsync an then sync all my devices.</p>
+<p><strong>Install bitsync</strong></p>
+<p>Go to folder /opt</p>
+<pre>cd /opt</pre>
+<p>Download bitsync</p>
+<pre>wget "http://btsync.s3-website-us-east-1.amazonaws.com/btsync_arm.tar.gz"</pre>
+<p>unpack it</p>
+<pre>chmod 700 btsync_arm.tar.gz
+tarr zxvf btsync_arm.tar.gz</pre>
+<p>Start it</p>
+<pre>cd bitsync
+./bitsync</pre>
+<p>go to the webbpage</p>
+<pre>http:// IP-ADDRESS:8888</pre>
+<p>And set  what folder on the raspberry you want to sync.</p>
+<p><strong>1. Set up server</strong></p>
+<p>on the raspberry choose one server that you would like to sync.<br />
+And generat an key for that folder.</p>
+<p><strong>2. Set up client to sync to server.</strong></p>
+<p>Go to the webbpage <a href="http://labs.bittorrent.com/experiments/sync/other-download.html">http://labs.bittorrent.com/experiments/sync/other-download.html<br />
+a</a>nd down load the client that you use.</p>
+<p>&#8211; Then start bitsync<br />
+&#8211; Choose en folder on the client that you want to sync to the server<br />
+&#8211; PAST IN THE KEY FROM THE SERVER TO THAT FOLDER</p>
+<p>&nbsp;</p>
+<p>DONE see you client when its syncing folder for you</p>
+<p>&nbsp;</p>

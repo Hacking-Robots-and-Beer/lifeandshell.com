@@ -1,0 +1,127 @@
+---
+title: DNS Verify new ns servers
+date: 2013-06-02 17:06:10
+tags:
+    
+    - Python
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Python
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Python
+    
+    
+    - Security
+    
+     
+---
+<p>The dns tester scripot lets you check so that you dns name are correct checking first used names today and then verify the names with you new DNS server.</p>
+<p>You will need an file of you doman names first to run in the script.</p>
+<p>&nbsp;</p>
+<blockquote>
+<div id="LC1">#!/usr/bin/env python</div>
+<div id="LC2"></div>
+<div id="LC3">import socket</div>
+<div id="LC4">import dns.resolver</div>
+<div id="LC5"></div>
+<div id="LC6">#v=&#8221;yes&#8221;</div>
+<div id="LC7">g_dns=&#8221;88.80.170.189&#8243;</div>
+<div id="LC8">o_dns=&#8221;81.201.209.55&#8243;</div>
+<div id="LC9"></div>
+<div id="LC10"></div>
+<div id="LC11"></div>
+<div id="LC12"></div>
+<div id="LC13"></div>
+<div id="LC14"></div>
+<div id="LC15"></div>
+<div id="LC16"></div>
+<div id="LC17">def test_dns(name,typ,v):</div>
+<div id="LC18">print &#8220;===================================================================&#8221;</div>
+<div id="LC19">try:</div>
+<div id="LC20">answers = dns.resolver.query(name,typ )</div>
+<div id="LC21">for rdata in answers:</div>
+<div id="LC22">if v ==&#8221;yes&#8221;:</div>
+<div id="LC23">print &#8220;Your DNS = &#8221; + str(rdata)</div>
+<div id="LC24">except dns.exception.DNSException as e:</div>
+<div id="LC25">if isinstance(e, dns.resolver.NXDOMAIN):</div>
+<div id="LC26">print &#8220;ERROR Domain &#8221; +name+ &#8221; Not in server LOCAL&#8221;</div>
+<div id="LC27">rdata=&#8221;NO&#8221;</div>
+<div id="LC28"></div>
+<div id="LC29"></div>
+<div id="LC30">resolver_g = dns.resolver.Resolver()</div>
+<div id="LC31">resolver_g.nameservers = [g_dns]</div>
+<div id="LC32">try:</div>
+<div id="LC33">for rdata_g in resolver_g.query(name, typ) :</div>
+<div id="LC34">if v ==&#8221;yes&#8221;:</div>
+<div id="LC35">print &#8220;Telecity DNS = &#8221; + str(rdata_g)</div>
+<div id="LC36"></div>
+<div id="LC37">except dns.exception.DNSException as e:</div>
+<div id="LC38">if isinstance(e, dns.resolver.NXDOMAIN):</div>
+<div id="LC39">print &#8220;ERROR Domain &#8221; +name+ &#8221; Not in server TeleCity\n&#8221;</div>
+<div id="LC40">rdata_g=&#8221;NO&#8221;</div>
+<div id="LC41"></div>
+<div id="LC42">resolver_o = dns.resolver.Resolver()</div>
+<div id="LC43">resolver_o.nameservers = [o_dns]</div>
+<div id="LC44">try:</div>
+<div id="LC45">for rdata_o in resolver_o.query(name, typ) :</div>
+<div id="LC46">if v ==&#8221;yes&#8221;:</div>
+<div id="LC47">print &#8220;Avalio DNS = &#8221; + str(rdata_o)</div>
+<div id="LC48">except dns.exception.DNSException as e:</div>
+<div id="LC49">if isinstance(e, dns.resolver.NXDOMAIN):</div>
+<div id="LC50">print &#8220;ERROR Domain &#8221; +name+ &#8221; Not in server Avalio\n&#8221;</div>
+<div id="LC51">rdata_o=&#8221;NO&#8221;</div>
+<div id="LC52"></div>
+<div id="LC53"></div>
+<div id="LC54">if rdata == rdata_g and rdata == rdata_o:</div>
+<div id="LC55">if v ==&#8221;yes&#8221;:</div>
+<div id="LC56">print &#8220;OK &#8221; + name + &#8221; = &#8221; + str(rdata)+&#8221;\n&#8221;</div>
+<div id="LC57"></div>
+<div id="LC58">else:</div>
+<div id="LC59">print &#8220;CRITICAL &#8221; + name + &#8221; NOT SAME ON ALL SERVERS&#8221; +&#8221;\n&#8221;</div>
+<div id="LC60"></div>
+<div id="LC61"></div>
+<div id="LC62"></div>
+<div id="LC63">def test_cname(cname,v):</div>
+<div id="LC64">try:</div>
+<div id="LC65">answers = dns.resolver.query(cname,&#8221;CNAME&#8221; )</div>
+<div id="LC66">for rdata in answers:</div>
+<div id="LC67">if v ==&#8221;yes&#8221;:</div>
+<div id="LC68">print &#8220;###########DNAME &#8220;+cname+&#8221;&#8211;&gt;&#8221;+str(rdata)+&#8221; #################\n&#8221;</div>
+<div id="LC69">test_dns(str(rdata),&#8221;A&#8221;,&#8221;yes&#8221;)</div>
+<div id="LC70">except dns.exception.DNSException as e:</div>
+<div id="LC71">if isinstance(e, dns.resolver.NXDOMAIN):</div>
+<div id="LC72">print &#8220;ERROR CNAME dont exsist in server&#8221;+cname</div>
+<div id="LC73">rdata=&#8221;NO&#8221;</div>
+<div id="LC74"></div>
+<div id="LC75"></div>
+<div id="LC76"></div>
+<div id="LC77">f = open(&#8216;dns_name.txt&#8217;)</div>
+<div id="LC78">for line in iter(f):</div>
+<div id="LC79">line = line.replace(&#8216;\n&#8217;,&#8221;)</div>
+<div id="LC80">name = line.split(&#8216; &#8216;)</div>
+<div id="LC81">if name[0]==&#8221;CNAME&#8221;:</div>
+<div id="LC82">test_cname(name[1],&#8221;yes&#8221;)</div>
+<div id="LC83">if name[0]==&#8221;A&#8221;:</div>
+<div id="LC84">test_dns(name[1],name[0],&#8221;yes&#8221;)</div>
+<div id="LC85">f.close()</div>
+</blockquote>
+<div></div>
+<p>And the the file with you file names.</p>
+<blockquote>
+<div id="LC1">A www.elino.se</div>
+<div id="LC2">A matte.elino.se</div>
+<div id="LC3">CNAME www.elino.se</div>
+</blockquote>
+<div></div>
+<p>Done now you can verify you domians before changing dns server.</p>

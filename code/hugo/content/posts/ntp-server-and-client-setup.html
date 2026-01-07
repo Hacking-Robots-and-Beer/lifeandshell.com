@@ -1,0 +1,65 @@
+---
+title: NTP Server and client setup
+date: 2013-08-04 22:23:12
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>Time is critical when having many server and using different clusters. So i made this guide to save all my notes when working with time.</p>
+<h2>Setting local time</h2>
+<p>I make an link to /etc/timezone</p>
+<pre>ln -sf /usr/share/zoneinfo/Etc/GMT /etc/timezone</pre>
+<p>To check if i use the correct time zone</p>
+<pre>date</pre>
+<h2>Install ntpd</h2>
+<p>&nbsp;</p>
+<p>Ubuntu</p>
+<pre>apt-get install ntp</pre>
+<p>Centos</p>
+<pre>yum install ntp</pre>
+<p>&nbsp;</p>
+<p>Set up my ntp server for my other server. My ntp server is and ubuntu server</p>
+<pre>server 0.ubuntu.pool.ntp.org</pre>
+<pre>server 1.ubuntu.pool.ntp.org
+server 2.ubuntu.pool.ntp.org
+server 3.ubuntu.pool.ntp.org</pre>
+<pre># Use Ubuntu's ntp server as a fallback.
+server ntp.ubuntu.com</pre>
+<pre>#Allow ntp servers
+
+restrict 0.ubuntu.pool.ntp.org nomodify notrap noquery</pre>
+<pre><em id="__mceDel">restrict 1.ubuntu.pool.ntp.org nomodify notrap noquery
+restrict 2.ubuntu.pool.ntp.org nomodify notrap noquery
+restrict 3.ubuntu.pool.ntp.org nomodify notrap noquery
+restrict ntp.ubuntu.com nomodify notrap noquery
+
+# Local users may interrogate the ntp server more closely.
+
+restrict 127.0.0.1
+
+restrict ::1
+
+<span style="color: #222222; font-family: 'Courier 10 Pitch', Courier, monospace; line-height: 21px;">#allow clients
+
+</span>restrict -4 default kod notrap nomodify nopeer noquery
+
+<em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel">restrict -6 default kod notrap nomodify nopeer noquery
+
+</em></em></em></em><em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel">restrict 10.10.0.0 mask 255.255.255.0 notrap nomodify &lt;--- my local network</em></em></em></em></em></em></em></em></em></em></pre>
+<p>On my ntp clients i only set server to my ntp server ip</p>
+<pre>server 10.10.0.1</pre>
+<p>Restart ntp servers and test it</p>
+<pre>ntpq -p</pre>
+<p>&nbsp;</p>

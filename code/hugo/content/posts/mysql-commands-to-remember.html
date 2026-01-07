@@ -1,0 +1,58 @@
+---
+title: Mysql Commands to Remember
+date: 2013-08-29 08:45:06
+tags:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>This is an reminder for mw some mysql commands that i use often and my mind not always bring with me.</p>
+<p>&nbsp;</p>
+<h2>Optimize table</h2>
+<p>When i table that has many writes and delets get fregmant this will speed up the database.</p>
+<pre>optimize table Sys</pre>
+<p>&nbsp;</p>
+<h2>Creating users</h2>
+<pre><strong><code>CREATE USER 'dbuser'@'localhost' IDENTIFIED BY 'some_pass';
+</code></strong></pre>
+<pre><strong><code>GRANT ALL PRIVILEGES ON *.* TO 'dbuser'@'localhost'</code></strong></pre>
+<pre><strong><code>FLUSH PRIVILEGES;</code></strong></pre>
+<h2>Adding Mysql Monitoring User</h2>
+<pre>GRANT SELECT, REPLICATION CLIENT, SHOW DATABASES, SUPER, PROCESS ON *.* TO 'monitor'@'10.0.0.1' IDENTIFIED BY 'password';</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Replication</h2>
+<p>Is the replication working</p>
+<pre>SHOW SLAVE STATUS \G</pre>
+<p>Fixing replication stop</p>
+<pre>STOP SLAVE;</pre>
+<pre>SET GLOBAL SQL_SLAVE_SKIP_COUNTER = 1;</pre>
+<pre>START SLAVE;</pre>
+<p>Verify so its working</p>
+<pre>SHOW SLAVE STATUS \G</pre>
+<h2>Set GLOBAL variabel MYSQL</h2>
+<p>Show variabels</p>
+<pre>show variables;</pre>
+<p>To search for variables</p>
+<pre>show variables like '%slow%';</pre>
+<pre>set global max_connect_errors = 20;</pre>

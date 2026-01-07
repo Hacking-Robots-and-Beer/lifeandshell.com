@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Docker, Linux on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-docker-linux/</link>
+    <description>Recent content in Lifeandshell, Docker, Linux on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Mon, 27 Jun 2016 20:43:23 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-docker-linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ddclient for loopia in Docker</title>
+      <link>http://localhost:1313/posts/ddclient-loopia-docker/</link>
+      <pubDate>Mon, 27 Jun 2016 20:43:23 +0000</pubDate>
+      <guid>http://localhost:1313/posts/ddclient-loopia-docker/</guid>
+      <description>&lt;p&gt;So i uses loopia.se as my dns provider.&lt;br /&gt;&#xA;And a also have some dns for my home but it always change ip (have dynamic ip home )&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;So for fixing this i build a docker images that updates my loopia server from the docker images.&lt;/p&gt;&#xA;&lt;p&gt;So i if you are using loopia i but this is the best way of updating you dns records&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;Run with&lt;/p&gt;&#xA;&lt;pre&gt;docker run -e &#34;login=example.com&#34; -e &#34;password=pass&#34; -e &#34;domain=www.example.cpm&#34; -i -t mattiashem/ddclient-loopia&lt;/pre&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Where example.com is you login&lt;/li&gt;&#xA;&lt;li&gt;Pass is you password&lt;/li&gt;&#xA;&lt;li&gt;Domian is the dns record you want to update&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>

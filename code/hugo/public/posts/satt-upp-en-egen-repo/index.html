@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Sätt upp en egen repo | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/satt-upp-en-egen-repo/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/satt-upp-en-egen-repo/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Sätt upp en egen repo">
+  <meta property="og:description" content="Sätt upp en egen repo underlättar ganska mycket för en.
+I denna guide så visar hur man sätter upp en repo. I nästa guide blir det hur man skapar och gör egna paket för att sedan lägga i sin repo.
+Börja med att installera reprepro på din ubuntu hoj
+sudo apt-get install reprepro mkdir /srv/reprepro cd /srv/reprepro mkdir conf dists incoming indices logs pool project tmp files Sedan behöver vi vi lite filer till våran repo.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2012-04-15T18:53:37+00:00">
+    <meta property="article:modified_time" content="2012-04-15T18:53:37+00:00">
+    <meta property="article:tag" content="Security">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Sätt upp en egen repo">
+  <meta name="twitter:description" content="Sätt upp en egen repo underlättar ganska mycket för en.
+I denna guide så visar hur man sätter upp en repo. I nästa guide blir det hur man skapar och gör egna paket för att sedan lägga i sin repo.
+Börja med att installera reprepro på din ubuntu hoj
+sudo apt-get install reprepro mkdir /srv/reprepro cd /srv/reprepro mkdir conf dists incoming indices logs pool project tmp files Sedan behöver vi vi lite filer till våran repo.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/syco-pyton-kodning-lite-sma-script-for-att-testa-last-minne-och-anslutningar/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/elino-paket-guide/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&text=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&title=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&is_video=false&description=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=S%c3%a4tt%20upp%20en%20egen%20repo&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&title=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&title=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&name=S%c3%a4tt%20upp%20en%20egen%20repo&description=S%c3%a4tt%20upp%20en%20egen%20repo%20underl%c3%a4ttar%20ganska%20mycket%20f%c3%b6r%20en.%0aI%20denna%20guide%20s%c3%a5%20visar%20hur%20man%20s%c3%a4tter%20upp%20en%20repo.%20I%20n%c3%a4sta%20guide%20blir%20det%20hur%20man%20skapar%20och%20g%c3%b6r%20egna%20paket%20f%c3%b6r%20att%20sedan%20l%c3%a4gga%20i%20sin%20repo.%0aB%c3%b6rja%20med%20att%20installera%20reprepro%20p%c3%a5%20din%20ubuntu%20hoj%0asudo%20apt-get%20install%20reprepro%20mkdir%20%2fsrv%2freprepro%20cd%20%2fsrv%2freprepro%20mkdir%20conf%20dists%20incoming%20indices%20logs%20pool%20project%20tmp%20files%20Sedan%20beh%c3%b6ver%20vi%20vi%20lite%20filer%20till%20v%c3%a5ran%20repo." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&t=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Sätt upp en egen repo
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2012-04-15 18:53:37 &#43;0000 UTC" itemprop="datePublished">2012-04-15</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          1 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/security">Security</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/security" rel="tag">Security</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>Sätt upp en egen repo underlättar ganska mycket för en.<br />
+I denna guide så visar hur man sätter upp en repo. I nästa guide blir det hur man skapar och gör egna paket för att sedan lägga i sin repo.</p>
+<p>Börja med att installera reprepro på din ubuntu hoj</p>
+<pre>
+sudo apt-get install reprepro 
+mkdir /srv/reprepro 
+cd /srv/reprepro 
+mkdir conf dists incoming indices logs pool project tmp files
+</pre>
+<p>Sedan behöver vi vi lite filer till våran repo.<br />
+I conf katalogen skapa tre stycken filer.</p>
+<p>*uploaders*</p>
+<pre>
+allow * by unsigned
+</pre>
+<p>*distributions*</p>
+<pre>
+Origin: Elino
+Label: Elino
+Suite: Precise
+Codename: precise
+Version: 12.04
+Architectures: i386 amd64 source
+Components: main
+Description: Repo for Elino IT-Solutions AB
+SignWith:yes
+DebOverride: ../indices/override.precise.main
+UDebOverride: ../indices/override.precise.main.debian-installer
+DscOverride: ../indices/override.precise.main.src
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Contents: . .gz .bz2
+Log: packages.repo.elino.se.log
+</pre>
+<p>*incoming*</p>
+<pre>
+Name: default
+IncomingDir: incoming
+TempDir: tmp
+Allow: precise
+Cleanup: on_deny on_error
+</pre>
+<p>*options*</p>
+<pre>
+ask-passphrase
+basedir .
+</pre>
+<p>Nu måste vi bara skapa en nyckel till vårat repo så att vi kan använda det och få sakerna signade.</p>
+<pre>
+gpg --gen-key
+</pre>
+<p>Välj val 1 </p>
+<p>Så ska vi ta och exportera ut den nyckeln så att våra client kan använda den sen.<br />
+Ändra till så email stämmer med din gpg nyckel och namn.</p>
+<p>gpg &#8211;armor &#8211;output /srv/reprepro/files/packages.elino.key &#8211;export support@elino.se</p>
+<p>Fixa till lite filer till repot</p>
+<pre>
+cd /srv/reprepro/indices 
+touch override.precise.main 
+touch override.precise.main.debian-installer 
+touch override.precise.main.src
+</pre>
+<p>Nu är det daxs att sätt upp det nya repot.<br />
+Vill du lägga till några paket kan du lägga de i incoming katalogen</p>
+<pre>
+reprepro -Vb /srv/reprepro export
+</pre>
+<p>Daxs att sätta upp Apache för att serverna vårat repo.<br />
+Slän in följande apache config.</p>
+<pre>
+<VirtualHost *>
+        DocumentRoot /srv/reprepro
+        ServerName repo
+        ErrorLog /var/log/apache2/error.log
+ 
+        LogLevel warn
+ 
+        CustomLog /var/log/apache2/access.log combined
+        ServerSignature On
+ 
+        # Allow directory listings so that people can browse the repository from their browser too
+        <Directory "/srv/reprepro">
+                Options Indexes FollowSymLinks MultiViews
+                DirectoryIndex index.html
+                AllowOverride Options
+                Order allow,deny
+                allow from all
+        </Directory>
+ 
+        # Hide the conf/ directory for all repositories
+        <Directory "/srv/reprepro/*/conf">
+                Order allow,deny
+                Deny from all
+                Satisfy all
+        </Directory>
+
+
+
+ 
+        # Hide the db/ directory for all repositories
+        <Directory "/srv/reprepro/*/db">
+                Order allow,deny
+                Deny from all
+                Satisfy all
+        </Directory>
+</VirtualHost>
+
+</pre>
+<p>Nu är det daxs att haka på lite clienter till vårat repo.</p>
+<p>Börja med lägga till repot i apt.source listan</p>
+<pre>
+deb http://repo.ahavaxthuset.se precise main
+sudo echo "deb http://repo.vaxthuset.se/ precise main" >> /etc/apt/sources.list
+</pre>
+<p>Lägg sedan till våran nyckel till servers nyckelhantering</p>
+<pre>
+sudo wget http://repo.vaxthuset.se/packages.elino.key
+sudo apt-key add packages.elino.key
+</pre>
+<p>Nu kan du upatera dina föråd med.</p>
+<pre>
+apt-get update
+</pre>
+<pre>
+apt-get install elinoltsp
+</pre>
+<p>Nu borde du ha ett fungerade repo som signar din paket och som du kan använda med dina egna klienter</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&text=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&title=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&is_video=false&description=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=S%c3%a4tt%20upp%20en%20egen%20repo&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&title=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&title=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&name=S%c3%a4tt%20upp%20en%20egen%20repo&description=S%c3%a4tt%20upp%20en%20egen%20repo%20underl%c3%a4ttar%20ganska%20mycket%20f%c3%b6r%20en.%0aI%20denna%20guide%20s%c3%a5%20visar%20hur%20man%20s%c3%a4tter%20upp%20en%20repo.%20I%20n%c3%a4sta%20guide%20blir%20det%20hur%20man%20skapar%20och%20g%c3%b6r%20egna%20paket%20f%c3%b6r%20att%20sedan%20l%c3%a4gga%20i%20sin%20repo.%0aB%c3%b6rja%20med%20att%20installera%20reprepro%20p%c3%a5%20din%20ubuntu%20hoj%0asudo%20apt-get%20install%20reprepro%20mkdir%20%2fsrv%2freprepro%20cd%20%2fsrv%2freprepro%20mkdir%20conf%20dists%20incoming%20indices%20logs%20pool%20project%20tmp%20files%20Sedan%20beh%c3%b6ver%20vi%20vi%20lite%20filer%20till%20v%c3%a5ran%20repo." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fsatt-upp-en-egen-repo%2f&t=S%c3%a4tt%20upp%20en%20egen%20repo" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

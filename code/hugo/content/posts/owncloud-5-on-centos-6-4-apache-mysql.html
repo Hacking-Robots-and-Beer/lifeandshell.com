@@ -1,0 +1,101 @@
+---
+title: Owncloud 5 on Centos 6.4 apache-mysql
+date: 2013-10-10 13:33:35
+tags:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>How to install owncloud 5 on you centos 6.4 server with mysql and apache to serve it.</p>
+<h2>First install packages and service needed.</h2>
+<pre>yum -y install mysql-server httpd php php-mysql unzip wget php-json php-xml php-mbstring php-zip php-gd curl php-curl php-pdo mod_ssl</pre>
+<p>Set apache and mysql to start at boot</p>
+<pre>chkconfig httpd on
+chkconfig mysqld on</pre>
+<p>Start them up</p>
+<pre>/etc/init.d/httpd start
+/etc/init.d/mysqld start</pre>
+<p>Make a new file called /tmp/setup_owncloud.sql and put this in the file (Ore past it in the mysql shell)</p>
+<pre>CREATE DATABASE owncloud;
+GRANT ALL PRIVILEGES ON owncloud.* TO 'owncloud'@'localhost' IDENTIFIED BY 'adshjkahdj!223dasdadsasd99uioiuiods';
+FLUSH PRIVILEGES;</pre>
+<p>run the file</p>
+<pre>mysql -u root &lt; setup_owncloud.sql</pre>
+<h2>TIME for installing OWNCLOUD</h2>
+<p>So now you can get owncloud from oen repo or downlod the files you can choose.<br />
+I downloaded the tar file and use. But read more on owncloud page <a href="http://owncloud.org/install/">http://owncloud.org/install/</a></p>
+<p>Fix folders</p>
+<pre>cd /var/www/html</pre>
+<p>Download owncloud</p>
+<pre>wget http://download.owncloud.org/community/owncloud-5.0.12.tar.bz2</pre>
+<p>Set permissions</p>
+<pre>chown apache:apache -R owncloud/</pre>
+<p>Create Apache config with vhosts</p>
+<pre>&lt;VirtualHost *:80&gt;
+ ServerAdmin webmaster@elino.net
+ ServerName owncloud.elino.net
+ ServerAlias owncloud
+ DocumentRoot /var/www/owncloud
+ &lt;Directory /&gt;
+ AllowOverride All
+ &lt;/Directory&gt;
+ &lt;Directory /var/www/owncloud&gt;
+ AllowOverride All
+ Order allow,deny
+ allow from all
+ &lt;/Directory&gt;
+ # Possible values include: debug, info, notice, warn, error, crit,
+ # alert, emerg.
+ LogLevel warn
+ CustomLog logs/own_access.log combined
+&lt;/VirtualHost&gt;
+&lt;VirtualHost *:443&gt;
+ ServerAdmin webmaster@elino.net
+ ServerName owncloud.elino.net
+ DocumentRoot /var/www/owncloud
+ SSLEngine On
+SSLCertificateFile /etc/httpd/ssl/apache.crt
+ SSLCertificateKeyFile /etc/httpd/ssl/apache.key
+ &lt;Directory /&gt;</pre>
+<pre> Options FollowSymLinks
+ AllowOverride All
+ &lt;/Directory&gt;
+ &lt;Directory /var/www/owncloud&gt;
+ Options Indexes FollowSymLinks MultiViews
+ AllowOverride All
+ Order allow,deny
+ allow from all
+ &lt;/Directory&gt;
+ # Possible values include: debug, info, notice, warn, error, crit,
+ # alert, emerg.
+ LogLevel warn
+ CustomLog logs/own_access.log combined
+&lt;/VirtualHost&gt;</pre>
+<p>Setup https</p>
+<pre>mkdir /etc/httpd/ssl
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/httpd/ssl/apache.key -out /etc/httpd/ssl/apache.crt</pre>
+<p>&nbsp;</p>
+<h2>Set up Owncloud</h2>
+<p>Now its time to set up owncloud surf to you domin for owncloud and press advanced. Put you mysql settings in there that vi created. And choose where to have you data folder.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

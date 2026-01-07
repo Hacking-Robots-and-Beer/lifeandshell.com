@@ -1,0 +1,45 @@
+---
+title: Set Glassfish4 to production state
+date: 2013-09-17 19:19:09
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>Ot work we are using Glassfish 4 for our applications. And to set glassfish for production there are some setting you need to set.<br />
+We are scripting our installation so our changes are done with the asadmin tool.<br />
+This is my reminder of the asadmin commands I run when setting glassfish4 into production state.</p>
+<p>&nbsp;</p>
+<p>First lets delete some values that are default</p>
+<pre>asadmin delete-jvm-options -client
+asadmin delete-jvm-options '-XX:MaxPermSize=192m
+asadmin delete-jvm-options -Xmx512m</pre>
+<p>First setup that we are using an server and some memory values</p>
+<pre>asadmin create-jvm-options -server &lt;-- We are on a server
+asadmin create-jvm-options -Xmx2048m &lt;-- max memory the server will use before swaping
+asadmin create-jvm-options -Xms1024m &lt;-- memory that will start on
+asadmin create-jvm-options '-XX:MaxPermSize=1024m &lt;-- extra memory</pre>
+<p>&nbsp;</p>
+<p>Set EJB setting</p>
+<pre>asadmin set configs.config.server-config.ejb-container.ejb-timer-service.max-redeliveries=300"
+asadmin set configs.config.server-config.ejb-container.ejb-timer-service.redelivery-interval-internal-in-millis=300000</pre>
+<p>Loggin settings</p>
+<pre>asadmin set-log-attributes com.sun.enterprise.server.logging.SyslogHandler.useSystemLogging=true
+asadmin set-log-attributes --target server-config com.sun.enterprise.server.logging.GFFileHandler.formatter=ulf</pre>
+<p>Turn off autodeploy</p>
+<pre>asadmin set server.admin-service.das-config.autodeploy-enabled=false
+asadmin set server.admin-service.das-config.dynamic-reload-enabled=false</pre>
+<p>This is my first basic changes to the glassfish4 server before production. Any more settings you think i should add ?</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

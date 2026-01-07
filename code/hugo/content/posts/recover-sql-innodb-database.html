@@ -1,0 +1,53 @@
+---
+title: Recover SQL innodb Database
+date: 2018-02-04 21:20:20
+tags:
+    
+    - Web
+    
+     
+categories:
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Web
+    
+     
+---
+<p>How to recover an SQL innodb db with docker. When I moved this wordpress to it new hosting a did not have any good backup of the db. And i only got the mysql files from /var/lib/mysql.</p>
+<p>&nbsp;</p>
+<p>So to get the site back without to much work I want to see if I could get the sql files mounted into a mysql docker and recverd to the export a .sql file.</p>
+<p>And it worked and here is how</p>
+<p>&nbsp;</p>
+<h3>Recover the db</h3>
+<p>Start a mysql docker container and mount your files into it. Then start mysql with this command.</p>
+<pre>docker run -it -v /home/mahe/projects/backup/fromcolo/export/disk/word-hosting/lifeandshell-com/wp/:/var/lib/mysql mysql /bin/bash</pre>
+<p>&nbsp;</p>
+<p>In th file</p>
+<pre>vi /etc/mysql/mysql.conf.d/mysqld.cnf</pre>
+<p>&nbsp;</p>
+<pre>[mysqld]
+innodb_force_recovery = 6</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Start mysql with the command</p>
+<pre>su mysql -s/bin/bash -c "/usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --user=mysql --skip-grant-tables "</pre>
+<p>&nbsp;</p>
+<p>Now you should have a running sql with you innodb files and we now can login and dump the database.</p>
+<p>&nbsp;</p>
+<p>List all docker running</p>
+<pre>docker ps</pre>
+<p>&nbsp;</p>
+<p>Login into the one with the sql</p>
+<pre>docker exec -it 8b214ff70688 /bin/bash</pre>
+<p>&nbsp;</p>
+<p>And dump the sql you want</p>
+<pre>mysqldump wordpress &gt;&gt; /var/lib/mysql/wordpress.sql</pre>
+<p>&nbsp;</p>
+<p>I dump the sql to the /var/lib/mysql folder and that is mounted into the container and i can now get the .sql file and import it into my new site.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

@@ -1,0 +1,131 @@
+---
+title: Thinstataion PXE Ubuntu
+date: 2012-11-12 18:48:30
+tags:
+    
+    - Random
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Random
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Random
+    
+    
+    - Security
+    
+     
+---
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Hämta thinstation:</strong></p>
+<blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><span style="font-style: italic;">apt-get install git</span></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><span style="font-style: italic;">mkdir /opt/thinstation</span></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><span style="font-style: italic;">cd /opp</span></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><span style="font-style: italic;">git clone &#8211;depth 1 git://thinstation.git.sourceforge.net/gitroot/thinstation/thinstation</span></p>
+</blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong><br />
+</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Sätt upp chroot thinstation:</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>cd /opt/thinstation<br />
+./setup-chroot</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Bygg din första thinstatin </strong></p>
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>cd /ts/5.1<br />
+./build</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Sätt upp thinstation med våra paket</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Öppna upp build.conf.<br />
+I denna fil måste du lägga i de hårdvaru paket som körs.<br />
+Vi vill hålla start avbilden så liten som möjligt det gör att för att den ska vara snabb så väljer vi bara de moduler som vi verkligen behöva.<br />
+Dock ska vi köra den med generell och boota från pxe kan vi lägga till alla moduler.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Minn build.conf ser som följande.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">FÖr att få det att fungera börja först med att få stadard sakerna att fungera.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">kör en</p>
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>./build</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Steg 1</strong><br />
+Det första steget är att få klientan att få upp ett skrivbord.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Öppna upp din builf.conf fil av aktivra några hårdvaru moduler.<br />
+Jag aktivera följande för att få det att fungera med kvm i ubuntu.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<pre style="margin-right: 1em; margin-left: 1.6em; padding: 2px 2px 2px 0px; background-color: #fafafa; border: 1px solid #dadada; width: auto; overflow-x: auto; overflow-y: hidden; color: #484848; font-size: 12px;">machine classic_generic package xorg7-chips package xorg7-vesa package xorg7-ati</pre>
+<p><br style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;" /><span style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Efter det kör en</span></p>
+<div><span style="color: #484848; font-family: Verdana, sans-serif;"><span style="font-size: 12px;"><br />
+</span></span></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>./build</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Och testa om det fungerar.<br />
+Börja annars att markera fram en sak i taget och bygg om till din miljö fungerar</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Efter det fick jag den tunna klineten att ladda och jag kom in till ett skrivbord.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Steg 2</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Nu är det daxs att aktivera de andra modulerna som vi vill använda och bygga med.<br />
+Jag aktiverar följande.</p>
+<pre style="margin-right: 1em; margin-left: 1.6em; padding: 2px 2px 2px 0px; background-color: #fafafa; border: 1px solid #dadada; width: auto; overflow-x: auto; overflow-y: hidden; color: #484848; font-size: 12px;">package locale-sv_SE # Swedish package rdesktop</pre>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Sedan bygger vi om miljön igen med</p>
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>./build</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">och testar att boota en klient mot den.<br />
+Vi ska komma till samma skrivbord som innan man nu är modulerna laddade och vi vill så så inget går sönder</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>steg 3</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Nu ska vi sätta upp så vi bootar upp en rdp klient istället för vårat skrivbord.<br />
+Copera orginal thinstation.conf.bultime till ett säkert ställe.<br />
+Och lägg in min thinstation.conf.builtime som finns som fil i detta wiki.<br />
+Efter det är det daxs att bygga om.</p>
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>./build</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Och nu ska klienten boota upp och visa en rdp anslutning i stället mot en windows server.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Bygg allt rent</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>./build &#8211;update</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">nu ska din thinstation byggas rent.</p>
+<div class="contextual" style="float: right; white-space: nowrap; line-height: 1.4em; margin-top: 5px; padding-left: 10px; font-size: 0.9em; color: #484848; font-family: Verdana, sans-serif; background-color: #ffffff;" title="Edit this section"><a style="color: #2a5685; text-decoration: none; opacity: 0.4;" href="http://redmine.elino.se/projects/elinoesbs/wiki/Installera_thinstation/edit?section=2"><img decoding="async" style="border: 0px; vertical-align: middle;" src="http://redmine.elino.se/images/edit.png?1346320829" alt="Edit" /></a></div>
+<p><a style="color: #2a5685; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;" name="Sätt-upp-thinstation-för-att-boota-PXE"></a></p>
+<h2 style="font-family: 'Trebuchet MS', Verdana, sans-serif; font-size: 16px; padding: 2px 10px 1px 0px; margin: 0px 0px 10px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #bbbbbb; color: #444444; background-color: #ffffff;">Sätt upp thinstation för att boota PXE</h2>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>OBS DU FÅR INTE VARA INNE I THINSTATION CHROOT NÄR DU SÄTTER UPP DENNA</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong><br />
+</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>root@labbserver:/# rm -rf tftpboot/<br />
+root@labbserver:/# ln -s /opt/thinstation/build/boot-images/pxe tftpboot<br />
+root@labbserver:/# chmod 777 -R tftpboot</p></blockquote>
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>ls -la /tftpboot</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Testa så det fungerar med</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>tftp localhost<br />
+tftp&gt; get vmlinuz<br />
+Received 2361928 bytes in 0.1 seconds<br />
+tftp&gt; quit</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Snygga till thinstation pxe då den fungerar</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Snygga till bootningen med lite bättre text.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Öppna upp filen</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>vi /tftpboot/thinstation.txt</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Och ta bort det som finns där och lägg in följande i den</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<pre style="margin-right: 1em; margin-left: 1.6em; padding: 2px 2px 2px 0px; background-color: #fafafa; border: 1px solid #dadada; width: auto; overflow-x: auto; overflow-y: hidden; color: #484848; font-size: 12px;">###################################################### # # PXE booting # # Power by Elino IT-Solutions AB # www.elino.se info@elino.se ######################################################</pre>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Byt ut bakgrund bilden så den ser bättre ut</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Gå in i katalogen</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>cd /opt/thinstation/built/background</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">DÄr finns det några bilder som heter thinstation-upplösing.<br />
+Byt ut alla de bilderna mot din egan bilder och bygg sedan in systemet igen.</p>
+</div>

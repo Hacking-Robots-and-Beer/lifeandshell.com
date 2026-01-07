@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> k3s Cluster on setup master and node | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/k3s-cluster-on-setup-master-and-node/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/k3s-cluster-on-setup-master-and-node/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="k3s Cluster on setup master and node">
+  <meta property="og:description" content="For some IoT setups a need a k3s cluster running. To make it spread and to add more nodes a installed the k3s Master on my firewall running a small atom processor. But wanted to run the nodes on raspberry or rock nodes to handle the load.
+Then by using labels on nodes I want to apply different workloads on the nodes.
+Pre So before installing k3s master. I had my pihole running on port 80 and that did not work that well.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-01-07T11:31:43+00:00">
+    <meta property="article:modified_time" content="2023-01-07T11:31:43+00:00">
+    <meta property="article:tag" content="Code">
+    <meta property="article:tag" content="K3s">
+    <meta property="article:tag" content="K8s">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Ollebo">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="k3s Cluster on setup master and node">
+  <meta name="twitter:description" content="For some IoT setups a need a k3s cluster running. To make it spread and to add more nodes a installed the k3s Master on my firewall running a small atom processor. But wanted to run the nodes on raspberry or rock nodes to handle the load.
+Then by using labels on nodes I want to apply different workloads on the nodes.
+Pre So before installing k3s master. I had my pihole running on port 80 and that did not work that well.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/device-tracker-using-dhpcd-server-and-bash/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/podcast/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&text=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&title=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&is_video=false&description=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=k3s%20Cluster%20on%20setup%20master%20and%20node&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&title=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&title=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&name=k3s%20Cluster%20on%20setup%20master%20and%20node&description=For%20some%20IoT%20setups%20a%20need%20a%20k3s%20cluster%20running.%20To%20make%20it%20spread%20and%20to%20add%20more%20nodes%20a%20installed%20the%20k3s%20Master%20on%20my%20firewall%20running%20a%20small%20atom%20processor.%20But%20wanted%20to%20run%20the%20nodes%20on%20raspberry%20or%20rock%20nodes%20to%20handle%20the%20load.%0aThen%20by%20using%20labels%20on%20nodes%20I%20want%20to%20apply%20different%20workloads%20on%20the%20nodes.%0aPre%20So%20before%20installing%20k3s%20master.%20I%20had%20my%20pihole%20running%20on%20port%2080%20and%20that%20did%20not%20work%20that%20well." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&t=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        k3s Cluster on setup master and node
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2023-01-07 11:31:43 &#43;0000 UTC" itemprop="datePublished">2023-01-07</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          4 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/code">Code</a>
+            
+             ,  
+            <a class="category-link" href="/categories/k3s">k3s</a>
+            
+             ,  
+            <a class="category-link" href="/categories/k8s">k8s</a>
+            
+             ,  
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+             ,  
+            <a class="category-link" href="/categories/ollebo">ollebo</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/code" rel="tag">Code</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/k3s" rel="tag">k3s</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/k8s" rel="tag">k8s</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/ollebo" rel="tag">ollebo</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      
+<p>For some IoT setups a need a k3s cluster running. To make it spread and to add more nodes a installed the k3s Master on my firewall running a small atom processor. But wanted to run the nodes on raspberry or rock nodes to handle the load.<br>Then by using labels on nodes I want to apply different workloads on the nodes.</p>
+
+
+
+<h2 class="wp-block-heading">Pre</h2>
+
+
+
+<p>So before installing k3s master. I had my pihole running on port 80 and that did not work that well. The default installation of k3s will install the traefik ingress and will bind to ports 80 and 443.<br>So before you start verify if you have any other service running on the server.</p>
+
+
+
+<h2 class="wp-block-heading">Master</h2>
+
+
+
+<p>Installing the master is easy </p>
+
+
+
+<p><code>curl -sfL https://get.k3s.io | sh -</code></p>
+
+
+
+<p>This command will download and set up the K3s master and its the easy step</p>
+
+
+
+<h2 class="wp-block-heading">Nodes</h2>
+
+
+
+<p>To install the nodes we need to </p>
+
+
+
+<ol class="wp-block-list">
+<li>Setup some name resolutions so the nodes can find each other</li>
+
+
+
+<li>Get the token to join the cluster <br> </li>
+</ol>
+
+
+
+<p>Setup name on the master and node. NOTICE on the node runs ubuntu for raspberry and it uses cloud-init to set up the host&#8217;s file </p>
+
+
+
+<p>This is on my ubuntu server </p>
+
+
+
+<pre class="wp-block-code"><code>cat /etc/hosts
+127.0.0.1 localhost
+127.0.1.1 fw1
+10.xxx.xxx.xx2 k3s-node1
+10.xxx.xxx.xx1 k3s-master</code></pre>
+
+
+
+<p>This is the host file from the ubuntu running on a Raspberry </p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-node1:/home/pi# cat /etc/cloud/templates/hosts.debian.tmpl 
+## template:jinja
+{#
+This file (/etc/cloud/templates/hosts.debian.tmpl) is only utilized
+if enabled in cloud-config.  Specifically, in order to enable it
+you need to add the following to config:
+   manage_etc_hosts: True
+-#}
+# Your system has configured 'manage_etc_hosts' as True.
+# As a result, if you wish for changes to this file to persist
+# then you will need to either
+# a.) make changes to the master file in /etc/cloud/templates/hosts.debian.tmpl
+# b.) change or remove the value of 'manage_etc_hosts' in
+#     /etc/cloud/cloud.cfg or cloud-config from user-data
+#
+{# The value '{{hostname}}' will be replaced with the local-hostname -#}
+127.0.1.1 {{fqdn}} {{hostname}}
+127.0.0.1 localhost
+10.xxx.xxx.xx1      k3s-master
+10.xxx.xxx.xx2     k3s-node1
+# The following lines are desirable for IPv6 capable hosts
+::1 localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters</code></pre>
+
+
+
+<h2 class="wp-block-heading">Ubuntu raspberry fixing cgroup </h2>
+
+
+
+<p>On the ubuntu running on raspberry, I had to add cgroups before k3s will start. (I first install and it complained and I had to enable it after )</p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-node1:/home/pi# cat /boot/firmware/cmdline.txt 
+elevator=deadline net.ifnames=0 console=serial0,115200 dwc_otg.lpm_enable=0 console=tty1 root=LABEL=writable rootfstype=ext4 cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 rootwait fixrtc quiet splash
+root@k3s-node1:/home/pi# </code></pre>
+
+
+
+<h2 class="wp-block-heading">Time to install the node </h2>
+
+
+
+<p>First we need to find the join toklen from the master then we can call the k3s installation script </p>
+
+
+
+<p>On the master run</p>
+
+
+
+<pre class="wp-block-code"><code>cat /var/lib/rancher/k3s/server/node-token
+K10d4aab890dbb9acc5fc1axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx::server:d08ccccccccccccccc</code></pre>
+
+
+
+<p>No we can run the command on the node to connect it notice the <br>&#8211; MASTER URL that we have in our hostfile <br>&#8211; Node NAME is the name of our node<br>&#8211; TOKEN the token we got from the master</p>
+
+
+
+<pre class="wp-block-code"><code>curl -sfL https://get.k3s.io | K3S_URL=https://k3s-master:6443 K3S_TOKEN=K10d4aab890dbb9acc5fc1axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx::server:d08ccccccccccccccc K3S_NODE_NAME=k3s-node1 sh -</code></pre>
+
+
+
+<h2 class="wp-block-heading">Verify we have it all good</h2>
+
+
+
+<p>On the master run the following commands</p>
+
+
+
+<p>Bellow are some commands show the k3s nodes and pods are running</p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-master:/home/mahe# kubectl get nodes
+NAME         STATUS   ROLES                  AGE   VERSION
+fw1          Ready    control-plane,master   2d    v1.25.5+k3s1
+k3s-garage   Ready    &lt;none>                 35h   v1.25.5+k3s1
+
+
+root@k3s-master:/home/mahe# kubectl get pods -A
+NAMESPACE     NAME                                      READY   STATUS      RESTARTS      AGE
+kube-system   helm-install-traefik-crd-bqnsd            0/1     Completed   0             2d
+kube-system   helm-install-traefik-dzqtz                0/1     Completed   2             2d
+kube-system   svclb-traefik-0763cc1f-xbhgq              2/2     Running     0             35h
+kube-system   coredns-597584b69b-6nsd7                  1/1     Running     1 (24h ago)   2d
+kube-system   traefik-66c46d954f-lbnwp                  1/1     Running     1 (25h ago)   2d
+kube-system   svclb-traefik-0763cc1f-tw82q              2/2     Running     2 (24h ago)   2d
+kube-system   metrics-server-5f9f776df5-qnxds           1/1     Running     1 (24h ago)   2d
+kube-system   local-path-provisioner-79f67d76f8-zf4d9   1/1     Running     1 (24h ago)   2d
+root@k3s-master:/home/mahe#</code></pre>
+
+
+
+<p>Lets verify we have a network conenctions between the nodes</p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-master:/home/mahe# ip a | grep flannel
+47: flannel.1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc noqueue state UNKNOWN group default 
+    inet 10.42.0.0/32 scope global flannel.1
+</code></pre>
+
+
+
+<p>verify the service is running</p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-master:/home/mahe# systemctl status k3s
+● k3s.service - Lightweight Kubernetes
+     Loaded: loaded (/etc/systemd/system/k3s.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2023-01-06 08:32:40 UTC; 24h ago
+       Docs: https://k3s.io
+    Process: 3949250 ExecStartPre=/bin/sh -xc ! /usr/bin/systemctl is-enabled --quiet nm-cloud-setup.service (code=exited, status=0/SUCCESS)
+    Process: 3949252 ExecStartPre=/sbin/modprobe br_netfilter (code=exited, status=0/SUCCESS)
+    Process: 3949253 ExecStartPre=/sbin/modprobe overlay (code=exited, status=0/SUCCESS)
+   Main PID: 3949254 (k3s-server)
+      Tasks: 115
+     Memory: 490.0M
+     CGroup: /system.slice/k3s.service
+             ├─3949254 /usr/local/bin/k3s server
+             ├─3949270 containerd -c /var/lib/rancher/k3s/agent/etc/containerd/config.toml -a /run/k3s/containerd/containerd.sock --state /run/k3s/containerd --root /var/lib/rancher/k3s/agent/containerd
+             ├─3949885 /var/lib/rancher/k3s/data/691f04419e1d8a92fa96d43d6c1ad05162cda6e445ba30bc5eac758bf7597063/bin/containerd-shim-runc-v2 -namespace k8s.io -id 66a565b46a9f81acf3461f4188335b8b0b408ef602b1fb7c82b7cd4318c>
+             ├─3950026 /var/lib/rancher/k3s/data/691f04419e1d8a92fa96d43d6c1ad05162cda6e445ba30bc5eac758bf7597063/bin/containerd-shim-runc-v2 -namespace k8s.io -id 3c85656865be50910787f638ae42b45c9c8c17530741fd14a94bd144cb7>
+             ├─3950095 /var/lib/rancher/k3s/data/691f04419e1d8a92fa96d43d6c1ad05162cda6e445ba30bc5eac758bf7597063/bin/containerd-shim-runc-v2 -namespace k8s.io -id 670779454f288288530ec4ebf100d8a70e077ec0cd0335a2e35479edce8>
+             ├─3950298 /var/lib/rancher/k3s/data/691f04419e1d8a92fa96d43d6c1ad05162cda6e445ba30bc5eac758bf7597063/bin/containerd-shim-runc-v2 -namespace k8s.io -id a2da750f76b491bc010b3841c93a9dca07d92913445c77a2d476e23272e>
+             └─3951213 /var/lib/rancher/k3s/data/691f04419e1d8a92fa96d43d6c1ad05162cda6e445ba30bc5eac758bf7597063/bin/containerd-shim-runc-v2 -namespace k8s.io -id 8c602c443c2501ba10deb5f1f8ea61cb5003688dd243492fe8223b6e701>
+
+Jan 07 09:16:09 fw1 k3s&#91;3949254]: E0107 09:16:09.071471 3949254 dns.go:157] "Nameserver limits exceeded" err="Nameserver limits were exceeded, some nameservers have been omitted, the applied nameserver line is: fdfe:2a80:6e>
+</code></pre>
+
+
+
+<p>check we have traefik running </p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-master:/home/mahe# curl -v http://127.0.0.1
+*   Trying 127.0.0.1:80...
+* TCP_NODELAY set
+* Connected to 127.0.0.1 (127.0.0.1) port 80 (#0)
+> GET / HTTP/1.1
+> Host: 127.0.0.1
+> User-Agent: curl/7.68.0
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+&lt; HTTP/1.1 404 Not Found
+&lt; Content-Type: text/plain; charset=utf-8
+&lt; X-Content-Type-Options: nosniff
+&lt; Date: Sat, 07 Jan 2023 09:29:32 GMT
+&lt; Content-Length: 19
+&lt; 
+404 page not found
+* Connection #0 to host 127.0.0.1 left intact
+</code></pre>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&text=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&title=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&is_video=false&description=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=k3s%20Cluster%20on%20setup%20master%20and%20node&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&title=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&title=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&name=k3s%20Cluster%20on%20setup%20master%20and%20node&description=For%20some%20IoT%20setups%20a%20need%20a%20k3s%20cluster%20running.%20To%20make%20it%20spread%20and%20to%20add%20more%20nodes%20a%20installed%20the%20k3s%20Master%20on%20my%20firewall%20running%20a%20small%20atom%20processor.%20But%20wanted%20to%20run%20the%20nodes%20on%20raspberry%20or%20rock%20nodes%20to%20handle%20the%20load.%0aThen%20by%20using%20labels%20on%20nodes%20I%20want%20to%20apply%20different%20workloads%20on%20the%20nodes.%0aPre%20So%20before%20installing%20k3s%20master.%20I%20had%20my%20pihole%20running%20on%20port%2080%20and%20that%20did%20not%20work%20that%20well." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fk3s-cluster-on-setup-master-and-node%2f&t=k3s%20Cluster%20on%20setup%20master%20and%20node" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

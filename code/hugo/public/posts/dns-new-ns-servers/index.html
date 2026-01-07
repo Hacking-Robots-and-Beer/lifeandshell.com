@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> DNS Verify new ns servers | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/dns-new-ns-servers/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/dns-new-ns-servers/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="DNS Verify new ns servers">
+  <meta property="og:description" content="The dns tester scripot lets you check so that you dns name are correct checking first used names today and then verify the names with you new DNS server.
+You will need an file of you doman names first to run in the script.
+ 
+#!/usr/bin/env python import socket import dns.resolver #v=”yes” g_dns=”88.80.170.189″ o_dns=”81.201.209.55″ def test_dns(name,typ,v): print “===================================================================” try: answers = dns.resolver.query(name,typ ) for rdata in answers: if v ==”yes”: print “Your DNS = ” &#43; str(rdata) except dns.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2013-06-02T17:06:10+00:00">
+    <meta property="article:modified_time" content="2013-06-02T17:06:10+00:00">
+    <meta property="article:tag" content="Python">
+    <meta property="article:tag" content="Security">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DNS Verify new ns servers">
+  <meta name="twitter:description" content="The dns tester scripot lets you check so that you dns name are correct checking first used names today and then verify the names with you new DNS server.
+You will need an file of you doman names first to run in the script.
+ 
+#!/usr/bin/env python import socket import dns.resolver #v=”yes” g_dns=”88.80.170.189″ o_dns=”81.201.209.55″ def test_dns(name,typ,v): print “===================================================================” try: answers = dns.resolver.query(name,typ ) for rdata in answers: if v ==”yes”: print “Your DNS = ” &#43; str(rdata) except dns.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/send-logs-to-localsyslog-apachemysqlglassfish/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/testing-ossec-syslog-auth/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&text=DNS%20Verify%20new%20ns%20servers" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&title=DNS%20Verify%20new%20ns%20servers" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&is_video=false&description=DNS%20Verify%20new%20ns%20servers" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=DNS%20Verify%20new%20ns%20servers&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&title=DNS%20Verify%20new%20ns%20servers" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&title=DNS%20Verify%20new%20ns%20servers" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&name=DNS%20Verify%20new%20ns%20servers&description=The%20dns%20tester%20scripot%20lets%20you%20check%20so%20that%20you%20dns%20name%20are%20correct%20checking%20first%20used%20names%20today%20and%20then%20verify%20the%20names%20with%20you%20new%20DNS%20server.%0aYou%20will%20need%20an%20file%20of%20you%20doman%20names%20first%20to%20run%20in%20the%20script.%0a%26nbsp%3b%0a%23%21%2fusr%2fbin%2fenv%20python%20import%20socket%20import%20dns.resolver%20%23v%3d%26%238221%3byes%26%238221%3b%20g_dns%3d%26%238221%3b88.80.170.189%26%238243%3b%20o_dns%3d%26%238221%3b81.201.209.55%26%238243%3b%20def%20test_dns%28name%2ctyp%2cv%29%3a%20print%20%26%238220%3b%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%26%238221%3b%20try%3a%20answers%20%3d%20dns.resolver.query%28name%2ctyp%20%29%20for%20rdata%20in%20answers%3a%20if%20v%20%3d%3d%26%238221%3byes%26%238221%3b%3a%20print%20%26%238220%3bYour%20DNS%20%3d%20%26%238221%3b%20%2b%20str%28rdata%29%20except%20dns." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&t=DNS%20Verify%20new%20ns%20servers" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        DNS Verify new ns servers
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2013-06-02 17:06:10 &#43;0000 UTC" itemprop="datePublished">2013-06-02</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          1 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/python">Python</a>
+            
+             ,  
+            <a class="category-link" href="/categories/security">Security</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/python" rel="tag">Python</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/security" rel="tag">Security</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>The dns tester scripot lets you check so that you dns name are correct checking first used names today and then verify the names with you new DNS server.</p>
+<p>You will need an file of you doman names first to run in the script.</p>
+<p>&nbsp;</p>
+<blockquote>
+<div id="LC1">#!/usr/bin/env python</div>
+<div id="LC2"></div>
+<div id="LC3">import socket</div>
+<div id="LC4">import dns.resolver</div>
+<div id="LC5"></div>
+<div id="LC6">#v=&#8221;yes&#8221;</div>
+<div id="LC7">g_dns=&#8221;88.80.170.189&#8243;</div>
+<div id="LC8">o_dns=&#8221;81.201.209.55&#8243;</div>
+<div id="LC9"></div>
+<div id="LC10"></div>
+<div id="LC11"></div>
+<div id="LC12"></div>
+<div id="LC13"></div>
+<div id="LC14"></div>
+<div id="LC15"></div>
+<div id="LC16"></div>
+<div id="LC17">def test_dns(name,typ,v):</div>
+<div id="LC18">print &#8220;===================================================================&#8221;</div>
+<div id="LC19">try:</div>
+<div id="LC20">answers = dns.resolver.query(name,typ )</div>
+<div id="LC21">for rdata in answers:</div>
+<div id="LC22">if v ==&#8221;yes&#8221;:</div>
+<div id="LC23">print &#8220;Your DNS = &#8221; + str(rdata)</div>
+<div id="LC24">except dns.exception.DNSException as e:</div>
+<div id="LC25">if isinstance(e, dns.resolver.NXDOMAIN):</div>
+<div id="LC26">print &#8220;ERROR Domain &#8221; +name+ &#8221; Not in server LOCAL&#8221;</div>
+<div id="LC27">rdata=&#8221;NO&#8221;</div>
+<div id="LC28"></div>
+<div id="LC29"></div>
+<div id="LC30">resolver_g = dns.resolver.Resolver()</div>
+<div id="LC31">resolver_g.nameservers = [g_dns]</div>
+<div id="LC32">try:</div>
+<div id="LC33">for rdata_g in resolver_g.query(name, typ) :</div>
+<div id="LC34">if v ==&#8221;yes&#8221;:</div>
+<div id="LC35">print &#8220;Telecity DNS = &#8221; + str(rdata_g)</div>
+<div id="LC36"></div>
+<div id="LC37">except dns.exception.DNSException as e:</div>
+<div id="LC38">if isinstance(e, dns.resolver.NXDOMAIN):</div>
+<div id="LC39">print &#8220;ERROR Domain &#8221; +name+ &#8221; Not in server TeleCity\n&#8221;</div>
+<div id="LC40">rdata_g=&#8221;NO&#8221;</div>
+<div id="LC41"></div>
+<div id="LC42">resolver_o = dns.resolver.Resolver()</div>
+<div id="LC43">resolver_o.nameservers = [o_dns]</div>
+<div id="LC44">try:</div>
+<div id="LC45">for rdata_o in resolver_o.query(name, typ) :</div>
+<div id="LC46">if v ==&#8221;yes&#8221;:</div>
+<div id="LC47">print &#8220;Avalio DNS = &#8221; + str(rdata_o)</div>
+<div id="LC48">except dns.exception.DNSException as e:</div>
+<div id="LC49">if isinstance(e, dns.resolver.NXDOMAIN):</div>
+<div id="LC50">print &#8220;ERROR Domain &#8221; +name+ &#8221; Not in server Avalio\n&#8221;</div>
+<div id="LC51">rdata_o=&#8221;NO&#8221;</div>
+<div id="LC52"></div>
+<div id="LC53"></div>
+<div id="LC54">if rdata == rdata_g and rdata == rdata_o:</div>
+<div id="LC55">if v ==&#8221;yes&#8221;:</div>
+<div id="LC56">print &#8220;OK &#8221; + name + &#8221; = &#8221; + str(rdata)+&#8221;\n&#8221;</div>
+<div id="LC57"></div>
+<div id="LC58">else:</div>
+<div id="LC59">print &#8220;CRITICAL &#8221; + name + &#8221; NOT SAME ON ALL SERVERS&#8221; +&#8221;\n&#8221;</div>
+<div id="LC60"></div>
+<div id="LC61"></div>
+<div id="LC62"></div>
+<div id="LC63">def test_cname(cname,v):</div>
+<div id="LC64">try:</div>
+<div id="LC65">answers = dns.resolver.query(cname,&#8221;CNAME&#8221; )</div>
+<div id="LC66">for rdata in answers:</div>
+<div id="LC67">if v ==&#8221;yes&#8221;:</div>
+<div id="LC68">print &#8220;###########DNAME &#8220;+cname+&#8221;&#8211;&gt;&#8221;+str(rdata)+&#8221; #################\n&#8221;</div>
+<div id="LC69">test_dns(str(rdata),&#8221;A&#8221;,&#8221;yes&#8221;)</div>
+<div id="LC70">except dns.exception.DNSException as e:</div>
+<div id="LC71">if isinstance(e, dns.resolver.NXDOMAIN):</div>
+<div id="LC72">print &#8220;ERROR CNAME dont exsist in server&#8221;+cname</div>
+<div id="LC73">rdata=&#8221;NO&#8221;</div>
+<div id="LC74"></div>
+<div id="LC75"></div>
+<div id="LC76"></div>
+<div id="LC77">f = open(&#8216;dns_name.txt&#8217;)</div>
+<div id="LC78">for line in iter(f):</div>
+<div id="LC79">line = line.replace(&#8216;\n&#8217;,&#8221;)</div>
+<div id="LC80">name = line.split(&#8216; &#8216;)</div>
+<div id="LC81">if name[0]==&#8221;CNAME&#8221;:</div>
+<div id="LC82">test_cname(name[1],&#8221;yes&#8221;)</div>
+<div id="LC83">if name[0]==&#8221;A&#8221;:</div>
+<div id="LC84">test_dns(name[1],name[0],&#8221;yes&#8221;)</div>
+<div id="LC85">f.close()</div>
+</blockquote>
+<div></div>
+<p>And the the file with you file names.</p>
+<blockquote>
+<div id="LC1">A www.elino.se</div>
+<div id="LC2">A matte.elino.se</div>
+<div id="LC3">CNAME www.elino.se</div>
+</blockquote>
+<div></div>
+<p>Done now you can verify you domians before changing dns server.</p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&text=DNS%20Verify%20new%20ns%20servers" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&title=DNS%20Verify%20new%20ns%20servers" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&is_video=false&description=DNS%20Verify%20new%20ns%20servers" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=DNS%20Verify%20new%20ns%20servers&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&title=DNS%20Verify%20new%20ns%20servers" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&title=DNS%20Verify%20new%20ns%20servers" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&name=DNS%20Verify%20new%20ns%20servers&description=The%20dns%20tester%20scripot%20lets%20you%20check%20so%20that%20you%20dns%20name%20are%20correct%20checking%20first%20used%20names%20today%20and%20then%20verify%20the%20names%20with%20you%20new%20DNS%20server.%0aYou%20will%20need%20an%20file%20of%20you%20doman%20names%20first%20to%20run%20in%20the%20script.%0a%26nbsp%3b%0a%23%21%2fusr%2fbin%2fenv%20python%20import%20socket%20import%20dns.resolver%20%23v%3d%26%238221%3byes%26%238221%3b%20g_dns%3d%26%238221%3b88.80.170.189%26%238243%3b%20o_dns%3d%26%238221%3b81.201.209.55%26%238243%3b%20def%20test_dns%28name%2ctyp%2cv%29%3a%20print%20%26%238220%3b%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%26%238221%3b%20try%3a%20answers%20%3d%20dns.resolver.query%28name%2ctyp%20%29%20for%20rdata%20in%20answers%3a%20if%20v%20%3d%3d%26%238221%3byes%26%238221%3b%3a%20print%20%26%238220%3bYour%20DNS%20%3d%20%26%238221%3b%20%2b%20str%28rdata%29%20except%20dns." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fdns-new-ns-servers%2f&t=DNS%20Verify%20new%20ns%20servers" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

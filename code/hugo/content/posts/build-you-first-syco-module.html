@@ -1,0 +1,97 @@
+---
+title: Build you first syco Module
+date: 2014-02-18 22:12:56
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Security
+    
+     
+---
+<p>SO from the last post you can install syco but you also need to build and update your own plugins in syco.<br />
+Here is a small guide how to build you first plugin.</p>
+<p>Here om building some syco commands for controlling apache and glassfish server.<br />
+the commands are run from our syco-chuck release commands center so for adding them to syco i can controll the script from sudo and do some extra test before starting and stopping the service.</p>
+<p>&nbsp;</p>
+<p>In syco/bin/public create I new file called  sycochuck.py</p>
+<p>Add some basic python rules</p>
+<pre>#!/usr/bin/env python
+'''
+Sycp chuck commands to be translated to service commands.
+The commands are then matched to syco-chuck release system.
+'''
+
+__author__ = "matte@elino.se"
+__copyright__ = "Copyright 2014, The System Console project"
+__maintainer__ = "Daniel Lindh"
+__email__ = "syco@cybercow.se"
+__credits__ = ["Mattias Hemmingsson"]
+__license__ = "???"
+__version__ = "1.0.0"
+__status__ = "Production"
+
+from general import x</pre>
+<p>So now lets start making some functions</p>
+<pre>def build_commands(commands):
+ commands.add("httpd-stop", httpd_stop, help="Stopping the apache webbserver.")</pre>
+<p>This will be our build commands http-stop is the command we will call from syco.<br />
+And httpd_stop is the function is this file that we want to run when we call the syco command. So lets make the function that we want to run.</p>
+<pre>def httpd_stop(args):
+ '''
+ Stopping the apache webbserver
+ '''
+ x("service httpd stop")</pre>
+<p>And now we have all the things we need and your first syco function is done</p>
+<p>Run syco</p>
+<pre>[root@localhost ~]# syco</pre>
+<p>In the list now this show up</p>
+<pre>hardening-ssh - Hardening SSH server and client. 
+httpd-stop - stopping httpd server. 
+httpd-toggle-mod-sec - Turn mod security on or off.</pre>
+<p>and if we run</p>
+<pre>[root@localhost ~]# syco httpd-stop
+ System Console 0.3.0
+ Command: service httpd restart
+ Error: httpd: okänd tjänst
+[root@localhost ~]#</pre>
+<p>As you can se we run my small funtion and the x command is i common function that run the command in bash.<br />
+Now in this server i did not have httpd server installed but you see how it works.</p>
+<p>Now fork and start making you own scripts</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

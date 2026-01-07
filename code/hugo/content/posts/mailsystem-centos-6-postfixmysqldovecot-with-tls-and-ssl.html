@@ -1,0 +1,225 @@
+---
+title: Mailsystem Centos 6 (Postfix,Mysql,Dovecot) with TLS and SSL
+date: 2013-12-25 22:28:37
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>So for my virtual machines I have set up an mail system with Postfix that will look up users and domain in a Mysql server. Then store the emails in one mailbox.<br />
+For users to get there mail it uses Dovecot IMAP and Squrrelmail for displaying email.</p>
+<p>This setup can be deployed all on one machine as I do. Or If you have allot of mail u can use cluster function for postfix. And use an replicated mysql (Postfic only need read mysql).<br />
+And then store the email on disk with GlusterFs or similar.<br />
+Then you email solutions can grove BIG</p>
+<p>All communcations is proteced with SSL and TLS.</p>
+<p>I have split the guiden so its easy to follow. First out is setting up Postfix. Then we move along with the setup.</p>
+<p>&nbsp;</p>
+<h1>Postfix</h1>
+<p>Install Packges</p>
+<pre>yum install postfix mysql-server mysql httpd php php-mysql dovecot</pre>
+<p>Adding email user Its under this user all email will be saved</p>
+<pre>sudo groupadd -g 5000 vmail
+sudo useradd -m -g vmail -u 5000 -d /home/vmail -s /bin/bash vmail</pre>
+<p>&nbsp;</p>
+<h2>Setting up Mysql for postfix and postfix admin</h2>
+<pre>create database mail;
+ <code>CREATE USER 'postfix'@'localhost' IDENTIFIED BY 'some_pass';
+ </code><code>CREATE USER 'postfixadmin'@'localhost' IDENTIFIED BY 'some_pass';
+ GRANT ALL PRIVILEGES ON mail.* TO 'postfixadmin'@'localhost';
+</code><code> GRANT SELECT ON mail.* TO 'postfix'@'localhost';</code><strong><code>
+ </code></strong></pre>
+<h2>Install and setup PostfixAdmin</h2>
+<p>Postfix admin will create all your tables and help you admin your email server.</p>
+<p>Download and unpack <a href="http://sourceforge.net/projects/postfixadmin/">http://sourceforge.net/projects/postfixadmin/</a> into /var/www/html or in other folder that you can enter.</p>
+<p>Open the file config.inc.php And change the following</p>
+<pre>$CONF['configured'] = true;
+$CONF['setup_password'] = 'mypass';
+$CONF['database_host'] = 'localhost';
+$CONF['database_user'] = 'postfixadmin';
+$CONF['database_password'] = 'some_pass';
+$CONF['database_name'] = 'mail';</pre>
+<p>Postadmin will now create all the tables that you need for postfix. and create an admin user for you to use and admin the mail system.<br />
+Add the password and login to postfixadmin to create you first domain and user.</p>
+<h2>Setup Postfix to use the mysql server</h2>
+<p>First we create some files that contains the config. then we sett postfix to use the config maps. No we can use the postfix mysql user that only has read access to the database.<br />
+Create the files in /etc/postfixe</p>
+<p>File <strong>mysql_relay_domains_maps.cf</strong></p>
+<pre>user = postfix
+password = some:pass
+hosts = 127.0.0.1
+dbname = mail
+table = domain
+select_field = domain
+where_field = domain
+additional_conditions = and backupmx = '1'</pre>
+<p>&nbsp;</p>
+<p>File <strong>mysql_virtual_alias_maps.cf</strong></p>
+<pre>user = postfix
+password = some_pass
+hosts = 127.0.0.1
+dbname = mail
+table = alias
+select_field = goto
+where_field = address</pre>
+<p>File <strong>mysql_virtual_domains_maps.cf</strong></p>
+<pre>user = postfix
+password = some_pass
+hosts = 127.0.0.1
+dbname = mail
+table = domain
+select_field = domain
+where_field = domain
+#additional_conditions = and backupmx = '0' and active = '1'</pre>
+<p>File <strong>mysql_virtual_mailbox_limit_maps.cf</strong></p>
+<pre>user = postfix
+password = postfix21213
+hosts = 127.0.0.1
+dbname = virtual_mail
+table = mailbox
+select_field = quota
+where_field = username
+#additional_conditions = and active = '1'</pre>
+<p>File <strong>mysql_virtual_mailbox_maps.cf</strong></p>
+<pre>user = postfix
+password = some_pass
+hosts = 127.0.0.1
+dbname = mail
+table = mailbox
+select_field = maildir
+where_field = username
+#additional_conditions = and active = '1'</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Setting up Postfix for SASL / SSL and Mysql</h2>
+<p>First Create some SSL certs for postfix remember where the certs are stored. I use 2048 size of keys.</p>
+<pre>yum install crypto-utils
+genkey --days 365 mail.example.com</pre>
+<p>&nbsp;</p>
+<p>This is my config for my hole postfix. It includes both SASL and ssl for postfix. And the settings for postfix to mysql.</p>
+<p>&nbsp;</p>
+<pre>queue_directory = /var/spool/postfix
+command_directory = /usr/sbin
+daemon_directory = /usr/libexec/postfix
+data_directory = /var/lib/postfix
+mail_owner = postfix
+myhostname = us1.northamlin.com
+mydomain = northamlin.com
+myorigin = $myhostname
+inet_interfaces = all
+inet_protocols = all
+unknown_local_recipient_reject_code = 550
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+
+debug_peer_level = 2
+debugger_command =
+ PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin
+ ddd $daemon_directory/$process_name $process_id &amp; sleep 5
+sendmail_path = /usr/sbin/sendmail.postfix
+newaliases_path = /usr/bin/newaliases.postfix
+mailq_path = /usr/bin/mailq.postfix
+setgid_group = postdrop
+html_directory = no
+manpage_directory = /usr/share/man
+sample_directory = /usr/share/doc/postfix-2.6.6/samples
+readme_directory = /usr/share/doc/postfix-2.6.6/README_FILES
+virtual_alias_maps = mysql:/etc/postfix/mysql_virtual_alias_maps.cf
+virtual_mailbox_domains = mysql:/etc/postfix/mysql_virtual_domains_maps.cf
+virtual_mailbox_maps = mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf
+virtual_mailbox_limit = 51200000
+virtual_minimum_uid = 5000
+virtual_uid_maps = static:5000
+virtual_gid_maps = static:5000
+virtual_mailbox_base = /home/vmail
+virtual_transport = virtual
+virtual_create_maildirsize = yes
+virtual_mailbox_extended = yes
+virtual_mailbox_limit_maps = mysql:/etc/postfix/mysql_virtual_mailbox_limit_maps.cf
+virtual_mailbox_limit_override = yes
+virtual_maildir_limit_message = Sorry, the your maildir has overdrawn your diskspace quota, please free up some of spaces of your mailbox try again.
+virtual_overquota_bounce = yes
+smtpd_recipient_restrictions=permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination
+smtpd_sasl_auth_enable = yes
+broken_sasl_auth_clients = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_security_options = noanonymous
+smtpd_tls_auth_only = yes
+smtpd_tls_security_level = may
+smtp_tls_note_starttls_offer = yes
+smtpd_tls_key_file = /etc/ssl/private/smtpd.key
+smtpd_tls_cert_file = /etc/ssl/certs/smtpd.crt
+smtpd_tls_CAfile = /etc/ssl/certs/cacert.pem
+smtpd_tls_loglevel = 1
+smtpd_tls_received_header = yes
+smtpd_tls_session_cache_timeout = 3600s
+tls_random_source = dev:/dev/urandom
+smtpd_tls_session_cache_database = btree:/var/spool/postfix/smtpd_tls_cache</pre>
+<p>Verify that the SSL KEY has the correct link so it matches your config.</p>
+<p><strong>Test by running</strong></p>
+<pre>$ telnet localhost 25
+Trying 127.0.0.1...
+Connected to localhost.localdomain (127.0.0.1).
+Escape character is '^]'.
+220 mail.example.com ESMTP Postfix
+EHLO example.com
+250-mail.example.com
+250-PIPELINING
+250-SIZE 20480000
+250-VRFY
+250-ETRN
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250 DSN
+quit</pre>
+<p>Test to send an email into a user. Ido en telnet into port 25 then run the command.<br />
+As you see I first test some emails before a go for one i have in the mysql</p>
+<pre>telnet www.elinodrift.se 25
+Connected to www.elinodrift.se.
+Escape character is '^]'.
+220 us1.elino.se ESMTP Postfix
+helo test.elino.se
+250 us1.elino.se
+mail from:matte@elino.se
+250 2.1.0 Ok
+rcpt to:matte@hotmail.com
+554 5.7.1 &lt;matte@hotmail.com&gt;: Relay access denied
+rcpt to:error@elinodrift.se
+550 5.1.1 &lt;error@elinodrift.se&gt;: Recipient address rejected: User unknown in virtual mailbox table
+rcpt to:matte@elinodrift.se
+250 2.1.5 Ok
+data
+354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;
+hejsan
+.
+250 2.0.0 Ok: queued as 9F9D4141082
+wuit
+502 5.5.2 Error: command not recognized
+quit
+221 2.0.0 Bye</pre>
+<pre></pre>
+<p>Then the logs on the server looks like</p>
+<pre>Dec 24 03:12:23 us1 postfix/smtpd[1854]: connect from 37-46-182-158.customers.ownit.se[37.46.182.158]
+Dec 24 03:12:44 us1 postfix/smtpd[1854]: NOQUEUE: reject: RCPT from 37-46-182-158.customers.ownit.se[37.46.182.158]: 554 5.7.1 &lt;matte@hotmail.com&gt;: Relay access denied; from=&lt;matte@elino.se&gt; to=&lt;matte@hotmail.com&gt; proto=SMTP helo=&lt;test.elino.se&gt;
+Dec 24 03:13:01 us1 postfix/smtpd[1854]: NOQUEUE: reject: RCPT from 37-46-182-158.customers.ownit.se[37.46.182.158]: 550 5.1.1 &lt;error@elinodrift.se&gt;: Recipient address rejected: User unknown in virtual mailbox table; from=&lt;matte@elino.se&gt; to=&lt;error@elinodrift.se&gt; proto=SMTP helo=&lt;test.elino.se&gt;
+Dec 24 03:13:13 us1 postfix/smtpd[1854]: 9F9D4141082: client=37-46-182-158.customers.ownit.se[37.46.182.158]
+Dec 24 03:13:18 us1 postfix/cleanup[1877]: 9F9D4141082: message-id=&lt;&gt;
+Dec 24 03:13:18 us1 postfix/qmgr[1851]: 9F9D4141082: from=&lt;matte@elino.se&gt;, size=211, nrcpt=1 (queue active)
+Dec 24 03:13:18 us1 postfix/virtual[1879]: 9F9D4141082: to=&lt;matte@elinodrift.se&gt;, relay=virtual, delay=42, delays=42/0.01/0/0, dsn=2.0.0, status=sent <strong>(delivered to maildir)</strong></pre>
+<pre>ls -l /home/vmail/
+totalt 4
+drwx------ 5 vmail vmail 4096 23 dec 16.24 matte@elinodrift.se</pre>
+<pre><span style="color: #222222; font-family: 'Courier 10 Pitch', Courier, monospace; line-height: 21px;"> </span></pre>
+<h2>All Looks GOOD 🙂</h2>

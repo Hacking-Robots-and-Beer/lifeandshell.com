@@ -1,0 +1,147 @@
+---
+title: ejabber users from postfixadmin (python,mysql,md5crypt)
+date: 2014-01-10 21:28:51
+tags:
+    
+    - Code
+    
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+---
+<p>So Im running my emails with postfix and have postfix admin to manager my users and domains. But now it should be nice to have i jabber server running and to have the same user and password for both email and jabber.</p>
+<p>Ejabber support custom auth plugins and with some python i now have a working plugin.</p>
+<p>&nbsp;</p>
+<h2>First install python packages</h2>
+<pre>yum install MySQL-python
+yum install python-passlib</pre>
+<p>&nbsp;</p>
+<p>Add this script to you ejabber folder</p>
+<pre>#!/usr/bin/python</pre>
+<pre>import os 
+import datetime
+import sys, logging, struct, hashlib, MySQLdb
+from passlib.hash import *
+from passlib.hash import md5_crypt
+from struct import *</pre>
+<pre>########################################################################
+#DB Settings
+#Just put your settings here.
+########################################################################
+db_name="mail"
+db_user="root"
+db_pass="password"
+db_host="localhost"
+db_table="mailbox"
+db_username_field="username"
+db_password_field="password"</pre>
+<pre>try:
+ database=MySQLdb.connect(db_host, db_user, db_pass, db_name)
+except:
+ logging.debug("Unable to initialize database, check settings!")
+dbcur=database.cursor()</pre>
+<pre>def log(string):
+ with open('/var/log/ejabberd/sso-auth.log', 'a') as f:
+ f.write(str(datetime.datetime.now()) + ': ' + string + '\n')</pre>
+<pre>def from_ejabberd():
+ input_length = sys.stdin.read(2)
+ (size,) = unpack('&gt;h', input_length)
+ input = sys.stdin.read(size)
+ return input.split(':')</pre>
+<pre>def to_ejabberd(bool):
+ answer = 0
+ if bool:
+ answer = 1
+ token = pack('&gt;hh', 2, answer)
+ log('writing token ' + str(token) + ' to stdout')
+ sys.stdout.write(token)
+ sys.stdout.flush()</pre>
+<pre>def auth(username, server, password):
+ log('doing auth:' + username + ':' + server + ':' + "********")
+ dbcur.execute("SELECT %s,%s FROM %s WHERE %s ='%s@%s'"%(db_username_field,db_password_field , db_table, db_username_field, username,server))
+ data=dbcur.fetchone()
+ out=False #defaut to O preventing mistake
+ if data==None:
+ out=False
+ #logging.debug("Wrong username: %s"%(in_user))
+ if username+"@"+server==data[0]:
+ if md5_crypt.verify(password, data[1]):
+ log("Inlogged")
+ out=True
+ else:
+ log("Wrong password for user: %s"%(in_user))
+ out=False
+ else:
+ log("Sending false from auth")
+ out=False
+ return out</pre>
+<pre>def isuser(username, server):
+ dbcur.execute("SELECT %s,%s FROM %s WHERE %s ='%s@%s'"%(db_username_field,db_password_field , db_table, db_username_field, username,server))
+ data=dbcur.fetchone() 
+ out=False #defaut to O preventing mistake
+ if data==None:
+ out=False
+ log("Wrong username: %s"%(in_user))
+ if username+"@"+server==data[0]:
+ log("Is user")
+ out=True
+ return out</pre>
+<pre>def setpass(username, server, password):
+ return False</pre>
+<pre>while True:
+ data = from_ejabberd()
+ success = False
+ if data[0] == "auth":
+ success = auth(data[1], data[2], data[3])
+ elif data[0] == "isuser":
+ success = isuser(data[1], data[2])
+ elif data[0] == "setpass":
+ success = setpass(data[1], data[2], data[3])
+ to_ejabberd(success)</pre>
+<p>&nbsp;</p>
+<p>Make your script user ejabberd user and group and execute</p>
+<pre>chown ejabberd:ejabberd /etc/ejabberd/auth/check_mysql_python.py
+chmod 775 /etc/ejabberd/auth/check_mysql_python.py</pre>
+<p>And at last the following to ejbber to use the script</p>
+<pre>{auth_method, external}.
+{extauth_program, "/etc/ejabberd/auth/check_mysql_python.py"}.</pre>
+<p>Links and readmore</p>
+<p><a href="http://pythonhosted.org/passlib/lib/passlib.hash.md5_crypt.html">http://pythonhosted.org/passlib/lib/passlib.hash.md5_crypt.html</a></p>
+<p><a href="http://stackoverflow.com/questions/4070601/use-python-to-create-compatible-ldap-password-md5crypt-on-windows">http://stackoverflow.com/questions/4070601/use-python-to-create-compatible-ldap-password-md5crypt-on-windows</a></p>
+<p><a href="http://www.ejabberd.im/check_mysql_python">http://www.ejabberd.im/check_mysql_python</a></p>
+<p><a href="http://www.ejabberd.im/extauth">http://www.ejabberd.im/extauth</a></p>

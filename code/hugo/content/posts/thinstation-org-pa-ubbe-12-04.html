@@ -1,0 +1,112 @@
+---
+title: Thinstation.org på Ubbe 12.04
+date: 2012-03-13 09:26:00
+tags:
+    
+    - Random
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Random
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Random
+    
+    
+    - Security
+    
+     
+---
+<p>Thinstation är en grym palltfrom för att bota tunna klienter mopt en server.<br />
+Den klarar tror fan alla olika protokoll vilket gör att det är underbar att ha som bas.<br />
+Jag ska sätta upp den för att boota mot en nx server som finns på en ubuntu desktop.</p>
+<p>Men man kan lika lätt sätt upp den mot att köra bara en firefix eller chrome webbläsare.<br />
+Eller att bara boota up den mot en windows eller ssh.<br />
+Den kan även köra vpn mellan den tunna klientern och server om man vill köra den över olika nät.</p>
+<p>Med en conigfil så kan du också lätt ställa in precis som du vill.</p>
+<p><strong>Steg 1 </strong><br />
+Installera thinstaion på din dator.</p>
+<p>Ladda ner thinstation på din server jag la den i /opt katalogen</p>
+<p>http://thinstation.org/</p>
+<p>Jag körde version 5 nu då den är senast nu.</p>
+<p>Packa upp filen som är tarad.</p>
+<pre>
+tar xvf thinstaion filnamnet
+</pre>
+<p>Nu kommer den att packa upp allt och du får ett script som heter</p>
+<p>setup-chroot</p>
+<p>ta och kör det scriptet så sätter den upp allt åt dig.</p>
+<pre>
+./setup-chroot
+</pre>
+<p>Vad den gör är att den lägger alla saker på rätt plats och sedan så komemr du komma in i en chrootad miljö.<br />
+Väll inne i den är det daxs att ställa in vilka moduler du vill ha med i din build.</p>
+<p>Gå in i katalogen ts/5.0  i den chrootade miljön.<br />
+Där har du en fil som heter build.conf och som är symlänkande till build.conf.example.<br />
+Jag kopera filen build.conf.ecample till min egna build.conf.elino sedan så länka jag om build.conf så den pekar på min egna fil build.conf.elino.</p>
+<p>Nu så öppna jag min fil build.conf.elino och där markerar jag fram de moduler jag vill ha.<br />
+Här kan du ta fram de hårdvaru saker du vill ha och sedan att du väljer nx modulen som jag valde.</p>
+<p>När du är klar kör du programet </p>
+<pre>
+./build
+</pre>
+<p>Och nu kommer den att bygga ihop de saker som du har valt.<br />
+Och sedan så har vi thinstation färdig byggd.</p>
+<p>Och det är daxs att få några klintern att boota mot den.</p>
+<p><strong>2. Installera tftp server för att boota klienter mot den</strong> </p>
+<p>För att vi ska kunna boota klienter mot den behöver vi dra in en tftp server som kan skicka boota builden vi gjort till klienterna.</p>
+<p>Installera </p>
+<pre>
+sudo apt-get install xinetd tftpd tftp
+
+</pre>
+<p>Skapa filen /etc/xinetd.d/tftp och lägg följande i den</p>
+<pre>
+service tftp
+{
+protocol        = udp
+port            = 69
+socket_type     = dgram
+wait            = yes
+user            = nobody
+server          = /usr/sbin/in.tftpd
+server_args     = /tftpboot
+disable         = no
+}
+</pre>
+<p>Skapa katalogen som ska hålla allt vi ska symlänka  den till thinstation<br />
+På så sätt får vi in pxe sakerna från våran thinstation men om vi updaterar och bygger om den kommer den fortsätta fungera.</p>
+<pre>
+ln -s /opt/ts/5.0/boot-images/pxe/ tftpboot
+</pre>
+<p>Ta nu att starta om tjänsen så är vi på banan</p>
+<pre>
+service xinetd restart
+</pre>
+<p>ok nu ska vi ta och gå vidare till steg 3 få lite klienter att boota mot oss :-</p>
+<p><strong>3. Sätta upp en dhcpd server att boota mot oss</strong> </p>
+<p>installera en vanlig dhcpd server på ubuntu lägg sedan till en rad i din dhcpd conf.<br />
+Som tar ut vissa datorer på mac addrsen och skickar dom till din thinstation.<br />
+Såklart måste du ändra denna så att den passar in i den egna dhcp inställningar</p>
+<pre>
+ group {
+              next-server 192.168.0.15;
+              filename "/pxelinux.0";
+               
+                host barbar1 {             
+                      hardware ethernet 00:02:A5:B4:82:82;
+                      fixed-address 192.168.0.236;
+                }
+            }    
+
+</pre>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

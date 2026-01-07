@@ -1,0 +1,66 @@
+---
+title: Private GIT server on centos 6
+date: 2013-10-15 14:40:50
+tags:
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+---
+<p>So i need to have an private git server. The plan is to fill the git server with my backups so I can see changes done to my git server.</p>
+<p>&nbsp;</p>
+<h2>Set up the local GIT server</h2>
+<p>Users</p>
+<pre>adduser git
+passwd git</pre>
+<p>Become the git user and go to home folder</p>
+<pre>su git
+cd  ~</pre>
+<p>Create the repo</p>
+<pre>mkdir myrepo.git
+cd myrepo.git/
+git --bare init</pre>
+<p>So now the repo is done lets connect to it and start using it.<br />
+As another user i use root</p>
+<h2>make some ssh keys and add them to the git user</h2>
+<pre>ssh-keygen -t rsa
+ssh-copy-id git@localhost</pre>
+<h2>Start using git</h2>
+<pre>git clone git@localhost:myrepo.git
+cd myrepo/
+touch README
+git add .
+git commit -m "first"
+git config --global user.name "Mattias Hemmingsson"
+git config --global user.email matte@aaaelino.se
+git push origin master</pre>
+<p>Happy GIT !</p>
+<p>&nbsp;</p>

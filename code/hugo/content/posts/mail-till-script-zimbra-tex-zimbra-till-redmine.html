@@ -1,0 +1,71 @@
+---
+title: mail till script Zimbra tex zimbra till redmine
+date: 2012-03-12 16:20:58
+tags:
+    
+    - Random
+    
+    
+    - Security
+    
+    
+    - Uncategorized
+    
+     
+categories:
+    
+    - Random
+    
+    
+    - Security
+    
+    
+    - Uncategorized
+    
+     
+keywords: 
+    
+    - Random
+    
+    
+    - Security
+    
+    
+    - Uncategorized
+    
+     
+---
+<p>Så Äntligen</p>
+<p>Efter en dags hårdargenade har jag äntligen hittat hur man gör för att köra ett script då man mailar till en använare i zimbra.<br />
+Jag använder det till så man kan maila till tex arenden@fareoffice.com så kommer det som ett ärende in till redmine.</p>
+<p>1. Fixa till din transport i zimbra.</p>
+<p>Öpna filen</p>
+<p>vi /opt/zimbra/postfix/conf/transport</p>
+<pre>
+######REDMINE adding
+
+arenden@fareoffice.com local:
+arenden@fareonline.net local:
+issues@fareoffice.com local:</pre>
+<p>Sedan så fixar vi till transport databasen</p>
+<p>postmap /opt/zimbra/postfix/conf/transport</p>
+<p>Och så säger vi till zimbra att använda våran transport fil</p>
+<p>zmlocalconfig -e postfix_transport_maps=ldap:/opt/zimbra/conf/ldap-transport.cf,hash:/opt/zimbra/postfix/conf/transport</p>
+<p>2. Nu ska vi fixa alias som vi kan använda</p>
+<p>öppna filen /etc/aliases och lägg till dina aliases där</p>
+<pre>###########REDMINE users
+
+arenden:"|/etc/fareoffice/rdm-mailhandler.rb --url https://redmine.fareoffice.com --key dsadsadsadsa  --project sysoparenden --unknown-user=accept --no-permission-check"
+
+pciarenden:"|/etc/fareoffice/rdm-mailhandler.rb --url https://redmine-nsg.fareoffice.com --key dsadsadsadsadsa  --project sysoparenden --unknown-user=accept --no-permission-check"
+
+issues:"|/etc/fareoffice/rdm-mailhandler.rb --url https://redmine.fareoffice.com --key dsadsadsasdaJ4  --project sysoparenden --unknown-user=accept --no-permission-check"</pre>
+<p>bygg om alias mappen med</p>
+<p>Gör det både som root och som zimbra användaren.</p>
+<p>newaliases -vvv</p>
+<p>&nbsp;</p>
+<p>För att det ska fungera måste du även skapa en ANVÄNDARE med mailaddresen du använder. Tex arenden@fareoffice.com</p>
+<p>&nbsp;</p>
+<p>Nu ska det vara klart om du vill använda så mail kommer till redmine installera SAMMA paket som till redmine. Och ladda sedan ner deras fil rdm.mailhandler.rb här ifrån.</p>
+<p>http://www.redmine.org/projects/redmine/wiki/RedmineReceivingEmails</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

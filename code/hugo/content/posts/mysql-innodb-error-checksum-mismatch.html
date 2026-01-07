@@ -1,0 +1,30 @@
+---
+title: Mysql InnoDB- Error- checksum mismatch
+date: 2013-12-23 12:25:18
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>So efter I had publish mw post i got some mysql error.<br />
+The checksum did was not correct. So for solving this i had to.</p>
+<p>&nbsp;</p>
+<p>Control the checksum ibdata is you innodb data file</p>
+<pre>innochecksum ibdata1 -d</pre>
+<p>So i have not all writen to database.<br />
+so lets write then with force</p>
+<pre>mysqld_safe  --innodb_force_recovery 4</pre>
+<p>Then when it done kill the mysql and restart it normaly and you data mysql should be up and running again.</p>
+<p>&nbsp;</p>
+<p>And now you data should be in sync and you mysql run again.</p>

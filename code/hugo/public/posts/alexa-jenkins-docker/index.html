@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Alexa and Jenkins (Docker) | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/alexa-jenkins-docker/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/alexa-jenkins-docker/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Alexa and Jenkins (Docker)">
+  <meta property="og:description" content="So I have an Alexa echo dot at home. Use it to control stuff but I wanted it to do more like release and deploy the stuff I build.
+This is how you can integrate Alexa voice service with Jenkins.
+First setup the server For receiving commands from Alexa and sending them to Jenkins we need a server and some code. First start with the server i use docker and a docker-compose to set it up.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2016-11-26T22:05:28+00:00">
+    <meta property="article:modified_time" content="2016-11-26T22:05:28+00:00">
+    <meta property="article:tag" content="Docker">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Python">
+    <meta property="article:tag" content="Web">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Alexa and Jenkins (Docker)">
+  <meta name="twitter:description" content="So I have an Alexa echo dot at home. Use it to control stuff but I wanted it to do more like release and deploy the stuff I build.
+This is how you can integrate Alexa voice service with Jenkins.
+First setup the server For receiving commands from Alexa and sending them to Jenkins we need a server and some code. First start with the server i use docker and a docker-compose to set it up.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/ddclient-loopia-docker/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/recover-sql-innodb-database/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&text=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&title=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&is_video=false&description=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Alexa%20and%20Jenkins%20%28Docker%29&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&title=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&title=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&name=Alexa%20and%20Jenkins%20%28Docker%29&description=So%20I%20have%20an%20Alexa%20echo%20dot%20at%20home.%20Use%20it%20to%20control%20stuff%20but%20I%20wanted%20it%20to%20do%20more%20like%20release%20and%20deploy%20the%20stuff%20I%20build.%0aThis%20is%20how%20you%20can%20integrate%20Alexa%20voice%20service%20with%20Jenkins.%0aFirst%20setup%20the%20server%20For%20receiving%c2%a0commands%20from%20Alexa%20and%20sending%20them%20to%20Jenkins%20we%20need%20a%20server%20and%20some%20code.%20First%20start%20with%20the%20server%20i%20use%20docker%20and%20a%20docker-compose%20to%20set%20it%20up." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&t=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Alexa and Jenkins (Docker)
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2016-11-26 22:05:28 &#43;0000 UTC" itemprop="datePublished">2016-11-26</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          2 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/docker">docker</a>
+            
+             ,  
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+             ,  
+            <a class="category-link" href="/categories/python">Python</a>
+            
+             ,  
+            <a class="category-link" href="/categories/web">Web</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/docker" rel="tag">docker</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/python" rel="tag">Python</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/web" rel="tag">Web</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>So I have an Alexa echo dot at home. Use it to control stuff but I wanted it to do more like release and deploy the stuff I build.<br />
+This is how you can integrate Alexa voice service with Jenkins.</p>
+<h3>First setup the server</h3>
+<p>For receiving commands from Alexa and sending them to Jenkins we need a server and some code. First start with the server i use docker and a docker-compose to set it up.</p>
+<p>&nbsp;</p>
+<p><strong>Dockerfile</strong></p>
+<p>&nbsp;</p>
+<pre>FROM ubuntu
+MAINTAINER "Mattias Hemmingsson" &lt;matte.hemmingsson@gmail.com&gt;
+RUN apt-get update &amp;&amp; apt-get install python-pip -y
+RUN apt-get update &amp;&amp; sudo apt-get install build-essential autoconf libtool pkg-config python-opengl python-imaging python-pyrex python-pyside.qtopengl idle-python2.7 qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus python-qt4 python-qt4-gl libgle3 python-dev -y
+RUN apt-get update &amp;&amp;  apt-get install libpq-dev python-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libffi-dev -y
+RUN pip install flask-ask python-jenkins
+
+
+WORKDIR /code
+CMD python app.py</pre>
+<p>&nbsp;</p>
+<p><strong>docker-compose.yml</strong></p>
+<pre>jenkins:
+ build: .
+ ports:
+ - 5000:5000
+ volumes:
+ - .:/code</pre>
+<p>&nbsp;</p>
+<p><strong>then some code in the app.py</strong></p>
+<p>&nbsp;</p>
+<pre>from flask import Flask, render_template
+from flask_ask import Ask, statement
+import jenkins
+app = Flask(__name__)
+ask = Ask(app, '/')
+
+@ask.intent('JenkinsIntent')
+def hello(app):
+ server = jenkins.Jenkins('http://jenkins:8080', username='admin', password='admin')
+ if str(app) == "rentalfront":
+ back = server.build_job('rentalfront')
+ print back
+ print "deploy rentalfront"
+ if str(app) == "farepaymnet":
+ print "Deploy farepaymnet"
+
+
+return statement("Deploying {0}".format(app))
+
+
+if __name__ == '__main__':
+ app.run(host='0.0.0.0',debug=True)</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>And you will change the setitng so it matches you jenkins and alos change so correct word like rentalfront matches what you want to build.<br />
+We are going to say &#8220;alexa tell jenkins to build rentalfront&#8221; and then we ere matches rentalfront aginst the app you want to build.</p>
+<p>&nbsp;</p>
+<p><strong>start it up with</strong></p>
+<p>&nbsp;</p>
+<pre>docker-compose build
+
+docker-compose up</pre>
+<p>&nbsp;</p>
+<p>Now we need alexa to connect to you local laptop and connect go to https://ngrok.com/ and download and start it against port 5000</p>
+<pre>./ngrok http 5000</pre>
+<p>You will see a https link remember it <strong>https://9242f0e6.ngrok.io</strong></p>
+<p>&nbsp;</p>
+<h3>Set up Alexa</h3>
+<p>Time for setting up Alexa go to <a href="https://developer.amazon.com">https://develtoper.amazon.com</a></p>
+<p>Setup a new skill and give it <strong>name jenkins</strong> (This is the calling name &#8220;alexa tell jenkins&#8221; ) and the in the interactions model add the following</p>
+<p>&nbsp;</p>
+<section class="UpdateApplicationFormRow section">
+<h4 class="input-title"><span class="ng-binding">Intent Schema</span></h4>
+</section>
+<pre>{
+ "intents": [
+ {
+ "intent": "JenkinsIntent",
+ "slots":[{
+ "name": "app",
+ "type": "Names"
+ } 
+ ]
+ }
+ ]</pre>
+<p>where names are a custom slot type with the values rentalfront <strong>ADD YOUR APPS HERE THAT YOU WANT TO CALL</strong></p>
+<h4 class="input-title"><span class="ng-binding">Sample Utterances</span></h4>
+<p>&nbsp;</p>
+<pre>JenkinsIntent deploy {app}</pre>
+<p>&nbsp;</p>
+<p><a href="http://lifeandshell.com/wp-content/uploads/2016/11/Skärmbild-från-2016-11-26-20-38-18.png"><img loading="lazy" decoding="async" class="alignnone size-full wp-image-468" src="http://lifeandshell.com/wp-content/uploads/2016/11/Skärmbild-från-2016-11-26-20-38-18.png" alt="skarmbild-fran-2016-11-26-20-38-18" width="1920" height="1080" /></a></p>
+<p>&nbsp;</p>
+<p>Go to configuration and att the https link from ngrok</p>
+<p>&nbsp;</p>
+<p><a href="http://lifeandshell.com/wp-content/uploads/2016/11/Skärmbild-från-2016-11-26-20-38-35.png"><img loading="lazy" decoding="async" class="alignnone size-full wp-image-469" src="http://lifeandshell.com/wp-content/uploads/2016/11/Skärmbild-från-2016-11-26-20-38-35.png" alt="skarmbild-fran-2016-11-26-20-38-35" width="1920" height="1080" /></a></p>
+<p><strong>And go to SSL and choose Wildcard cert</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>And now you should be ready to start using it. go to the test and test write deploy rentalfront to see the json going from Alexa to you app and when it works it time to test from you echo.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><iframe loading="lazy" title="Alexa and Jenkins" width="500" height="281" src="https://www.youtube.com/embed/XrbVb9wZKhE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&text=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&title=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&is_video=false&description=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Alexa%20and%20Jenkins%20%28Docker%29&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&title=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&title=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&name=Alexa%20and%20Jenkins%20%28Docker%29&description=So%20I%20have%20an%20Alexa%20echo%20dot%20at%20home.%20Use%20it%20to%20control%20stuff%20but%20I%20wanted%20it%20to%20do%20more%20like%20release%20and%20deploy%20the%20stuff%20I%20build.%0aThis%20is%20how%20you%20can%20integrate%20Alexa%20voice%20service%20with%20Jenkins.%0aFirst%20setup%20the%20server%20For%20receiving%c2%a0commands%20from%20Alexa%20and%20sending%20them%20to%20Jenkins%20we%20need%20a%20server%20and%20some%20code.%20First%20start%20with%20the%20server%20i%20use%20docker%20and%20a%20docker-compose%20to%20set%20it%20up." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2falexa-jenkins-docker%2f&t=Alexa%20and%20Jenkins%20%28Docker%29" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

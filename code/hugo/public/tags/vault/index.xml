@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vault on Life and Shell</title>
+    <link>https://lifeandshell.com/tags/vault/</link>
+    <description>Recent content in Vault on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Thu, 29 Oct 2020 09:17:42 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/tags/vault/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vault EKS / AWS to pod The complete guide</title>
+      <link>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</link>
+      <pubDate>Thu, 29 Oct 2020 09:17:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</guid>
+      <description>I have bean working some time with vault and to deploy it to our EKS cluster and then to get the secrets into our pods.&#xA;After many hours of searching i have found out that using kube-vault and vault-env. This gude uses tarraform to setup the resources you need in AWS.&#xA;Then deploy the kubevault with ui into to cluster that will use a s3 bucket and backend and autoseal it self during boot</description>
+    </item>
+  </channel>
+</rss>

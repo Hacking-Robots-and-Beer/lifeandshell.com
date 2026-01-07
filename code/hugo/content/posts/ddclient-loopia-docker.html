@@ -1,0 +1,41 @@
+---
+title: ddclient for loopia in Docker
+date: 2016-06-27 20:43:23
+tags:
+    
+    - docker
+    
+    
+    - Linux
+    
+     
+categories:
+    
+    - docker
+    
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - docker
+    
+    
+    - Linux
+    
+     
+---
+<p>So i uses loopia.se as my dns provider.<br />
+And a also have some dns for my home but it always change ip (have dynamic ip home )</p>
+<p>&nbsp;</p>
+<p>So for fixing this i build a docker images that updates my loopia server from the docker images.</p>
+<p>So i if you are using loopia i but this is the best way of updating you dns records</p>
+<p>&nbsp;</p>
+<p>Run with</p>
+<pre>docker run -e "login=example.com" -e "password=pass" -e "domain=www.example.cpm" -i -t mattiashem/ddclient-loopia</pre>
+<ul>
+<li>Where example.com is you login</li>
+<li>Pass is you password</li>
+<li>Domian is the dns record you want to update</li>
+</ul>

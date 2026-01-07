@@ -1,0 +1,517 @@
+---
+title: K8s Logs to Elastic with Dynamic ILM from annotations
+date: 2021-02-18 23:34:48
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+
+<p>#fluentd #fluent-bit #kubernetes #elasticsearch #ILM #logpain </p>
+
+
+
+<p>The time a spent fixing logs problems &#8230; From cleaning out logs that eats disk setting up log-rotate and now Elasticsearch &#8230;.. <br><br>I want a easy log system that setups a Elasticsearch ILM with different life time on the logs depending on a annotation that I set on the pod.<br>If no annotations well then I want the logs for 30 days. And then a can set different annotations and store logs for 90 days, send to s3 ore what ever comes up.(splunk? redshift? kafka ?)<br><br>Fleunt-bit (read logs from pod) &#8211;(send to fluentd)&#8211;>fluentd(parses logs and send to diffrent output. And add Elasticsearch ILM) &#8212;> Elasticsearch</p>
+
+
+
+<h2 class="wp-block-heading">Getting logs from the pod fluentd-bit</h2>
+
+
+
+<p><br>So first things first lets get the logs from our pods in k8s. I use fluent-bit to collect my logs and a simple config.<br><br>Here is my two config that I use this will read the logs and send it to fluentd.<br>I dont do any parsing of logs here when fluent-bit runs as a demonset I cant scale it. But my fluentd runs as a deployment and that I can scale.<br>(If you want it really good then add a que here like rabbit but it over this post)</p>
+
+
+
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow">
+<p></p>
+
+
+
+<pre class="wp-block-code"><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+name: fluentbit-config
+labels:
+app.kubernetes.io/name: fluentbit
+data:
+fluent-bit.conf: |
+&#91;SERVICE]
+Parsers_File /fluent-bit/parsers/parsers.conf
+Daemon Off
+Log_Level info
+
+&#91;INPUT]
+    Name              tail
+    Tag               kube.*
+    Path              /var/log/containers/*.log
+    DB                /var/lib/fluent-bit/flb_kube.db
+    Parser            docker
+    Docker_Mode       On
+    Mem_Buf_Limit     50MB
+    Skip_Long_Lines   Off
+    Refresh_Interval  10
+
+&#91;FILTER]
+    Name                kubernetes
+    Match               kube.*
+    Kube_URL            https://kubernetes.default.svc.cluster.local:443
+    Merge_Log           On
+    Merge_Log_Key       data
+    K8S-Logging.Parser  On
+    K8S-Logging.Exclude On
+
+&#91;OUTPUT]
+    Name  forward
+    Match * 
+    Host  fluentd.events.svc
+    Port  24224</code></pre>
+</div></div>
+
+
+
+<p></p>
+
+
+
+<pre class="wp-block-code"><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+name: parsers-conf
+labels:
+app.kubernetes.io/name: fluentbit
+data:
+parsers.conf: |
+&#91;PARSER]
+Name apache
+Format regex
+Regex ^(?&#91;^ ]) &#91;^ ] (?&#91;^ ]) &#91;(?&#91;^]])] "(?\S+)(?: +(?&#91;^\"]?)(?: +\S)?)?" (?&#91;^ ]) (?&#91;^ ])(?: "(?&#91;^\"])" "(?&#91;^\"])")?$
+Time_Key time
+Time_Format %d/%b/%Y:%H:%M:%S %z
+
+    &#91;PARSER]
+        Name   apache2
+        Format regex
+        Regex  ^(?&lt;host>&#91;^ ]*) &#91;^ ]* (?&lt;user>&#91;^ ]*) \&#91;(?&lt;time>&#91;^\]]*)\] "(?&lt;method>\S+)(?: +(?&lt;path>&#91;^ ]*) +\S*)?" (?&lt;code>&#91;^ ]*) (?&lt;size>&#91;^ ]*)(?: "(?&lt;referer>&#91;^\"]*)" "(?&lt;agent>.*)")?$
+        Time_Key time
+        Time_Format %d/%b/%Y:%H:%M:%S %z
+
+    &#91;PARSER]
+        Name   apache_error
+        Format regex
+        Regex  ^\&#91;&#91;^ ]* (?&lt;time>&#91;^\]]*)\] \&#91;(?&lt;level>&#91;^\]]*)\](?: \&#91;pid (?&lt;pid>&#91;^\]]*)\])?( \&#91;client (?&lt;client>&#91;^\]]*)\])? (?&lt;message>.*)$
+
+    &#91;PARSER]
+        Name   nginx
+        Format regex
+        Regex ^(?&lt;remote>&#91;^ ]*) (?&lt;host>&#91;^ ]*) (?&lt;user>&#91;^ ]*) \&#91;(?&lt;time>&#91;^\]]*)\] "(?&lt;method>\S+)(?: +(?&lt;path>&#91;^\"]*?)(?: +\S*)?)?" (?&lt;code>&#91;^ ]*) (?&lt;size>&#91;^ ]*)(?: "(?&lt;referer>&#91;^\"]*)" "(?&lt;agent>&#91;^\"]*)")
+        Time_Key time
+        Time_Format %d/%b/%Y:%H:%M:%S %z
+
+    &#91;PARSER]
+        # https://rubular.com/r/IhIbCAIs7ImOkc
+        Name        k8s-nginx-ingress
+        Format      regex
+        Regex       ^(?&lt;host>&#91;^ ]*) - (?&lt;user>&#91;^ ]*) \&#91;(?&lt;time>&#91;^\]]*)\] "(?&lt;method>\S+)(?: +(?&lt;path>&#91;^\"]*?)(?: +\S*)?)?" (?&lt;code>&#91;^ ]*) (?&lt;size>&#91;^ ]*) "(?&lt;referer>&#91;^\"]*)" "(?&lt;agent>&#91;^\"]*)" (?&lt;request_length>&#91;^ ]*) (?&lt;request_time>&#91;^ ]*) \&#91;(?&lt;proxy_upstream_name>&#91;^ ]*)\] (\&#91;(?&lt;proxy_alternative_upstream_name>&#91;^ ]*)\] )?(?&lt;upstream_addr>&#91;^ ]*) (?&lt;upstream_response_length>&#91;^ ]*) (?&lt;upstream_response_time>&#91;^ ]*) (?&lt;upstream_status>&#91;^ ]*) (?&lt;reg_id>&#91;^ ]*).*$
+        Time_Key    time
+        Time_Format %d/%b/%Y:%H:%M:%S %z
+
+    &#91;PARSER]
+        Name   json
+        Format json
+        Time_Key time
+        Time_Format %d/%b/%Y:%H:%M:%S %z
+
+    &#91;PARSER]
+        Name         docker
+        Format       json
+        Time_Key     time
+        Time_Format  %Y-%m-%dT%H:%M:%S.%L
+        Time_Keep    On
+        # --
+        # Since Fluent Bit v1.2, if you are parsing Docker logs and using
+        # the Kubernetes filter, it's not longer required to decode the
+        # 'log' key.
+        #
+        # Command      |  Decoder | Field | Optional Action
+        # =============|==================|=================
+        #Decode_Field_As    json     log
+
+    &#91;PARSER]
+        Name        docker-daemon
+        Format      regex
+        Regex       time="(?&lt;time>&#91;^ ]*)" level=(?&lt;level>&#91;^ ]*) msg="(?&lt;msg>&#91;^ ].*)"
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+        Time_Keep   On
+
+    &#91;PARSER]
+        Name        syslog-rfc5424
+        Format      regex
+        Regex       ^\&lt;(?&lt;pri>&#91;0-9]{1,5})\>1 (?&lt;time>&#91;^ ]+) (?&lt;host>&#91;^ ]+) (?&lt;ident>&#91;^ ]+) (?&lt;pid>&#91;-0-9]+) (?&lt;msgid>&#91;^ ]+) (?&lt;extradata>(\&#91;(.*)\]|-)) (?&lt;message>.+)$
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
+        Time_Keep   On
+
+    &#91;PARSER]
+        Name        syslog-rfc3164-local
+        Format      regex
+        Regex       ^\&lt;(?&lt;pri>&#91;0-9]+)\>(?&lt;time>&#91;^ ]* {1,2}&#91;^ ]* &#91;^ ]*) (?&lt;ident>&#91;a-zA-Z0-9_\/\.\-]*)(?:\&#91;(?&lt;pid>&#91;0-9]+)\])?(?:&#91;^\:]*\:)? *(?&lt;message>.*)$
+        Time_Key    time
+        Time_Format %b %d %H:%M:%S
+        Time_Keep   On
+
+    &#91;PARSER]
+        Name        syslog-rfc3164
+        Format      regex
+        Regex       /^\&lt;(?&lt;pri>&#91;0-9]+)\>(?&lt;time>&#91;^ ]* {1,2}&#91;^ ]* &#91;^ ]*) (?&lt;host>&#91;^ ]*) (?&lt;ident>&#91;a-zA-Z0-9_\/\.\-]*)(?:\&#91;(?&lt;pid>&#91;0-9]+)\])?(?:&#91;^\:]*\:)? *(?&lt;message>.*)$/
+        Time_Key    time
+        Time_Format %b %d %H:%M:%S
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+        Time_Keep   On
+
+    &#91;PARSER]
+        Name    mongodb
+        Format  regex
+        Regex   ^(?&lt;time>&#91;^ ]*)\s+(?&lt;severity>\w)\s+(?&lt;component>&#91;^ ]+)\s+\&#91;(?&lt;context>&#91;^\]]+)]\s+(?&lt;message>.*?) *(?&lt;ms>(\d+))?(:?ms)?$
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+        Time_Keep   On
+        Time_Key time
+
+    &#91;PARSER]
+        # https://rubular.com/r/3fVxCrE5iFiZim
+        Name    envoy
+        Format  regex
+        Regex ^\&#91;(?&lt;start_time>&#91;^\]]*)\] "(?&lt;method>\S+)(?: +(?&lt;path>&#91;^\"]*?)(?: +\S*)?)? (?&lt;protocol>\S+)" (?&lt;code>&#91;^ ]*) (?&lt;response_flags>&#91;^ ]*) (?&lt;bytes_received>&#91;^ ]*) (?&lt;bytes_sent>&#91;^ ]*) (?&lt;duration>&#91;^ ]*) (?&lt;x_envoy_upstream_service_time>&#91;^ ]*) "(?&lt;x_forwarded_for>&#91;^ ]*)" "(?&lt;user_agent>&#91;^\"]*)" "(?&lt;request_id>&#91;^\"]*)" "(?&lt;authority>&#91;^ ]*)" "(?&lt;upstream_host>&#91;^ ]*)"  
+        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
+        Time_Keep   On
+        Time_Key start_time
+
+    &#91;PARSER]
+        # http://rubular.com/r/tjUt3Awgg4
+        Name cri
+        Format regex
+        Regex ^(?&lt;time>&#91;^ ]+) (?&lt;stream>stdout|stderr) (?&lt;logtag>&#91;^ ]*) (?&lt;message>.*)$
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
+
+    &#91;PARSER]
+        Name    kube-custom
+        Format  regex
+        Regex   (?&lt;tag>&#91;^.]+)?\.?(?&lt;pod_name>&#91;a-z0-9](?:&#91;-a-z0-9]*&#91;a-z0-9])?(?:\.&#91;a-z0-9](&#91;-a-z0-9]*&#91;a-z0-9])?)*)_(?&lt;namespace_name>&#91;^_]+)_(?&lt;container_name>.+)-(?&lt;docker_id>&#91;a-z0-9]{64})\.log$</code></pre>
+
+
+
+<p><br></p>
+
+
+
+<h2 class="wp-block-heading">Time for fluentd to do its thing and let stop wasting time fixing logs</h2>
+
+
+
+<p>First we need to build our fluentd so we have the gems we need. Here is the dockerfile a use.</p>
+
+
+
+<pre class="wp-block-code"><code>FROM fluent/fluentd:v1.12-debian-1<br>Use root account to use apt<br>USER root<br>below RUN includes plugin as examples elasticsearch is not required<br>you may customize including plugins as you wish<br>RUN buildDeps="sudo make gcc g++ libc-dev" \<br>&amp;&amp; apt-get update \<br>&amp;&amp; apt-get install -y --no-install-recommends $buildDeps \<br>&amp;&amp; sudo gem install fluent-plugin-elasticsearch \<br>&amp;&amp; sudo gem install fluent-plugin-multi-format-parser \<br>&amp;&amp; sudo gem install fluent-plugin-grok-parser \<br>&amp;&amp; sudo gem install fluent-plugin-rewrite-tag-filter \<br>&amp;&amp; sudo gem install fluent-plugin-prometheus \<br>&amp;&amp; sudo gem install fluent-plugin-dedot_filter \<br>&amp;&amp; sudo gem install elasticsearch-xpack \<br>&amp;&amp; sudo gem sources --clear-all \<br>&amp;&amp; SUDO_FORCE_REMOVE=yes \<br>apt-get purge -y --auto-remove \<br>-o APT::AutoRemove::RecommendsImportant=false \<br>$buildDeps \<br>&amp;&amp; rm -rf /var/lib/apt/lists/* \<br>&amp;&amp; rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/<em>/cache/</em>.gem<br>USER fluent</code></pre>
+
+
+
+<p>So now we have a woring fluent docker image that you can run and here is the fluentd-config that make it all happend.<br><br></p>
+
+
+
+<pre class="wp-block-code"><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: events
+data:
+  fluent.conf: |
+      # Forwarded from fluentd
+      &lt;system>
+      &lt;log>
+         format json
+         time_format %Y-%m-%d
+         level error
+      &lt;/log>
+      &lt;/system>
+    
+    
+      &lt;source>
+        @type forward
+        port 24224
+        bind 0.0.0.0
+        tag kube
+      &lt;/source>
+
+      &lt;filter kube.**>
+        @type             dedot
+        de_dot            true
+        de_dot_separator  _
+        de_dot_nested     true
+      &lt;/filter>
+
+      #Setup so that logs endup in there correct index based on namespace and container
+      #
+      # 
+      &lt;filter kube.**>
+        @type record_transformer
+        enable_ruby
+        &lt;record>
+          index_name ${record&#91;'kubernetes']&#91;'namespace_name'] or 'service' }.${record&#91;'kubernetes']&#91;'container_name'] or 'app'}
+        &lt;/record>
+        &lt;record>
+        index_name ${record&#91;'kubernetes']&#91;'namespace_name'] or 'service' }.${record&#91;'kubernetes']&#91;'container_name'] or 'app'}
+        &lt;/record>
+      &lt;/filter>
+
+      # How ling should e save the index 
+      # If the deployemt has a tag annotions kubernetes.annotations.logtime we can set how long we want to save a log 
+      &lt;filter kube.**>
+        @type record_transformer
+        enable_ruby
+        &lt;record>
+          logtime ${record&#91;'kubernetes']&#91;'annotations']&#91;'logtime'] or 'default' }
+        &lt;/record>
+      &lt;/filter>
+
+
+      &lt;filter fluentd.**>
+        @type record_transformer
+        enable_ruby
+        &lt;record>
+          index_name kube.events.fluentd
+        &lt;/record>
+        &lt;record>
+          logid kube.events.fluentd
+        &lt;/record>
+      &lt;/filter>
+
+      &lt;filter kube.**>
+        @type parser
+        key_name log
+        reserve_data true
+        reserve_time true
+        &lt;parse>
+          @type multi_format
+          &lt;pattern>
+            format json
+            time_key timestamp
+          &lt;/pattern>
+          &lt;pattern>
+            format syslog
+          &lt;/pattern>
+          &lt;pattern>
+            format nginx
+          &lt;/pattern>
+          &lt;pattern>
+            format apache
+          &lt;/pattern>
+          &lt;pattern>
+            format none
+          &lt;/pattern>
+        &lt;/parse>
+      &lt;/filter>
+
+
+      &lt;filter kube.**>
+        @type record_transformer
+        remove_keys message
+      &lt;/filter>
+
+
+      #Based in the ${record&#91;'kubernetes']&#91;'annotations']&#91;'logtime'] we set the tag.
+      #
+      # Then we can use diffrent output with diffrent policies
+      #
+      &lt;match kube.**>
+        @type rewrite_tag_filter
+        &lt;rule>
+            key logtime
+            pattern ^(.*)
+            tag $1.${tag}
+        &lt;/rule>
+        # more rules
+      &lt;/match>
+
+
+
+      # Send logs to elasticsearch
+        &lt;match default.kube.**>
+          @id elasticsearch
+          @type elasticsearch
+          @log_level info
+          include_tag_key true
+          host "#{ENV&#91;'ELASTICSEARCH_URL']}"
+          port 9200
+          default_elasticsearch_version 7
+          verify_es_version_at_startup true
+          suppress_type_name true
+          logstash_format true
+          logstash_prefix kube.${index_name}
+          #application_name ${index_name}
+          logstash_prefix_separator .
+          enable_ilm true
+          ilm_policy_id fluentd-logs
+          ilm_policy {"policy":{"phases":{"hot":{"min_age":"0ms","actions":{"rollover":{"max_age":"3d","max_size":"20gb"},"set_priority":{"priority":100}}},"warm":{"actions":{"allocate":{"include":{},"exclude":{},"require":{"data":"warm"}},"set_priority":{"priority":50}}},"delete":{"min_age":"90d","actions":{"delete":{}}}}}}
+          ilm_policy_overwrite false
+          log_es_400_reason true
+          # Disabled until https://github.com/uken/fluent-plugin-elasticsearch/issues/798 is fixed
+          # templates { "logs": "//cdn.lifeandshell.com/etc/fluent/config.d/logs-es-template.json", "formative-logs": "//cdn.lifeandshell.com/etc/fluent/config.d/formative-es-template.json", "webclient-logs": "//cdn.lifeandshell.com/etc/fluent/config.d/webclient-es-template.json" }
+          template_overwrite true
+          template_name logs
+          template_file "//cdn.lifeandshell.com/fluentd/index/elastic.json"
+         &lt;buffer tag,time,index_name,logtime>
+            @type memory
+            timekey 60
+            total_limit_size 128M
+            chunk_limit_size 32M
+            overflow_action block
+            chunk_full_threshold 0.9
+            compress gzip       # text,gzip
+            flush_mode interval
+            flush_interval 10s
+            flush_at_shutdown true
+            flush_thread_count 4
+          &lt;/buffer>
+
+       &lt;/match>
+
+
+      # Send logs to elasticsearch
+        &lt;match 90days.kube.**>
+          @id elasticsearch
+          @type elasticsearch
+          @log_level info
+          include_tag_key true
+          host "#{ENV&#91;'ELASTICSEARCH_URL']}"
+          port 9200
+          default_elasticsearch_version 7
+          verify_es_version_at_startup true
+          suppress_type_name true
+          logstash_format true
+          logstash_prefix kube.${index_name}
+          #application_name ${index_name}
+          logstash_prefix_separator .
+          enable_ilm true
+          ilm_policy_id fluentd-logs-90days
+          ilm_policy {"policy":{"phases":{"hot":{"min_age":"0ms","actions":{"rollover":{"max_age":"3d","max_size":"20gb"},"set_priority":{"priority":100}}},"warm":{"actions":{"allocate":{"include":{},"exclude":{},"require":{"data":"warm"}},"set_priority":{"priority":50}}},"delete":{"min_age":"90d","actions":{"delete":{}}}}}}
+          ilm_policy_overwrite false
+          log_es_400_reason true
+          # Disabled until https://github.com/uken/fluent-plugin-elasticsearch/issues/798 is fixed
+          # templates { "logs": "//cdn.lifeandshell.com/etc/fluent/config.d/logs-es-template.json", "formative-logs": "//cdn.lifeandshell.com/etc/fluent/config.d/formative-es-template.json", "webclient-logs": "//cdn.lifeandshell.com/etc/fluent/config.d/webclient-es-template.json" }
+          template_overwrite true
+          template_name logs
+          template_file "//cdn.lifeandshell.com/fluentd/index/elastic.json"
+         &lt;buffer tag,time,index_name,logtime>
+            @type memory
+            timekey 60
+            total_limit_size 128M
+            chunk_limit_size 32M
+            overflow_action block
+            chunk_full_threshold 0.9
+            compress gzip       # text,gzip
+            flush_mode interval
+            flush_interval 10s
+            flush_at_shutdown true
+            flush_thread_count 4
+          &lt;/buffer>
+
+       &lt;/match>
+
+
+      # expose metrics in prometheus format
+      &lt;source>
+        @type prometheus
+        bind 0.0.0.0
+        port 24231
+        metrics_path /metrics
+      &lt;/source>
+      &lt;source>
+        @type prometheus_output_monitor
+        interval 10
+        &lt;labels>
+          fluentd shipper
+        &lt;/labels>
+      &lt;/source></code></pre>
+
+
+
+<p>Now you can look for index in elastic starting with <br><br><strong>kube.namespace.podname</strong></p>
+
+
+
+<p>And you can also look for index ILM and patter for the index.<br></p>
+
+
+
+<h2 class="wp-block-heading">Setup new endpoints easy with annotations </h2>
+
+
+
+<p>And if you want to change the log standard for the logs you can in your deploy a the annotations</p>
+
+
+
+<p> </p>
+
+
+
+<pre class="wp-block-code"><code>  annotations:
+    logtime: 90days</code></pre>
+
+
+
+<p>You can then add new values to the annotaions and send the logs to diffrent buckets</p>
+
+
+
+<pre class="wp-block-code"><code>&lt;match 90days.kube.**></code></pre>
+
+
+
+<p></p>
+
+
+
+<p>You can also do </p>
+
+
+
+<pre class="wp-block-code"><code>annotations:
+    logtime: default
+
+annotations:
+    logtime: default.s3
+
+annotations:
+    logtime: default.90days
+</code></pre>
+
+
+
+<p>And then have matching rules </p>
+
+
+
+<pre class="wp-block-code"><code>&lt;match default.**>
+Take all logs
+
+&lt;match default.s3.**>
+Take only the s3
+
+&lt;match default.90days.**>
+Take on the 90days </code></pre>

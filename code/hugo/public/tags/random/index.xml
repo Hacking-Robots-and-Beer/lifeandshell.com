@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Random on Life and Shell</title>
+    <link>https://lifeandshell.com/tags/random/</link>
+    <description>Recent content in Random on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Thu, 15 Aug 2013 15:02:42 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/tags/random/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kernel updated don´t update grub on Centos 6.4</title>
+      <link>https://lifeandshell.com/posts/kernel-updated-dont-update-grub-on-centos-6-4/</link>
+      <pubDate>Thu, 15 Aug 2013 15:02:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/kernel-updated-dont-update-grub-on-centos-6-4/</guid>
+      <description>So you have updated the kernel on you centos but you server is still running on the old kernel. Whenan kernel is updated yum updates the file /etc/grub.conf and that is an synlink to /boot/grub/grub.conf but if the link is broken then you will have two grub.conf. One /etc/grub.conf and one /boot/grub/grub.conf and then when you update en kernel the server will still not run on the new kernel.&#xA;&amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Remove old kernel in Centos</title>
+      <link>https://lifeandshell.com/posts/remove-old-kernel-in-centos/</link>
+      <pubDate>Thu, 15 Aug 2013 13:47:45 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/remove-old-kernel-in-centos/</guid>
+      <description>So you try to update you server and it says that you /boot pertision is full and cant update kernel.&#xA;Will this is how you remove some old kernels so you can keep your system up to date.&#xA;&amp;nbsp;&#xA;1. First what kernel is running now (We dont want to remove that kernel)&#xA;uname -a&#xD;Linux install 2.6.32-279.19.1.el6.x86_64 #1 SMP Tue Nov 6 23:43:09 UTC 2012 x86_64 x86_64 x86_64 GNU/Linux Ok kernel 2.</description>
+    </item>
+    <item>
+      <title>Fredags kul</title>
+      <link>https://lifeandshell.com/posts/fredags-kul/</link>
+      <pubDate>Fri, 30 Nov 2012 18:09:03 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/fredags-kul/</guid>
+      <description>Fredags kul sätter upp sip telefoner åt en kund och kodar django.</description>
+    </item>
+    <item>
+      <title>Thinstataion PXE Ubuntu</title>
+      <link>https://lifeandshell.com/posts/thinstataion-pxe-ubuntu/</link>
+      <pubDate>Mon, 12 Nov 2012 18:48:30 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/thinstataion-pxe-ubuntu/</guid>
+      <description>Hämta thinstation:&#xA;apt-get install git&#xA;mkdir /opt/thinstation&#xA;cd /opp&#xA;git clone &amp;#8211;depth 1 git://thinstation.git.sourceforge.net/gitroot/thinstation/thinstation&#xA;Sätt upp chroot thinstation:&#xA;cd /opt/thinstation&#xA;./setup-chroot&#xA;Bygg din första thinstatin cd /ts/5.1&#xA;./build&#xA;Sätt upp thinstation med våra paket&#xA;Öppna upp build.conf.&#xA;I denna fil måste du lägga i de hårdvaru paket som körs.&#xA;Vi vill hålla start avbilden så liten som möjligt det gör att för att den ska vara snabb så väljer vi bara de moduler som vi verkligen behöva.</description>
+    </item>
+    <item>
+      <title>Ubuntu tftp Server</title>
+      <link>https://lifeandshell.com/posts/ubuntu-tftp-server/</link>
+      <pubDate>Mon, 12 Nov 2012 18:42:57 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ubuntu-tftp-server/</guid>
+      <description>Installera paketen:&#xA;sudo apt-get install xinetd tftpd tftp&#xA;Skapa katalogen tftp jobbar med&#xA;sudo mkdir /tftpboot&#xA;sudo chown -R nobody.nogroup /tftpboot&#xA;sudo chmod -R 777 /tftpboot&#xA;Editera xinet konfigen:&#xA;sudo nano /etc/xinetd.d/tftp&#xA;service tftp { protocol = udp port = 69 socket_type = dgram wait = yes user = nobody server = /usr/sbin/in.tftpd server_args = /tftpboot disable = no } Starta om xinit:&#xA;sudo /etc/init.d/xinetd restart&#xA;Prova om det fungerar:</description>
+    </item>
+    <item>
+      <title>Få Ossec att logga sina loggar till syslog</title>
+      <link>https://lifeandshell.com/posts/fa-ossec-att-logga-sina-loggar-till-syslog/</link>
+      <pubDate>Wed, 05 Sep 2012 13:14:50 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/fa-ossec-att-logga-sina-loggar-till-syslog/</guid>
+      <description>En bra sak är att samla alla sina loggar i syslog server.&#xA;Och en av de loggar man vill ha är ju ossecs loggar.&#xA;Det kan man göra lätt genom att låta ossec logga till syslog.&#xA;Jag har nu satt upp min syslog med tls och ossec kan inte skicka loggar med tls.&#xA;Så det jag gör är att jag lägger ossec server på min syslog server.&#xA;Sedan låtar jag ossec servern logga på loopback nätet ner till min syslog server.</description>
+    </item>
+    <item>
+      <title>Rsyslog TLS mellan server och klient</title>
+      <link>https://lifeandshell.com/posts/rsyslog-tls-mellan-server-och-klient/</link>
+      <pubDate>Wed, 05 Sep 2012 12:53:33 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/rsyslog-tls-mellan-server-och-klient/</guid>
+      <description>Syslog är i vanligt fall en öppen stadard vilket gör att&#xA;om man skulle kunna kolla i traffiken mellan klineten och server.&#xA;Men från rsyslog version 3? så kan man kryptera traffiken mellan server och klient.&#xA;Viktoig då man skapar nycklar och ca till de olika servrana är att man hålelr reda på dns namn och server namn. Anger man fel namn i certifikaten mot vad server heter komm det inte fungera.</description>
+    </item>
+    <item>
+      <title>Zimbra nya cert</title>
+      <link>https://lifeandshell.com/posts/zimbra-nya-cert/</link>
+      <pubDate>Thu, 19 Apr 2012 07:04:58 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/zimbra-nya-cert/</guid>
+      <description>Man måste updatera certen till zimbran annars kommer den bara säga.&#xA;&amp;#8220;Nätverksfel då man försöker logga in&amp;#8221;&#xA;Och man kommer få fel i loggarna med SSL och så kan man inte starta om den.&#xA;Har gjort ett litet script som man då kan köra ingång per år.&#xA;för att förnya certen.&#xA;Denna genererar bara ett nytt själv signat cert.&#xA;Har du publica sigande cert kan du inte använda denna.&#xA;Man jag brukar lägga dom publika certen på webbserver.</description>
+    </item>
+    <item>
+      <title>Installera nagios med Elino configen och Apache med LDAP Auth</title>
+      <link>https://lifeandshell.com/posts/installera-nagios-med-elino-configen-och-apache-med-ldap-auth/</link>
+      <pubDate>Tue, 17 Apr 2012 07:42:29 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installera-nagios-med-elino-configen-och-apache-med-ldap-auth/</guid>
+      <description>Denna guden visar hur du s&amp;#8217;tter upp nagios övervakning och sedna kopplar den till&#xA;en openldap server med apache för att auth användarna.&#xA;I guiden så tar jag INTE med hur du sätter upp nagios för att övervaka dina servrar.&#xA;Det får bli en annan guide.&#xA;Install nagios&#xA;yum install nagios nagios-plugins-all Skapa och sätt upp elino configfiler&#xA;Vi skapar en elino katalog.&#xA;Sedan kopierar vi ner elino configiler i den.</description>
+    </item>
+    <item>
+      <title>Elino paket guide</title>
+      <link>https://lifeandshell.com/posts/elino-paket-guide/</link>
+      <pubDate>Sun, 15 Apr 2012 18:59:33 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/elino-paket-guide/</guid>
+      <description>h2. Skapa ett nytt paket&#xA;Våra paket finns på på elino server i */opt/elino/paket*&#xA;Börja med att skapa en katalog som även ska vara namnet på paketet&#xA;*Namnet MÅSTE avslutas med -nummer tex-1 och bara vara i små bokstäver*&#xA;mkdir elinoLTSP-1 Sedan är det daxs att sätta upp deb filerna som behövs&#xA;dh_make -n På frågan svarar du ett du vill göra ett singel paket *s*&#xA;Nu ska vi sätta upp de saker som vi behöver för att bygga paketet.</description>
+    </item>
+    <item>
+      <title>Thinstation.org på Ubbe 12.04</title>
+      <link>https://lifeandshell.com/posts/thinstation-org-pa-ubbe-12-04/</link>
+      <pubDate>Tue, 13 Mar 2012 09:26:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/thinstation-org-pa-ubbe-12-04/</guid>
+      <description>Thinstation är en grym palltfrom för att bota tunna klienter mopt en server.&#xA;Den klarar tror fan alla olika protokoll vilket gör att det är underbar att ha som bas.&#xA;Jag ska sätta upp den för att boota mot en nx server som finns på en ubuntu desktop.&#xA;Men man kan lika lätt sätt upp den mot att köra bara en firefix eller chrome webbläsare.&#xA;Eller att bara boota up den mot en windows eller ssh.</description>
+    </item>
+    <item>
+      <title>koha bibliotek till OpenLDAP</title>
+      <link>https://lifeandshell.com/posts/koha-bibliotek-till-openldap/</link>
+      <pubDate>Mon, 12 Mar 2012 21:08:43 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/koha-bibliotek-till-openldap/</guid>
+      <description>Hur man kopplar ihop koha bibliotek med din openldap server.&#xA;För att få det att fungera fick jag trixa till lite i koden.&#xA;1 Börja med att editera koha configfilen.&#xA;Min fanns under den bibliotek jag gjort på växthuset&#xA;vi /etc/koha/sites/vaxthuset/koha-conf.xml&#xA;börja med att aktivera ldap genom att ändra o tille n 1och läggs sedan in följande under taggen&#xA;OBS fick ta bort lite &lt; så man kan visa taggarna i wordpress useldapserver&gt;1/useldapserver&gt; ldapserver id=&amp;#8221;ldapserver&amp;#8221; listenref=&amp;#8221;ldapserver&amp;#8221;&gt; hostname&gt;10.</description>
+    </item>
+    <item>
+      <title>mail till script Zimbra tex zimbra till redmine</title>
+      <link>https://lifeandshell.com/posts/mail-till-script-zimbra-tex-zimbra-till-redmine/</link>
+      <pubDate>Mon, 12 Mar 2012 16:20:58 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mail-till-script-zimbra-tex-zimbra-till-redmine/</guid>
+      <description>Så Äntligen&#xA;Efter en dags hårdargenade har jag äntligen hittat hur man gör för att köra ett script då man mailar till en använare i zimbra.&#xA;Jag använder det till så man kan maila till tex arenden@fareoffice.com så kommer det som ett ärende in till redmine.&#xA;1. Fixa till din transport i zimbra.&#xA;Öpna filen&#xA;vi /opt/zimbra/postfix/conf/transport&#xA;######REDMINE adding&#xD;arenden@fareoffice.com local:&#xD;arenden@fareonline.net local:&#xD;issues@fareoffice.com local: Sedan så fixar vi till transport databasen</description>
+    </item>
+    <item>
+      <title>Fått ett träd på jobbet</title>
+      <link>https://lifeandshell.com/posts/fatt-ett-trad-pa-jobbet/</link>
+      <pubDate>Wed, 29 Feb 2012 14:34:33 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/fatt-ett-trad-pa-jobbet/</guid>
+      <description>Har ett litet träd nu på jobbet. Står tryckt på två tack servrar.</description>
+    </item>
+    <item>
+      <title>Jfokus 2012</title>
+      <link>https://lifeandshell.com/posts/jfokus-2012/</link>
+      <pubDate>Tue, 14 Feb 2012 14:56:55 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/jfokus-2012/</guid>
+      <description>Sitter på jfokus 2012 och väntar på sista föreläsningen för dagen om säkerhet i ria.</description>
+    </item>
+    <item>
+      <title>Zimbra på centos 6</title>
+      <link>https://lifeandshell.com/posts/zimbra-pa-centos-6/</link>
+      <pubDate>Mon, 30 Jan 2012 13:37:11 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/zimbra-pa-centos-6/</guid>
+      <description>Installation av Zimbra server¶&#xA;Dokumnet tagna från&#xA;http://www.zimbra.com/docs/os/latest/multi_server_install/wwhelp/wwhimpl/js/html/wwhelp.htm&#xA;Ladda ner zimbra från&#xA;http://www.zimbra.com/downloads/os-downloads.html&#xA;Börjar installationen&#xA;Installerar beronden&#xA;yum install nptl sudo libidn gmp sysstat libstdc++.so.6&#xA;yum remove sendmail&#xA;Fixa sudoers&#xA;Avmarkera följande rad i sudoers.&#xA;vi /etc/sudoers&#xA;#Defaults requiretty&#xA;Laddar ner zimbra&#xA;mkdir /var/zimbra&#xA;cd /var/zimbra&#xA;wget http://files2.zimbra.com/downloads/7.1.4_GA/zcs-7.1.4_GA_2555.RHEL6_64.20120105094542.tgz&#xA;tar zxvf zcs-7.1.4_GA_2555.RHEL6_64.20120105094542.tgz&#xA;Zimbra vill installera sig själv i /opt så fixar en synlänk till det&#xA;ln -s /var/zimbra /opt/zimbra&#xA;Fixar till katalog namnet</description>
+    </item>
+    <item>
+      <title>Där jag sitter och jobbat</title>
+      <link>https://lifeandshell.com/posts/dar-jag-sitter-och-jobbat/</link>
+      <pubDate>Wed, 25 Jan 2012 13:47:56 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/dar-jag-sitter-och-jobbat/</guid>
+      <description>Här sitter jag och jobbat för fullt. Då jag inte är pappa ledig. Två bärbara en med ubbe och en med win7. Måste tyvärr ha en för att komma åt vissa saker. Är min chefs feta Mac som skuggar mitt fina skrivbord.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,8 @@
+requests
+elasticsearch
+jinja2
+PyGithub
+pytz
+linkedin-api-client
+minio
+feedparser

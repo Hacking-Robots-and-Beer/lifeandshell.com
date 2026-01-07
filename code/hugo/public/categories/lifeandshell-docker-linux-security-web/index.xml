@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Docker, Linux, Security, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-docker-linux-security-web/</link>
+    <description>Recent content in Lifeandshell, Docker, Linux, Security, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Fri, 11 Dec 2015 21:47:19 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-docker-linux-security-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mesos cluster with Marathon running Docker</title>
+      <link>http://localhost:1313/posts/mesos-cluster-with-marathon-running-docker/</link>
+      <pubDate>Fri, 11 Dec 2015 21:47:19 +0000</pubDate>
+      <guid>http://localhost:1313/posts/mesos-cluster-with-marathon-running-docker/</guid>
+      <description>&lt;p&gt;Hi&lt;/p&gt;&#xA;&lt;p&gt;So for hosting docker in large scale i have tested mesos cluster.  Here is a guide for setting up 3 nodes in mesos running Centos 7. And the adding Marathon to controll the dockers running.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;The network&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;mesos-master 172.0.0.10&lt;br /&gt;&#xA;mesos-slave1 172.0.0.11&lt;br /&gt;&#xA;mesos-slave2 172.0.0.12&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;The node also have on nic connect to the network with internet access.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Security&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;For this guide stop iptables and turn selinux off&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

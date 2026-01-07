@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Install Diaspora one Centos 6.4 with Apache | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/install-diaspora-one-centos-6-4-with-apache/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/install-diaspora-one-centos-6-4-with-apache/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Install Diaspora one Centos 6.4 with Apache">
+  <meta property="og:description" content="So Im going to test diaspora on one of my virtual server with run centos 6.4.
+Setup Centos Setup Repos
+wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpmwget http://rpms.famillecollet.com/enterprise/remi-release-6.rpmrpm -Uvh remi-release-6*.rpm epel-release-6*.rpm&#34; Install packages
+yum install tar make automake gcc gcc-c&#43;&#43; git net-tools libcurl-devel libxml2-devel libffi-devel libxslt-devel tcl redis ImageMagick npm mysql-server mysql-devel httpd mod_ssl libyaml libyaml-devel patch readline-devel libtool bison Start services
+chkconfig --level 3 httpd on chkconfig --level 3 mysqld on chkconfig --level 3 redis on  ">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2013-11-24T21:25:42+00:00">
+    <meta property="article:modified_time" content="2013-11-24T21:25:42+00:00">
+    <meta property="article:tag" content="Life">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Web">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Install Diaspora one Centos 6.4 with Apache">
+  <meta name="twitter:description" content="So Im going to test diaspora on one of my virtual server with run centos 6.4.
+Setup Centos Setup Repos
+wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpmwget http://rpms.famillecollet.com/enterprise/remi-release-6.rpmrpm -Uvh remi-release-6*.rpm epel-release-6*.rpm&#34; Install packages
+yum install tar make automake gcc gcc-c&#43;&#43; git net-tools libcurl-devel libxml2-devel libffi-devel libxslt-devel tcl redis ImageMagick npm mysql-server mysql-devel httpd mod_ssl libyaml libyaml-devel patch readline-devel libtool bison Start services
+chkconfig --level 3 httpd on chkconfig --level 3 mysqld on chkconfig --level 3 redis on  ">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/custom-nagios-plugins-in-python/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/fail2ban-on-centos/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&text=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&title=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&is_video=false&description=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&title=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&title=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&name=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache&description=So%20Im%20going%20to%20test%20diaspora%20on%20one%20of%20my%20virtual%20server%20with%20run%20centos%206.4.%0aSetup%20Centos%20Setup%20Repos%0awget%20http%3a%2f%2fdl.fedoraproject.org%2fpub%2fepel%2f6%2fx86_64%2fepel-release-6-8.noarch.rpm%0dwget%20http%3a%2f%2frpms.famillecollet.com%2fenterprise%2fremi-release-6.rpm%0drpm%20-Uvh%20remi-release-6%2a.rpm%20epel-release-6%2a.rpm%22%20Install%20packages%0ayum%20install%20tar%20make%20automake%20gcc%20gcc-c%2b%2b%20git%20net-tools%20libcurl-devel%20libxml2-devel%20libffi-devel%20libxslt-devel%20tcl%20redis%20ImageMagick%20npm%20mysql-server%20mysql-devel%20httpd%20mod_ssl%20libyaml%20libyaml-devel%20patch%20readline-devel%20libtool%20bison%20Start%20services%0achkconfig%20--level%203%20httpd%20on%20chkconfig%20--level%203%20mysqld%20on%20chkconfig%20--level%203%20redis%20on%20%26nbsp%3b" aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&t=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Install Diaspora one Centos 6.4 with Apache
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2013-11-24 21:25:42 &#43;0000 UTC" itemprop="datePublished">2013-11-24</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          1 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/life">Life</a>
+            
+             ,  
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+             ,  
+            <a class="category-link" href="/categories/security">Security</a>
+            
+             ,  
+            <a class="category-link" href="/categories/web">Web</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/life" rel="tag">Life</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/security" rel="tag">Security</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/web" rel="tag">Web</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>So Im going to test diaspora on one of my virtual server with run centos 6.4.</p>
+<h1>Setup Centos</h1>
+<p><strong>Setup Repos</strong></p>
+<pre>wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm"</pre>
+<p><strong>Install packages</strong></p>
+<div>
+<pre>yum install tar make automake gcc gcc-c++ git net-tools libcurl-devel libxml2-devel libffi-devel libxslt-devel tcl redis ImageMagick npm mysql-server mysql-devel httpd mod_ssl libyaml libyaml-devel patch readline-devel libtool bison</pre>
+<p><strong>Start services</strong></p>
+<pre>chkconfig --level 3 httpd on</pre>
+<pre>chkconfig --level 3 mysqld on</pre>
+<pre>chkconfig --level 3 redis on</pre>
+<p>&nbsp;</p>
+<pre>service mysqld start</pre>
+<pre>service httpd start</pre>
+<pre>service redis start</pre>
+<p>&nbsp;</p>
+<h1>Install Diaspora</h1>
+<pre>adduser diaspora
+su diaspora</pre>
+<p><strong>Install ruby</strong></p>
+<pre title="triple click to select command">\curl -L https://get.rvm.io | bash -s stable</pre>
+<pre>source /home/diaspora/.rvm/scripts/rvm</pre>
+<pre> rvm autolibs read-only</pre>
+<pre>rvm install 1.9.3-p448</pre>
+<pre>git clone -b master git://github.com/diaspora/diaspora.git</pre>
+<pre>cd diaspora &lt;-- press y</pre>
+<h1>Configure Mysql</h1>
+<p>Run this in mysql</p>
+<pre>Create database diaspora;</pre>
+<pre><strong><code>CREATE USER 'diaspora'@'localhost' IDENTIFIED BY 'some_pass@diaspora';
+</code></strong></pre>
+<pre><strong><code>GRANT ALL PRIVILEGES ON diaspora.* TO 'diaspora'@'localhost';</code></strong></pre>
+<pre><strong><code> </code></strong></pre>
+<p>&nbsp;</p>
+<h1>Configure Diaspora</h1>
+<p>&nbsp;</p>
+<pre>cp config/diaspora.yml.example config/diaspora.yml
+cp config/database.yml.example config/database.yml</pre>
+<p>Set up your mysql settings in configure/diaspora.yml</p>
+<p>Set up the diaspora.yml with you settings. This is the settings I enabled</p>
+<pre>url: "https://pod.ztekarna.com"
+certificate_authorities: '/etc/pki/tls/certs/ca-bundle.crt'
+rails_environment: 'production'
+database: 'mysql'
+unicorn_worker: 2
+pod_name: "Ztekarna"
+enable_registrations: true
+autofollow_on_join_user: 'diasporahq@joindiaspora.com'
+open: true
+count: 25
+suggest_email: 'admin@ztekarna.com'
+enable: true
+sender_address: 'no-reply@ztekarna.com'
+method: 'smtp'
+host: 'localhost'
+ port: 25</pre>
+<p>&nbsp;</p>
+<p><strong>Run diaspora setup</strong></p>
+<pre>RAILS_ENV=production bundle install --without test development
+RAILS_ENV=production bundle exec rake db:create db:schema:load</pre>
+<p><strong>Start Diaspora</strong></p>
+<pre>./script/server</pre>
+<h1>Setup Apache config</h1>
+<p>Use this config for setting up apache</p>
+<p><a href="https://gist.github.com/MrZYX/719014">https://gist.github.com/MrZYX/719014</a></p>
+<p>I now for testing use the ssl keys in /etc/pki/tls but for production you should use sign keys.</p>
+<h1>DONE !</h1>
+<p>No when diaspora is started you can visit your url and start using Diaspora</p>
+<p>&nbsp;</p>
+<h2>Starting diaspora then</h2>
+<p>install screen</p>
+<pre>yum install screen</pre>
+<p>Then to start diaspora run</p>
+<pre>screen
+su diaspora
+source /home/diaspora/.rvm/scripts/rvm
+./script/server
+ctr+d</pre>
+<p>More reading</p>
+<p><a href="https://gist.github.com/MrZYX/719014">https://gist.github.com/MrZYX/719014</a></p>
+<p><a href="https://wiki.diasporafoundation.org/Installation/CentOS/6">https://wiki.diasporafoundation.org/Installation/CentOS/6</a></p>
+<p><a href="https://wiki.diasporafoundation.org/Main_Page">https://wiki.diasporafoundation.org/Main_Page</a></p>
+</div>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&text=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&title=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&is_video=false&description=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&title=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&title=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&name=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache&description=So%20Im%20going%20to%20test%20diaspora%20on%20one%20of%20my%20virtual%20server%20with%20run%20centos%206.4.%0aSetup%20Centos%20Setup%20Repos%0awget%20http%3a%2f%2fdl.fedoraproject.org%2fpub%2fepel%2f6%2fx86_64%2fepel-release-6-8.noarch.rpm%0dwget%20http%3a%2f%2frpms.famillecollet.com%2fenterprise%2fremi-release-6.rpm%0drpm%20-Uvh%20remi-release-6%2a.rpm%20epel-release-6%2a.rpm%22%20Install%20packages%0ayum%20install%20tar%20make%20automake%20gcc%20gcc-c%2b%2b%20git%20net-tools%20libcurl-devel%20libxml2-devel%20libffi-devel%20libxslt-devel%20tcl%20redis%20ImageMagick%20npm%20mysql-server%20mysql-devel%20httpd%20mod_ssl%20libyaml%20libyaml-devel%20patch%20readline-devel%20libtool%20bison%20Start%20services%0achkconfig%20--level%203%20httpd%20on%20chkconfig%20--level%203%20mysqld%20on%20chkconfig%20--level%203%20redis%20on%20%26nbsp%3b" aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2finstall-diaspora-one-centos-6-4-with-apache%2f&t=Install%20Diaspora%20one%20Centos%206.4%20with%20Apache" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

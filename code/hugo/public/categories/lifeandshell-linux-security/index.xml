@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Linux, Security on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-linux-security/</link>
+    <description>Recent content in Lifeandshell, Linux, Security on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Wed, 25 Dec 2013 23:11:32 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-linux-security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>No more spam (Centos and postfix)</title>
+      <link>http://localhost:1313/posts/no-more-spam-centos-and-postfix/</link>
+      <pubDate>Wed, 25 Dec 2013 23:11:32 +0000</pubDate>
+      <guid>http://localhost:1313/posts/no-more-spam-centos-and-postfix/</guid>
+      <description>&lt;p&gt;So i HATE spam and now to get rid of as so many as possible i go for 3 step.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;1. Postfix &lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Get postfix to restrict witch is to allow to send email to me.&lt;br /&gt;&#xA;No strange name and use spam block lists. Also restrict time in how many connections you can do.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;2. Greylisting&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;So the first time some server tries to send email greylist says no resend that email.&lt;br /&gt;&#xA;all propper config servers will resind the email. But spamservers will not.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Securing Apache &amp;#8211; TRACE TRACK XSS</title>
+      <link>http://localhost:1313/posts/securing-apache-trace-track-xss/</link>
+      <pubDate>Mon, 07 Oct 2013 15:12:50 +0000</pubDate>
+      <guid>http://localhost:1313/posts/securing-apache-trace-track-xss/</guid>
+      <description>&lt;p&gt;So i will tryi to updated with some tips on securing apache as I stumbel over them.&lt;/p&gt;&#xA;&lt;p&gt;This will be the first one in not so many I hope (Apache will be secure )&lt;br /&gt;&#xA;I always scan my servers every month with Openvas as one of my PCI-DSS task. And this week I locking down my Apache servers.&lt;/p&gt;&#xA;&lt;p&gt;Add this in you vhost file ore in the welcome.conf file and rerun you scan.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Set up Openvpn client on Centos 6.4</title>
+      <link>http://localhost:1313/posts/set-up-openvpn-client-on-centos-6-4/</link>
+      <pubDate>Sun, 21 Jul 2013 22:39:45 +0000</pubDate>
+      <guid>http://localhost:1313/posts/set-up-openvpn-client-on-centos-6-4/</guid>
+      <description>&lt;p&gt;I often use Openvpn to connect my servers toghter over several cloud servers provider.&lt;br /&gt;&#xA;This is my small how to for setting up the openvpn client.&lt;/p&gt;&#xA;&lt;h2&gt;Install the openvpn server&lt;/h2&gt;&#xA;&lt;pre&gt;yum install wget&#xD;&#xA;wget http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm&#xD;&#xA;rpm -Uvh epel-release-6-8.noarch.rpm &#xD;&#xA;yum install openvpn&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;Set up the Vpn client&lt;/p&gt;&#xA;&lt;p&gt;In &lt;strong&gt;/etc/openvpn&lt;/strong&gt; extract you vpn config&lt;/p&gt;&#xA;&lt;p&gt;Save you openvpn config file as &lt;strong&gt;client.conf&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Test you vpn&lt;/p&gt;&#xA;&lt;pre&gt;openvpn --config client.conf &#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&lt;/pre&gt;&#xA;&lt;p&gt;Now when its working restart you openvpn with&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

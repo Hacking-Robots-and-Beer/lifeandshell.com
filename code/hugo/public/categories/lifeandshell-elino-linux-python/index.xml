@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Elino, Linux, Python on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-elino-linux-python/</link>
+    <description>Recent content in Lifeandshell, Elino, Linux, Python on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Mon, 05 Aug 2013 16:13:58 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-elino-linux-python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>restrict sms in nagios / icinga</title>
+      <link>http://localhost:1313/posts/limit-sms-flood-in-nagios-icing/</link>
+      <pubDate>Mon, 05 Aug 2013 16:13:58 +0000</pubDate>
+      <guid>http://localhost:1313/posts/limit-sms-flood-in-nagios-icing/</guid>
+      <description>&lt;p&gt;Im using nagios as primary monitoring tool. And to get alerts we use an sms gateway. The problem is that sometimes when we work we bring down and server and we get so many sms from icinga that you trow away you phone. So for bringing the sms cost down and to have not so many sms to you phone i build a small email blocking script. This will take the address of the sms and only send one sms / email every 5 min (can be set to anything).&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

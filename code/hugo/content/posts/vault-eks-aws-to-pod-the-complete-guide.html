@@ -1,0 +1,818 @@
+---
+title: Vault EKS / AWS to pod The complete guide
+date: 2020-10-29 09:17:42
+tags:
+    
+    - docker
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - terraform
+    
+    
+    - vault
+    
+     
+categories:
+    
+    - docker
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - terraform
+    
+    
+    - vault
+    
+     
+keywords: 
+    
+    - docker
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - terraform
+    
+    
+    - vault
+    
+     
+---
+
+<p>I have bean working some time with vault and to deploy it to our EKS cluster and then to get the secrets into our pods.<br>After many hours of searching i have found out that using kube-vault and vault-env. This gude uses tarraform to setup the resources you need in AWS.</p>
+
+
+
+<p>Then deploy the kubevault with ui into to cluster that will use a s3 bucket and backend and autoseal it self during boot</p>
+
+
+
+<p>And then we use the Banzia vault web-hook to when a ENV is detected to come from vault. It connects to vault and read the store it into the pod.<br></p>
+
+
+
+<p>Resources<br><a href="https://kubevault.com/docs/v0.3.0/guides/platforms/eks/">https://kubevault.com/docs/v0.3.0/guides/platforms/eks/</a></p>
+
+
+
+<p><a href="https://banzaicloud.com/blog/inject-secrets-into-pods-vault-revisited/">https://banzaicloud.com/blog/inject-secrets-into-pods-vault-revisited/</a></p>
+
+
+
+<p><a href="https://kubevault.com/">https://kubevault.com/</a></p>
+
+
+
+<p><a href="https://www.vaultproject.io/">https://www.vaultproject.io/</a><br></p>
+
+
+
+<h2 class="wp-block-heading"><br>So what will happen</h2>
+
+
+
+<p><br>&#8211; We will have a vault running in our EKS cluster<br>&#8211; Secrets are stored in a S3 Bucket<br>&#8211; Vault keys are stored in AWS<br>&#8211; During startup vault will unseal it self<br>&#8211; When a pod starts the secrets from vault will be exposed ans a ENV settings for the pod (12 faktor style)<br><br></p>
+
+
+
+<h3 class="wp-block-heading"><br>AWS</h3>
+
+
+
+<p>Lets start with AWS and setup the resources you need. This will only create the resources for vault and you need to have your other EKS resources already done.<br>Im using terraform so this is a terraform manifest for running.</p>
+
+
+
+<pre class="wp-block-code"><code>#
+#  Create as3 bucket for the vaul secrets
+#
+
+resource "aws_s3_bucket" "vault-vault-bucket" {
+  bucket = "vault-gdtegd"
+  acl    = "private"
+
+  tags = {
+    Name        = "vault-gdtegd"
+    Environment = "prod"
+    DONT_DELETE = "true"
+  }
+}
+
+#
+# Policy for vaul service account s3 bucket
+#
+
+resource "aws_iam_policy" "vault_s3" {
+  name = "vaults3"
+  path        = "/"
+  description = "vault s3 access"
+
+
+  policy = &lt;&lt;EOF
+{
+    "Version": "2012-10-17",
+    "Statement": &#91;
+        {
+            "Sid": "VaultListBuckets",
+            "Effect": "Allow",
+            "Action": &#91;
+                "s3:ListAllMyBuckets",
+                "s3:HeadBucket"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VaultAccessBuckets",
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": &#91;
+                "arn:aws:s3:::${aws_s3_bucket.vault-vault-bucket.id}",
+                "arn:aws:s3:::${aws_s3_bucket.vault-vault-bucket.id}/*"
+            ]
+        }
+    ]
+}
+        EOF
+}
+
+
+#
+# Create aws KMS key 
+#
+resource "aws_kms_key" "vault" {
+  description             = "vault_key"
+}
+
+#
+# Policy for vaul service account for the KMS
+#
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
+
+
+resource "aws_iam_policy" "vault_kms" {
+  name = "vaultkms"
+  path        = "/"
+  description = "vault kms access"
+
+
+  policy = &lt;&lt;EOF
+{
+    "Version": "2012-10-17",
+    "Statement": &#91;
+        {
+            "Sid": "VaultUnsealerEncryptDecryptKms",
+            "Effect": "Allow",
+            "Action": &#91;
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:DescribeKey"
+            ],
+            "Resource": "arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:key/${aws_kms_key.vault.key_id}"
+        },
+        {
+            "Sid": "VaultUnsealerGetKMS",
+            "Effect": "Allow",
+            "Action": "kms:ListKeys",
+            "Resource": "*"
+        }
+    ]
+}
+        EOF
+}
+
+#
+# Policy for vaul service account for the SSM
+#
+
+resource "aws_iam_policy" "vault_ssm" {
+  name = "vaultssm"
+  path        = "/"
+  description = "vault ssm access"
+
+
+  policy = &lt;&lt;EOF
+{
+    "Version": "2012-10-17",
+    "Statement": &#91;
+        {
+            "Sid": "VaultUnsealerParametersAccess",
+            "Effect": "Allow",
+            "Action": &#91;
+                "ssm:PutParameter",
+                "ssm:DeleteParameter",
+                "ssm:GetParameters"
+            ],
+            "Resource": "arn:aws:ssm:*:*:parameter/*"
+        }
+    ]
+}
+        EOF
+}
+
+#
+# Create user 
+#
+resource "aws_iam_user" "vault-k8s" {
+  name = "vault-k8s"
+  path = "/system/"
+
+  tags = {
+    used_in = "k8s"
+  }
+}
+resource "aws_iam_access_key" "vault-k8s" {
+  user = aws_iam_user.vault-k8s.name
+}
+
+#
+# Create role for vault
+#
+
+resource "aws_iam_role" "vault-k8s" {
+  name = "vault-k8s"
+
+  assume_role_policy = &lt;&lt;EOF
+{
+  "Version": "2012-10-17",
+  "Statement": &#91;
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::{ YOUR VAULT USER ID   }:oidc-provider/oidc.eks.eu-north-1.amazonaws.com/id/{ YOUR CLUSTER ID }"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "oidc.eks.eu-north-1.amazonaws.com/id/{ YOUR CLUSTER ID } :sub": "system:serviceaccount:vault-k8s:vault-k8s"
+        }
+      }
+    }
+  ]
+}
+EOF
+
+  tags = {
+    inused = "k8s"
+  }
+}
+
+
+#
+# Applied policy to user and role
+#
+resource "aws_iam_role_policy_attachment" "vault_s3" {
+  role       = aws_iam_role.vault-k8s.name
+  policy_arn = aws_iam_policy.vault_s3.arn
+}
+resource "aws_iam_role_policy_attachment" "vault_kms" {
+  role       = aws_iam_role.vault-k8s.name
+  policy_arn = aws_iam_policy.vault_kms.arn
+}
+resource "aws_iam_role_policy_attachment" "vault_ssm" {
+  role       = aws_iam_role.vault-k8s.name
+  policy_arn = aws_iam_policy.vault_ssm.arn
+}
+
+
+resource "aws_iam_policy_attachment" "vault_s3_u" {
+  name        = "vault_s3_u"
+  users       = &#91;"${aws_iam_user.vault-k8s.name}"]
+  policy_arn = aws_iam_policy.vault_s3.arn
+}
+resource "aws_iam_policy_attachment" "vault_kms_u" {
+  name        = "vault_kms_u"
+  users       = &#91;"${aws_iam_user.vault-k8s.name}"]
+  policy_arn = aws_iam_policy.vault_kms.arn
+}
+resource "aws_iam_policy_attachment" "vault_ssm_u" {
+  name        = "vault_ssm_u"
+  users       = &#91;"${aws_iam_user.vault-k8s.name}"]
+  policy_arn = aws_iam_policy.vault_ssm.arn
+}
+
+
+
+#
+#
+# Output
+#
+output "vault-kms-key" {
+  value = aws_kms_key.vault.key_id
+}
+
+
+output "secret_vault-k8s_id" {
+  value = aws_iam_access_key.vault-k8s.id
+}
+output "secret_vault-k8s_key" {
+  value = aws_iam_access_key.vault-k8s.secret
+}</code></pre>
+
+
+
+<h3 class="wp-block-heading">Time to install the vault operator</h3>
+
+
+
+<p>I have a small bash script that setup and install the vault operator. With this i can run in in my pipeline and use it to upgrade as well.</p>
+
+
+
+<pre class="wp-block-code"><code>#!/bin/bash
+
+# Setup repos
+helm repo add appscode https://charts.appscode.com/stable/
+helm repo update
+
+# Install the vault operator
+helm upgrade --install vault-operator appscode/vault-operator --version v0.3.0 --namespace kube-system
+
+#Install the vault catalog
+helm upgrade --install vault-catalog appscode/vault-catalog --version v0.3.0 --namespace kube-system
+</code></pre>
+
+
+
+<p>We need to add an update so we can use the latest vault that today is (1.5.4)<br>create the file vaultserver-1.5.4.yaml</p>
+
+
+
+<pre class="wp-block-code"><code>apiVersion: catalog.kubevault.com/v1alpha1
+kind: VaultServerVersion
+metadata:
+name: 1.5.4
+spec:
+vault:
+image: vault:1.5.4
+exporter:
+image: kubevault/vault-exporter-linux-amd64:v0.3.0
+unsealer:
+image: kubevault/vault-unsealer:v0.3.0
+version: 1.5.4</code></pre>
+
+
+
+<pre class="wp-block-code"><code>kubectl apply -f vaultserver-1.5.4.yaml</code></pre>
+
+
+
+<p>To verify they are installed run this command</p>
+
+
+
+<pre class="wp-block-code"><code>kubectl get crds  -n kube-system</code></pre>
+
+
+
+<p>You should see some vault names there </p>
+
+
+
+<h3 class="wp-block-heading">Time to deploy Vault</h3>
+
+
+
+<p>First we need some settings<br>&#8211; The bucket you created with terraform<br>&#8211; KeyID and secret for your vault user created with terraform<br>&#8211; KMS key <br>&#8211; Vault UI<br><br>All this should be printed when you run terraform apply.<br>Now lest move the secrets into base64</p>
+
+
+
+<pre class="wp-block-code"><code>echo -n "YOUR AWS SECRET / KEYID" | base64 
+</code></pre>
+
+
+
+<p>Create you deploy YAML</p>
+
+
+
+<pre class="wp-block-code"><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-ui
+  namespace: vault
+data:
+  vault.hcl: |
+    ui = true 
+
+---
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vault
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vault-aws-secrets
+  namespace: vault
+type: Opaque
+data:
+  access_key: {AWS KEY ID }
+  secret_key: {AWS SECRET}
+    
+    
+
+---    
+apiVersion: kubevault.com/v1alpha1
+kind: VaultServer
+metadata:
+  name: vault
+  namespace: vault
+spec:
+  configSource:
+    configMap:
+      name: vault-ui
+  replicas: 1
+  version: "1.5.4"
+  backend:
+    s3:
+      bucket: "{BUCKET NAME}"
+      region: "eu-north-1"
+      credentialSecret: vault-aws-secrets
+  unsealer:
+    secretShares: 4
+    secretThreshold: 2
+    mode:
+      awsKmsSsm:
+        region: "eu-north-1"
+        kmsKeyID: "{ KMS KEY ID }"
+        credentialSecret: vault-aws-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault-ingress
+  namespace: vault
+spec:
+  selector:
+      app: vault
+      cluster: vault
+  type: ClusterIP 
+  ports:
+    - port: 443
+      name: https
+      targetPort: 8200
+---    
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: "vault"
+  namespace: vault
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    kubernetes.io/tls-acme: "true"
+    
+spec:
+  tls:
+  - hosts:
+    - vault.
+    secretName: vaultapps-tls
+           
+  rules:
+    - host: vault.
+        paths:
+          - path: /
+            backend:
+              serviceName: vault-ingress
+              servicePort: 443
+---
+</code></pre>
+
+
+
+<p>Now we should have a running vault that are unseal. Lets get the root token and connect to it.<br><br></p>
+
+
+
+<p>Here is a script to get the root token save it as <strong>get_vault_token.s</strong>h</p>
+
+
+
+<pre class="wp-block-code"><code>#!/bin/bash
+#
+# This will get and print out the vault root token
+# the token can then be used to make changes to vault as a admin.
+#  
+# BEFORE YOU CAN RUN THIS GIVE TERRAFORM AWS USER ADMIN RIGHTS ADD IT MANUALL THEN TERRAFORM WILL REMOVE FOR YOU
+#
+
+aws ssm get-parameter --name vault-root-token --region eu-north-1 --output json | jq -r '.Parameter.Value' | base64 -d - > root.enc
+export VAULT_TOKEN=$(aws kms decrypt --ciphertext-blob fileb://root.enc --output text --query Plaintext --encryption-context "Tool=vault-unsealer" --region eu-north-1 | base64 -d -)
+rm root.enc
+export VAULT_ADDR='https://127.0.0.1:8200'
+
+</code></pre>
+
+
+
+<p>To activate it run <strong>. ./get_vault_token.sh</strong>  You did see the first . &lt;- important</p>
+
+
+
+<p>Now start a kube proxy to the vault service create a file <strong>start_vault_proxy.sh</strong></p>
+
+
+
+<pre class="wp-block-code"><code>#!/bin/bash
+#
+# This will setup a vault proxy so localhost:8200 can proxy to vault
+# Fix fix tls ..
+
+kubectl port-forward service/vault 8200:8200 -n vault &amp;
+echo "Need to sleep 5 to make the proxy connect"
+sleep 5</code></pre>
+
+
+
+<p>./start_vault_proxy.sh to start up the proxy it will jump into the background</p>
+
+
+
+<p>Now we can connect to vault</p>
+
+
+
+<pre class="wp-block-code"><code>vault status -tls-skip-verify</code></pre>
+
+
+
+<p>We need to have the <strong>-tls-skip-verify</strong> when we connect throw the proxy and dont have the ca cert of vault. </p>
+
+
+
+<h3 class="wp-block-heading">Client Time !</h3>
+
+
+
+<p>Now its time to get some values into vault and to connect our pods with with vault.<br>In this we are to make the following. <br>&#8211; Let vault connect to k8s to create token<br>&#8211; Create a secret in vault<br>&#8211; Create a vault policy that grant access to our secret<br>&#8211; Create a role that are restricted to the policy and to the namespace </p>
+
+
+
+<p>Allow vault to make new k8s token Verify that you have the correct service account and namespace for vault. Check in you deployments of vault.</p>
+
+
+
+<pre class="wp-block-code"><code>apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: role-tokenreview-binding
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+  - kind: ServiceAccount
+    name: vault
+    namespace: vault</code></pre>
+
+
+
+<p>Sounds complicated well here is a script i run when setup helm charts.<br>It set up what you need and also takes the values.yaml file from the helm chart and add it to vault.<br><br>It also add a lock secrets so it sill not overrite the secret with every deploy.<br><br></p>
+
+
+
+<pre class="wp-block-code"><code>#
+# This script will setup a vault to use with a namespace.
+# It will to the following
+
+#- setup vault secret in the correct path
+#- setup a k8s policy for service account in namespaces to access that path
+#- if not setup fill secrets with default values 
+#
+#
+#After this script is run we can now use vaul-hook to get secrets into our pod as env
+
+
+D_DEPLOYNAME="pipeline"
+
+
+#Check so that we have a deployname 
+if &#91;&#91; -n "${DEPLOYNAME}" ]]; then
+DEPLOY=$(echo $DEPLOYNAME |  sed 's/\(.*\)/\L\1/' | sed 's/&#91;\/.]/-/g' )
+  #Cluster env is not set defult to standrad
+    echo "Set DEPLOYNAME to ${DEPLOY}"
+
+    D_DEPLOYNAME="${DEPLOY}"
+fi
+
+#Set defulat
+D_HELMCHART=$D_DEPLOYNAME
+D_NAMESPACE=$D_DEPLOYNAME
+
+
+#If we have a namespace env
+if &#91;&#91; -n "${NAMESPACE}" ]]; then
+  #Cluster env is not set defult to standrad
+  echo "Set NAMESPACE to ${NAMESPACE}"
+  D_NAMESPACE=${NAMESPACE}
+fi
+#If we have a helmchart env
+if &#91;&#91; -n "${HELMCHART}" ]]; then
+  #Cluster env is not set defult to standrad
+  echo "Set HELMCHART to ${HELMCHART}"
+  D_HELMCHART=${HELMCHART}
+fi
+
+
+echo "Have we setup this namespace before ?"
+VAULT_SETUP_TEST=$(vault kv get -tls-skip-verify /kv/k8s/$D_NAMESPACE-lock/locked)
+echo $VAULT_SETUP_TEST
+echo ${VAULT_SETUP_TEST:0:2}
+if &#91; "${VAULT_SETUP_TEST:0:2}" == "==" ]; then
+    echo "Vault already setup"
+else
+    echo "No vault setup lets add it"
+
+
+    echo "Lets add policy for namespace that gives read access"
+    echo 'path "kv/k8s/'$D_NAMESPACE'" { capabilities = &#91;"read"]}' | vault policy write -tls-skip-verify $D_NAMESPACE -
+
+
+    echo "Create a role that grant access for the default user in the namespace"
+    vault write -tls-skip-verify auth/kubernetes/role/vault-$D_NAMESPACE bound_service_account_names=default bound_service_account_namespaces=$D_NAMESPACE policies=$D_NAMESPACE ttl=24h
+
+    echo "Write the default values form a helm chart into vault"
+    VALUESFILE="/code/helm/$D_HELMCHART/values.yaml"
+    echo "Values file URL $VALUESFILE" 
+    if &#91; -f $VALUESFILE ]; then
+      echo "Adding the values file data"
+      cat $VALUESFILE | yq . | vault kv put  -tls-skip-verify /kv/k8s/$D_NAMESPACE -
+
+
+    else
+      echo "No values file foundls"
+
+    fi
+
+    echo "Added tha data lets lock it "
+    vault kv put -tls-skip-verify /kv/k8s/$D_NAMESPACE-lock/locked dontmove="OK"
+
+fi
+echo "Renew token"
+vault token renew  -tls-skip-verify >> /dev/null
+
+
+
+
+</code></pre>
+
+
+
+<pre class="wp-block-code"><code>echo 'path "kv/k8s/'$D_NAMESPACE'" { capabilities = &#91;"read"]}' | vault policy write -tls-skip-verify $D_NAMESPACE -</code></pre>
+
+
+
+<p><br>Here we add a vault policy that gived the accees read to the path /kv/k8s/$NAMESPACE<br><br>So if you namespace /pipline here then it will give read access to /kv/k8s/pipline<br><br></p>
+
+
+
+<pre class="wp-block-code"><code>ault write -tls-skip-verify auth/kubernetes/role/vault-$D_NAMESPACE bound_service_account_names=default bound_service_account_namespaces=$D_NAMESPACE policies=$D_NAMESPACE ttl=24h</code></pre>
+
+
+
+<p><br>Now we are creating a role that have the policy added before and the role is locked in k8s. so it must be the service account of defalt (Stanard when you deploy) and it need to be in the namespace we set before example &#8220;pipline&#8221;</p>
+
+
+
+<pre class="wp-block-code"><code>cat $VALUESFILE | yq . | vault kv put  -tls-skip-verify /kv/k8s/$D_NAMESPACE -</code></pre>
+
+
+
+<p>This is a small hack that take the values.yaml from my helm charts and konvert them into json and upload them as secrets.<br>So I get some data in vault and it gets easy to find where you put you data.</p>
+
+
+
+<h3 class="wp-block-heading">Secrets to pod</h3>
+
+
+
+<p>Now we need to install the vault-hook. It detects that we want some secrets from vault and injects a script that will connect to vault. Get the tokens and add the secrets as ENV in your pod.<br><br>You need to have the banziacloud helm repo added</p>
+
+
+
+<pre class="wp-block-code"><code>kubectl create namespace vault-hook
+helm upgrade --namespace vault-hook --install vault-secrets-webhook banzaicloud-stable/vault-secrets-webhook --wait
+</code></pre>
+
+
+
+<p>Lets create a test pod</p>
+
+
+
+<pre class="wp-block-code"><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-secrets
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-secrets
+  template:
+    metadata:
+      labels:
+        app: hello-secrets
+      annotations:
+        vault.security.banzaicloud.io/vault-addr: "https://vault.vault.svc:8200"
+        vault.security.banzaicloud.io/vault-role: "vault-slackbot" # 
+        vault.security.banzaicloud.io/vault-skip-verify: "true"
+
+
+
+    spec:
+      serviceAccountName: default
+      containers:
+      - name: alpine
+        image: alpine
+        command: &#91;"sh", "-c", "echo $AWS_SECRET_ACCESS_KEY &amp;&amp; echo going to sleep... &amp;&amp; sleep 10000"]
+        env:
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "vault:kv/k8s/slackbot#auth"</code></pre>
+
+
+
+<p>Here we have a pod that are called slackbot so what we need before this will work<br>&#8211; Have a policy grating access to /kv/k8s/slackbot <br>&#8211; Have a role that have access from service user default and namespace slackbot, And are using the policy <br>&#8211; A secrets in /kv/k8s/slackbot </p>
+
+
+
+<pre class="wp-block-code"><code>root@20927fd8e1e1:/code/setup# vault kv get -tls-skip-verify /kv/k8s/slackbot
+Handling connection for 8200
+======== Data ========
+Key             Value
+---             -----
+auth            2hsfsgffehgggs
+cluster         int
+deployname      slackbot
+gitsha          latest
+replicaCount    1
+</code></pre>
+
+
+
+<p>apply the tets pod in the slackbot namespace</p>
+
+
+
+<pre class="wp-block-code"><code>kubectl apply -f test_vault.yaml -n slackbot</code></pre>
+
+
+
+<p>Look in the logs to verify things are working </p>
+
+
+
+<pre class="wp-block-code"><code>root@20927fd8e1e1:/code/k8s/pre/vault/test# kubectl logs -f hello-secrets-7944dfcf86-rkrk6 -n slackbot
+time="2020-10-29T07:09:30Z" level=info msg="received new Vault token" app=vault-env
+time="2020-10-29T07:09:30Z" level=info msg="initial Vault token arrived" app=vault-env
+time="2020-10-29T07:09:30Z" level=info msg="spawning process: &#91;sh -c echo $AWS_SECRET_ACCESS_KEY &amp;&amp; echo going to sleep... &amp;&amp; sleep 10000]" app=vault-env
+2hsfsgffehgggs
+going to sleep...
+</code></pre>

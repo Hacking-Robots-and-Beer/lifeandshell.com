@@ -1,0 +1,143 @@
+---
+title: Elino paket guide
+date: 2012-04-15 18:59:33
+tags:
+    
+    - Random
+    
+     
+categories:
+    
+    - Random
+    
+     
+keywords: 
+    
+    - Random
+    
+     
+---
+<p>h2. Skapa ett nytt paket</p>
+<p>Våra paket finns på på elino server i */opt/elino/paket*</p>
+<p>Börja med att skapa en katalog som även ska vara namnet på paketet<br />
+*Namnet MÅSTE avslutas med -nummer tex-1 och bara vara i små bokstäver*</p>
+<pre>
+mkdir elinoLTSP-1
+</pre>
+<p>Sedan är det daxs att sätta upp deb filerna som behövs</p>
+<pre>
+dh_make -n
+</pre>
+<p>På frågan svarar du ett du vill göra ett singel paket *s*</p>
+<p>Nu ska vi sätta upp de saker som vi behöver för att bygga paketet.<br />
+Börja med att snygga till filerna gå in i debian katalogen och skriv</p>
+<pre>
+mv postinst.ex postinst
+mv preinst.ex preinst
+mv cron.d.ex cron.d
+rm *.ex
+
+</pre>
+<p>Öpnna upp *control* filen och ändra bara följande<br />
+*Maintanier:*Mattias Hemmingsson mattias.hemmingsson@elino.se<br />
+*Dependes:* Rensa allt där eller lägg till paket namn om du har några beronden tex sssi<br />
+*Homepage:* http://www.elino.se<br />
+*Standards-version:* Ändra den till 0.0.1 (den hålelr reda sen på om du ska updatera paketen)<br />
+*Description:* En kort beskrivning</p>
+<p>Öppna upp *changelog*</p>
+<p>Denna fil visar alla ändringar som är gjorda med paketen.<br />
+Ändra root till ditt namn och email</p>
+<p>Kopiera in rules filen från elinobas</p>
+<pre>
+rm rules
+cp ../../elinobas-1/debian/rules .
+</pre>
+<p>Rules filen ser ut så här</p>
+<pre>
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+%:
+        dh  $@
+# Add here commands to install the package into debian/svnyoungest.
+#$(MAKE) install PREFIX=$(CURDIR)/debian/elinoltsp/matte
+</pre>
+<p>Rensa *preinst* och *postinst*</p>
+<p>Så de bara innehåller </p>
+<pre>
+#!/bin/bash
+#Installations fil fran elino.se
+
+</pre>
+<p>Daxs att *Bygga paketet för första gången.</p>
+<p>Gå till katalog rooten på ditt nya paket alltså i katalogen tex elinoltsp-1<br />
+Och skriv där</p>
+<pre>
+debuild
+</pre>
+<p>Du kommer få ett fel som säger</p>
+<pre>
+Now signing changes and any dsc files...
+ signfile elinoltsp_1.dsc Mattias Hemmingsson <mattias.hemmingsson@elino.se>
+gpg: skipped "Mattias Hemmingsson <mattias.hemmingsson@elino.se>": secret key not available
+gpg: /tmp/debsign.Aay4To1W/elinoltsp_1.dsc: clearsign failed: secret key not available
+debsign: gpg error occurred!  Aborting....
+debuild: fatal error at line 1255:
+running debsign failed
+
+</pre>
+<p>Men det är bara för att paketet inte är signat.</p>
+<p>Gå nu till </p>
+<p>*/opt/elino/paket*<br />
+Och där finns nu ditt nya paket installera det med</p>
+<pre>
+dpkg -i paketnamn.deb
+</pre>
+<p>h2. Ändra i ett paket</p>
+<p>h3. Lägga till filer</p>
+<p>För att lägga till filer skapar du du servers filsystem i paketet.<br />
+Vill du skapa en fil i systemet på /etc/elino/matte.<br />
+Skapar du upp i filer i paketet rooten</p>
+<p>*tex*<br />
+*/opt/elino/paket/elinobas-1/*</p>
+<p>Där lägger du sedan de filer som du vill ha med i paketet.<br />
+Lägg de så att de *FÖLJER* den vanliga stadraden.</p>
+<p>*Lägg till elinos script*</p>
+<pre>
+/opt/elino/paket/elinobas-1/etc/elino
+</pre>
+<p>*OBS på paketnamnet måste vara på rätt ställe*<br />
+Kopera sedan in de filer du vill ha i /etc/elino i den katalogen</p>
+<p>Skapa filen debian/paketnamn.install tex debian/elinobas.install</p>
+<p>och lägg in följande i den filen</p>
+<pre>
+etc/elino/*     etc/elino
+
+</pre>
+<p>Den talar om vart du hämtar filerna och vart du ska lägga de.</p>
+<p>Öppna upp dirs filen och lägg till där med din katalog</p>
+<pre>
+etc
+</pre>
+<p>*Bygg det nya paketet med dina egna filer*</p>
+<pre>
+debuild
+</pre>
+<p>*Kontrollera så de nya filerna är med</p>
+<p>Gå till debian katalogen.<br />
+I den finns nu en ny fil som heter dit paket namn tex elinobas.<br />
+I den katalogen ska du nu hitta en *etc* katalog och sedan hitta dina filer.</p>
+<p>Då ligegr dina filer med i ditt nya paket och kommer pakas upp rätt.</p>
+<p>h3. Script när du installerar</p>
+<p>Filerna preinst och postinst är två filer som körs då paketet installeras.<br />
+preinst körs innan själva paketet börjar packaup sig.<br />
+OCh postinst körs då alla filer finns i systemet.</p>
+<p>I postinst är en bra fil att lägga in de script man vill ska köras då man installerar systemet.</p>
+<p>h3. Byggpaketet med kommandot</p>
+<pre>
+debuild
+</pre>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

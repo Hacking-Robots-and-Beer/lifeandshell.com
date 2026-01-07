@@ -1,0 +1,48 @@
+---
+title: Centos syncing VPS (Moving between VPS)
+date: 2014-02-19 21:17:36
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>So I have one vps on a company not that good so now I want to move my centos server to A new VPS server. But I dont want to install eveything from the start again.<br />
+So here is how I move my service between the two hosts.</p>
+<p>&nbsp;</p>
+<h2>1. Syncing yum</h2>
+<p>Copy over you repo files I hade rpm forge and epel on my servers.</p>
+<pre>scp rpm* root@eu1.elinodrift.se:/etc/yum.repos.d/
+scp epel* root@eu1.elinodrift.se:/etc/yum.repos.d/
+ scp /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6 root@eu1.elinodrift.se:/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6</pre>
+<p>&nbsp;</p>
+<p>Old server run this command to get all yum packege installed and the install the same packages on the new server.</p>
+<pre>rpm -qa --qf '%{name} \n' | sort &gt; MANIFEST
+scp MANIFEST root@hos1.elinodrift.se:/tmp</pre>
+<p>On the new server install the packages from the yum list but first add the epel key</p>
+<pre>yum -y install `cat MANIFEST`</pre>
+<p>Ok so now we have synced up the packages lets transfer some configs.</p>
+<h2>2. Syncing over services</h2>
+<pre>rsync  -avz /etc/postfix/ -e ssh root@eu1.elinodrift.se:/etc/postfix
+rsync  -avz /etc/openvpn/ -e ssh root@eu1.elinodrift.se:/etc/openvpn
+rsync  -avz /etc/httpd/ -e ssh root@eu1.elinodrift.se:/etc/httpd
+rsync  -avz /var/www/ -e ssh root@eu1.elinodrift.se:/var/www
+rsync  -avz /etc/dovecot/ -e ssh root@eu1.elinodrift.se:/etc/dovecot
+rsync  -avz /etc/ejabberd/ -e ssh root@eu1.elinodrift.se:/etc/ejabberd</pre>
+<p>&nbsp;</p>
+<p>Yess I only rsync all the config over includning the mysql server 🙂</p>
+<p>Then its only the matter of starting upp all your service on the new host. And some things shoul work. You may want to dubbel check users and folder so they are in sync.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

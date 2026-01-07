@@ -1,0 +1,42 @@
+---
+title: Centos What files are open to that PID
+date: 2013-08-29 09:06:39
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>Find out what files are open by that pid file.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>1. Find the pid for you service</h2>
+<pre>ps aux | grep httpd</pre>
+<pre>apache   24179  0.0  0.0 251316 15528 ?        S    08:58   0:00 /usr/sbin/httpd</pre>
+<p>Here this pid is 8582 now list all files open by that pid.</p>
+<h2>2. List files beloning to that file</h2>
+<p>&nbsp;</p>
+<pre>lsof -p 24179</pre>
+<p>&nbsp;</p>
+<p>OR</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre>ls -l /proc/24179/fd</pre>
+<p>&nbsp;</p>
+<pre>l-wx------ 1 root root 64 Aug 29 09:04 113 -&gt; /var/log/httpd/access_log_sycochuck
+l-wx------ 1 root root 64 Aug 29 09:04 114 -&gt; /var/log/httpd/_apache_access_log
+l-wx------ 1 root root 64 Aug 29 09:04 115 -&gt; /var/log/httpd/_apache_access_log
+l-wx------ 1 root root 64 Aug 29 09:04 116 -&gt; /var/log/httpd/_apache_access_log</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

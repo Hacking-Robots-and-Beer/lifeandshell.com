@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Elino on Life and Shell</title>
+    <link>https://lifeandshell.com/tags/elino/</link>
+    <description>Recent content in Elino on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Fri, 15 Apr 2016 22:15:11 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/tags/elino/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WordPress multisite to wordpress singelsite (Easy linux)</title>
+      <link>https://lifeandshell.com/posts/wordpress-multisite-wordpress-singelsite-easy-linux/</link>
+      <pubDate>Fri, 15 Apr 2016 22:15:11 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wordpress-multisite-wordpress-singelsite-easy-linux/</guid>
+      <description>So i hade to slip up my wordpress multisite to singel sites and it was not that hard when i found out how.&#xA;First start with setting up the new wordpress and then we migrate over the old wordpress site into the new.&#xA;1. Setup the new wordpress site&#xA;Install and setup the new wordpress site. You can run the instalation we will clean out the instalaltion later.&#xA;2. In the old multisite find the site id.</description>
+    </item>
+    <item>
+      <title>Install Pandora fms monitoring system on Centos</title>
+      <link>https://lifeandshell.com/posts/install-pandora-fms-monitoring-system-on-centos/</link>
+      <pubDate>Sat, 22 Mar 2014 13:10:54 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-pandora-fms-monitoring-system-on-centos/</guid>
+      <description>So for many years i use nagios to monitor my server and now im would say i can handle nagios config files good. But I fund pandora fms monitoring and this i must try.&#xA;From the pandora console its mutch easy to from the webbrowser setup new task and tweek task so you alarms realy are correct. Doing this in nagios then i had to change config files and restart nagios and nrpe.</description>
+    </item>
+    <item>
+      <title>ejabber users from postfixadmin (python,mysql,md5crypt)</title>
+      <link>https://lifeandshell.com/posts/ejabber-users-from-postfixadmin-pythonmysqlmd5crypt/</link>
+      <pubDate>Fri, 10 Jan 2014 21:28:51 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ejabber-users-from-postfixadmin-pythonmysqlmd5crypt/</guid>
+      <description>So Im running my emails with postfix and have postfix admin to manager my users and domains. But now it should be nice to have i jabber server running and to have the same user and password for both email and jabber.&#xA;Ejabber support custom auth plugins and with some python i now have a working plugin.&#xA;&amp;nbsp;&#xA;First install python packages yum install MySQL-python&#xD;yum install python-passlib &amp;nbsp;&#xA;Add this script to you ejabber folder</description>
+    </item>
+    <item>
+      <title>Private GIT server on centos 6</title>
+      <link>https://lifeandshell.com/posts/private-git-server-on-centos-6/</link>
+      <pubDate>Tue, 15 Oct 2013 14:40:50 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/private-git-server-on-centos-6/</guid>
+      <description>So i need to have an private git server. The plan is to fill the git server with my backups so I can see changes done to my git server.&#xA;&amp;nbsp;&#xA;Set up the local GIT server Users&#xA;adduser git&#xD;passwd git Become the git user and go to home folder&#xA;su git&#xD;cd ~ Create the repo&#xA;mkdir myrepo.git&#xD;cd myrepo.git/&#xD;git --bare init So now the repo is done lets connect to it and start using it.</description>
+    </item>
+    <item>
+      <title>restrict sms in nagios / icinga</title>
+      <link>https://lifeandshell.com/posts/limit-sms-flood-in-nagios-icing/</link>
+      <pubDate>Mon, 05 Aug 2013 16:13:58 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/limit-sms-flood-in-nagios-icing/</guid>
+      <description>Im using nagios as primary monitoring tool. And to get alerts we use an sms gateway. The problem is that sometimes when we work we bring down and server and we get so many sms from icinga that you trow away you phone. So for bringing the sms cost down and to have not so many sms to you phone i build a small email blocking script. This will take the address of the sms and only send one sms / email every 5 min (can be set to anything).</description>
+    </item>
+    <item>
+      <title>Install HA-Proxy for load-balansing on Centos</title>
+      <link>https://lifeandshell.com/posts/install-ha-proxy-for-load-balansing-on-centos/</link>
+      <pubDate>Tue, 30 Jul 2013 20:25:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-ha-proxy-for-load-balansing-on-centos/</guid>
+      <description>For load balasing my weebtraffic im setting up HA-proxy. The proxy recives reqest on one ip and then even loads the reqest between my web server nodes.&#xA;First install and enable Epel repo&#xA;yum install haproxy open the configfile /etc/haproxy/haproxt.cfg and ad to the buttom of the file&#xA;listen http_web 192.168.44.20:80&#xD;mode http&#xD;balance roundrobin # Load Balancing algorithm&#xD;option httpchk&#xD;option forwardfor&#xD;server server1 192.168.44.21:80 weight 1 maxconn 512 check&#xD;server server2 192.</description>
+    </item>
+  </channel>
+</rss>

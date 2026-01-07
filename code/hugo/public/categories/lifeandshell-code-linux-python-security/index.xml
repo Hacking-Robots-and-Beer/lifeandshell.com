@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Linux, Python, Security on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-linux-python-security/</link>
+    <description>Recent content in Lifeandshell, Code, Linux, Python, Security on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Tue, 18 Feb 2014 22:12:56 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-linux-python-security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Build you first syco Module</title>
+      <link>http://localhost:1313/posts/build-you-first-syco-module/</link>
+      <pubDate>Tue, 18 Feb 2014 22:12:56 +0000</pubDate>
+      <guid>http://localhost:1313/posts/build-you-first-syco-module/</guid>
+      <description>&lt;p&gt;SO from the last post you can install syco but you also need to build and update your own plugins in syco.&lt;br /&gt;&#xA;Here is a small guide how to build you first plugin.&lt;/p&gt;&#xA;&lt;p&gt;Here om building some syco commands for controlling apache and glassfish server.&lt;br /&gt;&#xA;the commands are run from our syco-chuck release commands center so for adding them to syco i can controll the script from sudo and do some extra test before starting and stopping the service.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

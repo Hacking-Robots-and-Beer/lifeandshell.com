@@ -1,0 +1,50 @@
+---
+title: Få Ossec att logga sina loggar till syslog
+date: 2012-09-05 13:14:50
+tags:
+    
+    - Random
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Random
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Random
+    
+    
+    - Security
+    
+     
+---
+<p>En bra sak är att samla alla sina loggar i syslog server.<br />
+Och en av de loggar man vill ha är ju ossecs loggar.<br />
+Det kan man göra lätt genom att låta ossec logga till syslog.</p>
+<p>Jag har nu satt upp min syslog med tls och ossec kan inte skicka loggar med tls.<br />
+Så det jag gör är att jag lägger ossec server på min syslog server.<br />
+Sedan låtar jag ossec servern logga på loopback nätet ner till min syslog server.</p>
+<p>Börja med att installera ossec server och lägg sedan till följande i din config.</p>
+<pre>
+<syslog_output>
+    <level>2</level>
+    <server>127.0.0.1</server>
+</syslog_output>
+</pre>
+<p>Skriv i lever vilken nivå du vill att ossec ska logga till din syslog.<br />
+Jag vill ha mycket logg så jag sätter den långt.</p>
+<p>ta sedan och aktivera syslog moduel till ossec och starta om den </p>
+<pre>
+/var/ossec/bin/ossec-control enable client-syslog
+/var/ossec/bin/ossec-control restart
+</pre>
+<p>Kolla nu i din syslog så borde ossec börja att logga in till den.</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

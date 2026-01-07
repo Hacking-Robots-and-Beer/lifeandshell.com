@@ -1,0 +1,46 @@
+---
+title: Remove old kernel in Centos
+date: 2013-08-15 13:47:45
+tags:
+    
+    - Linux
+    
+    
+    - Random
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Random
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Random
+    
+     
+---
+<p>So you try to update you server and it says that you /boot pertision is full and cant update kernel.<br />
+Will this is how you remove some old kernels so you can keep your system up to date.</p>
+<p>&nbsp;</p>
+<p>1. First what kernel is running now (We dont want to remove that kernel)</p>
+<pre>uname -a
+Linux install 2.6.32-279.19.1.el6.x86_64 #1 SMP Tue Nov 6 23:43:09 UTC 2012 x86_64 x86_64 x86_64 GNU/Linux</pre>
+<p>Ok kernel 2.6.32-279.14.1 is running now</p>
+<p>What kernels are install</p>
+<pre>rpm -q kernel
+kernel-2.6.32-279.el6.x86_64
+kernel-2.6.32-279.14.1.el6.x86_64
+kernel-2.6.32-279.19.1.el6.x86_64
+
+</pre>
+<p>So then remove the kernels that ARE NOT RUNNING ON</p>
+<pre>rpm -e kernel-2.6.32-279.el6.x86_64</pre>
+<p>And now you can install the new kernel</p>
+<p>&nbsp;</p>

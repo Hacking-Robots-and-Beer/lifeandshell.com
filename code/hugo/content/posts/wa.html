@@ -1,0 +1,208 @@
+---
+title: Running Wazuh Agents in Docker – From Traditional HIDS to Ingest Agents
+date: 2025-04-13 08:56:12
+tags:
+    
+    - k8s
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - k8s
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - k8s
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+---
+
+<p></p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Wazuh</h2>
+
+
+
+<p><strong>Wazuh</strong> is a powerful open-source security platform built to monitor systems for threats, intrusions, and anomalies. Traditionally, the Wazuh agent is installed on physical or virtual Linux servers to perform host-based intrusion detection (HIDS). It passively monitors the system and reports any suspicious changes or activity to the Wazuh manager.</p>
+
+
+
+<p>This works well in environments where systems are treated as immutable infrastructure — where servers are expected to remain unchanged. Any deviation from the expected system state triggers an alert, which aligns perfectly with the Wazuh philosophy.</p>
+
+
+
+<p>However, the landscape of modern infrastructure has evolved.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">The Challenge: Pets vs. Cattle</h2>
+
+
+
+<p>In today’s cloud-native environments, we often treat our servers like &#8220;cattle&#8221; instead of &#8220;pets&#8221; — frequently spinning them up and down, running applications in short-lived containers or pods. This approach poses a challenge to traditional Wazuh agents, which expect a consistent, long-lived system state.</p>
+
+
+
+<p>As of now, Wazuh doesn&#8217;t officially provide a Docker-native agent, making it a bit tricky to integrate into containerized environments — until now.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Introducing: Dockerized Wazuh Agents</h2>
+
+
+
+<p>Since I run nearly all of my infrastructure in containers, I needed a Wazuh agent that could integrate seamlessly into my Docker and Kubernetes environments. So I built one.</p>
+
+
+
+<p>My Dockerized Wazuh agent is designed to provision itself against the Wazuh manager automatically. This means you can drop it into any Docker Compose file or Kubernetes deployment and have it running in minutes across multiple servers or clusters.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Not Just a HIDS – Using Wazuh as an Ingest Agent</h2>
+
+
+
+<p>Instead of using the agent to monitor the filesystem directly (which is still possible via mounted volumes), I’ve repurposed it into an <strong>ingest agent</strong>.</p>
+
+
+
+<h3 class="wp-block-heading">What does this mean?</h3>
+
+
+
+<p>I’ve added a lightweight API script to the agent container, allowing it to receive logs in JSON format from external services. These logs are then forwarded to the Wazuh manager for analysis and alerting.</p>
+
+
+
+<p>This setup allows you to:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Centralize log ingestion from any service that can send JSON logs.</li>
+
+
+
+<li>Use Wazuh’s alerting engine without tying the agent to a specific system or container lifecycle.</li>
+
+
+
+<li>Seamlessly integrate with Docker- or Kubernetes-based workflows.</li>
+</ul>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Why This Matters</h2>
+
+
+
+<p>Running Wazuh in Docker opens up several possibilities:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Portable and repeatable deployments</strong>: Add the agent to your stack via Docker Compose or Helm charts.</li>
+
+
+
+<li><strong>Scalability</strong>: Deploy across nodes without manually configuring each one.</li>
+
+
+
+<li><strong>Flexibility</strong>: Use the agent as a log forwarder or traditional HIDS agent, depending on your needs.</li>
+</ul>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Try It Yourself</h2>
+
+
+
+<p>The Dockerized Wazuh agent, including the ingest API, is available on GitHub:</p>
+
+
+
+<p><a href="https://github.com/samma-io/wazuh-agent">https://github.com/samma-io/wazuh-agent</a></p>
+
+
+
+<p>Feel free to fork it, use it, and adapt it to your infrastructure.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Final Thoughts</h2>
+
+
+
+<p>Using Wazuh as a containerized ingest agent is a modern, flexible way to extend your security monitoring. Whether you’re running a Kubernetes cluster or a few Docker-based services on edge nodes, this approach simplifies deployment and broadens what Wazuh can monitor.</p>
+
+
+
+<p>Security should scale with your infrastructure — and now, with Wazuh in Docker, it can.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<p></p>

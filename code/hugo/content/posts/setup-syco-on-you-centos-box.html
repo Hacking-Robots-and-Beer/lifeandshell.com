@@ -1,0 +1,161 @@
+---
+title: Setup SYCO on you centos box
+date: 2014-02-18 15:27:04
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+---
+<p>So if you care about security and stability you must have syco installed on your server.<br />
+Read more about syco on the github project <strong>https://github.com/systemconsole</strong></p>
+<p>Im staring to use syco not only production but also on my &#8220;Own&#8221; server.<br />
+So more of you should really start using it and here is i guide for you to start using syco</p>
+<h2>1. Installing and setting up centos</h2>
+<pre>yum install git</pre>
+<p>&nbsp;</p>
+<p>Gettings syco</p>
+<p>cd /opt/<br />
+git clone https://github.com/systemconsole/syco.git</p>
+<p>Getting you own custom settings (USE THE default one)</p>
+<pre>cd /opt/syco/syco-private
+ln -s mod-template/ syco-private
+cd /opt/syco/etc/
+ln -s ../usr/syco-private/etc/install.cfg .
+cd /opt/syco/bin/
+./syco.py install-syco</pre>
+<p>Run the local installations</p>
+<pre>./syco.py install-local
+ System Console 0.3.0
+Enter the SYCO master password: 
+Enter the SYCO master password: (again) 
+Enter password for service "linux" with username "root":
+Enter password for service "linux" with username "root":(again) 
+Enter password for service "svn" with username "syscon":
+Enter password for service "svn" with username "syscon":(again) 
+Enter password for service "ldap" with username "admin":
+Enter password for service "ldap" with username "admin":(again) 
+Enter password for service "ldap" with username "sssd":
+Enter password for service "ldap" with username "sssd":(again) 
+Enter password for service "glassfish" with username "master":
+Enter password for service "glassfish" with username "master":(again) 
+Enter password for service "glassfish" with username "admin":
+Enter password for service "glassfish" with username "admin":(again) 
+Enter password for service "linux" with username "glassfish":
+Enter password for service "linux" with username "glassfish":(again) 
+Enter password for service "switch" with username "snmp":
+Enter password for service "switch" with username "snmp":(again) 
+Enter password for service "mysql" with username "root":
+Enter password for service "mysql" with username "root":(again) 
+Enter password for service "mysql" with username "monitor":
+Enter password for service "mysql" with username "monitor":(again) 
+Enter password for service "mysql" with username "backup":
+Enter password for service "mysql" with username "backup":(again) 
+Enter password for service "mysql" with username "integration":
+Enter password for service "mysql" with username "integration":(again) 
+Enter password for service "mysql" with username "stable":
+Enter password for service "mysql" with username "stable":(again) 
+Enter password for service "mysql" with username "uat":
+Enter password for service "mysql" with username "uat":(again) 
+Enter password for service "mysql" with username "production":
+Enter password for service "mysql" with username "production":(again) 
+ Install all commands defined in install.cfg for host localhost.localdomain.
+ Error: No commands for this host.</pre>
+<p>As you see I have NOT define any commands for my host so lets do that</p>
+<h2>2. Setup syco to to its magic</h2>
+<p>Open the file /opt/syco/etc/install.cfg this file set you settings for system.<br />
+And you should have this file in a secret locations 🙂</p>
+<p>So for this test I will set up my virtual test box I added this to the end of my file se below with comments on what it does.</p>
+<pre>[localhost.localdomain.]
+desc:My localhost virtual host
+type: host
+command01: syco iptables-setup
+command02: syco hardening
+command03: syco install-ntp-client
+command04: syco install-mail-relay-client
+#command05: syco install-clam
+#command20: syco install-kvmhost
+#command21: syco install-dhcp-server
+#command22: syco install-guest install-sc
+#command23: syco remote-install install-sc
+#command24: syco install-guests
+#command30: syco install-sssd
+#command31: syco hardening-ssh</pre>
+<p>&nbsp;</p>
+<pre>[localhost.localdomain.] <strong>&lt;--- name syco will take the host name and i math run the commands</strong>
+desc:My localhost virtual host
+type: host <strong>&lt;-- its i host if this is guest then vhen you run setup guest it will be created</strong>
+command01: syco iptables-setup<strong> &lt;-- first command to run and commands that dont need server to be up.</strong>
+command02: syco hardening
+command03: syco install-ntp-client
+command04: syco install-mail-relay-client
+#command05: syco install-clam
+#command20: syco install-kvmhost <strong>&lt;--- commands start with 20 are host uniq commands tex kvmhost yuu dont want all you server to be kvm host. This would be uniq on every host tex ldap-server,ntp-server and so on</strong>
+#command21: syco install-dhcp-server
+#command22: syco install-guest install-sc
+#command23: syco remote-install install-sc
+#command24: syco install-guests
+#command30: syco install-sssd <strong> &lt;--- the commands run now will install services that need the server to be up. Ore are waiting for servers to be up.</strong>
+#command31: syco hardening-ssh</pre>
+<p>So now I setup som syco will run the syco command 1-4 on my server so lets run it.</p>
+<pre>[root@localhost bin]# ./syco.py install-local
+ System Console 0.3.0
+Verify the SYCO master password: 
+ Install all commands defined in install.cfg for host localhost.localdomain.
+ Command: su -c 'syco iptables-setup'
+ Command: su -c 'syco hardening'
+ Command: su -c 'syco install-ntp-client'
+ Command: su -c 'syco install-mail-relay-client'
+[root@localhost bin]#</pre>
+<h2>3 FORK !!!</h2>
+<p>And now you have the start of syco up and running. Now go to the syco github project and fork syco and start wrinting you own plugins.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

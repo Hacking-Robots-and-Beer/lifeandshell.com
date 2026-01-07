@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Linux, Security, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-linux-security-web/</link>
+    <description>Recent content in Lifeandshell, Linux, Security, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sun, 05 Jul 2015 21:26:46 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-linux-security-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Foreman provision to bare and libvirtd (Centos7, foreman, libvirtd, KVM)</title>
+      <link>http://localhost:1313/posts/foreman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm/</link>
+      <pubDate>Sun, 05 Jul 2015 21:26:46 +0000</pubDate>
+      <guid>http://localhost:1313/posts/foreman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm/</guid>
+      <description>&lt;p&gt;So I have started to play around with foreman and to get it to provision my diffrent servers. I started by starting up some local virtual servers on my laptop and played around with them.&lt;/p&gt;&#xA;&lt;p&gt;The flow is i started installing foreman as a virtual server. Then i provisin a new virtual server as bare matal (I created a virtual server in virsh) ater that virtual server is prevision i installed it as a virtual host(kvm on kvm) and connected it to foreman so foreman kan provision kvm host.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Protecting you web with ModSecurity On Centos</title>
+      <link>http://localhost:1313/posts/protecting-you-web-with-modsecurity-on-centos/</link>
+      <pubDate>Tue, 04 Mar 2014 22:00:40 +0000</pubDate>
+      <guid>http://localhost:1313/posts/protecting-you-web-with-modsecurity-on-centos/</guid>
+      <description>&lt;p&gt;So it you worry about you webb then modsecurity is rely nice to have on your webbserver. I have it installed on my apache server with the regular rules from OWAS and also some rules for my own sites.&lt;br /&gt;&#xA;But here is also how to install it.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;1. Download and build modsec on your server&lt;/h2&gt;&#xA;&lt;p&gt;Add some packages&lt;/p&gt;&#xA;&lt;pre&gt;yum install gcc make&#xD;&#xA;yum install libxml2 libxml2-devel httpd-devel pcre-devel curl-devel&lt;/pre&gt;&#xA;&lt;p&gt;Go to &lt;a href=&#34;http://www.modsecurity.org/&#34; target=&#34;_blank&#34;&gt;http://www.modsecurity.org/&lt;/a&gt; and get the latest packages&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Blocking unwanted traffic (ddos,scrapers) Apache, Iptables</title>
+      <link>http://localhost:1313/posts/blocking-unwanted-traffic-ddosscrapers-apache-iptables/</link>
+      <pubDate>Tue, 11 Feb 2014 23:16:22 +0000</pubDate>
+      <guid>http://localhost:1313/posts/blocking-unwanted-traffic-ddosscrapers-apache-iptables/</guid>
+      <description>&lt;p&gt;So spent last evning blocking ip comming from &lt;a title=&#34;packetflip&#34; href=&#34;http://www.packetflip.com/&#34;&gt;packetflip&lt;/a&gt; to our server. Looks in our Apache access log that there was some evil scraping going on so we started blocking. But its not that funny to block many ip manually so time for some scripts.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;First some info to use &lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Packetflip user agent was&lt;/p&gt;&#xA;&lt;pre&gt;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022&lt;/pre&gt;&#xA;&lt;p&gt;And the request was hitting the link&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Apache Strong SSL config</title>
+      <link>http://localhost:1313/posts/apache-strong-ssl-config/</link>
+      <pubDate>Sun, 19 Jan 2014 22:46:53 +0000</pubDate>
+      <guid>http://localhost:1313/posts/apache-strong-ssl-config/</guid>
+      <description>&lt;p&gt;So only enable SSL on Apache is not good enough there are some config to add to&lt;br /&gt;&#xA;apache to make it stronger.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;This are the setting i use in my apache ssl configs.&lt;/p&gt;&#xA;&lt;pre&gt;SSLEngine On&#xD;&#xA; SSLCertificateFile /etc/apache2/ssl/apache.pem&#xD;&#xA; SSLCertificateKeyFile /etc/apache2/ssl/apache.key&lt;/pre&gt;&#xA;&lt;pre&gt;Header add Strict-Transport-Security &#34;max-age=15768000&#34;&#xD;&#xA; SSLCompression off&#xD;&#xA;SSLUseStapling on&#xD;&#xA;SSLStaplingResponderTimeout 5&#xD;&#xA;SSLStaplingReturnResponderErrors off&#xD;&#xA;SSLStaplingCache shmcb:/var/run/ocsp(128000)&#xD;&#xA; SSLProtocol All -SSLv2 -SSLv3&#xD;&#xA; SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4&lt;/pre&gt;&#xA;&lt;p&gt;And for generating you cert I use&lt;/p&gt;&#xA;&lt;pre&gt;openssl req -new -x509 -days 365 -nodes -out /etc/apache2/ssl/apache.pem -keyout /etc/apache2/ssl/apache.key&lt;/pre&gt;&#xA;&lt;p&gt;If you plan to get a signing request&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Fail2Ban on Centos</title>
+      <link>http://localhost:1313/posts/fail2ban-on-centos/</link>
+      <pubDate>Mon, 16 Dec 2013 20:58:10 +0000</pubDate>
+      <guid>http://localhost:1313/posts/fail2ban-on-centos/</guid>
+      <description>&lt;p&gt;Fail2Ban is a small service to block unwanted traffic to you server. I use it to block ssh,and postfix loggins in to my virtual hosts.&lt;br /&gt;&#xA;Fail2Ban scans the service loggfiles and if it find any strange traffik like ssh bruteforce. That ip will be blocket for some time.&lt;br /&gt;&#xA;All settings are done in /etc/fail2ban/ folder.&lt;/p&gt;&#xA;&lt;p&gt;Install&lt;/p&gt;&#xA;&lt;p&gt;Have  epel repo aktivated on server tha run&lt;/p&gt;&#xA;&lt;pre&gt; yum install fail2ban&lt;/pre&gt;&#xA;&lt;p&gt;Then do your local config in&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

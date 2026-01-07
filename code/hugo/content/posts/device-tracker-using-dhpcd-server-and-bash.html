@@ -1,0 +1,153 @@
+---
+title: Device Tracker using Dhpcd server and bash
+date: 2022-12-21 14:07:01
+tags:
+    
+    - Code
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+---
+
+<p>I have used Home Assistance for some time. And have always used the device tracker to set different actions based if I&#8217;m home or not.<br>But when my pfsense died and a install a clean Linux box as my fw and DHCP server I lost all my tracking for devices.</p>
+
+
+
+<p>But I did found out that the dhcpd server can run a command every time it hands out a dhcpds leese. And HA has a great API that you can use !<br><br>So with this a setup some small bash script in not more then 10 lines that connects and add my devices to HA<br></p>
+
+
+
+<h2 class="wp-block-heading"><br>1. Set mac to state Home !</h2>
+
+
+
+<p>Let&#8217;s get our dhpcd server to run a bash script. The script gets the mac and sets the state in HA for the mac to home. It also saves the mac in a file in a folder that we will use later</p>
+
+
+
+<p><code>on commit {<br></code>set ClientIP = binary-to-ascii(10, 8, &#8220;.&#8221;, leased-address);<br>set ClientMac = binary-to-ascii(16, 8, &#8220;:&#8221;, substring(hardware, 1, 6));<br>set ClientHost = pick-first-value (option fqdn.hostname, option host-name, &#8220;&#8221;);<br>log(concat(&#8220;Commit: IP: &#8220;, ClientIP, &#8221; Mac: &#8220;, ClientMac));<br>execute(&#8220;/etc/dhcp/ha-precense.sh&#8221;, &#8220;commit&#8221;, ClientIP, ClientMac, ClientHost);</p>
+
+
+
+<p><code>}</code></p>
+
+
+
+<p><br>Add this into your dhcpd config. It is called the script ha-precense.se, and below is that script.</p>
+
+
+
+<pre class="wp-block-code"><code>#!/bin/bash
+#
+#
+# script that add devices to ha 
+NAME=$1
+IP=$2
+MAC=$3
+HOSTNAME=$4
+MACNAME=$(echo "$MAC" | sed "s/:/_/g")
+TOKEN=
+echo "Adding the foollowing name to Home Assitance $NAME $IP $MAC $HOSTNAME"
+if &#91; -z "$var" ]
+then
+      echo "Adding the foollowing name to Home Assitance $NAME $IP $MAC $HOSTNAME" > /var/log/ha-devices/$MAC
+      curl -X POST -H "Authorization: Bearer $TOKEN" \
+         -H "Content-Type: application/json" \
+         -d '{"state": "home" }' \
+        http:&#47;&#47;localhost:8123/api/states/device_tracker.$MACNAME
+else
+      echo "Adding the foollowing name to Home Assitance $NAME $IP $MAC $HOSTNAME" > /var/log/ha-devices/$HOSTNAME
+      curl -X POST -H "Authorization: Bearer $TOKEN" \
+         -H "Content-Type: application/json" \
+         -d '{"state": "home" }' \
+        http://localhost:8123/api/states/device_tracker.$HOSTNAME
+
+fi
+</code></pre>
+
+
+
+<p>Add your token that you will get from home assistance.<br>And change the localhost, so it points to your home assistance </p>
+
+
+
+<h2 class="wp-block-heading">2. Set the to not_home</h2>
+
+
+
+<p>Now we have a lot of mac that are in state Home bu for our device tracker to work we also need to have them in state not_home.<br>For that, we use the files we created before. We look at the files that are more then 1h old. If there are more then set the state for that mac to not_home. And remove the file.</p>
+
+
+
+<pre class="wp-block-code"><code>#!/bin/bash
+#
+# Detect old leease and set them as nothome in HA
+#
+DEVICES=$(find /var/log/ha-devices/ -type f -mmin +60)
+TOKEN=
+
+for i in $DEVICES;
+ do
+    MAC=$(echo $i | awk -F/ '{print $NF}')
+    MACNAME=$(echo "$MAC" | sed "s/:/_/g")
+    echo "Setting $MAC to not home"
+    curl -X POST -H "Authorization: Bearer $TOKEN" \
+  		-H "Content-Type: application/json" \
+  		-d '{"state": "not_home" }' \
+  			http:&#47;&#47;localhost:8123/api/states/device_tracker.$MACNAME
+    rm $i
+
+
+done
+</code></pre>
+
+
+
+<p>Same here as before add you own token and change the localhost address to match your setup.<br>I have setup a crontab to run this every 5 min.<br><br></p>
+
+
+
+<h2 class="wp-block-heading">More fix</h2>
+
+
+
+<p>So the tracker now should be fast when a device arrives to the network and get a IP. Then the state in HA will change at once.<br>But setting the state to away may be slower  depending on some things that you can configure as you want<br>&#8211; dhcpd leease time is how often a client will request for a new IP. </p>
+
+
+
+<p>&#8211; In the remove script when you find files older then. its good to match this with the leease time </p>
+
+
+
+<p>&#8211; How often you run the remove script in crontab. </p>
+
+
+
+<p>For me don&#8217;t care if it quick so I have those set to 60min and clean every 5 min for now.<br></p>

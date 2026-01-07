@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Uncategorized on Life and Shell</title>
+    <link>https://lifeandshell.com/tags/uncategorized/</link>
+    <description>Recent content in Uncategorized on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Mon, 03 Sep 2012 14:38:56 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/tags/uncategorized/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>centos6 rsyslog och mysql</title>
+      <link>https://lifeandshell.com/posts/centos6-rsyslog-och-mysql/</link>
+      <pubDate>Mon, 03 Sep 2012 14:38:56 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/centos6-rsyslog-och-mysql/</guid>
+      <description>För att få lite kontroll på alla loggar ska jag installera en central rsyslog server.&#xA;Vi ska spara alla loggar i mysql så man lätt kan komma åt loggarna och även kunna se de i &amp;#8220;live&amp;#8221;.&#xA;yum install rsyslog rsyslog-mysql mysql-server Sätt upp mysql för att kunna ta imot loggarna.&#xA;Vi laddar in en sql fil från syslog som sätter upp en databas som heter Syslog och laddar den med tabeller.</description>
+    </item>
+    <item>
+      <title>clamav viruscan script</title>
+      <link>https://lifeandshell.com/posts/clamav-viruscan-script/</link>
+      <pubDate>Tue, 24 Apr 2012 14:44:43 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/clamav-viruscan-script/</guid>
+      <description>Clamav är det virus program som jag för det mesta kör på mina linux servrar.&#xA;Den går lätt att installera coh sedan har jag ett litet bash script som scannar mina server en gång per dag /vecka.&#xA;För att scriptet ska funka så måste du skapa katalogen /var/log/clamav&#xA;#!/bin/bash # email subject SUBJECT=&#34;VIRUS DETECTED ON `hostname`!!!&#34; # Email To ? EMAIL=&#34;sysoparenden@fareoffice.com&#34; #Date for saving all scans DATE=`date +%y-%m-%d` # Log location LOG=/var/log/clamav/scan-$DATE.</description>
+    </item>
+    <item>
+      <title>mail till script Zimbra tex zimbra till redmine</title>
+      <link>https://lifeandshell.com/posts/mail-till-script-zimbra-tex-zimbra-till-redmine/</link>
+      <pubDate>Mon, 12 Mar 2012 16:20:58 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mail-till-script-zimbra-tex-zimbra-till-redmine/</guid>
+      <description>Så Äntligen&#xA;Efter en dags hårdargenade har jag äntligen hittat hur man gör för att köra ett script då man mailar till en använare i zimbra.&#xA;Jag använder det till så man kan maila till tex arenden@fareoffice.com så kommer det som ett ärende in till redmine.&#xA;1. Fixa till din transport i zimbra.&#xA;Öpna filen&#xA;vi /opt/zimbra/postfix/conf/transport&#xA;######REDMINE adding&#xD;arenden@fareoffice.com local:&#xD;arenden@fareonline.net local:&#xD;issues@fareoffice.com local: Sedan så fixar vi till transport databasen</description>
+    </item>
+    <item>
+      <title>backtrack mitt startup script</title>
+      <link>https://lifeandshell.com/posts/backtrack-mitt-startup-script/</link>
+      <pubDate>Sat, 11 Feb 2012 15:07:03 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/backtrack-mitt-startup-script/</guid>
+      <description>När man startar upp backtrack så startar den alltid i sin live miljö. Och tyckte det var lute jobbigt att varje gång hålla på att ställa in alla saker som ska göras.&#xA;Så jag har gjort ett litet script som jag har liggande på min kryptade del på usb minnet.&#xA;Den fixar till tangetbordet så det blir till svenska.&#xA;Sätter upp mina två trådlösa kort&#xA;Ändrar macaddress på mina två trådlösa kort</description>
+    </item>
+    <item>
+      <title>syca Zimbra med Zimbra</title>
+      <link>https://lifeandshell.com/posts/syna-zimbra-med-zimbra/</link>
+      <pubDate>Wed, 01 Feb 2012 14:34:41 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/syna-zimbra-med-zimbra/</guid>
+      <description>Sätter upp en del zimbra servrar.&#xA;Och åker alltid på att synca mailkonton från den gamla till den nya.&#xA;Har testat tror alla olika sätt som föreslås med att synca men igentligen bara hittat ett som fungerar bra.&#xA;Kör nu mera alltid imapsync som kör kör mellan de båda zimbra servrarna.&#xA;Sedan får mina användare att komma förbi och skriva in sin uppgifter så kör jag igång scriptet som syncar</description>
+    </item>
+    <item>
+      <title>Snyggat till Skolsystemet</title>
+      <link>https://lifeandshell.com/posts/snyggat-till-skolsystemet/</link>
+      <pubDate>Thu, 26 Jan 2012 20:57:20 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/snyggat-till-skolsystemet/</guid>
+      <description>Yo&#xA;Suttit nu på kvällen och snyggat till skolsystemet jag bygger på med boostrap&#xA;Är ett css mall som är samma som twitter använder.&#xA;Det gör livet lätt för mig jag bara slänger in css bland mina andra css och sedan är det fritt fram att&#xA;lägga till de olika komonenterna hur lätt som hälst.&#xA;Så det känns som den blir snyggare och snyggare.&#xA;Nu är det daxs för annat</description>
+    </item>
+    <item>
+      <title>Två dagars för en one liner</title>
+      <link>https://lifeandshell.com/posts/tva-dagars-for-en-one-liner/</link>
+      <pubDate>Wed, 25 Jan 2012 14:40:21 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/tva-dagars-for-en-one-liner/</guid>
+      <description>Jobbat nu i två dagar att få till en modrerwrite som gör om alla våra stökiga url till finare url. Det ska göra att alla sökmotor ska gilla våran sida mycket mer.&#xA;fick en excel från SEo folket och nu två dagar senare har jag hittat en online som fixar till det åt oss.&#xA;Var lite mek då det händer mycket bak i php systemet,&#xA;RewriteRule&#x9;^matte/([^/]+)/([^/]+)$&#x9;main.php?destination=Spw/740/uk/${statemap:${upper2lower:$1}|}/${locationmap:${upper2lower:$2}|} [NC,L]&#xA;The post is brought to you by lekhonee v0.</description>
+    </item>
+    <item>
+      <title>Ny nas till växthuset</title>
+      <link>https://lifeandshell.com/posts/ny-nas-till-vaxthuset/</link>
+      <pubDate>Wed, 25 Jan 2012 13:52:27 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ny-nas-till-vaxthuset/</guid>
+      <description>Fick en fet nas idag som jag ska trycka in freenas på och sedan dra ur till växthuset.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,109 @@
+---
+title: Wazuh On Kubernetes using Helm
+date: 2025-04-12 21:50:16
+tags:
+    
+    - docker
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - docker
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - docker
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+---
+<h2>From OSSEC to Wazuh: My Journey and Kubernetes Setup</h2>
+<p>
+I started a long time ago using <strong>OSSEC</strong>, and eventually transitioned over to <strong>Wazuh</strong>—back when it still relied on <em>Elasticsearch</em> for storage and search.
+</p>
+<p>
+Recently, when I returned to Wazuh for a new project, I was surprised to find that there was no simple way to deploy Wazuh into a local Kubernetes cluster for testing. So, I decided to revive and modernize an old Helm chart I had built a while back.
+</p>
+<p>
+The result is a lightweight and functional setup that makes it easy to deploy a complete Wazuh stack into your own Kubernetes environment with minimal fuss.
+</p>
+<h2>Testing Rules with a Custom Wazuh Docker Agent</h2>
+<p>
+I use this local setup to test custom rules and alerts. Alongside the Kubernetes deployment, I also built a dedicated <strong>Wazuh Docker agent</strong> container that can be quickly spun up to connect to the Wazuh manager inside the cluster.
+</p>
+<p>
+It’s great for simulating events and running detection logic without touching production systems.
+</p>
+<h2>Deploying with Helm</h2>
+<p>
+To deploy Wazuh into your cluster, you can use the Helm chart I’ve published here:
+</p>
+<p>
+<a href="https://github.com/samma-io/wazuh-helm/tree/main" target="_blank" rel="noopener">https://github.com/samma-io/wazuh-helm/tree/main</a>
+</p>
+<h2>Dealing with TLS Certificates</h2>
+<p>
+One of the challenges I faced was setting up <strong>TLS certificates</strong>. Wazuh requires TLS for secure communication between its internal services, and generating those certificates wasn’t entirely straightforward.
+</p>
+<p>
+In the end, I manually created the necessary certs using Wazuh&#8217;s certificate generation tools and added them to Kubernetes as secrets.
+</p>
+<p>
+At some point, I plan to integrate <strong>cert-manager</strong> to make certificate management cleaner and automated.
+</p>
+<h2>Agent Registration: A Small Gotcha</h2>
+<p>
+While connecting my custom Docker agent, I noticed that I had to configure different endpoints for registration and manager communication. Once I figured that out, everything connected and worked as expected.
+</p>
+<h2>Custom Wazuh Docker Agent</h2>
+<p>
+You can find the Wazuh Docker agent I created here:
+</p>
+<p>
+<a href="https://github.com/samma-io/wazuh-agent" target="_blank" rel="noopener">https://github.com/samma-io/wazuh-agent</a>
+</p>
+<p>
+This agent integrates smoothly with the Kubernetes-deployed Wazuh stack and is ideal for testing or automation scenarios.
+</p>
+<h2>Conclusion</h2>
+<p>
+This setup has become my go-to environment for experimenting with detection rules, building custom alerts, and validating my security logic. It’s lightweight, reliable, and tailored for local development with Wazuh.
+</p>
+<p>
+If you&#8217;re exploring Wazuh or want to test your own security rules in a controlled Kubernetes setup, this might be exactly what you need.</p>

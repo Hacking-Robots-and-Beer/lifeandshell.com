@@ -1,0 +1,49 @@
+---
+title: Recover you python files from rm -rf *
+date: 2014-04-03 14:49:50
+tags:
+    
+    - Life
+    
+    
+    - Python
+    
+     
+categories:
+    
+    - Life
+    
+    
+    - Python
+    
+     
+keywords: 
+    
+    - Life
+    
+    
+    - Python
+    
+     
+---
+<p>So after cleaning up my work i run rm -rf * in the woring folder. Deleting all my work!.<br />
+After fighting holding back some tears I set down and start see if i could recover my lost work.</p>
+<p>First recover you file from the filesystem and my laptop is an ubuntu desktop</p>
+<pre>sudo apt-get install extundelete</pre>
+<p>Then its time to recover the files i run this command to get my lost folder back</p>
+<pre>sudo extundelete --restore-directory /home/mattias/myfiles /dev/mapper/ubuntu--vg-root</pre>
+<p>Now the magic happend and i got my files back BUT ONLY MY .pyc files !<br />
+so for getting back my original files i downloaded</p>
+<p><a title="https://github.com/wibiti/uncompyle2" href="https://github.com/wibiti/uncompyle2">https://github.com/wibiti/uncompyle2</a></p>
+<p>unzip the folder and run</p>
+<pre>python setup.py install</pre>
+<p>Then to get my python file back run</p>
+<pre>
+
+ uncompyle2 fabfile.pyc
+
+
+
+</pre>
+<p>And the file is BACK if you read this and have now backup fix it now!</p>
+<p>Next post will problebly be a backup post so read that one.</p>

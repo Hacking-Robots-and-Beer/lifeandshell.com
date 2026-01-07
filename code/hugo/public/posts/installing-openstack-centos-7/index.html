@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Installing Openstack Centos 7 | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/installing-openstack-centos-7/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/installing-openstack-centos-7/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Installing Openstack Centos 7">
+  <meta property="og:description" content="Time to install Openstack on an Centos 7 server. This was my first meeting with Openstack and it took some time for gettings things up.
+This would be a beginners guide to get you first server up and running.
+I followed this page in my installation
+ 
+https://openstack.redhat.com/Neutron_with_existing_external_network
+ 
+My Openstack server has one NIC connect to my DMZ network and then routed out.
+ 
+First install a Centos 7 minimal server and setup network  ">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2014-10-03T14:45:31+00:00">
+    <meta property="article:modified_time" content="2014-10-03T14:45:31+00:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Web">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Installing Openstack Centos 7">
+  <meta name="twitter:description" content="Time to install Openstack on an Centos 7 server. This was my first meeting with Openstack and it took some time for gettings things up.
+This would be a beginners guide to get you first server up and running.
+I followed this page in my installation
+ 
+https://openstack.redhat.com/Neutron_with_existing_external_network
+ 
+My Openstack server has one NIC connect to my DMZ network and then routed out.
+ 
+First install a Centos 7 minimal server and setup network  ">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/installing-jenkins-on-centos-7/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/getting-django-docker-prod-ready-with-jenkins-part-1-the-build/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&text=Installing%20Openstack%20Centos%207" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&title=Installing%20Openstack%20Centos%207" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&is_video=false&description=Installing%20Openstack%20Centos%207" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Installing%20Openstack%20Centos%207&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&title=Installing%20Openstack%20Centos%207" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&title=Installing%20Openstack%20Centos%207" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&name=Installing%20Openstack%20Centos%207&description=Time%20to%20install%20Openstack%20on%20an%20Centos%207%20server.%20This%20was%20my%20first%20meeting%20with%20Openstack%20and%20it%20took%20some%20time%20for%20gettings%20things%20up.%0aThis%20would%20be%20a%20beginners%20guide%20to%20get%20you%20first%20server%20up%20and%20running.%0aI%20followed%20this%20page%20in%20my%20installation%0a%26nbsp%3b%0ahttps%3a%2f%2fopenstack.redhat.com%2fNeutron_with_existing_external_network%0a%26nbsp%3b%0aMy%20Openstack%20server%20has%20one%20NIC%20connect%20to%20my%20DMZ%20network%20and%20then%20routed%20out.%0a%26nbsp%3b%0aFirst%20install%20a%20Centos%207%20minimal%20server%20and%20setup%20network%20%26nbsp%3b" aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&t=Installing%20Openstack%20Centos%207" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Installing Openstack Centos 7
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2014-10-03 14:45:31 &#43;0000 UTC" itemprop="datePublished">2014-10-03</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          4 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+             ,  
+            <a class="category-link" href="/categories/web">Web</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/web" rel="tag">Web</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>Time to install Openstack on an Centos 7 server. This was my first meeting with Openstack and it took some time for gettings things up.<br />
+This would be a beginners guide to get you first server up and running.</p>
+<p>I followed this page in my installation</p>
+<p>&nbsp;</p>
+<p><a title="https://openstack.redhat.com/Neutron_with_existing_external_network" href="https://openstack.redhat.com/Neutron_with_existing_external_network" target="_blank">https://openstack.redhat.com/Neutron_with_existing_external_network</a></p>
+<p>&nbsp;</p>
+<p>My Openstack server has one NIC connect to my DMZ network and then routed out.</p>
+<p>&nbsp;</p>
+<h2>First install a Centos 7 minimal server and setup network</h2>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Time to install</h2>
+<p>Set correct hostname make shoure that you hostname is in the hostfile with you ip corrected my servername is openstack1.mydomain.com</p>
+<pre>10.100.0.50 openstack1 openstack1.mydomain.com
+127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
+~</pre>
+<p>&nbsp;</p>
+<p>Install the packages needed</p>
+<p>&nbsp;</p>
+<pre>sudo yum install -y http://rdo.fedorapeople.org/rdo-release.rpm
+sudo yum install -y openstack-packstack</pre>
+<pre>sudo yum update</pre>
+<p>Reboot</p>
+<pre>sudo reboot</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Install and setup Openstack RDO</p>
+<pre>packstack --allinone --provision-all-in-one-ovs-bridge=n</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Setup the network</h2>
+<p>Create the file /etc/sysconfig/network-scripts/ifcfg-br-ex and add the following correct to you ip on host</p>
+<pre>DEVICE=br-ex
+DEVICETYPE=ovs
+TYPE=OVSBridge
+BOOTPROTO=static
+IPADDR=10.100.0.50 # Old eth0 IP since we want the network restart to not kill the connection, otherwise pick something outside your dhcp range
+NETMASK=255.255.255.0 # your netmask
+GATEWAY=10.100.0.1 # your gateway
+DNS1=10.100.0.1 # your nameserver
+ONBOOT=yes</pre>
+<p>&nbsp;</p>
+<p>Fix you eno1 file (My network are connect to eno1 interface) my looks like this</p>
+<pre>BOOTPROTO="none"
+IPV4_FAILURE_FATAL="no"
+IPV6INIT="yes"
+IPV6_AUTOCONF="yes"
+IPV6_DEFROUTE="yes"
+IPV6_FAILURE_FATAL="no"
+NAME="eno1"
+UUID="69dcfe19-4eab-41d2-afad-a10bd86c84b3"
+ONBOOT="yes"
+HWADDR="D8:9D:67:15:67:24"
+IPV6_PEERDNS="yes"
+IPV6_PEERROUTES="yes"
+TYPE=OVSPort
+DEVICETYPE=ovs
+OVS_BRIDGE=br-ex
+ONBOOT=yes</pre>
+<p>&nbsp;</p>
+<p>Open the file vi /etc/neutron/plugin.ini and add</p>
+<p>under the [ml2_type_vxlan]</p>
+<pre>network_vlan_ranges = physnet1</pre>
+<p>and then add under that</p>
+<p>&nbsp;</p>
+<pre>[ovs]
+network_vlan_ranges = physnet1
+bridge_mappings = physnet1:br-ex</pre>
+<p>Restart the network</p>
+<pre>systemctl restart network.service</pre>
+<p>sometimes I have problem when i restart my server the  I have to run the network restart after the server is booted to get network running.<br />
+This can have some issues so that the network dies and have to be restarted to work.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Set up Openstack</h2>
+<p>Now you shuld have av openstack server up and running the admin password is found in /root/keystonerc_admin</p>
+<p>Setup the Network</p>
+<p>&nbsp;</p>
+<p>get access</p>
+<pre>source ~/keystonerc_admin</pre>
+<p>&nbsp;</p>
+<p>Clean out</p>
+<pre>neutron router-gateway-clear router1
+neutron subnet-delete public_subnet</pre>
+<p>&nbsp;</p>
+<p>Add our exesting subnet as public</p>
+<p>my exesting network is 10.100.0.0/24 and i want to use 10.100.0.200 to 10.100.0.220 to my server inside openstack</p>
+<pre>neutron subnet-create --name public_subnet --enable_dhcp=False --allocation-pool=start=10.100.0.200,end=10.100.0.220 --gateway=10.100.0.1 public 10.100.0.0/24</pre>
+<p>&nbsp;</p>
+<p>Add our router and private network</p>
+<pre>neutron router-gateway-set router1 public
+neutron net-create hostnet
+neutron subnet-create --name private_subnet --enable_dhcp=True --allocation-pool=start=10.0.0.2,end=10.0.0.200 hostnet 10.0.0.0/24
+neutron router-gateway-set router1 hostnet  &lt;-- dont work read bellow</pre>
+<p>This could somethimes dont work but then you can login to openstack as admin and go to Project/network/routers<br />
+Add a router and conenct it to the public network. Then press the router and add new port and add it to the hostnet give it ip 10.0.0.1</p>
+<p>you should have e network top that looks like this.</p>
+<p><a href="http://lifeandshell.com/wp-content/uploads/2014/10/network.png"><img loading="lazy" decoding="async" class="alignnone  wp-image-340" src="http://lifeandshell.com/wp-content/uploads/2014/10/network-300x168.png" alt="network" width="636" height="356" /></a></p>
+<p>&nbsp;</p>
+<h3>Time to add floating ip</h3>
+<p>in the openstack dashbourd go to project -&gt;compute -&gt;Access &amp; security -&gt; floating ip<br />
+add as many ip as you can i started now with only two that i need.</p>
+<h3>Set up keys</h3>
+<p>in the openstack dashbourd go to project -&gt;compute -&gt;Access &amp; security -&gt; key pairs</p>
+<p>generate and se that you get the pem file to you computer.</p>
+<p>&nbsp;</p>
+<h3>Set up access to server</h3>
+<p>in the openstack dashbourd go to project -&gt;compute -&gt;Access &amp; security -&gt; security group</p>
+<p>press manager rules and add rules for</p>
+<p>&nbsp;</p>
+<pre>icmp all both ingress / egress directions (two rules)</pre>
+<pre>ssh allow rule</pre>
+<p>&nbsp;</p>
+<p>So the network part is OK now we need to set up some openstack</p>
+<p>&nbsp;</p>
+<h2>Install instance</h2>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Go to in the openstack dashbord projects -&gt;compute -&gt; instans</p>
+<p>press launch instanse and give the host the following settings</p>
+<p>&nbsp;</p>
+<pre>name: cirrius
+flavor: tiny
+instance boot source:boot from image
+image:cirrius
+
+</pre>
+<pre>Network:hostnet (ONLY THE HOSTNET !!!!!!!)</pre>
+<p>&nbsp;</p>
+<p>then press launch</p>
+<p>&nbsp;</p>
+<h3>Add flouting ip</h3>
+<p>assosiate a floting ip that we created before to the host</p>
+<p>&nbsp;</p>
+<p>Test so that it works</p>
+<p>loggin in to the instance and test so that you have network by pingen 8.8.8.8 and 10.0.0.1</p>
+<p>it should work and you instanse should have internet access so lets test from external into the instance. From your openstack host ping you floting ip. and test to ssh into it.<br />
+And it should work and you have a working platform.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Error test to restart service in this order</h2>
+<pre>[root@openstack1 mathem(keystone_admin)]# systemctl restart rabbitmq-server.service
+[root@openstack1 mathem(keystone_admin)]# systemctl restart openstack-swift-proxy.service
+[root@openstack1 mathem(keystone_admin)]# systemctl restart openstack-swift-object.service
+[root@openstack1 mathem(keystone_admin)]# systemctl restart openstack-swift-container.service
+[root@openstack1 mathem(keystone_admin)]# systemctl restart openstack-swift-account.service
+[root@openstack1 mathem(keystone_admin)]# systemctl restart openstack-ceilometer-api.service
+[root@openstack1 mathem(keystone_admin)]# systemctl restart openstack-ceilometer-api.service
+[root@openstack1 mathem(keystone_admin)]# systemctl restart neutron-server.service
+[root@openstack1 mathem(keystone_admin)]# systemctl restart mongod.service</pre>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&text=Installing%20Openstack%20Centos%207" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&title=Installing%20Openstack%20Centos%207" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&is_video=false&description=Installing%20Openstack%20Centos%207" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Installing%20Openstack%20Centos%207&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&title=Installing%20Openstack%20Centos%207" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&title=Installing%20Openstack%20Centos%207" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&name=Installing%20Openstack%20Centos%207&description=Time%20to%20install%20Openstack%20on%20an%20Centos%207%20server.%20This%20was%20my%20first%20meeting%20with%20Openstack%20and%20it%20took%20some%20time%20for%20gettings%20things%20up.%0aThis%20would%20be%20a%20beginners%20guide%20to%20get%20you%20first%20server%20up%20and%20running.%0aI%20followed%20this%20page%20in%20my%20installation%0a%26nbsp%3b%0ahttps%3a%2f%2fopenstack.redhat.com%2fNeutron_with_existing_external_network%0a%26nbsp%3b%0aMy%20Openstack%20server%20has%20one%20NIC%20connect%20to%20my%20DMZ%20network%20and%20then%20routed%20out.%0a%26nbsp%3b%0aFirst%20install%20a%20Centos%207%20minimal%20server%20and%20setup%20network%20%26nbsp%3b" aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-openstack-centos-7%2f&t=Installing%20Openstack%20Centos%207" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

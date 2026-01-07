@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ubuntu on Life and Shell</title>
+    <link>https://lifeandshell.com/tags/ubuntu/</link>
+    <description>Recent content in Ubuntu on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Fri, 02 Jan 2026 11:00:00 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An Introduction to Kubernetes on Your Ubuntu Desktop with Minikube</title>
+      <link>https://lifeandshell.com/posts/an-introduction-to-kubernetes-on-your-ubuntu-desktop-with-minikube/</link>
+      <pubDate>Fri, 02 Jan 2026 11:00:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/an-introduction-to-kubernetes-on-your-ubuntu-desktop-with-minikube/</guid>
+      <description>Orchestrate Your Containers Like the Pros When you move from running a few containers to managing a complex, scalable application, you need an orchestration platform. Kubernetes is the industry standard, and the &amp;#8216;Ubuntu System Administration Guide&amp;#8217; shows you how to get started with it on your local machine using a tool called Minikube.&#xA;What is Kubernetes? Kubernetes (often called K8s) automates the deployment, scaling, and management of containerized applications. It groups containers into logical units called &amp;#8216;Pods&amp;#8217; and handles networking, storage, and load balancing, ensuring your application is resilient and available.</description>
+    </item>
+    <item>
+      <title>Turn Your Ubuntu Server into a Virtualization Host with KVM</title>
+      <link>https://lifeandshell.com/posts/turn-your-ubuntu-server-into-a-virtualization-host-with-kvm/</link>
+      <pubDate>Fri, 03 Oct 2025 16:00:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/turn-your-ubuntu-server-into-a-virtualization-host-with-kvm/</guid>
+      <description>Unlock the Power of Multiple Servers on One Machine Virtualization is a cornerstone of modern IT, and the &amp;#8216;Ubuntu System Administration Guide&amp;#8217; shows you how to transform a standard Ubuntu server into a powerful host for running multiple virtual machines (VMs). The guide focuses on KVM (Kernel-based Virtual Machine), the native virtualization solution for Linux.&#xA;Why Host VMs on Your Server? Running VMs allows you to isolate services, test new software in a safe environment, and make efficient use of your hardware.</description>
+    </item>
+    <item>
+      <title>Building Your Own Kubernetes Cluster on Ubuntu Servers</title>
+      <link>https://lifeandshell.com/posts/building-your-own-kubernetes-cluster-on-ubuntu-servers/</link>
+      <pubDate>Thu, 02 Oct 2025 12:00:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/building-your-own-kubernetes-cluster-on-ubuntu-servers/</guid>
+      <description>Take Control of Your Container Orchestration While cloud providers offer managed Kubernetes services, building your own cluster provides a deeper understanding and ultimate control. The &amp;#8216;Ubuntu System Administration Guide&amp;#8217; provides a detailed, hands-on guide to creating a production-ready Kubernetes cluster from scratch on a set of Ubuntu servers using the official `kubeadm` tool.&#xA;The Master and Worker Node Architecture A Kubernetes cluster consists of at least one &amp;#8216;master&amp;#8217; (or control-plane) node and one or more &amp;#8216;worker&amp;#8217; nodes.</description>
+    </item>
+    <item>
+      <title>Choosing Your Web Server- A Guide to Apache and Nginx on Ubuntu</title>
+      <link>https://lifeandshell.com/posts/choosing-your-web-server-a-guide-to-apache-and-nginx-on-ubuntu/</link>
+      <pubDate>Wed, 01 Oct 2025 11:00:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/choosing-your-web-server-a-guide-to-apache-and-nginx-on-ubuntu/</guid>
+      <description>The Foundation of Your Web Application Every website and web application needs a web server to deliver content to visitors. The &amp;#8216;Ubuntu System Administration Guide&amp;#8217; kicks off by introducing the two most popular open-source web servers: Apache and Nginx. Both are powerful, but they have different strengths and configuration styles.&#xA;Apache: The Veteran Apache has been a dominant force on the web for decades. It&amp;#8217;s known for its flexibility, powerful module system, and `.</description>
+    </item>
+  </channel>
+</rss>

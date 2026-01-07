@@ -1,0 +1,28 @@
+---
+title: SE Linux allowing Mysql Socket
+date: 2013-06-05 10:55:53
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>So this morning my mysql server did not start properly. But when I disabled selinux the mysql server come back up. After some digging i found that we have linked the mysql folder /var/lib/mysql from the /var/log disk (its my syslog server and /var/log has all the disk) So for starting my mysql I hade to do some small changers. First setting my socket to the right path i my.cnf</p>
+<pre>socket=/var/log/mysql/mysql.sock</pre>
+<p>Then allowing mysql to use that path in selinux</p>
+<pre>semanage fcontext -a -t mysqld_db_t "/var/log/mysql(/.*)?"</pre>
+<p>and applying the change</p>
+<pre>restorecon -Rv /var/log/mysql/</pre>
+<p>And finaly then i can start the mysql server again</p>
+<pre>service mysqld start</pre>
+<p>And now the logs are again comming into my mysql server.</p>

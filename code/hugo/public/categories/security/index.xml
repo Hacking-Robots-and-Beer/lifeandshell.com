@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Security on Life and Shell</title>
+    <link>https://lifeandshell.com/categories/security/</link>
+    <description>Recent content in Security on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Sun, 13 Apr 2025 09:32:36 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/categories/security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wazuh  Digest any source!</title>
+      <link>https://lifeandshell.com/posts/wazuh-digest-any-source/</link>
+      <pubDate>Sun, 13 Apr 2025 09:32:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wazuh-digest-any-source/</guid>
+      <description>How I Built a Custom Wazuh Log Ingest Pipeline (And Ditched the Wodle) If you&amp;#8217;ve ever tried to push custom logs into Wazuh, you’ve probably stumbled across something called a Wodle. Wazuh uses these built-in scripts to collect and parse data—especially useful for integrations like AWS.&#xA;So… Wodle for AWS? Sure, Wodle can collect AWS logs. But when I tried using it for my AWS environment, things didn’t exactly go as planned.</description>
+    </item>
+    <item>
+      <title>Running Wazuh Agents in Docker – From Traditional HIDS to Ingest Agents</title>
+      <link>https://lifeandshell.com/posts/wa/</link>
+      <pubDate>Sun, 13 Apr 2025 08:56:12 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wa/</guid>
+      <description>Wazuh Wazuh is a powerful open-source security platform built to monitor systems for threats, intrusions, and anomalies. Traditionally, the Wazuh agent is installed on physical or virtual Linux servers to perform host-based intrusion detection (HIDS). It passively monitors the system and reports any suspicious changes or activity to the Wazuh manager.&#xA;This works well in environments where systems are treated as immutable infrastructure — where servers are expected to remain unchanged.</description>
+    </item>
+    <item>
+      <title>Wazuh On Kubernetes using Helm</title>
+      <link>https://lifeandshell.com/posts/wazuh-on-kubernetes-using-helm/</link>
+      <pubDate>Sat, 12 Apr 2025 21:50:16 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wazuh-on-kubernetes-using-helm/</guid>
+      <description>From OSSEC to Wazuh: My Journey and Kubernetes Setup I started a long time ago using OSSEC, and eventually transitioned over to Wazuh—back when it still relied on Elasticsearch for storage and search. Recently, when I returned to Wazuh for a new project, I was surprised to find that there was no simple way to deploy Wazuh into a local Kubernetes cluster for testing. So, I decided to revive and modernize an old Helm chart I had built a while back.</description>
+    </item>
+    <item>
+      <title>Migrate Elasticsearch helm to Elasticsearch Operator</title>
+      <link>https://lifeandshell.com/posts/migrate-elasticsearch-helm-to-elasticsearch-operator/</link>
+      <pubDate>Thu, 01 Dec 2022 13:17:35 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/migrate-elasticsearch-helm-to-elasticsearch-operator/</guid>
+      <description>Migrate elasticsearch helm to elasticsearch operator and from version 7 to version 8.&#xA;So in the start, I used the helm chart for elasticsearch, and everything worked fine. Then elasticsearch 8 comes and the Elasticsearch operator.&#xA;This broke by helm chart and kind of left me in a stalled state.&#xA;But now I have to migrate my current elasticsearch that uses a helm chart to start using the operator.</description>
+    </item>
+    <item>
+      <title>Boundery on Kubernetes with Keycloak</title>
+      <link>https://lifeandshell.com/posts/boundery-on-kubernetes-with-keycloak/</link>
+      <pubDate>Sat, 22 Jan 2022 11:43:24 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/boundery-on-kubernetes-with-keycloak/</guid>
+      <description>We have 3 clusters running 2 on AWS and 1 on-prem. And to sort out connections for developers and admin the goal is to implement boundary as an access point. To verify the user we use Keycloak and 2FA, Then based on roles we give the different users access to different services inside the cluster.&#xA;Service&#xA;The user should be able to connect to an ssh server inside the network but also to service running inside Kubernetes like elasticsearch ore MySQL,</description>
+    </item>
+    <item>
+      <title>Vault EKS / AWS to pod The complete guide</title>
+      <link>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</link>
+      <pubDate>Thu, 29 Oct 2020 09:17:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</guid>
+      <description>I have bean working some time with vault and to deploy it to our EKS cluster and then to get the secrets into our pods.&#xA;After many hours of searching i have found out that using kube-vault and vault-env. This gude uses tarraform to setup the resources you need in AWS.&#xA;Then deploy the kubevault with ui into to cluster that will use a s3 bucket and backend and autoseal it self during boot</description>
+    </item>
+    <item>
+      <title>Running Counter-strike 1.6 and CSGO in kubernetes !</title>
+      <link>https://lifeandshell.com/posts/running-counter-strike-1-6-and-csgo-in-kubernetes/</link>
+      <pubDate>Wed, 29 Apr 2020 14:09:45 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/running-counter-strike-1-6-and-csgo-in-kubernetes/</guid>
+      <description>Yee so it was a long time ago when I spend days playing counter strike 1.6. And now when i got some more power full servers and some time I was thinking of setting up a some counter-strike server for me and some friends so we can play.&#xA;I have a nice kubernetes cluster in my garage and a run all my stuff inside kubernetes so it was natural to make them into a kubernetes deploy.</description>
+    </item>
+    <item>
+      <title>Mesos cluster with Marathon running Docker</title>
+      <link>https://lifeandshell.com/posts/mesos-cluster-with-marathon-running-docker/</link>
+      <pubDate>Fri, 11 Dec 2015 21:47:19 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mesos-cluster-with-marathon-running-docker/</guid>
+      <description>Hi&#xA;So for hosting docker in large scale i have tested mesos cluster. Here is a guide for setting up 3 nodes in mesos running Centos 7. And the adding Marathon to controll the dockers running.&#xA;The network&#xA;mesos-master 172.0.0.10&#xA;mesos-slave1 172.0.0.11&#xA;mesos-slave2 172.0.0.12&#xA;&amp;nbsp;&#xA;The node also have on nic connect to the network with internet access.&#xA;&amp;nbsp;&#xA;Security&#xA;For this guide stop iptables and turn selinux off&#xA;setenforce 0&#xD;systemect stop firewalld &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Python DOS protection (iptables,dos)</title>
+      <link>https://lifeandshell.com/posts/python-dos-protection-iptablesdos/</link>
+      <pubDate>Fri, 06 Nov 2015 15:18:51 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/python-dos-protection-iptablesdos/</guid>
+      <description>here are a small script I use to have some sort of dos protection on my webservers.&#xA;&amp;nbsp;&#xA;import subprocess&#xD;whitelist=[&#39;192.168.1.2&#39;]&#xD;blockvalue=2&#xD;alertvalue=1&#xD;proc = subprocess.Popen(&#34;netstat -ntu | awk &#39;{print $5}&#39; | cut -d: -f1 | sort | uniq -c | sort -n&#34;, shell=True,stdout=subprocess.PIPE)&#xD;running = proc.stdout.read()&#xD;runing_sorted = running.split(&#39;\n&#39;)&#xD;for r in runing_sorted:&#xD;con =r.split()&#xD;if len(con) ==2:&#xD;#If ip has more conenctions then block value ip block&#xD;if con[0] &amp;lt;= blockvalue:&#xD;print &#34;</description>
+    </item>
+    <item>
+      <title>Foreman provision to bare and libvirtd (Centos7, foreman, libvirtd, KVM)</title>
+      <link>https://lifeandshell.com/posts/foreman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm/</link>
+      <pubDate>Sun, 05 Jul 2015 21:26:46 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/foreman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm/</guid>
+      <description>So I have started to play around with foreman and to get it to provision my diffrent servers. I started by starting up some local virtual servers on my laptop and played around with them.&#xA;The flow is i started installing foreman as a virtual server. Then i provisin a new virtual server as bare matal (I created a virtual server in virsh) ater that virtual server is prevision i installed it as a virtual host(kvm on kvm) and connected it to foreman so foreman kan provision kvm host.</description>
+    </item>
+    <item>
+      <title>vmware to kvm (OWASP broken webb app on KVM)</title>
+      <link>https://lifeandshell.com/posts/vmware-to-kvm-owasp-broken-webb-app-on-kvm/</link>
+      <pubDate>Tue, 09 Sep 2014 10:38:29 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/vmware-to-kvm-owasp-broken-webb-app-on-kvm/</guid>
+      <description>So I uses kvm for my virtual server. But i got OWASP broken webb app in vmware format and its not ok.&#xA;But with the help from google i found some help to get the OWASP Broken Webb App on my kvm hosts.&#xA;I follewed the info from this page&#xA;&amp;nbsp;&#xA;http://blog.bodhizazen.net/linux/convert-vmware-vmdk-to-kvm-qcow2-or-virtualbox-vdi/&#xA;&amp;nbsp;&#xA;&amp;nbsp;&#xA;1. Download and unzip Owasp Broken Webb app to you folder (It uses 7zip for some reason) https://www.</description>
+    </item>
+    <item>
+      <title>OAuth2 Server on Python (with flask on Centos)</title>
+      <link>https://lifeandshell.com/posts/oauth2-server-on-python-with-flask-on-centos/</link>
+      <pubDate>Fri, 30 May 2014 20:04:05 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/oauth2-server-on-python-with-flask-on-centos/</guid>
+      <description>So at work we have started to look at OAuth2 for our web apps. So on our creativ friday today i started looking at putting together an OAuth2 server using python and flask.&#xA;I followed the guide from this page http://lepture.com/en/2013/create-oauth-server&#xA;And after some work I got an working server and client running on my Centos server.&#xA;The code only uses an sqlite db and are only testing the OAuth functions so for a working solutions there are some more work.</description>
+    </item>
+    <item>
+      <title>Install Pandora fms monitoring system on Centos</title>
+      <link>https://lifeandshell.com/posts/install-pandora-fms-monitoring-system-on-centos/</link>
+      <pubDate>Sat, 22 Mar 2014 13:10:54 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-pandora-fms-monitoring-system-on-centos/</guid>
+      <description>So for many years i use nagios to monitor my server and now im would say i can handle nagios config files good. But I fund pandora fms monitoring and this i must try.&#xA;From the pandora console its mutch easy to from the webbrowser setup new task and tweek task so you alarms realy are correct. Doing this in nagios then i had to change config files and restart nagios and nrpe.</description>
+    </item>
+    <item>
+      <title>Protecting you web with ModSecurity On Centos</title>
+      <link>https://lifeandshell.com/posts/protecting-you-web-with-modsecurity-on-centos/</link>
+      <pubDate>Tue, 04 Mar 2014 22:00:40 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/protecting-you-web-with-modsecurity-on-centos/</guid>
+      <description>So it you worry about you webb then modsecurity is rely nice to have on your webbserver. I have it installed on my apache server with the regular rules from OWAS and also some rules for my own sites.&#xA;But here is also how to install it.&#xA;&amp;nbsp;&#xA;1. Download and build modsec on your server Add some packages&#xA;yum install gcc make&#xD;yum install libxml2 libxml2-devel httpd-devel pcre-devel curl-devel Go to http://www.</description>
+    </item>
+    <item>
+      <title>Build you first syco Module</title>
+      <link>https://lifeandshell.com/posts/build-you-first-syco-module/</link>
+      <pubDate>Tue, 18 Feb 2014 22:12:56 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/build-you-first-syco-module/</guid>
+      <description>SO from the last post you can install syco but you also need to build and update your own plugins in syco.&#xA;Here is a small guide how to build you first plugin.&#xA;Here om building some syco commands for controlling apache and glassfish server.&#xA;the commands are run from our syco-chuck release commands center so for adding them to syco i can controll the script from sudo and do some extra test before starting and stopping the service.</description>
+    </item>
+    <item>
+      <title>Setup SYCO on you centos box</title>
+      <link>https://lifeandshell.com/posts/setup-syco-on-you-centos-box/</link>
+      <pubDate>Tue, 18 Feb 2014 15:27:04 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/setup-syco-on-you-centos-box/</guid>
+      <description>So if you care about security and stability you must have syco installed on your server.&#xA;Read more about syco on the github project https://github.com/systemconsole&#xA;Im staring to use syco not only production but also on my &amp;#8220;Own&amp;#8221; server.&#xA;So more of you should really start using it and here is i guide for you to start using syco&#xA;1. Installing and setting up centos yum install git &amp;nbsp;&#xA;Gettings syco</description>
+    </item>
+    <item>
+      <title>Blocking unwanted traffic (ddos,scrapers) Apache, Iptables</title>
+      <link>https://lifeandshell.com/posts/blocking-unwanted-traffic-ddosscrapers-apache-iptables/</link>
+      <pubDate>Tue, 11 Feb 2014 23:16:22 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/blocking-unwanted-traffic-ddosscrapers-apache-iptables/</guid>
+      <description>So spent last evning blocking ip comming from packetflip to our server. Looks in our Apache access log that there was some evil scraping going on so we started blocking. But its not that funny to block many ip manually so time for some scripts.&#xA;&amp;nbsp;&#xA;First some info to use Packetflip user agent was&#xA;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.</description>
+    </item>
+    <item>
+      <title>Apache Strong SSL config</title>
+      <link>https://lifeandshell.com/posts/apache-strong-ssl-config/</link>
+      <pubDate>Sun, 19 Jan 2014 22:46:53 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/apache-strong-ssl-config/</guid>
+      <description>So only enable SSL on Apache is not good enough there are some config to add to&#xA;apache to make it stronger.&#xA;&amp;nbsp;&#xA;This are the setting i use in my apache ssl configs.&#xA;SSLEngine On&#xD;SSLCertificateFile /etc/apache2/ssl/apache.pem&#xD;SSLCertificateKeyFile /etc/apache2/ssl/apache.key Header add Strict-Transport-Security &#34;max-age=15768000&#34;&#xD;SSLCompression off&#xD;SSLUseStapling on&#xD;SSLStaplingResponderTimeout 5&#xD;SSLStaplingReturnResponderErrors off&#xD;SSLStaplingCache shmcb:/var/run/ocsp(128000)&#xD;SSLProtocol All -SSLv2 -SSLv3&#xD;SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4 And for generating you cert I use&#xA;openssl req -new -x509 -days 365 -nodes -out /etc/apache2/ssl/apache.</description>
+    </item>
+    <item>
+      <title>No more spam (Centos and postfix)</title>
+      <link>https://lifeandshell.com/posts/no-more-spam-centos-and-postfix/</link>
+      <pubDate>Wed, 25 Dec 2013 23:11:32 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/no-more-spam-centos-and-postfix/</guid>
+      <description>So i HATE spam and now to get rid of as so many as possible i go for 3 step.&#xA;1. Postfix Get postfix to restrict witch is to allow to send email to me.&#xA;No strange name and use spam block lists. Also restrict time in how many connections you can do.&#xA;2. Greylisting&#xA;So the first time some server tries to send email greylist says no resend that email.</description>
+    </item>
+    <item>
+      <title>Fail2Ban on Centos</title>
+      <link>https://lifeandshell.com/posts/fail2ban-on-centos/</link>
+      <pubDate>Mon, 16 Dec 2013 20:58:10 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/fail2ban-on-centos/</guid>
+      <description>Fail2Ban is a small service to block unwanted traffic to you server. I use it to block ssh,and postfix loggins in to my virtual hosts.&#xA;Fail2Ban scans the service loggfiles and if it find any strange traffik like ssh bruteforce. That ip will be blocket for some time.&#xA;All settings are done in /etc/fail2ban/ folder.&#xA;Install&#xA;Have epel repo aktivated on server tha run&#xA;yum install fail2ban Then do your local config in</description>
+    </item>
+    <item>
+      <title>Install Diaspora one Centos 6.4 with Apache</title>
+      <link>https://lifeandshell.com/posts/install-diaspora-one-centos-6-4-with-apache/</link>
+      <pubDate>Sun, 24 Nov 2013 21:25:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-diaspora-one-centos-6-4-with-apache/</guid>
+      <description>So Im going to test diaspora on one of my virtual server with run centos 6.4.&#xA;Setup Centos Setup Repos&#xA;wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm&#xD;wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm&#xD;rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm&#34; Install packages&#xA;yum install tar make automake gcc gcc-c++ git net-tools libcurl-devel libxml2-devel libffi-devel libxslt-devel tcl redis ImageMagick npm mysql-server mysql-devel httpd mod_ssl libyaml libyaml-devel patch readline-devel libtool bison Start services&#xA;chkconfig --level 3 httpd on chkconfig --level 3 mysqld on chkconfig --level 3 redis on &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Private GIT server on centos 6</title>
+      <link>https://lifeandshell.com/posts/private-git-server-on-centos-6/</link>
+      <pubDate>Tue, 15 Oct 2013 14:40:50 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/private-git-server-on-centos-6/</guid>
+      <description>So i need to have an private git server. The plan is to fill the git server with my backups so I can see changes done to my git server.&#xA;&amp;nbsp;&#xA;Set up the local GIT server Users&#xA;adduser git&#xD;passwd git Become the git user and go to home folder&#xA;su git&#xD;cd ~ Create the repo&#xA;mkdir myrepo.git&#xD;cd myrepo.git/&#xD;git --bare init So now the repo is done lets connect to it and start using it.</description>
+    </item>
+    <item>
+      <title>Securing Apache &amp;#8211; TRACE TRACK XSS</title>
+      <link>https://lifeandshell.com/posts/securing-apache-trace-track-xss/</link>
+      <pubDate>Mon, 07 Oct 2013 15:12:50 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/securing-apache-trace-track-xss/</guid>
+      <description>So i will tryi to updated with some tips on securing apache as I stumbel over them.&#xA;This will be the first one in not so many I hope (Apache will be secure )&#xA;I always scan my servers every month with Openvas as one of my PCI-DSS task. And this week I locking down my Apache servers.&#xA;Add this in you vhost file ore in the welcome.conf file and rerun you scan.</description>
+    </item>
+    <item>
+      <title>Set up Openvpn client on Centos 6.4</title>
+      <link>https://lifeandshell.com/posts/set-up-openvpn-client-on-centos-6-4/</link>
+      <pubDate>Sun, 21 Jul 2013 22:39:45 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/set-up-openvpn-client-on-centos-6-4/</guid>
+      <description>I often use Openvpn to connect my servers toghter over several cloud servers provider.&#xA;This is my small how to for setting up the openvpn client.&#xA;Install the openvpn server yum install wget&#xD;wget http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm&#xD;rpm -Uvh epel-release-6-8.noarch.rpm yum install openvpn &amp;nbsp;&#xA;Set up the Vpn client&#xA;In /etc/openvpn extract you vpn config&#xA;Save you openvpn config file as client.conf&#xA;Test you vpn&#xA;openvpn --config client.conf Now when its working restart you openvpn with</description>
+    </item>
+    <item>
+      <title>Openvpn on Raspberry Pi</title>
+      <link>https://lifeandshell.com/posts/openvpn-on-raspberry-pi/</link>
+      <pubDate>Mon, 17 Jun 2013 08:12:52 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/openvpn-on-raspberry-pi/</guid>
+      <description>So sommar is comming and I planning to be away as mutch as possible.&#xA;But I need an door in to my server at home for some work. When Im of i only will have an 3g/4g connections so its mutch nicer to work against my server home at a stabel 100 line.&#xA;So for making this possibel I install en openvpn server on my PI sitting in my closet.</description>
+    </item>
+    <item>
+      <title>Installing PfSense on Clavister</title>
+      <link>https://lifeandshell.com/posts/installing-pfsense-on-clavister/</link>
+      <pubDate>Sat, 15 Jun 2013 12:17:54 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installing-pfsense-on-clavister/</guid>
+      <description>After we change our server location and install some new servers and firewalls (Firewall now in centos with iptables) we got one Clavister over.&#xA;We needed a new firewall in our office but did not want to use the Clavister firewall software so we decided to see if we could get PfSense running on the hardware.&#xA;We open the Clvister up and made some hardware changes to it.&#xA;Incresning the memeory from 512mb to 2g.</description>
+    </item>
+    <item>
+      <title>Extracting HP-Switch running config</title>
+      <link>https://lifeandshell.com/posts/extracting-hp-switch-running-config/</link>
+      <pubDate>Mon, 10 Jun 2013 15:29:02 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/extracting-hp-switch-running-config/</guid>
+      <description>Every so othen I have to extract my running-config from my hp switches. And put them under OSSEC file monitoring. And to verify so that no changes has bean done to the original running-config.&#xA;So here is an small script for extracting my running-config and mf5 check that they are the same as my standard config.&#xA;&amp;nbsp;&#xA;Make you own changes to the script to work in you system 🙂</description>
+    </item>
+    <item>
+      <title>Testing OSSEC / Syslog auth</title>
+      <link>https://lifeandshell.com/posts/testing-ossec-syslog-auth/</link>
+      <pubDate>Mon, 03 Jun 2013 20:38:35 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/testing-ossec-syslog-auth/</guid>
+      <description>Im runing and PCI DSS Level 1 system. And during our PCI Audit i have to provide evidence that our monitoring system (OSSEC) can log logins that fails.&#xA;So or testing this and to provide evidence for our audit I made a small python script.&#xA;the Scripts tries to login to th host specified in and text field and tries to run an command on them. (You can alter this to the correct username / password and then run commands on all server)</description>
+    </item>
+    <item>
+      <title>DNS Verify new ns servers</title>
+      <link>https://lifeandshell.com/posts/dns-new-ns-servers/</link>
+      <pubDate>Sun, 02 Jun 2013 17:06:10 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/dns-new-ns-servers/</guid>
+      <description>The dns tester scripot lets you check so that you dns name are correct checking first used names today and then verify the names with you new DNS server.&#xA;You will need an file of you doman names first to run in the script.&#xA;&amp;nbsp;&#xA;#!/usr/bin/env python import socket import dns.resolver #v=&amp;#8221;yes&amp;#8221; g_dns=&amp;#8221;88.80.170.189&amp;#8243; o_dns=&amp;#8221;81.201.209.55&amp;#8243; def test_dns(name,typ,v): print &amp;#8220;===================================================================&amp;#8221; try: answers = dns.resolver.query(name,typ ) for rdata in answers: if v ==&amp;#8221;yes&amp;#8221;: print &amp;#8220;Your DNS = &amp;#8221; + str(rdata) except dns.</description>
+    </item>
+    <item>
+      <title>Send logs to localsyslog (Apache,Mysql,Glassfish)</title>
+      <link>https://lifeandshell.com/posts/send-logs-to-localsyslog-apachemysqlglassfish/</link>
+      <pubDate>Thu, 30 May 2013 15:04:34 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/send-logs-to-localsyslog-apachemysqlglassfish/</guid>
+      <description>Adding you logfiles to an syslog server is an easy way to get all logs collected in one place.&#xA;I Use to set all my service (apache,mysqlmmm) to log there logs to the local syslog server. Then I config the local syslog to send al its log to an central logserver. This way I get all my logs collected and displayd at one place. Apache In the file httpd.con fins the line ErrorLogs and replace the line with ErrorLog syslog:local1 Mysql</description>
+    </item>
+    <item>
+      <title>SELINUX Allow rules</title>
+      <link>https://lifeandshell.com/posts/selinux-allow-rules/</link>
+      <pubDate>Wed, 29 May 2013 11:46:53 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/selinux-allow-rules/</guid>
+      <description>SELINUX&#xA;Small guide to allow rules from the host in selinux. Look in you audit.log file to se what selinux is doing on you system. Allow rules from the log file. Install yum packages yum install policycoreutils-python Cat you audit log file into audit 2 allow to build rules. cat /var/log/audit/audit.log | audit2allow -M mailreplay Now audit2allow will show you want rules it wants to updates / install. Install them with semodule -i mailreplay.</description>
+    </item>
+    <item>
+      <title>Thinstataion PXE Ubuntu</title>
+      <link>https://lifeandshell.com/posts/thinstataion-pxe-ubuntu/</link>
+      <pubDate>Mon, 12 Nov 2012 18:48:30 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/thinstataion-pxe-ubuntu/</guid>
+      <description>Hämta thinstation:&#xA;apt-get install git&#xA;mkdir /opt/thinstation&#xA;cd /opp&#xA;git clone &amp;#8211;depth 1 git://thinstation.git.sourceforge.net/gitroot/thinstation/thinstation&#xA;Sätt upp chroot thinstation:&#xA;cd /opt/thinstation&#xA;./setup-chroot&#xA;Bygg din första thinstatin cd /ts/5.1&#xA;./build&#xA;Sätt upp thinstation med våra paket&#xA;Öppna upp build.conf.&#xA;I denna fil måste du lägga i de hårdvaru paket som körs.&#xA;Vi vill hålla start avbilden så liten som möjligt det gör att för att den ska vara snabb så väljer vi bara de moduler som vi verkligen behöva.</description>
+    </item>
+    <item>
+      <title>Ubuntu tftp Server</title>
+      <link>https://lifeandshell.com/posts/ubuntu-tftp-server/</link>
+      <pubDate>Mon, 12 Nov 2012 18:42:57 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ubuntu-tftp-server/</guid>
+      <description>Installera paketen:&#xA;sudo apt-get install xinetd tftpd tftp&#xA;Skapa katalogen tftp jobbar med&#xA;sudo mkdir /tftpboot&#xA;sudo chown -R nobody.nogroup /tftpboot&#xA;sudo chmod -R 777 /tftpboot&#xA;Editera xinet konfigen:&#xA;sudo nano /etc/xinetd.d/tftp&#xA;service tftp { protocol = udp port = 69 socket_type = dgram wait = yes user = nobody server = /usr/sbin/in.tftpd server_args = /tftpboot disable = no } Starta om xinit:&#xA;sudo /etc/init.d/xinetd restart&#xA;Prova om det fungerar:</description>
+    </item>
+    <item>
+      <title>Ossec agent auto multi installation</title>
+      <link>https://lifeandshell.com/posts/ossec-agent-auto-multi-installation/</link>
+      <pubDate>Thu, 06 Sep 2012 09:31:32 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ossec-agent-auto-multi-installation/</guid>
+      <description>Ossec är det övervakninsg system som jag använder mest.&#xA;En sak som dock ställer till det lite att man hela tiden måste para ihop agneten med server.&#xA;Det fungerar kalas om man bara har några få servrar. Men har man en massa blir det lite mekigare.&#xA;Men nu så kan man scripta upp så man kan installera agenter automatist.&#xA;Börja med att skapa nycklarna på ossec server&#xA;Det första vi ska göra är att skapa upp nycklarna på ossec server.</description>
+    </item>
+    <item>
+      <title>Få Ossec att logga sina loggar till syslog</title>
+      <link>https://lifeandshell.com/posts/fa-ossec-att-logga-sina-loggar-till-syslog/</link>
+      <pubDate>Wed, 05 Sep 2012 13:14:50 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/fa-ossec-att-logga-sina-loggar-till-syslog/</guid>
+      <description>En bra sak är att samla alla sina loggar i syslog server.&#xA;Och en av de loggar man vill ha är ju ossecs loggar.&#xA;Det kan man göra lätt genom att låta ossec logga till syslog.&#xA;Jag har nu satt upp min syslog med tls och ossec kan inte skicka loggar med tls.&#xA;Så det jag gör är att jag lägger ossec server på min syslog server.&#xA;Sedan låtar jag ossec servern logga på loopback nätet ner till min syslog server.</description>
+    </item>
+    <item>
+      <title>Rsyslog TLS mellan server och klient</title>
+      <link>https://lifeandshell.com/posts/rsyslog-tls-mellan-server-och-klient/</link>
+      <pubDate>Wed, 05 Sep 2012 12:53:33 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/rsyslog-tls-mellan-server-och-klient/</guid>
+      <description>Syslog är i vanligt fall en öppen stadard vilket gör att&#xA;om man skulle kunna kolla i traffiken mellan klineten och server.&#xA;Men från rsyslog version 3? så kan man kryptera traffiken mellan server och klient.&#xA;Viktoig då man skapar nycklar och ca till de olika servrana är att man hålelr reda på dns namn och server namn. Anger man fel namn i certifikaten mot vad server heter komm det inte fungera.</description>
+    </item>
+    <item>
+      <title>Sätta upp vlan med dhcpd server med ubuntu</title>
+      <link>https://lifeandshell.com/posts/satta-upp-vlan-med-dhcpd-server-med-ubuntu/</link>
+      <pubDate>Sat, 21 Apr 2012 20:06:15 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/satta-upp-vlan-med-dhcpd-server-med-ubuntu/</guid>
+      <description>Vlan kan användas för att kunna prata med moderana switchar och nätverkutrustning.&#xA;I de kan man tex sätta att en port eller trådlöst nätverk ska använa sig av tex &amp;#8220;vlan1&amp;#8221;.&#xA;Då när jag sätter upp ett nytt lan på min ubuntu kommer jag ha en nätverks port som kan prata med de andra som också använder vlan1 och går genom den port eller trådlösa som är taggade som vlan1.&#xA;På så sätt kan vi sepparera nät från varandra.</description>
+    </item>
+    <item>
+      <title>Sätt upp en egen repo</title>
+      <link>https://lifeandshell.com/posts/satt-upp-en-egen-repo/</link>
+      <pubDate>Sun, 15 Apr 2012 18:53:37 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/satt-upp-en-egen-repo/</guid>
+      <description>Sätt upp en egen repo underlättar ganska mycket för en.&#xA;I denna guide så visar hur man sätter upp en repo. I nästa guide blir det hur man skapar och gör egna paket för att sedan lägga i sin repo.&#xA;Börja med att installera reprepro på din ubuntu hoj&#xA;sudo apt-get install reprepro mkdir /srv/reprepro cd /srv/reprepro mkdir conf dists incoming indices logs pool project tmp files Sedan behöver vi vi lite filer till våran repo.</description>
+    </item>
+    <item>
+      <title>Syco pyton kodning. Lite små script för att testa last minne och anslutningar</title>
+      <link>https://lifeandshell.com/posts/syco-pyton-kodning-lite-sma-script-for-att-testa-last-minne-och-anslutningar/</link>
+      <pubDate>Tue, 13 Mar 2012 15:49:22 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/syco-pyton-kodning-lite-sma-script-for-att-testa-last-minne-och-anslutningar/</guid>
+      <description>Dagens kodning är avslutet. Idga har jag byggt en del funktioner för att testa lite olika saker.&#xA;Hare n funktion som testar om en tjänst svarar på en port kan vara både udp eller tcp.&#xA;Sedan så plockar jag ut last och minnes använing på server så jag kan se hur mycket minne apache drar.&#xA;Och så för att kunna kontrollera så att mina webbsidor är uppe så ett liten function för att kolla om en text sträng finns på en webbsida.</description>
+    </item>
+    <item>
+      <title>Thinstation.org på Ubbe 12.04</title>
+      <link>https://lifeandshell.com/posts/thinstation-org-pa-ubbe-12-04/</link>
+      <pubDate>Tue, 13 Mar 2012 09:26:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/thinstation-org-pa-ubbe-12-04/</guid>
+      <description>Thinstation är en grym palltfrom för att bota tunna klienter mopt en server.&#xA;Den klarar tror fan alla olika protokoll vilket gör att det är underbar att ha som bas.&#xA;Jag ska sätta upp den för att boota mot en nx server som finns på en ubuntu desktop.&#xA;Men man kan lika lätt sätt upp den mot att köra bara en firefix eller chrome webbläsare.&#xA;Eller att bara boota up den mot en windows eller ssh.</description>
+    </item>
+    <item>
+      <title>koha bibliotek till OpenLDAP</title>
+      <link>https://lifeandshell.com/posts/koha-bibliotek-till-openldap/</link>
+      <pubDate>Mon, 12 Mar 2012 21:08:43 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/koha-bibliotek-till-openldap/</guid>
+      <description>Hur man kopplar ihop koha bibliotek med din openldap server.&#xA;För att få det att fungera fick jag trixa till lite i koden.&#xA;1 Börja med att editera koha configfilen.&#xA;Min fanns under den bibliotek jag gjort på växthuset&#xA;vi /etc/koha/sites/vaxthuset/koha-conf.xml&#xA;börja med att aktivera ldap genom att ändra o tille n 1och läggs sedan in följande under taggen&#xA;OBS fick ta bort lite &lt; så man kan visa taggarna i wordpress useldapserver&gt;1/useldapserver&gt; ldapserver id=&amp;#8221;ldapserver&amp;#8221; listenref=&amp;#8221;ldapserver&amp;#8221;&gt; hostname&gt;10.</description>
+    </item>
+    <item>
+      <title>mail till script Zimbra tex zimbra till redmine</title>
+      <link>https://lifeandshell.com/posts/mail-till-script-zimbra-tex-zimbra-till-redmine/</link>
+      <pubDate>Mon, 12 Mar 2012 16:20:58 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mail-till-script-zimbra-tex-zimbra-till-redmine/</guid>
+      <description>Så Äntligen&#xA;Efter en dags hårdargenade har jag äntligen hittat hur man gör för att köra ett script då man mailar till en använare i zimbra.&#xA;Jag använder det till så man kan maila till tex arenden@fareoffice.com så kommer det som ett ärende in till redmine.&#xA;1. Fixa till din transport i zimbra.&#xA;Öpna filen&#xA;vi /opt/zimbra/postfix/conf/transport&#xA;######REDMINE adding&#xD;arenden@fareoffice.com local:&#xD;arenden@fareonline.net local:&#xD;issues@fareoffice.com local: Sedan så fixar vi till transport databasen</description>
+    </item>
+    <item>
+      <title>Dra upp TLS på openldap server ubuntu 12.04</title>
+      <link>https://lifeandshell.com/posts/dra-upp-tls-pa-openldap-server-ubuntu-12-04/</link>
+      <pubDate>Fri, 17 Feb 2012 20:41:05 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/dra-upp-tls-pa-openldap-server-ubuntu-12-04/</guid>
+      <description>Daxs att sätta upp openldap server och lägga på TLS på den.&#xA;Första steget fixa till så det finns certifikat till server.&#xA;installera lite paket som behövs&#xA;sudo apt-get install gnutls-bin ssl-cert Fixa en ca nyckel som kommer vara som en bas&#xA;sudo sh -c &#34;certtool --generate-privkey &gt; /etc/ssl/private/cakey.pem&#34; skapa en fil som heter /etc/ssl/ca.info&#xA;och lägg följande i den&#xA;cn = Example Company ca cert_signing_key Daxs att göra en nyckel till server och signa den med våran ca nyckel</description>
+    </item>
+    <item>
+      <title>Openldap Server ubuntu 12.04</title>
+      <link>https://lifeandshell.com/posts/openldap-server-ubuntu-12-04/</link>
+      <pubDate>Thu, 16 Feb 2012 20:22:07 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/openldap-server-ubuntu-12-04/</guid>
+      <description>hur man installerar Openldap server på en ubuntu 12.04.&#xA;Obs se datumen ubuntu 12.04 är inte ute än så denna är lite innan kan man säga.&#xA;När man installerat oepnldap server har dom kommit på den supersmarta iden att man ska&#xA;ta den domän som finns i hostfilen och bygga ett ldap träd av det.&#xA;så /etc/hosts för mig ser ut så här.&#xA;127.0.0.1 localhost 127.0.1.1 vh-hv-bas2.elinofied.se vh-hv-bas2 vilket gör att nu då jag installerar slapd så kommer den fixa et träd från början som heter</description>
+    </item>
+    <item>
+      <title>Jfokus 2012</title>
+      <link>https://lifeandshell.com/posts/jfokus-2012/</link>
+      <pubDate>Tue, 14 Feb 2012 14:56:55 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/jfokus-2012/</guid>
+      <description>Sitter på jfokus 2012 och väntar på sista föreläsningen för dagen om säkerhet i ria.</description>
+    </item>
+    <item>
+      <title>Backtrack hack wep</title>
+      <link>https://lifeandshell.com/posts/backtrack-hack-wep/</link>
+      <pubDate>Sat, 11 Feb 2012 15:11:44 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/backtrack-hack-wep/</guid>
+      <description>Att hacka wep är en ganska lätt sak.&#xA;WEP har nämligen ett fel i sig som gör att samlar man på sig tillräckligt många paket så kan man&#xA;från paketen läsa ut vad wep nyckeln är.&#xA;För att gör adet så behöver man först lyssna på en bassation som använder sig av WEP.&#xA;Efter det är det bara att hitta så många paket som man behöver runt 20 000 stycken.</description>
+    </item>
+    <item>
+      <title>Backtrack uppe</title>
+      <link>https://lifeandshell.com/posts/backtrack-uppe/</link>
+      <pubDate>Sat, 11 Feb 2012 14:59:38 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/backtrack-uppe/</guid>
+      <description>För att hålla mig lite uppdaterad brukar jag försöka köra lite Backtrack. På securitytube finns en jävlit bra video kurs i trådlöst att gå och för att kunna labba ordentligt har jag fixat ett bra trådlöst kort och flera bra antenner så man kan få in många nätverk. Jag startar min bärbara på en usb sticka med Backtrack på och som också har en kryptad del där jag kan spara lite info på.</description>
+    </item>
+  </channel>
+</rss>

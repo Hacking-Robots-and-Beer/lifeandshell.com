@@ -1,0 +1,52 @@
+---
+title: backtrack mitt startup script
+date: 2012-02-11 15:07:03
+tags:
+    
+    - Uncategorized
+    
+     
+categories:
+    
+    - Uncategorized
+    
+     
+keywords: 
+    
+    - Uncategorized
+    
+     
+---
+<p>När man startar upp backtrack så startar den alltid i sin live miljö. Och tyckte det var lute jobbigt att varje gång hålla på att ställa in alla saker som ska göras.<br />
+Så jag har gjort ett litet script som jag har liggande på min kryptade del på usb minnet.</p>
+<p>Den fixar till tangetbordet så det blir till svenska.<br />
+Sätter upp mina två trådlösa kort<br />
+Ändrar macaddress på mina två trådlösa kort<br />
+Sätter upp de trådlösa korten i sniffande läge.</p>
+<pre>
+#!/bin/bash
+#Script to start upp system for wireless test
+
+
+echo "setting key to se"
+setxkbmap se
+
+echo "setting upp wirless cards"
+ifconfig wlan0 down
+ifconfig wlan1 down
+
+#setting macs
+macchanger --mac 00:11:22:33:44:55 wlan0
+macchanger --mac 00:11:22:33:44:56 wlan1
+
+#staring networks
+ifconfig wlan0 up
+ifconfig wlan1 up
+
+
+#setting to sniff
+airmon-zc start wlan0
+airmon-zc start wlan1
+
+</pre>
+<p>Går nog att göra så den kan göra mer när man väl kommer på det.</p>

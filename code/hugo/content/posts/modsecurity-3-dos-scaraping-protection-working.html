@@ -1,0 +1,104 @@
+---
+title: Modsecurity 3 dos / scaraping protection Working  !
+date: 2020-03-16 17:46:47
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+
+<p>Yess this is a brute force that work for modsecurity 3 and its not that many. Spent days searching the net and trying to find out how to get them working.</p>
+
+
+
+<h4 class="wp-block-heading">First setup a devoloper box</h4>
+
+
+
+<p>Start by cloning this repo i have <a href="https://github.com/Ollebo/modsecurity3">https://github.com/Ollebo/modsecurity3</a> it using the OWASP Modsecurity docker that i run is box<br><strong>WARNING: i started with the first docker that installed modsec with apt but with that box i could not get block to work.</strong></p>
+
+
+
+<p>Now you can run &#8220;docker-compose up&#8221; and it should start the docker and start lissen on port 8080.</p>
+
+
+
+<h4 class="wp-block-heading">TEST the box</h4>
+
+
+
+<p>No you can run the test_block.sh script to see the block work. Uncommet ore commet the sleep in the script to activate the block</p>
+
+
+
+<p>Here is the RULES (For you dont want a working block in modsecurity 3)</p>
+
+
+
+<pre class="wp-block-code"><code>SecRuleEngine On
+##
+
+
+##################
+#
+# Ip block for blocking IP that goes to /slutpriser/ and a GET page that higehr then 100
+#
+
+SecRule REQUEST_URI "*" "id:'900018',phase:1,t:none,t:sha1,t:hexEncode,setvar:tx.ua_hash=%{matched_var},log,pass"
+SecRule &amp;TX:REAL_IP "@eq 0" "id:'900029',phase:1,t:none,initcol:global=global,initcol:ip=%{remote_addr}_%{tx.ua_hash},setvar:tx.real_ip=%{remote_addr},log,pass"
+
+# Start to count how many times the have pages over 100*
+SecRule ARGS_GET:page "@gt 100" "id:'900021',phase:2,setvar:ip.auth_attempt=+1,log,pass"
+#SEt the time after 10 request
+SecRule IP:auth_attempt "@eq 2" "id:'900122',phase:2,setvar:'ip.expire_timestamp=%{TIME_EPOCH}',setvar:'ip.expire_timestamp=+1,log,msg:'Sets time',pass"
+
+
+# if we have more then 5 request then we set a block time for 5 min
+SecRule IP:auth_attempt "@gt 30" "id:'900124',phase:2,setvar:'ip.block_expire_timestamp=%{TIME_EPOCH}',setvar:'ip.block_expire_timestamp=+1',log,msg:'Set block time to 1hour',pass"
+
+
+#######################################################################
+#######
+##
+##  Rule to reset the ip calulate value after 1 min
+#
+SecRule &amp;IP:EXPIRE_TIMESTAMP "@eq 1" \
+ "id:912179,\
+  phase:2,\
+  pass,\
+  t:none,\
+  log,\
+  chain"
+    SecRule IP:EXPIRE_TIMESTAMP "@le %{TIME_EPOCH}" \
+    "setvar:'ip.auth_attempt=0',setvar:'ip.expire_timestamp=%{TIME_EPOCH}',setvar:'ip.expire_timestamp=+1'"
+
+###################################################
+# TEMPORARY WORKAROUND FOR not working `expirevar`
+###################################################
+# Expire variables Will blocl the value
+SecRule &amp;IP:BLOCK_EXPIRE_TIMESTAMP "@eq 1" \
+ "id:912180,\
+  phase:2,\
+  deny,\
+  t:none,\
+  log,\
+  chain"
+    SecRule IP:BLOCK_EXPIRE_TIMESTAMP "@ge %{TIME_EPOCH}" \
+    "setvar:'!ip.dos_block_flag',\
+    setvar:'!ip.dos_block_flag_expire_timestamp'"
+</code></pre>
+
+
+
+<p>Hope that my days of wokring and banging my head aginst the wall help you !</p>

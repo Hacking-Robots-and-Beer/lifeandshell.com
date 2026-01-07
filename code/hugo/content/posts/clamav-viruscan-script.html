@@ -1,0 +1,60 @@
+---
+title: clamav viruscan script
+date: 2012-04-24 14:44:43
+tags:
+    
+    - Uncategorized
+    
+     
+categories:
+    
+    - Uncategorized
+    
+     
+keywords: 
+    
+    - Uncategorized
+    
+     
+---
+<p>Clamav är det virus program som jag för det mesta kör på mina linux servrar.<br />
+Den går lätt att installera coh sedan har jag ett litet bash script som scannar mina server en gång per dag /vecka.</p>
+<p>För att scriptet ska funka så måste du skapa katalogen </p>
+<p>/var/log/clamav</p>
+<pre>
+
+#!/bin/bash
+
+# email subject
+SUBJECT="VIRUS DETECTED ON `hostname`!!!"
+# Email To ?
+EMAIL="sysoparenden@fareoffice.com"
+#Date  for saving all scans
+DATE=`date +%y-%m-%d`
+# Log location
+LOG=/var/log/clamav/scan-$DATE.log
+echo $DATE
+
+check_scan () {
+
+        # Check the last set of results. If there are any "Infected" counts that aren't zero, we have a problem.
+        if [ `tail -n 12 ${LOG}  | grep Infected | grep -v 0 | wc -l` != 0 ]
+        then
+                EMAILMESSAGE=`mktemp /tmp/virus-alert.XXXXX`
+                echo "To: ${EMAIL}" >>  ${EMAILMESSAGE}
+                echo "From: noreplay@fareoffice.com" >>  ${EMAILMESSAGE}
+                echo "Subject: ${SUBJECT}" >>  ${EMAILMESSAGE}
+                echo "Importance: High" >> ${EMAILMESSAGE}
+                echo "X-Priority: 1" >> ${EMAILMESSAGE}
+                echo "`tail -n 50 ${LOG}`" >> ${EMAILMESSAGE}
+                /usr/sbin/sendmail -t < ${EMAILMESSAGE}
+        fi
+
+}
+/usr/local/bin/freshclam
+/usr/local/bin/clamscan -ir --exclude=/proc --exclude=/sys --exclude=/dev --exclude=/media --exclude=/mnt / --quiet --infected --log=${LOG}
+
+check_scan
+cat ${LOG} | logger
+</pre>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

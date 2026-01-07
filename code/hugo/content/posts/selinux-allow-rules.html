@@ -1,0 +1,45 @@
+---
+title: SELINUX Allow rules
+date: 2013-05-29 11:46:53
+tags:
+    
+    - Security
+    
+     
+categories:
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Security
+    
+     
+---
+<p>SELINUX</p>
+<div></div>
+<div>Small guide to allow rules from the host in selinux.</div>
+<div>Look in you audit.log file to se what selinux is doing on you system.</div>
+<div></div>
+<div></div>
+<div>Allow rules from the log file.</div>
+<div></div>
+<div>Install yum packages</div>
+<pre>yum install policycoreutils-python</pre>
+<div></div>
+<div>Cat you audit log file into audit 2 allow to build rules.</div>
+<div></div>
+<div></div>
+<pre>cat /var/log/audit/audit.log | audit2allow -M mailreplay</pre>
+<div></div>
+<div></div>
+<div>Now audit2allow will show you want rules it wants to updates / install.</div>
+<div></div>
+<div>Install them with</div>
+<div></div>
+<div></div>
+<pre>semodule -i mailreplay.pp</pre>
+<div></div>
+<div></div>
+<div>Change mailreplay to match you host ore rules,</div>

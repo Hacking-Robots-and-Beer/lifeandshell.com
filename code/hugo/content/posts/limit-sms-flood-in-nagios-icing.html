@@ -1,0 +1,147 @@
+---
+title: restrict sms in nagios / icinga
+date: 2013-08-05 16:13:58
+tags:
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+categories:
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+keywords: 
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+     
+---
+<p>Im using nagios as primary monitoring tool. And to get alerts we use an sms gateway. The problem is that sometimes when we work we bring down and server and we get so many sms from icinga that you trow away you phone. So for bringing the sms cost down and to have not so many sms to you phone i build a small email blocking script. This will take the address of the sms and only send one sms / email every 5 min (can be set to anything).</p>
+<p>We hook this small script up to our icinga sms sender and now we get one sms every 5 min and we don&#8217;t get flooded. If icinga is sending an sms within the five minutes that alerts is redirected to an gmail inbox. And all us sysop have that gmail on our phones.</p>
+<p>the python script</p>
+<pre>#!/usr/bin/env python
+#
+# Mattias Hemmingsson
+# matte@elino.se
+#
+# Script for rescricting nagios messages
+# Only send one sms / email and then paus for some time.
+# This for not flouding sms system while system reboot 
+# 
+import csv
+import time
+import datetime
+import os.path, time
+from time import gmtime, strftime, mktime
+import smtplib
+import sys</pre>
+<pre>def send_email(to,message):
+ '''
+ Sending the email.
+ '''</pre>
+<pre>sender = 'icinga@monitor.elino.se'
+ 
+ try:
+ smtpObj = smtplib.SMTP('localhost')
+ smtpObj.sendmail(sender, to, message) 
+ print "Successfully sent email"
+ except SMTPException:
+ print "Error: unable to send email"</pre>
+<pre>def save_to_file(to,message,host):
+ '''
+ Saves the oncall to file
+ '''
+ f = open("/opt/tmp/"+to+".txt", "w")
+ f.write(to+","+host)
+ f.close()</pre>
+<pre>
+def is_message_sent(to,message,host):
+ '''
+ Cheks if teh message has bean sent before
+ '''
+ 
+ 
+ #print strftime("%Y-%m-%d %H:%M:%S",os.path.getmtime("/tmp/"+ to + '.txt'))
+ #print time.mktime(time.gmtime())
+ if os.path.isfile("/opt/tmp/"+ to + '.txt'): 
+ try:
+ with open("/opt/tmp/"+to + '.txt', 'r') as f:
+ diffrent = time.time() - os.path.getmtime("/opt/tmp/" + to + '.txt')
+ print diffrent
+ reader = csv.reader(f)
+ for row in reader:
+ if diffrent &lt; 900:
+ return True
+ else:
+ return False
+ except IOError:
+ return False
+ else:
+ return False</pre>
+<pre>
+def incomming(to,message,host):
+ '''
+ Incomming messages
+ '''
+ #Has en sms bean send the latest our
+ if is_message_sent(to,message,host):
+ print "Sending to gmail"
+ send_email('alerts@gmail.com',message)
+ else:
+ print "Seding to sms"
+ 
+ save_to_file(to,message,host)
+ #Sending to sms
+ send_email(to,message)</pre>
+<pre>
+ #Saving message to file
+save_to_file(to,message,host)</pre>
+<pre>
+if len(sys.argv) ==5:
+ args = 'Argument List:', str(sys.argv)
+ headers = ["from: noreply@elino.se",
+ "subject: "+ sys.argv[1],
+ "to: " + sys.argv[4],
+ "mime-version: 1.0",
+ "content-type: text/html"]
+ headers = "\r\n".join(headers)</pre>
+<pre>messages="""Alert {0} has state {1} {2}</pre>
+<pre>""".format(sys.argv[2],sys.argv[1],sys.argv[3])
+ incomming(sys.argv[4],headers+"\r\n\r\n"+ messages,sys.argv[2])
+else:
+ print "Error number of arguments please use './sms_send.py hoststate hostalias message contactemail'"</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>The icinga command for sending the alert.</p>
+<p>&nbsp;</p>
+<pre>define command{
+ command_name notify-host-by-sms
+ command_line /opt/scripts/send_sms.py $HOSTSTATE$ $HOSTALIAS$/$SERVICEDESC$ '$SERVICESTATE$ alert for $HOSTALIAS$/$SERVICEDESC$' $CONTACTEMAIL$
+}</pre>
+<pre>define command{
+ command_name notify-service-by-sms
+ command_line /opt/scripts/send_sms.py $SERVICESTATE$ $HOSTALIAS$/$SERVICEDESC$ '$SERVICESTATE$ alert for $HOSTALIAS$/$SERVICEDESC$' $CONTACTEMAIL$
+
+}
+
+</pre>
+<p>set up so that the script and tmp folder match you server setup.</p>

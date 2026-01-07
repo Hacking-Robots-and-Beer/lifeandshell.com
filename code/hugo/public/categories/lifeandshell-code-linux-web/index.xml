@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Linux, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-linux-web/</link>
+    <description>Recent content in Lifeandshell, Code, Linux, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Wed, 11 Feb 2015 21:39:35 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-linux-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Installing Go build server on centos 7</title>
+      <link>http://localhost:1313/posts/installing-go-build-server-on-centos-7/</link>
+      <pubDate>Wed, 11 Feb 2015 21:39:35 +0000</pubDate>
+      <guid>http://localhost:1313/posts/installing-go-build-server-on-centos-7/</guid>
+      <description>&lt;p&gt;Installing the go build server in centos 7 with some easy step&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h3&gt;1. First head over to the go page and have a look around&lt;/h3&gt;&#xA;&lt;p&gt;&lt;a title=&#34;http://www.go.cd/&#34; href=&#34;http://www.go.cd/&#34; target=&#34;_blank&#34;&gt;http://www.go.cd/&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h3&gt;&lt;/h3&gt;&#xA;&lt;h3&gt;2. Download go server to you centos box&lt;/h3&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;wget http://download.go.cd/gocd-rpm/go-server-14.4.0-1356.noarch.rpm&#xD;&#xA;wget http://download.go.cd/gocd-rpm/go-agent-14.4.0-1356.noarch.rpm&lt;/pre&gt;&#xA;&lt;h3&gt;&lt;/h3&gt;&#xA;&lt;h3&gt;3. Install it&lt;/h3&gt;&#xA;&lt;p&gt;First start by adding the go user (something broken in install)&lt;/p&gt;&#xA;&lt;pre&gt;useradd go&lt;/pre&gt;&#xA;&lt;p&gt;Now run yum localinstall to install local packages&lt;/p&gt;&#xA;&lt;pre&gt;yum install java-1.7.0-openjdk -y&#xD;&#xA;yum localinstall go-server-14.4.0-1356.noarch.rpm&#xD;&#xA;yum localinstall go-agent-14.4.0-1356.noarch.rpm&#xD;&#xA;/etc/init.d/go-agent restart&#xD;&#xA;/etc/init.d/go-server restart&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Custom nagios plugins in python</title>
+      <link>http://localhost:1313/posts/custom-nagios-plugins-in-python/</link>
+      <pubDate>Tue, 05 Nov 2013 15:20:51 +0000</pubDate>
+      <guid>http://localhost:1313/posts/custom-nagios-plugins-in-python/</guid>
+      <description>&lt;p&gt;For monitoring different service and function you may need to build some custom monitoring plugins. I have some build for nrpe and will work with both nagios and icinga.&lt;br /&gt;&#xA;This script will do and &lt;strong&gt;mysql&lt;/strong&gt; check and then send the data back and also start graphing the data back if you use &lt;strong&gt;pnp4nagios&lt;/strong&gt; 🙂&lt;/p&gt;&#xA;&lt;p&gt;Every plugin must have &lt;strong&gt;two&lt;/strong&gt; things.&lt;/p&gt;&#xA;&lt;h3&gt;1. an exit code thet will say the state of the plugin (OK.Critical,warning) &amp;lt;- this will generate the alerts&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;1 = ok&lt;/li&gt;&#xA;&lt;li&gt;2= Critical&lt;/li&gt;&#xA;&lt;li&gt;3=Warnings&lt;/li&gt;&#xA;&lt;li&gt;4= unknown&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

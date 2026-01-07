@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Samma on Life and Shell</title>
+    <link>https://lifeandshell.com/tags/samma/</link>
+    <description>Recent content in Samma on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Mon, 22 Sep 2025 10:11:02 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/tags/samma/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Securing Wazuh- A Guide to Keycloak OAuth2 &amp;amp; MFA Integration</title>
+      <link>https://lifeandshell.com/posts/securing-wazuh-a-guide-to-keycloak-oauth2-mfa-integration/</link>
+      <pubDate>Mon, 22 Sep 2025 10:11:02 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/securing-wazuh-a-guide-to-keycloak-oauth2-mfa-integration/</guid>
+      <description>If you&amp;#8217;re running Wazuh in an environment with compliance requirements like PCI DSS, SOC 2, or HIPAA, you know that multi-factor authentication (MFA) and strict access control are non-negotiable. The need to prove who has access to sensitive security logs—and who can modify configurations—means that shared accounts and simple passwords are no longer enough.&#xA;It&amp;#8217;s time to connect Wazuh to a modern authentication provider. This guide will walk you through integrating Wazuh with Keycloak, a powerful open-source Identity and Access Management (IAM) solution.</description>
+    </item>
+  </channel>
+</rss>

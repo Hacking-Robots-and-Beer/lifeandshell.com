@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Linux, Python, Security, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-linux-python-security-web/</link>
+    <description>Recent content in Lifeandshell, Code, Linux, Python, Security, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Tue, 18 Feb 2014 15:27:04 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-linux-python-security-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Setup SYCO on you centos box</title>
+      <link>http://localhost:1313/posts/setup-syco-on-you-centos-box/</link>
+      <pubDate>Tue, 18 Feb 2014 15:27:04 +0000</pubDate>
+      <guid>http://localhost:1313/posts/setup-syco-on-you-centos-box/</guid>
+      <description>&lt;p&gt;So if you care about security and stability you must have syco installed on your server.&lt;br /&gt;&#xA;Read more about syco on the github project &lt;strong&gt;https://github.com/systemconsole&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Im staring to use syco not only production but also on my &amp;#8220;Own&amp;#8221; server.&lt;br /&gt;&#xA;So more of you should really start using it and here is i guide for you to start using syco&lt;/p&gt;&#xA;&lt;h2&gt;1. Installing and setting up centos&lt;/h2&gt;&#xA;&lt;pre&gt;yum install git&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

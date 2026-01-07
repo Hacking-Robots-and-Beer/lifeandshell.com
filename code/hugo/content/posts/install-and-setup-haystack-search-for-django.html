@@ -1,0 +1,118 @@
+---
+title: Install and setup Haystack search for Django
+date: 2014-01-05 22:28:01
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+---
+<p>So Mysql is crap at doing full text search. So in one of my projects i use Haystack so i can do full text searches.</p>
+<p>I have a running Django project up and this is how I setup haystack for my project.</p>
+<p>&nbsp;</p>
+<h2>Install and config</h2>
+<pre>sudo pip install django-haystack</pre>
+<p>&nbsp;</p>
+<p>in settings.py under INSTALLED_APPS add haystack</p>
+<pre>'haystack',</pre>
+<p>&nbsp;</p>
+<p>And also in settings.py file add some haystack settings</p>
+<pre>import os
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}</pre>
+<p>&nbsp;</p>
+<p>I have a model that looks like this</p>
+<pre>from django.db import models
+# Create your models here.
+class Register(models.Model):
+ name = models.CharField(max_length=255)
+ taxed = models.CharField(max_length=100)
+ kapital = models.CharField(max_length=100)
+ year = models.CharField(max_length=100)
+ location = models.CharField(max_length=100)</pre>
+<p>&nbsp;</p>
+<p>Then I have an search index that that matches my model</p>
+<pre>import datetime
+from haystack import indexes
+from search.models import Register</pre>
+<pre>class RegisterIndex(indexes.SearchIndex, indexes.Indexable):
+ text = indexes.CharField(document=True,model_attr='name')
+ taxed = indexes.CharField(model_attr='taxed')
+ kapital = indexes.CharField(model_attr='kapital')
+ location = indexes.CharField(model_attr='location')</pre>
+<pre>def get_model(self):
+ return Register</pre>
+<pre>def index_queryset(self, using=None):
+ """Used when the entire index for model is updated."""
+ return self.get_model().objects.all()</pre>
+<p>&nbsp;</p>
+<h2>Make it work</h2>
+<p>Sync up you database sett you mysql settings in settings.py and the run this command so that django can setup your database.</p>
+<pre>python manage.py syncd</pre>
+<p>Adding a lot of DATA to your tabel</p>
+<p>build you index</p>
+<pre>python manage.py rebuild_index</pre>
+<pre>WARNING: This will irreparably remove EVERYTHING from your search index in connection 'default'.
+Your choices after this are to restore from backups or rebuild via the `rebuild_index` command.
+Are you sure you wish to continue? [y/N] y
+Removing all documents from your index because you said so.
+All documents removed.
+Indexing 130 registers</pre>
+<p>&nbsp;</p>
+<p>And then when you want to update your index you run</p>
+<pre>python manage.py update_index</pre>
+<p>So the last thing is to setup some views so I can search fulltext. This is my functions and its a ajax request from my webbapp. And it returns the data</p>
+<p>&nbsp;</p>
+<pre>def ajaxsearch(request):
+ if request.method == 'POST':
+ search=request.POST['search']
+ location=request.POST['location']
+ search_answer = SearchQuerySet().filter(text=search).filter(town=location)
+ return render_to_response('test.html',{'search': search_answer},context_instance=RequestContext(request))</pre>
+<p>and here is the template that prints the data</p>
+<p>&nbsp;</p>
+<pre>
+{% for r in search %}
+ &lt;div class='alert alert-info'&gt;&lt;button type='button' class='close' data-dismiss='alert'&gt;&amp;times;&lt;/button&gt;&lt;strong&gt;{{ r.text }} {{ r.location }}&lt;/strong&gt; &lt;br&gt; &lt;b&gt;{{ r.taxed }}&lt;/b&gt;
+{% endfor %}</pre>

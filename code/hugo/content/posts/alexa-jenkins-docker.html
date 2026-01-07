@@ -1,0 +1,147 @@
+---
+title: Alexa and Jenkins (Docker)
+date: 2016-11-26 22:05:28
+tags:
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+---
+<p>So I have an Alexa echo dot at home. Use it to control stuff but I wanted it to do more like release and deploy the stuff I build.<br />
+This is how you can integrate Alexa voice service with Jenkins.</p>
+<h3>First setup the server</h3>
+<p>For receiving commands from Alexa and sending them to Jenkins we need a server and some code. First start with the server i use docker and a docker-compose to set it up.</p>
+<p>&nbsp;</p>
+<p><strong>Dockerfile</strong></p>
+<p>&nbsp;</p>
+<pre>FROM ubuntu
+MAINTAINER "Mattias Hemmingsson" &lt;matte.hemmingsson@gmail.com&gt;
+RUN apt-get update &amp;&amp; apt-get install python-pip -y
+RUN apt-get update &amp;&amp; sudo apt-get install build-essential autoconf libtool pkg-config python-opengl python-imaging python-pyrex python-pyside.qtopengl idle-python2.7 qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus python-qt4 python-qt4-gl libgle3 python-dev -y
+RUN apt-get update &amp;&amp;  apt-get install libpq-dev python-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libffi-dev -y
+RUN pip install flask-ask python-jenkins
+
+
+WORKDIR /code
+CMD python app.py</pre>
+<p>&nbsp;</p>
+<p><strong>docker-compose.yml</strong></p>
+<pre>jenkins:
+ build: .
+ ports:
+ - 5000:5000
+ volumes:
+ - .:/code</pre>
+<p>&nbsp;</p>
+<p><strong>then some code in the app.py</strong></p>
+<p>&nbsp;</p>
+<pre>from flask import Flask, render_template
+from flask_ask import Ask, statement
+import jenkins
+app = Flask(__name__)
+ask = Ask(app, '/')
+
+@ask.intent('JenkinsIntent')
+def hello(app):
+ server = jenkins.Jenkins('http://jenkins:8080', username='admin', password='admin')
+ if str(app) == "rentalfront":
+ back = server.build_job('rentalfront')
+ print back
+ print "deploy rentalfront"
+ if str(app) == "farepaymnet":
+ print "Deploy farepaymnet"
+
+
+return statement("Deploying {0}".format(app))
+
+
+if __name__ == '__main__':
+ app.run(host='0.0.0.0',debug=True)</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>And you will change the setitng so it matches you jenkins and alos change so correct word like rentalfront matches what you want to build.<br />
+We are going to say &#8220;alexa tell jenkins to build rentalfront&#8221; and then we ere matches rentalfront aginst the app you want to build.</p>
+<p>&nbsp;</p>
+<p><strong>start it up with</strong></p>
+<p>&nbsp;</p>
+<pre>docker-compose build
+
+docker-compose up</pre>
+<p>&nbsp;</p>
+<p>Now we need alexa to connect to you local laptop and connect go to https://ngrok.com/ and download and start it against port 5000</p>
+<pre>./ngrok http 5000</pre>
+<p>You will see a https link remember it <strong>https://9242f0e6.ngrok.io</strong></p>
+<p>&nbsp;</p>
+<h3>Set up Alexa</h3>
+<p>Time for setting up Alexa go to <a href="https://developer.amazon.com">https://develtoper.amazon.com</a></p>
+<p>Setup a new skill and give it <strong>name jenkins</strong> (This is the calling name &#8220;alexa tell jenkins&#8221; ) and the in the interactions model add the following</p>
+<p>&nbsp;</p>
+<section class="UpdateApplicationFormRow section">
+<h4 class="input-title"><span class="ng-binding">Intent Schema</span></h4>
+</section>
+<pre>{
+ "intents": [
+ {
+ "intent": "JenkinsIntent",
+ "slots":[{
+ "name": "app",
+ "type": "Names"
+ } 
+ ]
+ }
+ ]</pre>
+<p>where names are a custom slot type with the values rentalfront <strong>ADD YOUR APPS HERE THAT YOU WANT TO CALL</strong></p>
+<h4 class="input-title"><span class="ng-binding">Sample Utterances</span></h4>
+<p>&nbsp;</p>
+<pre>JenkinsIntent deploy {app}</pre>
+<p>&nbsp;</p>
+<p><a href="http://lifeandshell.com/wp-content/uploads/2016/11/Skärmbild-från-2016-11-26-20-38-18.png"><img loading="lazy" decoding="async" class="alignnone size-full wp-image-468" src="http://lifeandshell.com/wp-content/uploads/2016/11/Skärmbild-från-2016-11-26-20-38-18.png" alt="skarmbild-fran-2016-11-26-20-38-18" width="1920" height="1080" /></a></p>
+<p>&nbsp;</p>
+<p>Go to configuration and att the https link from ngrok</p>
+<p>&nbsp;</p>
+<p><a href="http://lifeandshell.com/wp-content/uploads/2016/11/Skärmbild-från-2016-11-26-20-38-35.png"><img loading="lazy" decoding="async" class="alignnone size-full wp-image-469" src="http://lifeandshell.com/wp-content/uploads/2016/11/Skärmbild-från-2016-11-26-20-38-35.png" alt="skarmbild-fran-2016-11-26-20-38-35" width="1920" height="1080" /></a></p>
+<p><strong>And go to SSL and choose Wildcard cert</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>And now you should be ready to start using it. go to the test and test write deploy rentalfront to see the json going from Alexa to you app and when it works it time to test from you echo.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><iframe loading="lazy" title="Alexa and Jenkins" width="500" height="281" src="https://www.youtube.com/embed/XrbVb9wZKhE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>

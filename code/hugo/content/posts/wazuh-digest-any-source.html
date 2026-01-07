@@ -1,0 +1,426 @@
+---
+title: Wazuh  Digest any source!
+date: 2025-04-13 09:32:36
+tags:
+    
+    - Code
+    
+    
+    - docker
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - docker
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - docker
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+---
+
+<p><br></p>
+
+
+
+<p></p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading"> How I Built a Custom Wazuh Log Ingest Pipeline (And Ditched the Wodle)</h2>
+
+
+
+<p>If you&#8217;ve ever tried to push custom logs into <strong>Wazuh</strong>, you’ve probably stumbled across something called a <strong>Wodle</strong>. Wazuh uses these built-in scripts to collect and parse data—especially useful for integrations like AWS.</p>
+
+
+
+<h3 class="wp-block-heading">So… Wodle for AWS?</h3>
+
+
+
+<p>Sure, Wodle <em>can</em> collect AWS logs. But when I tried using it for my AWS environment, things didn’t exactly go as planned. Here’s what went wrong:</p>
+
+
+
+<ul class="wp-block-list">
+<li>My GitHub logs were in <strong>gzip</strong> format—Wodle didn’t like that.</li>
+
+
+
+<li>Paths were <strong>hardcoded</strong>—super annoying.</li>
+
+
+
+<li>Everything felt like the <strong>sun and the stars had to align</strong> for it to work.</li>
+</ul>
+
+
+
+<p>It just wasn’t cutting it for me.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading"> Flipping the Script: API + Socket = Freedom</h2>
+
+
+
+<p>After trying every possible way to feed data into Wazuh, I decided to flip the entire idea:</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p>Why integrate <em>every</em> log source into Wazuh?<br>Instead—why not push <em>to</em> Wazuh using a generic method?</p>
+</blockquote>
+
+
+
+<p>So, I built a <strong>tiny Python API</strong> (literally ~20 lines of code) that accepts JSON logs and dumps them <strong>directly into the Wazuh socket</strong>.</p>
+
+
+
+<pre class="wp-block-code"><code>import socket
+import json
+from flask import Flask, request
+
+app = Flask(__name__)
+sock = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+
+@app.route("/ingest", methods=&#91;"POST"])
+def ingest():
+    log = json.dumps(request.json)
+    sock.sendto(log.encode(), "/var/ossec/queue/ossec/queue")
+    return "ok", 200
+</code></pre>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p>Yes, the socket is open. Is this a security risk? Maybe. But it works. </p>
+</blockquote>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading"> Why This Rocks: Any Source, Any Tool</h2>
+
+
+
+<p>With this API in place, I can now use <strong>any log processing tool</strong> I love—like:</p>
+
+
+
+<ul class="wp-block-list">
+<li> <strong>Vector</strong></li>
+
+
+
+<li> <strong>Fluentd</strong></li>
+
+
+
+<li> <strong>Filebeat</strong></li>
+</ul>
+
+
+
+<p>These tools can read data from S3, SQS, or local files, format it however I want, and push it straight to my Wazuh agents through this simple API.</p>
+
+
+
+<p>Now I can ingest logs from:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>GitHub</strong></li>
+
+
+
+<li><strong>AWS (CloudTrail, GuardDuty, etc.)</strong></li>
+
+
+
+<li><strong>Custom SSO Systems</strong></li>
+
+
+
+<li><strong>Security Scanners</strong></li>
+
+
+
+<li><strong>CI/CD Pipelines</strong></li>
+</ul>
+
+
+
+<p>Logs are stored in S3 and read using SQS. Everything gets parsed, enriched, and fed into Wazuh agents.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading"> Custom Sources &amp; CI/CD Integration</h2>
+
+
+
+<p>It’s an API—so you can use <code>curl</code> or any HTTP client to POST data. That means you can:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Pipe alerts from your <strong>CI/CD pipeline</strong></li>
+
+
+
+<li>Integrate <strong>custom alert systems</strong></li>
+
+
+
+<li>Push logs from <strong>custom tools</strong></li>
+</ul>
+
+
+
+<p>It’s simple, flexible, and works with whatever you’ve got.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading"> Vector Example: SQS to Wazuh</h2>
+
+
+
+<p>I use <strong>Vector.dev</strong> to read logs from SQS and send them to Wazuh.</p>
+
+
+
+<p>Here’s a simplified snippet from my Vector config: Full config in the Agents gitrepo</p>
+
+
+
+<div class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
+<pre class="wp-block-code"><code>&#91;sources.aws_sqs]
+type = "aws_sqs"
+region = "eu-west-1"
+queue_url = "https://sqs.eu-west-1.amazonaws.com/..."
+
+transforms:
+  s3sso_parser:
+    type: remap
+    inputs: 
+     - s3sso_s3
+    source: |-
+      .aws = parse_json!(.message) 
+      .parsed_type = "json"
+      .integration = "aws"
+      .aws.source = "sso"
+      del(.message)
+  s3access_parser:
+    type: remap
+    inputs: 
+     - s3access_s3
+    source: |-
+        .integration = "aws"
+        .structured, err = parse_json(.message) ?? parse_common_log(.message) ?? parse_apache_log(.message, "common") ?? parse_aws_alb_log(.message) ?? parse_regex(.message, r'^(?P&lt;env>\S+) (?P&lt;tls>\S+) (?P&lt;time_action>\S+) (?P&lt;url>\S+) (?P&lt;account>\S+) (?P&lt;source>\S+) (?P&lt;destip>\S+) (?P&lt;size>\S+) (?P&lt;time>\S+) (?P&lt;response>\S+) (?P&lt;value1>\S+) (?P&lt;value2>\S+) (?P&lt;value3>\S+) (?P&lt;value4>\S+) (?P&lt;value5>\S+) (?P&lt;value6>\S+) (?P&lt;value12>\S+) (?P&lt;value7>\S+) (?P&lt;value8>\S+) (?P&lt;value9>\S+) (?P&lt;value10>\S+) (?P&lt;value11>)')  ?? parse_regex(.message,r'^(?P&lt;owner>\S+) (?P&lt;bucket>\S+) \&#91;(?P&lt;timestamp>&#91;^\]]+)\] (?P&lt;ip_address>\S+) (?P&lt;requester>\S+) (?P&lt;request_id>\S+) (?P&lt;operation>\S+) (?P&lt;key>\S+) (?P&lt;request_uri>\S+) (?P&lt;status>\S+) (?P&lt;error_code>\S+) (?P&lt;response_bytes>\S+) (?P&lt;object_size>\S+) (?P&lt;request_ms>\S+) (?P&lt;processing_ms>\S+) (?P&lt;referrer>\S+) (?P&lt;user_agent>&#91;^"]+) (?P&lt;version_id>\S+)') 
+         if err != null {
+          .parsed_type = "error parsing s3_access"
+        }
+        .aws = .structured
+        del(.structured)
+
+sinks:
+  wazuh-ingest:
+    inputs:
+      - dest_ready
+    type: http
+    uri: http://wazuh-agent.integsrv:9001/batch
+    method: put
+    encoding:
+      codec: json
+    batch:
+      max_events: 70
+      timeout_secs: 2
+    request:
+      rate_limit_duration_secs: 10
+      rate_limit_num: 10
+      retry_initial_backoff_secs: 5</code></pre>
+
+
+
+<p></p>
+</div>
+
+
+
+<p>It’s clean and lets me process logs before they ever hit Wazuh.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading"> Custom Values &amp; Enrichment</h2>
+
+
+
+<p>Once everything lands in one place, you can do smart things—like <strong>merge user data across sources</strong> (e.g., GitHub + AWS).</p>
+
+
+
+<p>This makes:</p>
+
+
+
+<ul class="wp-block-list">
+<li><strong>Alerting more precise</strong></li>
+
+
+
+<li><strong>Indexing faster</strong></li>
+
+
+
+<li><strong>Searches more unified</strong></li>
+</ul>
+
+
+
+<p>You can define custom objects and values in your logs. Super helpful for SIEM correlation.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading"> Wazuh Rules: Triggering the Right Logic</h2>
+
+
+
+<p>To activate Wazuh&#8217;s built-in rules, you just need to format your JSON correctly. Example:</p>
+
+
+
+<pre class="wp-block-code"><code>{
+  "integration": "aws",
+  "aws": {
+    "source": "cloudtrail",
+    "eventName": "ConsoleLogin",
+    ...
+  }
+}
+</code></pre>
+
+
+
+<p>Wazuh will pick up that it&#8217;s AWS CloudTrail data and apply its native detection logic.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p>GitHub and other integrations follow the same idea—just use the right <code>"integration"</code> key and structure.</p>
+</blockquote>
+
+
+
+<p>Need help writing rules? <strong>ChatGPT + Wazuh rules repo on GitHub</strong> is your best friend. Just paste sample logs and go.</p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<h2 class="wp-block-heading">Final Thoughts</h2>
+
+
+
+<p>I’m no longer waiting for Wodle updates or hoping the integration will work out of the box. My new setup means:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Logs from <strong>any source</strong> can go into Wazuh</li>
+
+
+
+<li>I can <strong>customize, enrich</strong>, and <strong>standardize</strong> logs</li>
+
+
+
+<li>I’ve built a <strong>flexible SIEM pipeline</strong> that works on my terms</li>
+</ul>
+
+
+
+<p>All the code, config, and examples are available on my GitHub: <a href="https://github.com/samma-io/wazuh-agent">https://github.com/samma-io/wazuh-agent</a></p>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+
+
+<p></p>

@@ -1,0 +1,49 @@
+---
+title: Python ConfigParser using you own config files in python
+date: 2013-08-07 11:26:42
+tags:
+    
+    - Code
+    
+    
+    - Python
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Python
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Python
+    
+     
+---
+<p>Storing settings in config files and then let python read the configfiles and to good stuff .</p>
+<p>&nbsp;</p>
+<p>Read the file</p>
+<pre>#Reading config file
+ config = ConfigParser.ConfigParser()
+ config.read('setting.cfg')</pre>
+<p>print all items and values in an section</p>
+<pre>for name, value in config.items("monitor"):
+ print ' %s = %s' % (name, value)</pre>
+<p>Print all items in configfile</p>
+<pre>for section_name in parser.sections():
+    print 'Section:', section_name
+    print '  Options:', parser.options(section_name)
+    for name, value in parser.items(section_name):
+        print '  %s = %s' % (name, value)</pre>
+<p>My settings.cfg file looks like this</p>
+<pre>[monitor] &lt;--- Section
+check_load:10
+name:value</pre>
+<p>That easy.</p>
+<p>&nbsp;</p>

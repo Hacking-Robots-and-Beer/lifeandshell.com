@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Elino, Linux, Security on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-elino-linux-security/</link>
+    <description>Recent content in Lifeandshell, Elino, Linux, Security on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Tue, 15 Oct 2013 14:40:50 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-elino-linux-security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Private GIT server on centos 6</title>
+      <link>http://localhost:1313/posts/private-git-server-on-centos-6/</link>
+      <pubDate>Tue, 15 Oct 2013 14:40:50 +0000</pubDate>
+      <guid>http://localhost:1313/posts/private-git-server-on-centos-6/</guid>
+      <description>&lt;p&gt;So i need to have an private git server. The plan is to fill the git server with my backups so I can see changes done to my git server.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;Set up the local GIT server&lt;/h2&gt;&#xA;&lt;p&gt;Users&lt;/p&gt;&#xA;&lt;pre&gt;adduser git&#xD;&#xA;passwd git&lt;/pre&gt;&#xA;&lt;p&gt;Become the git user and go to home folder&lt;/p&gt;&#xA;&lt;pre&gt;su git&#xD;&#xA;cd  ~&lt;/pre&gt;&#xA;&lt;p&gt;Create the repo&lt;/p&gt;&#xA;&lt;pre&gt;mkdir myrepo.git&#xD;&#xA;cd myrepo.git/&#xD;&#xA;git --bare init&lt;/pre&gt;&#xA;&lt;p&gt;So now the repo is done lets connect to it and start using it.&lt;br /&gt;&#xA;As another user i use root&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

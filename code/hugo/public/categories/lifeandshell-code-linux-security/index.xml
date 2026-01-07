@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Linux, Security on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-linux-security/</link>
+    <description>Recent content in Lifeandshell, Code, Linux, Security on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Tue, 09 Sep 2014 10:38:29 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-linux-security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>vmware to kvm (OWASP broken webb app on KVM)</title>
+      <link>http://localhost:1313/posts/vmware-to-kvm-owasp-broken-webb-app-on-kvm/</link>
+      <pubDate>Tue, 09 Sep 2014 10:38:29 +0000</pubDate>
+      <guid>http://localhost:1313/posts/vmware-to-kvm-owasp-broken-webb-app-on-kvm/</guid>
+      <description>&lt;p&gt;So I uses kvm for my virtual server. But i got OWASP broken webb app in vmware format and its not ok.&lt;br /&gt;&#xA;But with the help from google i found some help to get the OWASP Broken Webb App on my kvm hosts.&lt;/p&gt;&#xA;&lt;p&gt;I follewed the info from this page&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a title=&#34;http://blog.bodhizazen.net/linux/convert-vmware-vmdk-to-kvm-qcow2-or-virtualbox-vdi/&#34; href=&#34;http://blog.bodhizazen.net/linux/convert-vmware-vmdk-to-kvm-qcow2-or-virtualbox-vdi/&#34;&gt;http://blog.bodhizazen.net/linux/convert-vmware-vmdk-to-kvm-qcow2-or-virtualbox-vdi/&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h3&gt;1. Download and unzip Owasp Broken Webb app to you folder (It uses 7zip for some reason)&lt;/h3&gt;&#xA;&lt;p&gt;&lt;a title=&#34;https://www.owasp.org/index.php/OWASP_Broken_Web_Applications_Project&#34; href=&#34;https://www.owasp.org/index.php/OWASP_Broken_Web_Applications_Project&#34;&gt;https://www.owasp.org/index.php/OWASP_Broken_Web_Applications_Project&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

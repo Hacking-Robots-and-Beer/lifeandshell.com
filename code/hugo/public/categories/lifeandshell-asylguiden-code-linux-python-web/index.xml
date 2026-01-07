@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Asylguiden, Code, Linux, Python, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-asylguiden-code-linux-python-web/</link>
+    <description>Recent content in Lifeandshell, Asylguiden, Code, Linux, Python, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Mon, 17 Feb 2014 21:21:20 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-asylguiden-code-linux-python-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Installing Asylguiden on centos Server</title>
+      <link>http://localhost:1313/posts/installing-asylguiden-on-centos-server/</link>
+      <pubDate>Mon, 17 Feb 2014 21:21:20 +0000</pubDate>
+      <guid>http://localhost:1313/posts/installing-asylguiden-on-centos-server/</guid>
+      <description>&lt;p&gt;One of my own prodjects are Asylguiden. Its A python publish system build with django, Mysql and mongodb.&lt;br /&gt;&#xA;You can find the code here on github&lt;/p&gt;&#xA;&lt;p&gt;https://github.com/mattiashem/asylguiden&lt;/p&gt;&#xA;&lt;p&gt;Asylguiden also works with wsgi for python and apache for displaying content&lt;/p&gt;&#xA;&lt;p&gt;here is my own how to for downloadning and setting up asylguiden on a production server.&lt;/p&gt;&#xA;&lt;h2&gt;1. Setting up server for hosing&lt;/h2&gt;&#xA;&lt;p&gt;Centos&lt;/p&gt;&#xA;&lt;pre&gt;yum install httpd mod_ssl git wget python-setuptools mod_wsgi&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

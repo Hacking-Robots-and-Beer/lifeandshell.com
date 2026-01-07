@@ -1,0 +1,42 @@
+---
+title: Install Crashplan on Raspberry Pi
+date: 2013-09-13 20:36:06
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>For syncing my data to my raspberry i use bitsync but its even better to have the data on two locations as well.<br />
+So for having my stuff safer i will try using crashplan</p>
+<p>Installing java for crashplan</p>
+<pre>sudo apt-get install openjdk-6-jre libjna-java</pre>
+<p>Download crashplan</p>
+<pre>wget http://download.crashplan.com/installs/linux/install/CrashPlan/CrashPlan_3.5.3_Linux.tgz</pre>
+<p>Run the installer</p>
+<pre>cd CrashPlan-install/
+./install.sh</pre>
+<p>Follow the installar and press enter to install crashplan in with its defult settings.</p>
+<p>Fixing so crasplan will start (OPTIONAL TEST TO START CRASHPLAN NOW TO SE IF IT WORKS IF NOT MAKE THE CHANGES)</p>
+<p>&nbsp;</p>
+<pre>cd /usr/local/crashplan/</pre>
+<pre>mv libjtux.so libjtux.so_old
+wget http://www.jonrogers.co.uk/wp-content/uploads/2012/05/libjtux.so
+mv libmd5.so libmd5.so_old
+wget http://www.jonrogers.co.uk/wp-content/uploads/2012/05/libmd5.so</pre>
+<p>Start crashplan</p>
+<pre>cd bin
+CrashPlanEngine start</pre>
+<pre>root@mepi:/usr/local/crashplan/bin# ./CrashPlanEngine status
+CrashPlan Engine (pid 6078) is running.</pre>
+<p>And now you crashplan is running</p>

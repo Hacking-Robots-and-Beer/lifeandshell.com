@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Eks, K8s, Security, Terraform on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-eks-k8s-security-terraform/</link>
+    <description>Recent content in Lifeandshell, Eks, K8s, Security, Terraform on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sat, 22 Jan 2022 11:43:24 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-eks-k8s-security-terraform/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Boundery on Kubernetes with Keycloak</title>
+      <link>http://localhost:1313/posts/boundery-on-kubernetes-with-keycloak/</link>
+      <pubDate>Sat, 22 Jan 2022 11:43:24 +0000</pubDate>
+      <guid>http://localhost:1313/posts/boundery-on-kubernetes-with-keycloak/</guid>
+      <description>&lt;p&gt;We have 3 clusters running 2 on AWS and 1 on-prem. And to sort out connections for developers and admin the goal is to implement boundary as an access point. To verify the user we use Keycloak and 2FA, Then based on roles we give the different users access to different services inside the cluster.&lt;br&gt;&lt;br&gt;Service&lt;br&gt;The user should be able to connect to an ssh server inside the network but also to service running inside Kubernetes like elasticsearch ore MySQL,&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

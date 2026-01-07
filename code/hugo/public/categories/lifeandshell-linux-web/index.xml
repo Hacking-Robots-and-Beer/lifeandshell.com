@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Linux, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-linux-web/</link>
+    <description>Recent content in Lifeandshell, Linux, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Wed, 11 Feb 2015 16:41:19 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-linux-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hosting you private docker repo</title>
+      <link>http://localhost:1313/posts/hosting-you-private-docker-repo/</link>
+      <pubDate>Wed, 11 Feb 2015 16:41:19 +0000</pubDate>
+      <guid>http://localhost:1313/posts/hosting-you-private-docker-repo/</guid>
+      <description>&lt;p&gt;We are staring using docker in our developing process. and in that we need to have our own docker repo for hosting our private docker.&lt;/p&gt;&#xA;&lt;p&gt;The path is&lt;/p&gt;&#xA;&lt;p&gt;[public docker cloud(centos img)] &lt;strong&gt;&amp;#8211;public docker image- &amp;gt;&lt;/strong&gt; [jenkins build our code and docker img] &lt;strong&gt;&amp;#8212;&amp;gt; our docker images &amp;#8212;&amp;gt;&lt;/strong&gt; [private docker repo]&lt;strong&gt;&amp;#8211;our docker image-&amp;gt;&lt;/strong&gt;[Servers [int,qa,prod]&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h3&gt;1. Setting up the docker imaged for the docker repo&lt;/h3&gt;&#xA;&lt;p&gt;make a folder that will hold you data&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Installing Openstack Centos 7</title>
+      <link>http://localhost:1313/posts/installing-openstack-centos-7/</link>
+      <pubDate>Fri, 03 Oct 2014 14:45:31 +0000</pubDate>
+      <guid>http://localhost:1313/posts/installing-openstack-centos-7/</guid>
+      <description>&lt;p&gt;Time to install Openstack on an Centos 7 server. This was my first meeting with Openstack and it took some time for gettings things up.&lt;br /&gt;&#xA;This would be a beginners guide to get you first server up and running.&lt;/p&gt;&#xA;&lt;p&gt;I followed this page in my installation&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a title=&#34;https://openstack.redhat.com/Neutron_with_existing_external_network&#34; href=&#34;https://openstack.redhat.com/Neutron_with_existing_external_network&#34; target=&#34;_blank&#34;&gt;https://openstack.redhat.com/Neutron_with_existing_external_network&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;My Openstack server has one NIC connect to my DMZ network and then routed out.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;First install a Centos 7 minimal server and setup network&lt;/h2&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Installing Jenkins on Centos 7</title>
+      <link>http://localhost:1313/posts/installing-jenkins-on-centos-7/</link>
+      <pubDate>Fri, 03 Oct 2014 14:43:32 +0000</pubDate>
+      <guid>http://localhost:1313/posts/installing-jenkins-on-centos-7/</guid>
+      <description>&lt;p&gt;So guide how to get jenkins up and running on centos 7&lt;/p&gt;&#xA;&lt;p&gt;1. First install it !&lt;/p&gt;&#xA;&lt;pre&gt;yum install -y wget&#xD;&#xA;&lt;tt&gt;sudo wget -O /etc/yum.repos.d/jenkins.repo&lt;/tt&gt; &lt;tt&gt;&lt;a class=&#34;external-link&#34; href=&#34;http://pkg.jenkins-ci.org/redhat/jenkins.repo&#34; rel=&#34;nofollow&#34;&gt;http://pkg.jenkins-ci.org/redhat/jenkins.repo&#xD;&#xA;&lt;/a&gt;&lt;/tt&gt;&lt;tt&gt;sudo rpm --import&lt;/tt&gt; &lt;tt&gt;&lt;a class=&#34;external-link&#34; href=&#34;http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key&#34; rel=&#34;nofollow&#34;&gt;https://jenkins-ci.org/redhat/jenkins-ci.org.key&#xD;&#xA;&lt;/a&gt;&lt;/tt&gt;sudo yum install jenkins&lt;/pre&gt;&#xA;&lt;p&gt;&lt;tt&gt;&lt;a class=&#34;external-link&#34; href=&#34;http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key&#34; rel=&#34;nofollow&#34;&gt; &lt;/a&gt;&lt;/tt&gt;&lt;/p&gt;&#xA;&lt;p&gt;2. Install java&lt;/p&gt;&#xA;&lt;pre class=&#34;code-java&#34;&gt; sudo yum install java-1.7.0-openjdk&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;3. Open firewall&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;firewall-cmd --zone=public --add-port=8080/tcp --permanent&#xD;&#xA;&lt;/code&gt;firewall-cmd --reload&#xD;&#xA;&#xD;&#xA;systemctl enable firewalld&#xD;&#xA;systemctl start firewalld&#xD;&#xA;systemctl status firewalld&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;4. start it !&lt;/p&gt;&#xA;&lt;pre&gt;sudo /etc/init.d/jenkins restart&#xD;&#xA;systemctl restart jenkins.service&lt;/pre&gt;&#xA;&lt;p&gt;one should work 🙂&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Dyndns to loopia.se to update you domain dynamic</title>
+      <link>http://localhost:1313/posts/dyndns-to-loopia-se-to-update-you-domain-dynamic/</link>
+      <pubDate>Sun, 06 Jul 2014 21:37:17 +0000</pubDate>
+      <guid>http://localhost:1313/posts/dyndns-to-loopia-se-to-update-you-domain-dynamic/</guid>
+      <description>&lt;p&gt;So many of my dominas I have registered on loopia.se. And they have dyndns support so I can create a subdomain to my domian. And have it updated when my laptop ore home ip changes.&lt;/p&gt;&#xA;&lt;p&gt;This make the task of connecting back to my home server easy.&lt;/p&gt;&#xA;&lt;p&gt;First install the dyndns clinet on you host here I&amp;#8217;m installing it on my &lt;strong&gt;Centos 6&lt;/strong&gt; server with &lt;strong&gt;EPEL REPO&lt;/strong&gt; installed&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;yum install ddclient&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Open Webbmail RainLoop installation and setup</title>
+      <link>http://localhost:1313/posts/open-webbmail-rainloop-installation-and-setup/</link>
+      <pubDate>Sat, 15 Mar 2014 11:00:59 +0000</pubDate>
+      <guid>http://localhost:1313/posts/open-webbmail-rainloop-installation-and-setup/</guid>
+      <description>&lt;p&gt;So I have testet so many differnt webbbased email programs. And have not been 100% happy with any of them. some are to big other look really bad.&lt;/p&gt;&#xA;&lt;p&gt;(Rainloop is open for non profit companies 🙂 )&lt;/p&gt;&#xA;&lt;p&gt;But now i found one that I hope i can like some boor Rainloop http://rainloop.net/&lt;br /&gt;&#xA;It looks nice and are realy easy to install and setup.&lt;/p&gt;&#xA;&lt;p&gt;Here is how I installe if for my domain.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Install Elgg social network on Centos</title>
+      <link>http://localhost:1313/posts/install-elgg-social-network-on-centos/</link>
+      <pubDate>Thu, 26 Dec 2013 16:26:57 +0000</pubDate>
+      <guid>http://localhost:1313/posts/install-elgg-social-network-on-centos/</guid>
+      <description>&lt;p&gt;Elgg is a social network web application that could e nice as intranet for companies.&lt;br /&gt;&#xA;Well Its a PHP application so its easy to install&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;First some yum packages&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;pre&gt;yum install mysql mysql-server httpd php php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring wget unzip&lt;/pre&gt;&#xA;&lt;p&gt;&lt;strong&gt;Setup an apache config&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;pre&gt;&amp;lt;VirtualHost *:80&amp;gt;&#xD;&#xA; DocumentRoot /var/www/html/elinodrift.se&#xD;&#xA;ServerName domain.se&#xD;&#xA;ServerAlias www.yourdomain.se&#xD;&#xA;ServerAdmin webmaster@domain.se&#xD;&#xA;ErrorLog /var/log/httpd/elgg.log&#xD;&#xA;&amp;lt;Directory /var/www/html/elgg&amp;gt;&#xD;&#xA;Options FollowSymLinks&#xD;&#xA;AllowOverride All&#xD;&#xA;Order allow,deny&#xD;&#xA;Allow from all&#xD;&#xA;&amp;lt;/Directory&amp;gt;&#xD;&#xA;&amp;lt;/VirtualHost&amp;gt;&lt;/pre&gt;&#xA;&lt;p&gt;&lt;strong&gt;Setup mysql&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Apache performance config</title>
+      <link>http://localhost:1313/posts/apache-performance-config/</link>
+      <pubDate>Mon, 16 Dec 2013 21:02:29 +0000</pubDate>
+      <guid>http://localhost:1313/posts/apache-performance-config/</guid>
+      <description>&lt;p&gt;Now on all my Apache i always load this Apache config. It enabled some apache standard performance config for Apache as a good standard.&lt;/p&gt;&#xA;&lt;p&gt;KeepAlive. Gzip all transfer and local disk cache&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;my /etc/httpd/cond.f/01.conf&lt;/p&gt;&#xA;&lt;pre&gt;NameVirtualHost *:80&#xD;&#xA;NameVirtualHost *:443&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;#Speedning upp webres Apache config&lt;/pre&gt;&#xA;&lt;pre&gt;# 2 HOURS&#xD;&#xA;&amp;lt;FilesMatch &#34;\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$&#34;&amp;gt;&#xD;&#xA;Header set Cache-Control &#34;max-age=7200, public&#34;&#xD;&#xA;&amp;lt;/FilesMatch&amp;gt;&#xD;&#xA; &#xD;&#xA;# 1 HOUR&#xD;&#xA;&amp;lt;FilesMatch &#34;\.(xml|txt)$&#34;&amp;gt;&#xD;&#xA;Header set Cache-Control &#34;max-age=3600, public, must-revalidate&#34;&#xD;&#xA;&amp;lt;/FilesMatch&amp;gt;&#xD;&#xA; &#xD;&#xA;# 2 HOURS&#xD;&#xA;&amp;lt;FilesMatch &#34;\.(html|htm)$&#34;&amp;gt;&#xD;&#xA;Header set Cache-Control &#34;max-age=7200, must-revalidate&#34;&#xD;&#xA;&amp;lt;/FilesMatch&amp;gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&#xD;&#xA;#&#xD;&#xA;KeepAlive On&lt;/pre&gt;&#xA;&lt;pre&gt;#&#xD;&#xA;# MaxKeepAliveRequests: The maximum number of requests to allow&#xD;&#xA;# during a persistent connection. Set to 0 to allow an unlimited amount.&#xD;&#xA;# We recommend you leave this number high, for maximum performance.&#xD;&#xA;#&#xD;&#xA;MaxKeepAliveRequests 100&lt;/pre&gt;&#xA;&lt;pre&gt;#&#xD;&#xA;# KeepAliveTimeout: Number of seconds to wait for the next request from the&#xD;&#xA;# same client on the same connection.&#xD;&#xA;#&#xD;&#xA;KeepAliveTimeout 100&lt;/pre&gt;&#xA;&lt;pre&gt;&#xD;&#xA;&amp;lt;ifModule mod_gzip.c&amp;gt;&#xD;&#xA;mod_gzip_on Yes&#xD;&#xA;mod_gzip_dechunk Yes&#xD;&#xA;mod_gzip_item_include file .(html?|txt|css|js|php|pl)$&#xD;&#xA;mod_gzip_item_include handler ^cgi-script$&#xD;&#xA;mod_gzip_item_include mime ^text/.*&#xD;&#xA;mod_gzip_item_include mime ^application/x-javascript.*&#xD;&#xA;mod_gzip_item_exclude mime ^image/.*&#xD;&#xA;mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*&#xD;&#xA;&amp;lt;/ifModule&amp;gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&amp;lt;IfModule mod_cache.c&amp;gt; &#xD;&#xA;#LoadModule disk_cache_module modules/mod_disk_cache.so # If you want to use mod_disk_cache instead of mod_mem_cache, # uncomment the line above and comment out the LoadModule line below.&lt;/pre&gt;&#xA;&lt;pre&gt;&amp;lt;IfModule mod_disk_cache.c&amp;gt; &#xD;&#xA;CacheRoot /tmp &#xD;&#xA;CacheEnable disk / &#xD;&#xA;CacheDirLevels 5 &#xD;&#xA;CacheDirLength 3 &#xD;&#xA;&amp;lt;/IfModule&amp;gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>Owncloud 5 on Centos 6.4 apache-mysql</title>
+      <link>http://localhost:1313/posts/owncloud-5-on-centos-6-4-apache-mysql/</link>
+      <pubDate>Thu, 10 Oct 2013 13:33:35 +0000</pubDate>
+      <guid>http://localhost:1313/posts/owncloud-5-on-centos-6-4-apache-mysql/</guid>
+      <description>&lt;p&gt;How to install owncloud 5 on you centos 6.4 server with mysql and apache to serve it.&lt;/p&gt;&#xA;&lt;h2&gt;First install packages and service needed.&lt;/h2&gt;&#xA;&lt;pre&gt;yum -y install mysql-server httpd php php-mysql unzip wget php-json php-xml php-mbstring php-zip php-gd curl php-curl php-pdo mod_ssl&lt;/pre&gt;&#xA;&lt;p&gt;Set apache and mysql to start at boot&lt;/p&gt;&#xA;&lt;pre&gt;chkconfig httpd on&#xD;&#xA;chkconfig mysqld on&lt;/pre&gt;&#xA;&lt;p&gt;Start them up&lt;/p&gt;&#xA;&lt;pre&gt;/etc/init.d/httpd start&#xD;&#xA;/etc/init.d/mysqld start&lt;/pre&gt;&#xA;&lt;p&gt;Make a new file called /tmp/setup_owncloud.sql and put this in the file (Ore past it in the mysql shell)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Glassfish Monitoring with VisualVM</title>
+      <link>http://localhost:1313/posts/glassfish-monitoring-with-visualvm/</link>
+      <pubDate>Wed, 25 Sep 2013 14:45:28 +0000</pubDate>
+      <guid>http://localhost:1313/posts/glassfish-monitoring-with-visualvm/</guid>
+      <description>&lt;p&gt;For monitoring Glassfish performance i use VisualVM. I have visual installed on my laptop and the connects using jmx to my glassfish servers to get server stats.&lt;/p&gt;&#xA;&lt;p&gt;This is only to get the current data and to se how mutch memory my apps are using and so on.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;1. Download and start VisualVM&lt;/h2&gt;&#xA;&lt;p&gt;Go here and download VisualVM &lt;a href=&#34;http://visualvm.java.net/&#34;&gt;http://visualvm.java.net/&lt;/a&gt;&lt;br /&gt;&#xA;Install visual on you local computer.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;2. Set up Glassfish for reciving JMX connections from external ip&lt;/h2&gt;&#xA;&lt;p&gt;On your glassfish you need to add som jvm values so in your &lt;strong&gt;server-config &amp;#8211;&amp;gt; jvm-settings &amp;#8211;&amp;gt; JVM options&lt;/strong&gt; add the following.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mysql Commands to Remember</title>
+      <link>http://localhost:1313/posts/mysql-commands-to-remember/</link>
+      <pubDate>Thu, 29 Aug 2013 08:45:06 +0000</pubDate>
+      <guid>http://localhost:1313/posts/mysql-commands-to-remember/</guid>
+      <description>&lt;p&gt;This is an reminder for mw some mysql commands that i use often and my mind not always bring with me.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;Optimize table&lt;/h2&gt;&#xA;&lt;p&gt;When i table that has many writes and delets get fregmant this will speed up the database.&lt;/p&gt;&#xA;&lt;pre&gt;optimize table Sys&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;Creating users&lt;/h2&gt;&#xA;&lt;pre&gt;&lt;strong&gt;&lt;code&gt;CREATE USER &#39;dbuser&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;some_pass&#39;;&#xD;&#xA;&lt;/code&gt;&lt;/strong&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;strong&gt;&lt;code&gt;GRANT ALL PRIVILEGES ON *.* TO &#39;dbuser&#39;@&#39;localhost&#39;&lt;/code&gt;&lt;/strong&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;strong&gt;&lt;code&gt;FLUSH PRIVILEGES;&lt;/code&gt;&lt;/strong&gt;&lt;/pre&gt;&#xA;&lt;h2&gt;Adding Mysql Monitoring User&lt;/h2&gt;&#xA;&lt;pre&gt;GRANT SELECT, REPLICATION CLIENT, SHOW DATABASES, SUPER, PROCESS ON *.* TO &#39;monitor&#39;@&#39;10.0.0.1&#39; IDENTIFIED BY &#39;password&#39;;&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LVS cluster for Centos</title>
+      <link>http://localhost:1313/posts/lvs-cluster-for-centos/</link>
+      <pubDate>Thu, 01 Aug 2013 14:08:13 +0000</pubDate>
+      <guid>http://localhost:1313/posts/lvs-cluster-for-centos/</guid>
+      <description>&lt;p&gt;An other cluster solution for Linux is LVS. I im testing to use LVS cluster for some cloud server. My cloudserver has one external ip and i want all traffic to come to that ip and after that be redirected to my web nodes. Witch LVS i will redirect all traffic to that ip and load balance it between my nodes. When i set up HAProxy i only loadbalanse webb traffic. In this guide i load balanse my ssh server between my two web nodes. (I already have Haproxy load balance my web)&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

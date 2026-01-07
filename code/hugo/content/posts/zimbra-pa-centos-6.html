@@ -1,0 +1,47 @@
+---
+title: Zimbra på centos 6
+date: 2012-01-30 13:37:11
+tags:
+    
+    - Random
+    
+     
+categories:
+    
+    - Random
+    
+     
+keywords: 
+    
+    - Random
+    
+     
+---
+<p>Installation av Zimbra server¶<br />
+Dokumnet tagna från<br />
+http://www.zimbra.com/docs/os/latest/multi_server_install/wwhelp/wwhimpl/js/html/wwhelp.htm<br />
+Ladda ner zimbra från<br />
+http://www.zimbra.com/downloads/os-downloads.html<br />
+Börjar installationen<br />
+Installerar beronden<br />
+yum install nptl sudo libidn gmp sysstat libstdc++.so.6</p>
+<p>yum  remove sendmail<br />
+Fixa sudoers<br />
+Avmarkera följande rad i sudoers.<br />
+vi /etc/sudoers</p>
+<p>#Defaults    requiretty</p>
+<p>Laddar ner zimbra</p>
+<p>mkdir /var/zimbra<br />
+cd /var/zimbra<br />
+wget http://files2.zimbra.com/downloads/7.1.4_GA/zcs-7.1.4_GA_2555.RHEL6_64.20120105094542.tgz<br />
+tar zxvf zcs-7.1.4_GA_2555.RHEL6_64.20120105094542.tgz</p>
+<p>Zimbra vill installera sig själv i /opt så fixar en synlänk till det<br />
+ln -s /var/zimbra /opt/zimbra<br />
+Fixar till katalog namnet<br />
+mv zcs-7.1.4_GA_2555.RHEL6_64.20120105094542 zcs<br />
+Starar inbstallationen</p>
+<p>cd zcs<br />
+./install.sh &#8211;platform-override<br />
+Sedan ska du bara behöva gå igenom inställningarna för att få zimbra att fungera.<br />
+Jag brukar byta alla lösenord och tex göra lättare spam och ham konton.</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

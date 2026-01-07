@@ -1,0 +1,39 @@
+---
+title: Building Your Own Kubernetes Cluster on Ubuntu Servers
+date: 2025-10-02 12:00:00
+tags:
+    
+    - bpd
+    
+    
+    - ubuntu
+    
+     
+categories:
+    
+    - bpd
+    
+    
+    - ubuntu
+    
+     
+keywords: 
+    
+    - bpd
+    
+    
+    - ubuntu
+    
+     
+---
+<h2>Take Control of Your Container Orchestration</h2>
+<p>While cloud providers offer managed Kubernetes services, building your own cluster provides a deeper understanding and ultimate control. The &#8216;Ubuntu System Administration Guide&#8217; provides a detailed, hands-on guide to creating a production-ready Kubernetes cluster from scratch on a set of Ubuntu servers using the official `kubeadm` tool.</p>
+<h3>The Master and Worker Node Architecture</h3>
+<p>A Kubernetes cluster consists of at least one &#8216;master&#8217; (or control-plane) node and one or more &#8216;worker&#8217; nodes. </p>
+<ul>
+<li><strong>Master Node:</strong> This is the brain of the cluster. It runs the Kubernetes API server, scheduler, and controller manager, which are responsible for managing the state of the cluster.</li>
+<li><strong>Worker Nodes:</strong> These are the machines where your actual applications (as containers in Pods) run. The master node tells the worker nodes what to run, and the workers execute the instructions.</li>
+</ul>
+<p>The book guides you through preparing your Ubuntu servers, installing the necessary dependencies like a container runtime (CRI-O), and then initializing the cluster.</p>
+<hr>
+<p>This post is based from content of the book Ubuntu System adminstration guide. And the book can be found here <a href="https://www.amazon.com/stores/Mattias-Hemmingsson/author/B0FF5CQX13">https://www.amazon.com/stores/Mattias-Hemmingsson/author/B0FF5CQX13</a></p>

@@ -1,0 +1,41 @@
+---
+title: Local Developing for Google Cloud
+date: 2018-04-27 20:06:00
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>I have now starting to move all my hosting and code to the Google cloud platform.<br />
+But when i developing new things i want to use the power and flexibility that the platform gives me but i want to develop local.</p>
+<p>So for my new project with using Datastore and the python app engine. I have set up a docker-compose for me.<br />
+Now i can spin up my compose and build my app and then when don deploy to the cloud platform.</p>
+<p>&nbsp;</p>
+<pre>version: '2'
+services:
+ #DB
+ datastore:
+ image: google/cloud-sdk
+ command: gcloud beta emulators datastore start --project=pname --host-port 0.0.0.0:8000 --no-store-on-disk
+ ports:
+ - 8000:8000
+ app:
+ image: gcr.io/google-appengine/python
+ ports:
+ - 80:80
+ links:
+ - datastore
+ volumes:
+ - ./app/:/app
+ command: python -V</pre>

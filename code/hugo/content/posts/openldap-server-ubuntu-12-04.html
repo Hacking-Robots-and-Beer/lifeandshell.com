@@ -1,0 +1,97 @@
+---
+title: Openldap Server ubuntu 12.04
+date: 2012-02-16 20:22:07
+tags:
+    
+    - Security
+    
+     
+categories:
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Security
+    
+     
+---
+<p>hur man installerar Openldap server på en ubuntu 12.04.<br />
+Obs se datumen ubuntu 12.04 är inte ute än så denna är lite innan kan man säga.</p>
+<p>När man installerat oepnldap server har dom kommit på den supersmarta iden att man ska<br />
+ta den domän som finns i hostfilen och bygga ett ldap träd av det.</p>
+<p>så  /etc/hosts för mig ser ut så här.</p>
+<pre>
+127.0.0.1       localhost
+127.0.1.1       vh-hv-bas2.elinofied.se vh-hv-bas2
+</pre>
+<p>vilket gör att nu då jag installerar slapd så kommer den fixa et träd från början som heter</p>
+<p><b>elinofied.se</b><br />
+Detta tog mig säkert 4 timmar att fatta 🙂</p>
+<p> för att kolla att det funkar gå till katalogen</p>
+<p>/etc/ldap/slapd.d/cn=config</p>
+<p>och kör en grep för att se så det funkade.</p>
+<pre>
+grep elinofied *
+</pre>
+<p>Fick nu ut så jag ser att den skapat min träd.</p>
+<p><b>Daxs att slänga in lite bra saker i den då</b></p>
+<p>gör en fil som heter base.ldif och lägg in följande i den.</p>
+<pre>
+dn: ou=People,dc=elinofied,dc=se
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Groups,dc=elinofied,dc=se
+objectClass: organizationalUnit
+ou: Groups
+</pre>
+<p>Kör sedan filen med kommandot</p>
+<pre>
+ldapadd -x -D cn=admin,dc=elinofied,dc=se -W -f base.ldif
+</pre>
+<p>Och då ska du få detta tillbaka efter att du skrivit in lösenordet som du angav då du installera slapd.</p>
+<pre>
+Enter LDAP Password: 
+adding new entry "ou=People,dc=elinofied,dc=se"
+
+adding new entry "ou=Groups,dc=elinofied,dc=se"
+
+
+</pre>
+<p>Daxs att lägga till en användare.</p>
+<p>gör en fil som heter user.ldif</p>
+<pre>
+dn: uid=mahe,ou=People,dc=elinofied,dc=se
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: mahe
+sn: Mattias
+givenName: Mattias
+cn: Mattias Hemmingsson
+displayName: Mattias Hemmingsson
+uidNumber: 1000
+gidNumber: 10000
+userPassword: passwordformahe
+gecos: Mattias Hemmingsson
+loginShell: /bin/bash
+homeDirectory: /home/mahe
+shadowExpire: -1
+shadowFlag: 0
+shadowWarning: 7
+shadowMin: 8
+shadowMax: 999999
+shadowLastChange: 10877
+mail: mahe@ahavaxthuset.se
+initials: mh
+</pre>
+<p>Lägg sedan in den nya användaren med</p>
+<pre>
+ldapadd -x -D cn=admin,dc=elinofied,dc=se -W -f adduser.ldif
+
+</pre>
+<p>och pang nu har vi satt upp en ldapserver från scratch på en ubuntu 12.04.<br />
+Ska nu även sätta upp replicering och tls för en helt klar server.</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

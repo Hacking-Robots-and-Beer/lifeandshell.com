@@ -1,0 +1,46 @@
+---
+title: Install puppet clinet on Centos 6
+date: 2013-07-24 21:55:16
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>Setting up my puppet clinet in centos and then connect it to my puppetmaster.</p>
+<p>Enbling the puppet lab repository</p>
+<pre>rpm -ivh http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-7.noarch.rpm</pre>
+<p>Enabling EPEL repos</p>
+<pre>rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</pre>
+<p>&nbsp;</p>
+<p>Install puppet client</p>
+<pre>yum install puppet</pre>
+<p>&nbsp;</p>
+<p>make shore that you hostfile is ok /etc/hosts</p>
+<pre>10.30.0.1       puppetmaster.xxx.xx puppetmaster</pre>
+<p>&nbsp;</p>
+<p>Openup the file /etc/sysconfig/puppet and set</p>
+<pre># The puppetmaster server
+PUPPET_SERVER=puppetmaster</pre>
+<p>&nbsp;</p>
+<p>Now its time to start the puppet client</p>
+<pre>/etc/init.d/puppet start
+chkconfig puppet on</pre>
+<p>&nbsp;</p>
+<p>Now the client will show up on the puppetmaster on the master run</p>
+<pre>puppetca --list</pre>
+<p>Sign the servers cert</p>
+<p>puppetca &#8211;sign server2</p>
+<p>And now your clinet is connected to the server.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

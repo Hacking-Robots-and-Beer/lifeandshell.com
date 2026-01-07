@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Asylguiden, Code, Linux, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-asylguiden-code-linux-web/</link>
+    <description>Recent content in Lifeandshell, Asylguiden, Code, Linux, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sun, 18 Jan 2015 21:25:59 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-asylguiden-code-linux-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Getting django docker prod ready with jenkins (part 1 the build)</title>
+      <link>http://localhost:1313/posts/getting-django-docker-prod-ready-with-jenkins-part-1-the-build/</link>
+      <pubDate>Sun, 18 Jan 2015 21:25:59 +0000</pubDate>
+      <guid>http://localhost:1313/posts/getting-django-docker-prod-ready-with-jenkins-part-1-the-build/</guid>
+      <description>&lt;p&gt;So i have some django webb projects and now its time to get my django apps prod ready with docker.&lt;br /&gt;&#xA;My plan is to with jenkins build my django apps (soon start a docker of the app and run some test but that will be later) make a docker image and send that to the docker cloud.&lt;/p&gt;&#xA;&lt;p&gt;Then a can download the docker image on my prod server and start the app. I hope that this also can be triggerd from my jenkins so the flow will be&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

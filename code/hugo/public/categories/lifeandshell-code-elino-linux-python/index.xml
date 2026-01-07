@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Elino, Linux, Python on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-elino-linux-python/</link>
+    <description>Recent content in Lifeandshell, Code, Elino, Linux, Python on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Fri, 10 Jan 2014 21:28:51 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-elino-linux-python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ejabber users from postfixadmin (python,mysql,md5crypt)</title>
+      <link>http://localhost:1313/posts/ejabber-users-from-postfixadmin-pythonmysqlmd5crypt/</link>
+      <pubDate>Fri, 10 Jan 2014 21:28:51 +0000</pubDate>
+      <guid>http://localhost:1313/posts/ejabber-users-from-postfixadmin-pythonmysqlmd5crypt/</guid>
+      <description>&lt;p&gt;So Im running my emails with postfix and have postfix admin to manager my users and domains. But now it should be nice to have i jabber server running and to have the same user and password for both email and jabber.&lt;/p&gt;&#xA;&lt;p&gt;Ejabber support custom auth plugins and with some python i now have a working plugin.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;First install python packages&lt;/h2&gt;&#xA;&lt;pre&gt;yum install MySQL-python&#xD;&#xA;yum install python-passlib&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;Add this script to you ejabber folder&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

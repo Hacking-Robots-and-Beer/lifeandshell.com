@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> restrict sms in nagios / icinga | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/limit-sms-flood-in-nagios-icing/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/limit-sms-flood-in-nagios-icing/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="restrict sms in nagios / icinga">
+  <meta property="og:description" content="Im using nagios as primary monitoring tool. And to get alerts we use an sms gateway. The problem is that sometimes when we work we bring down and server and we get so many sms from icinga that you trow away you phone. So for bringing the sms cost down and to have not so many sms to you phone i build a small email blocking script. This will take the address of the sms and only send one sms / email every 5 min (can be set to anything).">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2013-08-05T16:13:58+00:00">
+    <meta property="article:modified_time" content="2013-08-05T16:13:58+00:00">
+    <meta property="article:tag" content="Elino">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Python">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="restrict sms in nagios / icinga">
+  <meta name="twitter:description" content="Im using nagios as primary monitoring tool. And to get alerts we use an sms gateway. The problem is that sometimes when we work we bring down and server and we get so many sms from icinga that you trow away you phone. So for bringing the sms cost down and to have not so many sms to you phone i build a small email blocking script. This will take the address of the sms and only send one sms / email every 5 min (can be set to anything).">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/ntp-server-and-client-setup/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/how-the-hell-is-oncall-the-oncall-reminder-script/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&text=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&title=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&is_video=false&description=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=restrict%20sms%20in%20nagios%20%2f%20icinga&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&title=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&title=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&name=restrict%20sms%20in%20nagios%20%2f%20icinga&description=Im%20using%20nagios%20as%20primary%20monitoring%20tool.%20And%20to%20get%20alerts%20we%20use%20an%20sms%20gateway.%20The%20problem%20is%20that%20sometimes%20when%20we%20work%20we%20bring%20down%20and%20server%20and%20we%20get%20so%20many%20sms%20from%20icinga%20that%20you%20trow%20away%20you%20phone.%20So%20for%20bringing%20the%20sms%20cost%20down%20and%20to%20have%20not%20so%20many%20sms%20to%20you%20phone%20i%20build%20a%20small%20email%20blocking%20script.%20This%20will%20take%20the%20address%20of%20the%20sms%20and%20only%20send%20one%20sms%20%2f%20email%20every%205%20min%20%28can%20be%20set%20to%20anything%29." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&t=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        restrict sms in nagios / icinga
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2013-08-05 16:13:58 &#43;0000 UTC" itemprop="datePublished">2013-08-05</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          2 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/elino">Elino</a>
+            
+             ,  
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+             ,  
+            <a class="category-link" href="/categories/python">Python</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/elino" rel="tag">Elino</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/python" rel="tag">Python</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>Im using nagios as primary monitoring tool. And to get alerts we use an sms gateway. The problem is that sometimes when we work we bring down and server and we get so many sms from icinga that you trow away you phone. So for bringing the sms cost down and to have not so many sms to you phone i build a small email blocking script. This will take the address of the sms and only send one sms / email every 5 min (can be set to anything).</p>
+<p>We hook this small script up to our icinga sms sender and now we get one sms every 5 min and we don&#8217;t get flooded. If icinga is sending an sms within the five minutes that alerts is redirected to an gmail inbox. And all us sysop have that gmail on our phones.</p>
+<p>the python script</p>
+<pre>#!/usr/bin/env python
+#
+# Mattias Hemmingsson
+# matte@elino.se
+#
+# Script for rescricting nagios messages
+# Only send one sms / email and then paus for some time.
+# This for not flouding sms system while system reboot 
+# 
+import csv
+import time
+import datetime
+import os.path, time
+from time import gmtime, strftime, mktime
+import smtplib
+import sys</pre>
+<pre>def send_email(to,message):
+ '''
+ Sending the email.
+ '''</pre>
+<pre>sender = 'icinga@monitor.elino.se'
+ 
+ try:
+ smtpObj = smtplib.SMTP('localhost')
+ smtpObj.sendmail(sender, to, message) 
+ print "Successfully sent email"
+ except SMTPException:
+ print "Error: unable to send email"</pre>
+<pre>def save_to_file(to,message,host):
+ '''
+ Saves the oncall to file
+ '''
+ f = open("/opt/tmp/"+to+".txt", "w")
+ f.write(to+","+host)
+ f.close()</pre>
+<pre>
+def is_message_sent(to,message,host):
+ '''
+ Cheks if teh message has bean sent before
+ '''
+ 
+ 
+ #print strftime("%Y-%m-%d %H:%M:%S",os.path.getmtime("/tmp/"+ to + '.txt'))
+ #print time.mktime(time.gmtime())
+ if os.path.isfile("/opt/tmp/"+ to + '.txt'): 
+ try:
+ with open("/opt/tmp/"+to + '.txt', 'r') as f:
+ diffrent = time.time() - os.path.getmtime("/opt/tmp/" + to + '.txt')
+ print diffrent
+ reader = csv.reader(f)
+ for row in reader:
+ if diffrent &lt; 900:
+ return True
+ else:
+ return False
+ except IOError:
+ return False
+ else:
+ return False</pre>
+<pre>
+def incomming(to,message,host):
+ '''
+ Incomming messages
+ '''
+ #Has en sms bean send the latest our
+ if is_message_sent(to,message,host):
+ print "Sending to gmail"
+ send_email('alerts@gmail.com',message)
+ else:
+ print "Seding to sms"
+ 
+ save_to_file(to,message,host)
+ #Sending to sms
+ send_email(to,message)</pre>
+<pre>
+ #Saving message to file
+save_to_file(to,message,host)</pre>
+<pre>
+if len(sys.argv) ==5:
+ args = 'Argument List:', str(sys.argv)
+ headers = ["from: noreply@elino.se",
+ "subject: "+ sys.argv[1],
+ "to: " + sys.argv[4],
+ "mime-version: 1.0",
+ "content-type: text/html"]
+ headers = "\r\n".join(headers)</pre>
+<pre>messages="""Alert {0} has state {1} {2}</pre>
+<pre>""".format(sys.argv[2],sys.argv[1],sys.argv[3])
+ incomming(sys.argv[4],headers+"\r\n\r\n"+ messages,sys.argv[2])
+else:
+ print "Error number of arguments please use './sms_send.py hoststate hostalias message contactemail'"</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>The icinga command for sending the alert.</p>
+<p>&nbsp;</p>
+<pre>define command{
+ command_name notify-host-by-sms
+ command_line /opt/scripts/send_sms.py $HOSTSTATE$ $HOSTALIAS$/$SERVICEDESC$ '$SERVICESTATE$ alert for $HOSTALIAS$/$SERVICEDESC$' $CONTACTEMAIL$
+}</pre>
+<pre>define command{
+ command_name notify-service-by-sms
+ command_line /opt/scripts/send_sms.py $SERVICESTATE$ $HOSTALIAS$/$SERVICEDESC$ '$SERVICESTATE$ alert for $HOSTALIAS$/$SERVICEDESC$' $CONTACTEMAIL$
+
+}
+
+</pre>
+<p>set up so that the script and tmp folder match you server setup.</p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&text=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&title=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&is_video=false&description=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=restrict%20sms%20in%20nagios%20%2f%20icinga&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&title=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&title=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&name=restrict%20sms%20in%20nagios%20%2f%20icinga&description=Im%20using%20nagios%20as%20primary%20monitoring%20tool.%20And%20to%20get%20alerts%20we%20use%20an%20sms%20gateway.%20The%20problem%20is%20that%20sometimes%20when%20we%20work%20we%20bring%20down%20and%20server%20and%20we%20get%20so%20many%20sms%20from%20icinga%20that%20you%20trow%20away%20you%20phone.%20So%20for%20bringing%20the%20sms%20cost%20down%20and%20to%20have%20not%20so%20many%20sms%20to%20you%20phone%20i%20build%20a%20small%20email%20blocking%20script.%20This%20will%20take%20the%20address%20of%20the%20sms%20and%20only%20send%20one%20sms%20%2f%20email%20every%205%20min%20%28can%20be%20set%20to%20anything%29." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2flimit-sms-flood-in-nagios-icing%2f&t=restrict%20sms%20in%20nagios%20%2f%20icinga" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

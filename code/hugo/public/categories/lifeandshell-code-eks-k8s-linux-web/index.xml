@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Eks, K8s, Linux, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-eks-k8s-linux-web/</link>
+    <description>Recent content in Lifeandshell, Code, Eks, K8s, Linux, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Thu, 17 Nov 2022 16:53:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-eks-k8s-linux-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Openstreat map Docker och docker compose</title>
+      <link>http://localhost:1313/posts/openstreat-map-docker-och-docker-compose/</link>
+      <pubDate>Thu, 17 Nov 2022 16:53:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/openstreat-map-docker-och-docker-compose/</guid>
+      <description>&lt;p&gt;Split up in separate containers !&lt;br&gt;&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;Running openstreetmap map in docker was hard. And the docs all wanted to run it bounded with postgress and not in separate containers.&lt;br&gt;I setup so we can run osm I different containers for you to scale&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/mattiashem/osm&#34;&gt;https://github.com/mattiashem/osm&lt;/a&gt;&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;Clone this GitHub repo and then start it with&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;&lt;code&gt;docker compose build&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;&lt;strong&gt;then to start it, run &lt;/strong&gt;&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;&lt;code&gt;docker compose up&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;h2 class=&#34;wp-block-heading&#34;&gt;What is happening &lt;/h2&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;First we are building a custom Postgres docker image. The image loads the extension that OSM needs.&lt;br&gt;Then we start the containers postgres, osm, tile-importer and web&lt;br&gt;&lt;br&gt;Tile importer will look for the file /status/importer id the file DONT exist it will start the script to provision the Postgres SQL server by loading all the extensions and plugins.&lt;br&gt;It will then move on to importing tiles of Sweden.&lt;br&gt;And then install some extra scripts.&lt;br&gt;&lt;br&gt;Then the init process is done it will write the file /status/imported&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

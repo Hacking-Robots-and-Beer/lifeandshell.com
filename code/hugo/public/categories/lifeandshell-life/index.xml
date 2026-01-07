@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Life on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-life/</link>
+    <description>Recent content in Lifeandshell, Life on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Mon, 04 Nov 2013 16:58:16 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-life/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rolling back Andrioid on your Nexus 4 after Ubuntu</title>
+      <link>http://localhost:1313/posts/rolling-back-andrioid-on-your-nexus-4-after-ubuntu/</link>
+      <pubDate>Mon, 04 Nov 2013 16:58:16 +0000</pubDate>
+      <guid>http://localhost:1313/posts/rolling-back-andrioid-on-your-nexus-4-after-ubuntu/</guid>
+      <description>&lt;p&gt;So i had to roll back to andriod. ubunut is not realy ready for my phone.&lt;br /&gt;&#xA;So this is how you do.&lt;/p&gt;&#xA;&lt;p&gt;1. download you andriod images from here&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://developers.google.com/android/nexus/images#nakasi&#34;&gt;https://developers.google.com/android/nexus/images#nakasi&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;Download and untar in nice folder.&lt;/p&gt;&#xA;&lt;p&gt;2. Connect with USB to phone and power it on (Booting to ubuntu is ok)&lt;/p&gt;&#xA;&lt;p&gt;run&lt;/p&gt;&#xA;&lt;p&gt;adb reboot-bootloader&lt;/p&gt;&#xA;&lt;p&gt;This will make the phone go into boot image.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;3. Install andriod&lt;/p&gt;&#xA;&lt;p&gt;in the folder that the downloadin andriod image is in run&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

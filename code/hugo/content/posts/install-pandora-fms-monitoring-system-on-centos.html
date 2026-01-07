@@ -1,0 +1,97 @@
+---
+title: Install Pandora fms monitoring system on Centos
+date: 2014-03-22 13:10:54
+tags:
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+---
+<p>So for many years i use nagios to monitor my server and now im would say i can handle nagios config files good. But I fund pandora fms monitoring and this i must try.</p>
+<p>From the pandora console its mutch easy to from the webbrowser setup new task and tweek task so you alarms realy are correct. Doing this in nagios then i had to change config files and restart nagios and nrpe.</p>
+<p>&nbsp;</p>
+<p>So here is i small guide to install and set up i basic pandora fms monitoring,</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Download the console, server client AND wsdi</p>
+<pre>wget http://downloads.sourceforge.net/project/pandora/Pandora%20FMS%205.0/FinalSP3/RHEL_CentOS/pandorafms_agent_unix-5.0SP3-1.noarch.rpm?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%2520FMS%25205.0%2FFinalSP3%2FRHEL_CentOS%2F&amp;ts=1395336652&amp;use_mirror=heanet</pre>
+<pre>wget http://downloads.sourceforge.net/project/pandora/Pandora%20FMS%205.0/FinalSP3/RHEL_CentOS/pandorafms_server-5.0SP3-1.noarch.rpm?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%2520FMS%25205.0%2FFinalSP3%2FRHEL_CentOS%2F&amp;ts=1395336686&amp;use_mirror=freefr</pre>
+<pre>wget http://downloads.sourceforge.net/project/pandora/Pandora%20FMS%205.0/FinalSP3/RHEL_CentOS/pandorafms_console-5.0SP3-1.noarch.rpm?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%2520FMS%25205.0%2FFinalSP3%2FRHEL_CentOS%2F&amp;ts=1395336727&amp;use_mirror=skylink</pre>
+<pre>wget http://downloads.sourceforge.net/project/pandora/Tools%20and%20dependencies%20%28All%20versions%29/RPM%20CentOS%2C%20RHEL/wmic-4.0.0SVN-2.1.el5.centos.noarch.rpm?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FTools%2520and%2520dependencies%2520%28All%2520versions%29%2FRPM%2520CentOS%2C%2520RHEL%2F&amp;ts=1395337829&amp;use_mirror=garr</pre>
+<p>&nbsp;</p>
+<p>Move them so they have the .rpm name ate the end</p>
+<p>&nbsp;</p>
+<pre>mv pandorafms_console-5.0SP3-1.noarch.rpm\?r\=http\:%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%20FMS%205.0%2FFinalSP3%2FRHEL_CentOS%2F pandorafms_console-5.0SP3-1.noarch.rpm</pre>
+<pre>mv pandorafms_server-5.0SP3-1.noarch.rpm\?r\=http\:%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%20FMS%205.0%2FFinalSP3%2FRHEL_CentOS%2F pandorafms_server-5.0SP3-1.noarch.rpm</pre>
+<pre>mv pandorafms_agent_unix-5.0SP3-1.noarch.rpm\?r\=http\:%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%20FMS%205.0%2FFinalSP3%2FRHEL_CentOS%2F pandorafms_agent_unix-5.0SP3-1.noarch.rpm</pre>
+<pre>mv wmic-4.0.0SVN-2.1.el5.centos.noarch.rpm\?r\=http\:%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FTools%20and%20dependencies%20\(All%20versions\)%2FRPM%20CentOS\,%20RHEL%2F wmic-4.0.0SVN-2.1.el5.centos.noarch.rpm</pre>
+<p>So now we have the 4 packaged that we need lets install them IMPORTANT that you do this in the correct order.</p>
+<p>&nbsp;</p>
+<p>1.</p>
+<pre>sudo yum localinstall pandorafms_console-5.0SP3-1.noarch.rpm</pre>
+<p>2.</p>
+<pre>sudo yum localinstall wmic-4.0.0SVN-2.1.el5.centos.noarch.rpm</pre>
+<p>3.</p>
+<pre>sudo yum localinstall pandorafms_server-5.0SP3-1.noarch.rpm</pre>
+<p>4</p>
+<pre>sudo yum localinstall pandorafms_agent_unix-5.0SP3-1.noarch.rpm</pre>
+<p>&nbsp;</p>
+<h2>Config Pandora console</h2>
+<p>Now we have the packages install its time to set up pandora console server and client.<br />
+Start i webbrowser and go to you pandora_console http://hostname/pandora_console</p>
+<p>There setup you mysql details and let pandora install it self into you mysql.</p>
+<h2>Config Pandora Server</h2>
+<p>Next up is to setup the pandora server.<br />
+Open the file</p>
+<pre>vi /var/www/html/pandora_console/include/config.php</pre>
+<p>And COPY the mysql password from that file</p>
+<p>Open the file</p>
+<pre>vi /etc/pandora/pandora_server.conf</pre>
+<p>And PAST in the mysql password on the correct place.</p>
+<p>Restart you pandora server</p>
+<pre>/etc/init.d/pandora_server restart
+/etc/init.d/tentacle_serverd restart</pre>
+<h2>Pandora Client</h2>
+<p>Open the file</p>
+<pre>vi /etc/pandora/pandora_agent.conf</pre>
+<p>Change the ip to your pandora server ip.</p>
+<p>Restart the pandora client and pandora server deamon.</p>
+<p>Then for every new host you would like to add only install the pandora client and chnage the ip. then all of you server will show up in the pandora_console.</p>
+<p>&nbsp;</p>

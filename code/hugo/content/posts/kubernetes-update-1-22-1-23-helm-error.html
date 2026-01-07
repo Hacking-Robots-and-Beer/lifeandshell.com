@@ -1,0 +1,72 @@
+---
+title: kubernetes update 1.22 ->1.23 Helm Error
+date: 2022-09-15 16:02:06
+tags:
+    
+    - Code
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - eks
+    
+    
+    - k8s
+    
+    
+    - Web
+    
+     
+---
+
+<p>I was in the progress of updating my cluster and in version 1.23 we have breaking changes.<br>What I did not know was that helm saves the latest deployed version in secret.<br><br>So I updated the cluster to version 1.23 and started getting helm errors.<br>And it does not matter if I delete the resources in the cluster. The issue is that helm has saved the last deployment with a API version that with the new k8s version is no longer supported.<br><br>So I tried to manually delete all the different resources but with no success.<br>In the end, I started to delete the helm secrets and then applied the helm again using update &#8211;install</p>
+
+
+
+<p></p>
+
+
+
+<p><strong>Remove the old helm deployments saved in secrets </strong><br><code>kubectl get secret -n namspaec | grep sh.helm.release.v1 | awk {'print $1'} | xargs -i kubectl delete secret -n namespace {}</code></p>
+
+
+
+<p><strong>Apply helm</strong> </p>
+
+
+
+<p>helm upgrade &#8211;install {Rest of your helm }</p>
+
+
+
+<p><strong>The errors</strong></p>
+
+
+
+<pre class="wp-block-preformatted">Error: UPGRADE FAILED: current release manifest contains removed kubernetes api(s) for this kubernetes version and it is therefore unable to build the kubernetes objects for performing the diff. error from kubernetes: unable to recognize "": no matches for kind "Ingress" in version "extensions/v1beta1"</pre>

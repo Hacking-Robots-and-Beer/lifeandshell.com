@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Linux on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-linux/</link>
+    <description>Recent content in Lifeandshell, Linux on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Thu, 18 Feb 2021 23:34:48 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>K8s Logs to Elastic with Dynamic ILM from annotations</title>
+      <link>http://localhost:1313/posts/k8s-logs-to-elastic-with-dynamic-ilm-from-annotations/</link>
+      <pubDate>Thu, 18 Feb 2021 23:34:48 +0000</pubDate>
+      <guid>http://localhost:1313/posts/k8s-logs-to-elastic-with-dynamic-ilm-from-annotations/</guid>
+      <description>&lt;p&gt;#fluentd #fluent-bit #kubernetes #elasticsearch #ILM #logpain &lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;The time a spent fixing logs problems &amp;#8230; From cleaning out logs that eats disk setting up log-rotate and now Elasticsearch &amp;#8230;.. &lt;br&gt;&lt;br&gt;I want a easy log system that setups a Elasticsearch ILM with different life time on the logs depending on a annotation that I set on the pod.&lt;br&gt;If no annotations well then I want the logs for 30 days. And then a can set different annotations and store logs for 90 days, send to s3 ore what ever comes up.(splunk? redshift? kafka ?)&lt;br&gt;&lt;br&gt;Fleunt-bit (read logs from pod) &amp;#8211;(send to fluentd)&amp;#8211;&gt;fluentd(parses logs and send to diffrent output. And add Elasticsearch ILM) &amp;#8212;&gt; Elasticsearch&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Gitlab runners in K8s Helm (Working DockerInDocker)</title>
+      <link>http://localhost:1313/posts/gitlab-runners-in-k8s-helm-working-dockerindocker/</link>
+      <pubDate>Fri, 11 Dec 2020 13:24:35 +0000</pubDate>
+      <guid>http://localhost:1313/posts/gitlab-runners-in-k8s-helm-working-dockerindocker/</guid>
+      <description>&lt;p id=&#34;block-813bada9-6b23-4850-b652-97b1be6d04bd&#34;&gt;So&amp;#8230; I spent alot of time trying to get gitlab runners working in kubernetes. using the helm from gitlab.&lt;br&gt;This is the setup i use now that works for me aand that you dont need to put to mutch inte the build job.&lt;br&gt;&lt;br&gt;Replace so you have your domain and key&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p id=&#34;block-0f41831b-8681-4547-8d7a-0ab8885a9259&#34;&gt;name the file runners1-values.yaml&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;pre id=&#34;block-9711e90c-47e7-4e46-9241-9e56107a54dc&#34; class=&#34;wp-block-code&#34;&gt;&lt;code&gt;## The GitLab Server URL (with protocol) that want to register the runner against&lt;br&gt;## ref: https://docs.gitlab.com/runner/commands/README.html#gitlab-runner-register&lt;br&gt;##&lt;br&gt;gitlabUrl: https://    .booli.se/&lt;br&gt;name: &#34;K8s INT&#34;&lt;br&gt;## The registration token for adding new Runners to the GitLab server. This must&lt;br&gt;## be retrieved from your GitLab instance.&lt;br&gt;## ref: https://docs.gitlab.com/ee/ci/runners/&lt;br&gt;##&lt;br&gt;runnerRegistrationToken: &#34;&#34;&lt;br&gt;&lt;br&gt;## Set the certsSecretName in order to pass custom certificates for GitLab Runner to use&lt;br&gt;## Provide resource name for a Kubernetes Secret Object in the same namespace,&lt;br&gt;## this is used to populate the /etc/gitlab-runner/certs directory&lt;br&gt;## ref: https://docs.gitlab.com/runner/configuration/tls-self-signed.html#supported-options-for-self-signed-certificates&lt;br&gt;##&lt;br&gt;#certsSecretName:&lt;br&gt;&lt;br&gt;## Configure the maximum number of concurrent jobs&lt;br&gt;## ref: https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-global-section&lt;br&gt;##&lt;br&gt;concurrent: 10&lt;br&gt;&lt;br&gt;## Defines in seconds how often to check GitLab for a new builds&lt;br&gt;## ref: https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-global-section&lt;br&gt;##&lt;br&gt;checkInterval: 2&lt;br&gt;&lt;br&gt;## For RBAC support:&lt;br&gt;rbac:&lt;br&gt;&lt;br&gt;  ## Run the gitlab-bastion container with the ability to deploy/manage containers of jobs&lt;br&gt;  ## cluster-wide or only within namespace&lt;br&gt;  clusterWideAccess: false&lt;br&gt;&lt;br&gt;  ## If RBAC is disabled in this Helm chart, use the following Kubernetes Service Account name.&lt;br&gt;  ##&lt;br&gt;  serviceAccountName: gitlab-runner-admin&lt;br&gt;&lt;br&gt;## Configuration for the Pods that the runner launches for each new job&lt;br&gt;##&lt;br&gt;metrics:&lt;br&gt;  enabled: true&lt;br&gt;&lt;br&gt;runners:&lt;br&gt;  ## Default container image to use for builds when none is specified&lt;br&gt;  ##&lt;br&gt;  image: docker:19.03.13&lt;br&gt;  config: |&lt;br&gt;    &amp;#91;&amp;#91;runners]]&lt;br&gt;      environment = &amp;#91;&#34;DOCKER_HOST=tcp://docker:2376&#34;, &#34;DOCKER_TLS_CERTDIR=/certs&#34;, &#34;DOCKER_TLS_VERIFY=1&#34;, &#34;DOCKER_CERT_PATH=/certs/client&#34;]&lt;br&gt;      &amp;#91;runners.kubernetes]&lt;br&gt;        image = &#34;docker:19.03.13&#34;&lt;br&gt;        privileged = true&lt;br&gt;        cpu_request = &#34;100m&#34;&lt;br&gt;        memory_request = &#34;128Mi&#34;&lt;br&gt;        helper_cpu_request = &#34;200m&#34;&lt;br&gt;        &amp;#91;runners.kubernetes.node_selector]&lt;br&gt;           gitlab = &#34;true&#34;&lt;br&gt;        &amp;#91;&amp;#91;runners.kubernetes.volumes.empty_dir]]&lt;br&gt;          name = &#34;docker-certs&#34;&lt;br&gt;          mount_path = &#34;/certs/client&#34;&lt;br&gt;          medium = &#34;Memory&#34;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;  ## Run all containers with the privileged flag enabled&lt;br&gt;  ## This will allow the docker:stable-dind image to run if you need to run Docker&lt;br&gt;  ## commands. Please read the docs before turning this on:&lt;br&gt;  ## ref: https://docs.gitlab.com/runner/executors/kubernetes.html#using-docker-dind&lt;br&gt;  ##&lt;br&gt;  tags: &#34;int,k8s,dind&#34;&lt;br&gt;  ## Namespace to run Kubernetes jobs in (defaults to &#39;default&#39;)&lt;br&gt;  ##&lt;br&gt;  namespace: gitlab&lt;br&gt;  nodeSelector:&lt;br&gt;    gitlab: true&lt;br&gt;  ## Build Container specific configuration&lt;br&gt;  ##&lt;br&gt;  kubernetes:&lt;br&gt;    node_selector:&lt;br&gt;      gitlab = &#34;true&#34;&lt;br&gt;  builds:&lt;br&gt;    cpuLimit: 2000m&lt;br&gt;    memoryLimit: 2048Mi&lt;br&gt;    cpuRequests: 100m&lt;br&gt;    memoryRequests: 128Mi&lt;br&gt;    node_selector: gitlab=true&lt;br&gt;  ## Service Container specific configuration&lt;br&gt;  ##&lt;br&gt;  services:&lt;br&gt;    # cpuLimit: 200m&lt;br&gt;    # memoryLimit: 256Mi&lt;br&gt;    cpuRequests: 100m&lt;br&gt;    memoryRequests: 128Mi&lt;br&gt;&lt;br&gt;  ## Helper Container specific configuration&lt;br&gt;  ##&lt;br&gt;  helpers:&lt;br&gt;    # cpuLimit: 200m&lt;br&gt;    # memoryLimit: 256Mi&lt;br&gt;    cpuRequests: 100m&lt;br&gt;    memoryRequests: 128Mi&lt;br&gt;    node_selector: gitlab=true&lt;br&gt;﻿&lt;/code&gt;&lt;/pre&gt;&#xA;&#xA;&#xA;&#xA;&lt;p id=&#34;block-bd3ddfe3-4833-4a5f-98bb-b5eb3a2100ae&#34;&gt;Apply it with&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Modsecurity 3 dos / scaraping protection Working  !</title>
+      <link>http://localhost:1313/posts/modsecurity-3-dos-scaraping-protection-working/</link>
+      <pubDate>Mon, 16 Mar 2020 17:46:47 +0000</pubDate>
+      <guid>http://localhost:1313/posts/modsecurity-3-dos-scaraping-protection-working/</guid>
+      <description>&lt;p&gt;Yess this is a brute force that work for modsecurity 3 and its not that many. Spent days searching the net and trying to find out how to get them working.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;h4 class=&#34;wp-block-heading&#34;&gt;First setup a devoloper box&lt;/h4&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;Start by cloning this repo i have &lt;a href=&#34;https://github.com/Ollebo/modsecurity3&#34;&gt;https://github.com/Ollebo/modsecurity3&lt;/a&gt; it using the OWASP Modsecurity docker that i run is box&lt;br&gt;&lt;strong&gt;WARNING: i started with the first docker that installed modsec with apt but with that box i could not get block to work.&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Filebeat =&gt; logstash =&gt; Elasticsearch and working modules</title>
+      <link>http://localhost:1313/posts/filebeat-logstash-elasticsearch-and-working-modules/</link>
+      <pubDate>Mon, 16 Mar 2020 14:39:23 +0000</pubDate>
+      <guid>http://localhost:1313/posts/filebeat-logstash-elasticsearch-and-working-modules/</guid>
+      <description>&lt;p&gt;Setting up filbeat modules to work when you are uisng logstash to send logs over to elastic.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;So i started setting up filbeat to ship my mysql-slow.log and planned to use the filbeat module.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;&lt;strong&gt;The logs started flowing and after some time i got the logs into the correct index. But to my surprise the logs where not correct parsed. ?&lt;/strong&gt;&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;The problem is that filebeat want to connect direct to elastic and ad a pipline script (grokparser in elastic )&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>WordPress &#43;  Gatsby = Love</title>
+      <link>http://localhost:1313/posts/wordpress-gatsby-love/</link>
+      <pubDate>Mon, 24 Feb 2020 15:03:30 +0000</pubDate>
+      <guid>http://localhost:1313/posts/wordpress-gatsby-love/</guid>
+      <description>&lt;p&gt;I like the ide of using wordpress as a backend service and then use a static file genertor to fetch the data from wordpress and then generate static files. Its how this blog is now woring with firebase and google cloud.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;But before i started using firebase a build a small demo project to use gatsby to extract data from wordpress. I use i gatsby to connect to a wordpress and then generate html from it.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Openvas results to json and Elasticsearch and kibana</title>
+      <link>http://localhost:1313/posts/openvas-results-to-json-and-elasticsearch-and-kibana/</link>
+      <pubDate>Mon, 24 Feb 2020 14:59:57 +0000</pubDate>
+      <guid>http://localhost:1313/posts/openvas-results-to-json-and-elasticsearch-and-kibana/</guid>
+      <description>&lt;p&gt;I have some openvas scanners running but to use the scanners a need the results as json files. Then i can use my ELK stack to visualize and have dashboards over the results from the scan.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;Before I used vulwisperer to export the result from openvas and to get them into elk. But from the latest release of openvas the support from vulwipspere is gone.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;So i have created my own pyton script that reads the results from openvas scannings. Store the results as json files on the filesystem.&lt;br&gt;Then i uses a logstash to read the file and send the results to elasticsearch.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Send Openvas result to Kibana with vulwisperer</title>
+      <link>http://localhost:1313/posts/send-openvas-result-to-kibana-with-vulwisperer/</link>
+      <pubDate>Mon, 24 Feb 2020 14:55:26 +0000</pubDate>
+      <guid>http://localhost:1313/posts/send-openvas-result-to-kibana-with-vulwisperer/</guid>
+      <description>&lt;p&gt;Vulwisperer is a tool to read the finding from a openvas scanner and to send them to a other tools. Here i want them to be sent to a elasticsearch and kibana. &lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;ul class=&#34;wp-block-list&#34;&gt;&lt;li&gt;To do this i first need to start a openvas scan and get some results. &amp;#8211;&lt;/li&gt;&lt;li&gt;Then use vulwisperer to get the results from openvas and store the results in json files.&lt;/li&gt;&lt;li&gt;From the json files a then uses logstash to send the finding to elastic.&lt;/li&gt;&lt;/ul&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;Here is a full decription with working code how to get results from openvas to elastic working &lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Nikto webbscanner for kubernetes (samma.io)</title>
+      <link>http://localhost:1313/posts/nikto-webbscanner-for-kubernetes-samma-io/</link>
+      <pubDate>Mon, 24 Feb 2020 14:50:20 +0000</pubDate>
+      <guid>http://localhost:1313/posts/nikto-webbscanner-for-kubernetes-samma-io/</guid>
+      <description>&lt;p&gt;I hope that you have already test my nmap scanners for kubernetes. Now its time for some more OWASP and webb scanner.&lt;br&gt;Nikto is a webb application scanners and run against a target to verify its security.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;I have created a nikto docker and a helm job that deploys the nikto scanner into your kubernetes cluster.&lt;br&gt;The nikto scanner will then on regular basic scan you webbapps for security issues. Any finding will be logged as a json log ready for your log pipeline to pick up and visualize.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Nmap security scanner for kubernetes (samma.io)</title>
+      <link>http://localhost:1313/posts/nmap-security-scanner-for-kubernetes-samma-io/</link>
+      <pubDate>Mon, 24 Feb 2020 14:45:56 +0000</pubDate>
+      <guid>http://localhost:1313/posts/nmap-security-scanner-for-kubernetes-samma-io/</guid>
+      <description>&lt;p&gt;I have worked with many of the diffent scanners around i i have a hard time liking them. What a miss is a scanner that can be run fast and simple and that send it outut in JSON so I can load the data into my own kibana.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;For this i have created the project samma.io and the first scanner was the nmap scanner.&lt;br&gt;&lt;br&gt;You can simply deploy the scanner with helm as a cronob. The nmap scanner will start tree different scanners into you cluster&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>WordPress static hosting with firebase and google cloud</title>
+      <link>http://localhost:1313/posts/wordpress-static-hosting-with-firebase-and-google-cloud/</link>
+      <pubDate>Mon, 24 Feb 2020 14:07:35 +0000</pubDate>
+      <guid>http://localhost:1313/posts/wordpress-static-hosting-with-firebase-and-google-cloud/</guid>
+      <description>&lt;p&gt;Some time ago i started looking to move this wordpress blog into a static file blog system. So to find the best tool a started to test the different blog tools like jekyll and hugo.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;They all worked good but a found it hard to edit my blogs in static files and also to generate and then deploy the site. Its hard to move away from wordpress when you have started. So then gave up the work on moving to a static file blog.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Move Bind DNS config to Route53 CloudFormations</title>
+      <link>http://localhost:1313/posts/move-bind-dns-config-to-route53-cloudformations/</link>
+      <pubDate>Wed, 16 Oct 2019 13:18:26 +0000</pubDate>
+      <guid>http://localhost:1313/posts/move-bind-dns-config-to-route53-cloudformations/</guid>
+      <description>&lt;p&gt;I have started migrate our bind server into AWS and Route53. We have all our config as code so to migrate over our DNS I needed to convert our bind Zone files into Route53 Cloudformations.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;I found that one of our ZONE files was big so i wrote a small Python script in docker that converts zone files into route53 Cloudformations.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;After the convert is done a did some manual check to verify i looks good and add any TXT record.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Local Developing for Google Cloud</title>
+      <link>http://localhost:1313/posts/local-developing-google-cloud/</link>
+      <pubDate>Fri, 27 Apr 2018 20:06:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/local-developing-google-cloud/</guid>
+      <description>&lt;p&gt;I have now starting to move all my hosting and code to the Google cloud platform.&lt;br /&gt;&#xA;But when i developing new things i want to use the power and flexibility that the platform gives me but i want to develop local.&lt;/p&gt;&#xA;&lt;p&gt;So for my new project with using Datastore and the python app engine. I have set up a docker-compose for me.&lt;br /&gt;&#xA;Now i can spin up my compose and build my app and then when don deploy to the cloud platform.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Nginx with TLS (Handel certs in Docker)</title>
+      <link>http://localhost:1313/posts/nginx-tls-cert-issues-docker/</link>
+      <pubDate>Thu, 26 May 2016 12:56:45 +0000</pubDate>
+      <guid>http://localhost:1313/posts/nginx-tls-cert-issues-docker/</guid>
+      <description>&lt;p&gt;I use alot of nginx with tls. And almost ll of my docker are public. So how do i solve the tls issues.&lt;br /&gt;&#xA;Well i have done it like so in my docker file i generate ssl cert for nginx in a folder i called /etc/nginx/tls&lt;br /&gt;&#xA;Then when i use my ngix in dev i get the generated certs.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;But in prod then i mount the volum from the host with the correct certs into my ngix in /etc/nginx/tls and now my nginx pick up the prod certs and use them.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Move an Megento site to new url</title>
+      <link>http://localhost:1313/posts/move-an-megento-site-to-new-url/</link>
+      <pubDate>Wed, 07 Oct 2015 09:19:38 +0000</pubDate>
+      <guid>http://localhost:1313/posts/move-an-megento-site-to-new-url/</guid>
+      <description>&lt;p&gt;So I hade to move en megent site from topunder.se to test.topunder.se this is so that you can test and try new stuff on a site that is not you primary site.&lt;br /&gt;&#xA;Moving magneto was some hazzel it not as easy as other site is take som sql to make it work.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;h4&gt;First setup you webbserver  (This is only the basic)&lt;/h4&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;&amp;lt;VirtualHost *:80&amp;gt;&#xD;&#xA; ServerAdmin webmaster@test.topunder.se&#xD;&#xA; ServerName test.topunder.se&#xD;&#xA; ServerAlias test.topunder.se# Indexes + Directory Root.&#xD;&#xA; DirectoryIndex index.html&#xD;&#xA; DocumentRoot /var/www/test.topunder.se/# Logfiles&#xD;&#xA; ErrorLog /var/log/apache2/error.log&#xD;&#xA; CustomLog /var/log/apache2/access.log combined&#xD;&#xA;&amp;lt;/VirtualHost&amp;gt;&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Build Openvpn centos 7</title>
+      <link>http://localhost:1313/posts/build-openvpn-centos-7/</link>
+      <pubDate>Wed, 17 Jun 2015 22:33:25 +0000</pubDate>
+      <guid>http://localhost:1313/posts/build-openvpn-centos-7/</guid>
+      <description>&lt;p&gt;Here is how i build and setup openvpn on my centos 7 box.&lt;/p&gt;&#xA;&lt;p&gt;1. Download and install openvpn latest&lt;/p&gt;&#xA;&lt;p&gt;Some yum packages&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;yum install openssl-devel lzo-devel pam-devel&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;https://openvpn.net/index.php/open-source/downloads.html&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;wget https://swupdate.openvpn.org/community/releases/openvpn-2.3.7.tar.gz&lt;/pre&gt;&#xA;&lt;pre&gt;tar zxvf openvpn-2.3.7.tar.gz&lt;/pre&gt;&#xA;&lt;pre&gt;cd openvpn-2.3.7&lt;/pre&gt;&#xA;&lt;pre&gt;./configure&lt;/pre&gt;&#xA;&lt;pre&gt;make&lt;/pre&gt;&#xA;&lt;pre&gt;make install&lt;/pre&gt;&#xA;&lt;pre&gt;# /usr/local/sbin/openvpn --version&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;So now we have the latest version setup and lets create some cert that we can use for the server ans clients.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Php HHVM (aka the HipHop Virtual Machine) on Centos 7</title>
+      <link>http://localhost:1313/posts/php-hhvm-aka-the-hiphop-virtual-machine-on-centos-7/</link>
+      <pubDate>Fri, 20 Feb 2015 21:49:47 +0000</pubDate>
+      <guid>http://localhost:1313/posts/php-hhvm-aka-the-hiphop-virtual-machine-on-centos-7/</guid>
+      <description>&lt;p&gt;To get my php projects running as fast as possible om trying to use hhvm.&lt;br /&gt;&#xA;And here is my small guide how to install it on centos 7&lt;/p&gt;&#xA;&lt;p&gt;I used the docs from &lt;a title=&#34;https://github.com/facebook/hhvm/wiki/Building-and-installing-hhvm-on-CentOS-7.x&#34; href=&#34;https://github.com/facebook/hhvm/wiki/Building-and-installing-hhvm-on-CentOS-7.x&#34; target=&#34;_blank&#34;&gt;https://github.com/facebook/hhvm/wiki/Building-and-installing-hhvm-on-CentOS-7.x&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h3&gt;1. First setup you centos linux host&lt;/h3&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;yum localinstall http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm&#xD;&#xA;yum localinstall http://rpms.famillecollet.com/enterprise/remi-release-7.rpm&lt;/pre&gt;&#xA;&lt;pre&gt;yum install cpp gcc-c++ cmake git psmisc {binutils,boost,jemalloc}-devel \&#xD;&#xA;{sqlite,tbb,bzip2,openldap,readline,elfutils-libelf,gmp,lz4,pcre}-devel \&#xD;&#xA;lib{xslt,event,yaml,vpx,png,zip,icu,mcrypt,memcached,cap,dwarf}-devel \&#xD;&#xA;{unixODBC,expat,mariadb}-devel lib{edit,curl,xml2,xslt}-devel \&#xD;&#xA;glog-devel oniguruma-devel inotify-tools-devel ocaml&lt;/pre&gt;&#xA;&lt;pre&gt;yum install ImageMagick-last&lt;span class=&#34;pl-cce&#34;&gt;\*&lt;/span&gt; --enablerepo=remi&lt;/pre&gt;&#xA;&lt;p&gt;My box is a clean centos 7. If you have ImageMagic install already uninstall it.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Pimcore Opensource online marketers dream install on Centos 6</title>
+      <link>http://localhost:1313/posts/pimcore-opensource-online-marketers-dream-install-on-centos-6/</link>
+      <pubDate>Sun, 16 Mar 2014 20:18:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/pimcore-opensource-online-marketers-dream-install-on-centos-6/</guid>
+      <description>&lt;p&gt;For my elinodrift project I was searching for a online tool for handle online marketers.&lt;br /&gt;&#xA;So I ended up with Pimcore for my service.&lt;br /&gt;&#xA;Here is a small guide to install Pimcore on my Centos 6 server.&lt;/p&gt;&#xA;&lt;p&gt;First have install apache, Php and mysql on the server. I installed it on my webbserver so the server was pretty well configured.&lt;/p&gt;&#xA;&lt;h2&gt;1. PHP&lt;/h2&gt;&#xA;&lt;p&gt;But for pimcore to run you must upgrade you php to version 5.5 and here is a short list of command taken from this webpage http://webtatic.com/packages/php55/&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Install Elasticsearch, Kibana 4 , fluentd (Opensource splunk) with syslog clients</title>
+      <link>http://localhost:1313/posts/install-elasticsearch-kibana-fluentd-opensource-splunk-with-syslog-clients/</link>
+      <pubDate>Sat, 22 Feb 2014 21:48:54 +0000</pubDate>
+      <guid>http://localhost:1313/posts/install-elasticsearch-kibana-fluentd-opensource-splunk-with-syslog-clients/</guid>
+      <description>&lt;p&gt;So used splunk some times but it has its limit (money) so now Im testing&lt;/p&gt;&#xA;&lt;h2&gt;1. Java&lt;/h2&gt;&#xA;&lt;p&gt;first install java on your server. Get java from here &lt;a title=&#34;http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&#34; href=&#34;http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&#34; target=&#34;_blank&#34;&gt;http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&lt;/a&gt;&lt;/p&gt;&#xA;&lt;pre&gt; yum localinstall jdk-8u25-linux-x64.rpm&lt;/pre&gt;&#xA;&lt;p&gt;And install it on your server.&lt;/p&gt;&#xA;&lt;h2&gt;2. Elasticsearch&lt;/h2&gt;&#xA;&lt;p&gt;Get it from here &lt;a title=&#34;http://www.elasticsearch.org/download&#34; href=&#34;http://www.elasticsearch.org/download&#34; target=&#34;_blank&#34;&gt;http://www.elasticsearch.org/download&lt;/a&gt; I installed the rpm and run&lt;/p&gt;&#xA;&lt;pre&gt;https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.0.Beta1.noarch.rpm&#xD;&#xA;yum localinstall elasticsearch-1.4.0.Beta1.noarch.rpm&lt;/pre&gt;&#xA;&lt;p&gt;I hade to make some settings in this file my vps only hade 512m&lt;/p&gt;&#xA;&lt;pre&gt;vi /etc/sysconfig/elasticsearch&lt;/pre&gt;&#xA;&lt;pre&gt;/etc/init.d/elasticsearch start&lt;/pre&gt;&#xA;&lt;p&gt;So moving on&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Installing and configure Munin Monitoring (Centos 6)</title>
+      <link>http://localhost:1313/posts/installing-and-configure-munin-monitoring-centos-6/</link>
+      <pubDate>Sat, 22 Feb 2014 21:40:44 +0000</pubDate>
+      <guid>http://localhost:1313/posts/installing-and-configure-munin-monitoring-centos-6/</guid>
+      <description>&lt;p&gt;to get some performance data from my server i use Munin monitroing system.&lt;br /&gt;&#xA;And here is i samm guide how to install and set up munin on the munin serer and on the munin client.&lt;/p&gt;&#xA;&lt;p&gt;First up is to setup the munin server&lt;/p&gt;&#xA;&lt;pre&gt;yum install munin munin-node &amp;lt;-- on server&#xD;&#xA;&#xD;&#xA;yum install munin-node &amp;lt;-- on clients&lt;/pre&gt;&#xA;&lt;p&gt;i install both the munin server and node on the same host so i can monitor the host that the munin server is on.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Centos syncing VPS (Moving between VPS)</title>
+      <link>http://localhost:1313/posts/centos-syncing-vps-moving-between-vps/</link>
+      <pubDate>Wed, 19 Feb 2014 21:17:36 +0000</pubDate>
+      <guid>http://localhost:1313/posts/centos-syncing-vps-moving-between-vps/</guid>
+      <description>&lt;p&gt;So I have one vps on a company not that good so now I want to move my centos server to A new VPS server. But I dont want to install eveything from the start again.&lt;br /&gt;&#xA;So here is how I move my service between the two hosts.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;1. Syncing yum&lt;/h2&gt;&#xA;&lt;p&gt;Copy over you repo files I hade rpm forge and epel on my servers.&lt;/p&gt;&#xA;&lt;pre&gt;scp rpm* root@eu1.elinodrift.se:/etc/yum.repos.d/&#xD;&#xA;scp epel* root@eu1.elinodrift.se:/etc/yum.repos.d/&#xD;&#xA; scp /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6 root@eu1.elinodrift.se:/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mailsystem Centos 6 (Postfix,Mysql,Dovecot) with TLS and SSL Part 2</title>
+      <link>http://localhost:1313/posts/mailsystem-centos-6-postfixmysqldovecot-with-tls-and-ssl-part-2/</link>
+      <pubDate>Wed, 25 Dec 2013 22:49:09 +0000</pubDate>
+      <guid>http://localhost:1313/posts/mailsystem-centos-6-postfixmysqldovecot-with-tls-and-ssl-part-2/</guid>
+      <description>&lt;p&gt;So now I have en working Postfix that receive email i need something so that I can read me emails.&lt;br /&gt;&#xA;So we will setup dovecot to use our mysql for users. and use SSL on all our connections.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;Setup Mysql&lt;/h2&gt;&#xA;&lt;p&gt;Create a file called dovecot-sql.conf.ext in /etc/dovecot (Ore where you want to have it)&lt;/p&gt;&#xA;&lt;p&gt;Add the following settings to the config file&lt;/p&gt;&#xA;&lt;pre&gt;driver = mysql&#xD;&#xA;connect = host=localhost dbname=virtual_mail user=postfix password=some_pass&#xD;&#xA;default_pass_scheme = MD5-CRYPT&#xD;&#xA;user_query = SELECT &#39;/home/vmail/%n@%d/&#39; as home, 5000 AS uid, 5000 AS gid FROM mailbox WHERE username = &#39;%u&#39;&#xD;&#xA;password_query = SELECT password FROM mailbox WHERE username = &#39;%u&#39;&lt;/pre&gt;&#xA;&lt;p&gt;Update so it match you config. You only need the read user for mysql.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mailsystem Centos 6 (Postfix,Mysql,Dovecot) with TLS and SSL</title>
+      <link>http://localhost:1313/posts/mailsystem-centos-6-postfixmysqldovecot-with-tls-and-ssl/</link>
+      <pubDate>Wed, 25 Dec 2013 22:28:37 +0000</pubDate>
+      <guid>http://localhost:1313/posts/mailsystem-centos-6-postfixmysqldovecot-with-tls-and-ssl/</guid>
+      <description>&lt;p&gt;So for my virtual machines I have set up an mail system with Postfix that will look up users and domain in a Mysql server. Then store the emails in one mailbox.&lt;br /&gt;&#xA;For users to get there mail it uses Dovecot IMAP and Squrrelmail for displaying email.&lt;/p&gt;&#xA;&lt;p&gt;This setup can be deployed all on one machine as I do. Or If you have allot of mail u can use cluster function for postfix. And use an replicated mysql (Postfic only need read mysql).&lt;br /&gt;&#xA;And then store the email on disk with GlusterFs or similar.&lt;br /&gt;&#xA;Then you email solutions can grove BIG&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mysql InnoDB- Error- checksum mismatch</title>
+      <link>http://localhost:1313/posts/mysql-innodb-error-checksum-mismatch/</link>
+      <pubDate>Mon, 23 Dec 2013 12:25:18 +0000</pubDate>
+      <guid>http://localhost:1313/posts/mysql-innodb-error-checksum-mismatch/</guid>
+      <description>&lt;p&gt;So efter I had publish mw post i got some mysql error.&lt;br /&gt;&#xA;The checksum did was not correct. So for solving this i had to.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;Control the checksum ibdata is you innodb data file&lt;/p&gt;&#xA;&lt;pre&gt;innochecksum ibdata1 -d&lt;/pre&gt;&#xA;&lt;p&gt;So i have not all writen to database.&lt;br /&gt;&#xA;so lets write then with force&lt;/p&gt;&#xA;&lt;pre&gt;mysqld_safe  --innodb_force_recovery 4&lt;/pre&gt;&#xA;&lt;p&gt;Then when it done kill the mysql and restart it normaly and you data mysql should be up and running again.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Glassfish Asadmin commandon to remeber</title>
+      <link>http://localhost:1313/posts/glassfish-asadmin-commandon-to-remeber/</link>
+      <pubDate>Tue, 17 Sep 2013 19:39:08 +0000</pubDate>
+      <guid>http://localhost:1313/posts/glassfish-asadmin-commandon-to-remeber/</guid>
+      <description>&lt;p&gt;here are som glassfish 4 asadmin commandon to remeber&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;asadmin --host 127.0.0.1 --port 4848 enable-secure-admin&lt;/pre&gt;&#xA;&lt;p&gt;Enabel so that you can use 4848 from external computer&lt;/p&gt;&#xA;&lt;pre&gt;asadmin change-master-password --savemasterpassword=true&lt;/pre&gt;&#xA;&lt;p&gt;Change you master password  (keystore access)&lt;/p&gt;&#xA;&lt;pre&gt;asadmin change-admin-password&lt;/pre&gt;&#xA;&lt;p&gt;Change you glassfish admin password to use asadmin and admin gui.&lt;/p&gt;&#xA;&lt;pre&gt;asadmin login&lt;/pre&gt;&#xA;&lt;p&gt;Store you password on disk so you can login without password&lt;/p&gt;&#xA;&lt;pre&gt;asadmin create-jvm-options&#xD;&#xA;asadmin delete-jvm-options&lt;/pre&gt;&#xA;&lt;p&gt;Create and delete server jvm options&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Set Glassfish4 to production state</title>
+      <link>http://localhost:1313/posts/set-glassfish4-to-production-state/</link>
+      <pubDate>Tue, 17 Sep 2013 19:19:09 +0000</pubDate>
+      <guid>http://localhost:1313/posts/set-glassfish4-to-production-state/</guid>
+      <description>&lt;p&gt;Ot work we are using Glassfish 4 for our applications. And to set glassfish for production there are some setting you need to set.&lt;br /&gt;&#xA;We are scripting our installation so our changes are done with the asadmin tool.&lt;br /&gt;&#xA;This is my reminder of the asadmin commands I run when setting glassfish4 into production state.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;First lets delete some values that are default&lt;/p&gt;&#xA;&lt;pre&gt;asadmin delete-jvm-options -client&#xD;&#xA;asadmin delete-jvm-options &#39;-XX:MaxPermSize=192m&#xD;&#xA;asadmin delete-jvm-options -Xmx512m&lt;/pre&gt;&#xA;&lt;p&gt;First setup that we are using an server and some memory values&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Install Crashplan on Raspberry Pi</title>
+      <link>http://localhost:1313/posts/install-crashplan-on-raspberry-pi/</link>
+      <pubDate>Fri, 13 Sep 2013 20:36:06 +0000</pubDate>
+      <guid>http://localhost:1313/posts/install-crashplan-on-raspberry-pi/</guid>
+      <description>&lt;p&gt;For syncing my data to my raspberry i use bitsync but its even better to have the data on two locations as well.&lt;br /&gt;&#xA;So for having my stuff safer i will try using crashplan&lt;/p&gt;&#xA;&lt;p&gt;Installing java for crashplan&lt;/p&gt;&#xA;&lt;pre&gt;sudo apt-get install openjdk-6-jre libjna-java&lt;/pre&gt;&#xA;&lt;p&gt;Download crashplan&lt;/p&gt;&#xA;&lt;pre&gt;wget http://download.crashplan.com/installs/linux/install/CrashPlan/CrashPlan_3.5.3_Linux.tgz&lt;/pre&gt;&#xA;&lt;p&gt;Run the installer&lt;/p&gt;&#xA;&lt;pre&gt;cd CrashPlan-install/&#xD;&#xA;./install.sh&lt;/pre&gt;&#xA;&lt;p&gt;Follow the installar and press enter to install crashplan in with its defult settings.&lt;/p&gt;&#xA;&lt;p&gt;Fixing so crasplan will start (OPTIONAL TEST TO START CRASHPLAN NOW TO SE IF IT WORKS IF NOT MAKE THE CHANGES)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Centos What files are open to that PID</title>
+      <link>http://localhost:1313/posts/centos-what-files-are-open-to-that-pid/</link>
+      <pubDate>Thu, 29 Aug 2013 09:06:39 +0000</pubDate>
+      <guid>http://localhost:1313/posts/centos-what-files-are-open-to-that-pid/</guid>
+      <description>&lt;p&gt;Find out what files are open by that pid file.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;1. Find the pid for you service&lt;/h2&gt;&#xA;&lt;pre&gt;ps aux | grep httpd&lt;/pre&gt;&#xA;&lt;pre&gt;apache   24179  0.0  0.0 251316 15528 ?        S    08:58   0:00 /usr/sbin/httpd&lt;/pre&gt;&#xA;&lt;p&gt;Here this pid is 8582 now list all files open by that pid.&lt;/p&gt;&#xA;&lt;h2&gt;2. List files beloning to that file&lt;/h2&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;lsof -p 24179&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;OR&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;ls -l /proc/24179/fd&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;l-wx------ 1 root root 64 Aug 29 09:04 113 -&amp;gt; /var/log/httpd/access_log_sycochuck&#xD;&#xA;l-wx------ 1 root root 64 Aug 29 09:04 114 -&amp;gt; /var/log/httpd/_apache_access_log&#xD;&#xA;l-wx------ 1 root root 64 Aug 29 09:04 115 -&amp;gt; /var/log/httpd/_apache_access_log&#xD;&#xA;l-wx------ 1 root root 64 Aug 29 09:04 116 -&amp;gt; /var/log/httpd/_apache_access_log&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NTP Server and client setup</title>
+      <link>http://localhost:1313/posts/ntp-server-and-client-setup/</link>
+      <pubDate>Sun, 04 Aug 2013 22:23:12 +0000</pubDate>
+      <guid>http://localhost:1313/posts/ntp-server-and-client-setup/</guid>
+      <description>&lt;p&gt;Time is critical when having many server and using different clusters. So i made this guide to save all my notes when working with time.&lt;/p&gt;&#xA;&lt;h2&gt;Setting local time&lt;/h2&gt;&#xA;&lt;p&gt;I make an link to /etc/timezone&lt;/p&gt;&#xA;&lt;pre&gt;ln -sf /usr/share/zoneinfo/Etc/GMT /etc/timezone&lt;/pre&gt;&#xA;&lt;p&gt;To check if i use the correct time zone&lt;/p&gt;&#xA;&lt;pre&gt;date&lt;/pre&gt;&#xA;&lt;h2&gt;Install ntpd&lt;/h2&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;Ubuntu&lt;/p&gt;&#xA;&lt;pre&gt;apt-get install ntp&lt;/pre&gt;&#xA;&lt;p&gt;Centos&lt;/p&gt;&#xA;&lt;pre&gt;yum install ntp&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;Set up my ntp server for my other server. My ntp server is and ubuntu server&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Install Heartbeat HA cluster on Centos</title>
+      <link>http://localhost:1313/posts/install-heartbeat-ha-cluster-on-centos/</link>
+      <pubDate>Tue, 30 Jul 2013 19:40:01 +0000</pubDate>
+      <guid>http://localhost:1313/posts/install-heartbeat-ha-cluster-on-centos/</guid>
+      <description>&lt;p&gt;So the backbone of my webcluster i use Heartbeat to monitor the server performance.&lt;br /&gt;&#xA;Heartbeat is setup to monitor the servers and to take actions if anything happens with some of the nodes.&lt;br /&gt;&#xA;This guide is for migraing and ip addres from one node to the secondary of the first node goes down.&lt;/p&gt;&#xA;&lt;p&gt;Then i configure the other servers like apache ore mysql ontop.&lt;/p&gt;&#xA;&lt;p&gt;First begin to enabling EPEL repos.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Install puppet clinet on Centos 6</title>
+      <link>http://localhost:1313/posts/install-puppet-clinet-on-centos-6/</link>
+      <pubDate>Wed, 24 Jul 2013 21:55:16 +0000</pubDate>
+      <guid>http://localhost:1313/posts/install-puppet-clinet-on-centos-6/</guid>
+      <description>&lt;p&gt;Setting up my puppet clinet in centos and then connect it to my puppetmaster.&lt;/p&gt;&#xA;&lt;p&gt;Enbling the puppet lab repository&lt;/p&gt;&#xA;&lt;pre&gt;rpm -ivh http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-7.noarch.rpm&lt;/pre&gt;&#xA;&lt;p&gt;Enabling EPEL repos&lt;/p&gt;&#xA;&lt;pre&gt;rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;Install puppet client&lt;/p&gt;&#xA;&lt;pre&gt;yum install puppet&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;make shore that you hostfile is ok /etc/hosts&lt;/p&gt;&#xA;&lt;pre&gt;10.30.0.1       puppetmaster.xxx.xx puppetmaster&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;Openup the file /etc/sysconfig/puppet and set&lt;/p&gt;&#xA;&lt;pre&gt;# The puppetmaster server&#xD;&#xA;PUPPET_SERVER=puppetmaster&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;Now its time to start the puppet client&lt;/p&gt;&#xA;&lt;pre&gt;/etc/init.d/puppet start&#xD;&#xA;chkconfig puppet on&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Openvpn Fixed static ip for clients</title>
+      <link>http://localhost:1313/posts/openvpn-fixed-static-ip-for-clients/</link>
+      <pubDate>Wed, 24 Jul 2013 20:46:54 +0000</pubDate>
+      <guid>http://localhost:1313/posts/openvpn-fixed-static-ip-for-clients/</guid>
+      <description>&lt;p&gt;When my cloud server connect to my openvpn server i need them to have the same ip addres. All the time this is so I can set up monitoring and alerts system. Internal DNS and puppet controll.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;On the openvpn server ad this in you server.conf&lt;/p&gt;&#xA;&lt;pre&gt;client-config-dir /etc/openvpn/ccd&lt;/pre&gt;&#xA;&lt;p&gt;then create the folder /etc/openvpn/ccd&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;In that folder create an file and give it the file name as you user ore keys are called.&lt;br /&gt;&#xA;Im using only keys and if i created an key with named web1-tx (I use my openvpn client create script see other post)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Openvpn generate clinet config and keys</title>
+      <link>http://localhost:1313/posts/openvpn-generate-clinet-config-and-keys/</link>
+      <pubDate>Wed, 24 Jul 2013 20:36:29 +0000</pubDate>
+      <guid>http://localhost:1313/posts/openvpn-generate-clinet-config-and-keys/</guid>
+      <description>&lt;p&gt;On my openvpn server i have built an small script so i can create new clients certs easy.&lt;br /&gt;&#xA;My server is and Ubuntu server and my openvpn server is set up from this guide.&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://help.ubuntu.com/community/OpenVPN&#34;&gt;https://help.ubuntu.com/community/OpenVPN&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;In the folder &lt;strong&gt;/etc/openvpn/easy-rsa&lt;/strong&gt; i created he folder &lt;strong&gt;TEMP&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Then i used this script to create the clients&lt;/p&gt;&#xA;&lt;pre&gt;#!/bin/bash&#xD;&#xA;echo &#34;Enter name of server&#34;&#xD;&#xA;read NAME&lt;/pre&gt;&#xA;&lt;pre&gt;#Making Certs&#xD;&#xA;source ./vars&#xD;&#xA;KEY_CN=$NAME ./pkitool $NAME&lt;/pre&gt;&#xA;&lt;pre&gt;&#xD;&#xA;#Copy keys and files&#xD;&#xA;cp keys/$NAME.* temp/&#xD;&#xA;cp keys/ca.crt temp/&#xD;&#xA;cp keys/ta.key temp/&#xD;&#xA;cp client.ovpn temp/&lt;/pre&gt;&#xA;&lt;pre&gt;&#xD;&#xA;#Packing config&#xD;&#xA;tar -czf $NAME.tar.gz temp/* --remove-files&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

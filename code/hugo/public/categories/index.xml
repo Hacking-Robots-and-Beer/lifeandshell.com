@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Life and Shell</title>
+    <link>https://lifeandshell.com/categories/</link>
+    <description>Recent content in Categories on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Fri, 02 Jan 2026 11:00:00 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bpd</title>
+      <link>https://lifeandshell.com/categories/bpd/</link>
+      <pubDate>Fri, 02 Jan 2026 11:00:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/bpd/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ubuntu</title>
+      <link>https://lifeandshell.com/categories/ubuntu/</link>
+      <pubDate>Fri, 02 Jan 2026 11:00:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/ubuntu/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux</title>
+      <link>https://lifeandshell.com/categories/linux/</link>
+      <pubDate>Mon, 22 Sep 2025 10:11:02 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Samma</title>
+      <link>https://lifeandshell.com/categories/samma/</link>
+      <pubDate>Mon, 22 Sep 2025 10:11:02 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/samma/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Code</title>
+      <link>https://lifeandshell.com/categories/code/</link>
+      <pubDate>Tue, 16 Sep 2025 09:59:24 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/code/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Life</title>
+      <link>https://lifeandshell.com/categories/life/</link>
+      <pubDate>Tue, 16 Sep 2025 09:59:24 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/life/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python</title>
+      <link>https://lifeandshell.com/categories/python/</link>
+      <pubDate>Tue, 16 Sep 2025 09:59:24 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Docker</title>
+      <link>https://lifeandshell.com/categories/docker/</link>
+      <pubDate>Sun, 13 Apr 2025 09:32:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Eks</title>
+      <link>https://lifeandshell.com/categories/eks/</link>
+      <pubDate>Sun, 13 Apr 2025 09:32:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/eks/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>K8s</title>
+      <link>https://lifeandshell.com/categories/k8s/</link>
+      <pubDate>Sun, 13 Apr 2025 09:32:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/k8s/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>https://lifeandshell.com/categories/security/</link>
+      <pubDate>Sun, 13 Apr 2025 09:32:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>K3s</title>
+      <link>https://lifeandshell.com/categories/k3s/</link>
+      <pubDate>Sat, 07 Jan 2023 11:31:43 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/k3s/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ollebo</title>
+      <link>https://lifeandshell.com/categories/ollebo/</link>
+      <pubDate>Sat, 07 Jan 2023 11:31:43 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/ollebo/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Web</title>
+      <link>https://lifeandshell.com/categories/web/</link>
+      <pubDate>Thu, 01 Dec 2022 13:17:35 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/web/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Terraform</title>
+      <link>https://lifeandshell.com/categories/terraform/</link>
+      <pubDate>Sat, 22 Jan 2022 11:43:24 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/terraform/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Vault</title>
+      <link>https://lifeandshell.com/categories/vault/</link>
+      <pubDate>Thu, 29 Oct 2020 09:17:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/vault/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Elino</title>
+      <link>https://lifeandshell.com/categories/elino/</link>
+      <pubDate>Fri, 15 Apr 2016 22:15:11 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/elino/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Asylguiden</title>
+      <link>https://lifeandshell.com/categories/asylguiden/</link>
+      <pubDate>Sun, 18 Jan 2015 21:25:59 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/asylguiden/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Random</title>
+      <link>https://lifeandshell.com/categories/random/</link>
+      <pubDate>Thu, 15 Aug 2013 15:02:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/random/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Uncategorized</title>
+      <link>https://lifeandshell.com/categories/uncategorized/</link>
+      <pubDate>Mon, 03 Sep 2012 14:38:56 +0000</pubDate>
+      <guid>https://lifeandshell.com/categories/uncategorized/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

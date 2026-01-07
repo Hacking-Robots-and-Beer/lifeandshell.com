@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Elino, Linux, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-elino-linux-web/</link>
+    <description>Recent content in Lifeandshell, Elino, Linux, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Tue, 30 Jul 2013 20:25:36 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-elino-linux-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Install HA-Proxy for load-balansing on Centos</title>
+      <link>http://localhost:1313/posts/install-ha-proxy-for-load-balansing-on-centos/</link>
+      <pubDate>Tue, 30 Jul 2013 20:25:36 +0000</pubDate>
+      <guid>http://localhost:1313/posts/install-ha-proxy-for-load-balansing-on-centos/</guid>
+      <description>&lt;p&gt;For load balasing my weebtraffic im setting up HA-proxy. The proxy recives reqest on one ip and then even loads the reqest between my web server nodes.&lt;/p&gt;&#xA;&lt;p&gt;First install and enable Epel repo&lt;/p&gt;&#xA;&lt;pre&gt;yum install haproxy&lt;/pre&gt;&#xA;&lt;p&gt;open the configfile /etc/haproxy/haproxt.cfg and ad to the buttom of the file&lt;/p&gt;&#xA;&lt;pre&gt;listen http_web 192.168.44.20:80&#xD;&#xA; mode http&#xD;&#xA; balance roundrobin # Load Balancing algorithm&#xD;&#xA; option httpchk&#xD;&#xA; option forwardfor&#xD;&#xA; server server1 192.168.44.21:80 weight 1 maxconn 512 check&#xD;&#xA; server server2 192.168.44.22:80 weight 1 maxconn 512 check&lt;/pre&gt;&#xA;&lt;p&gt;192.168.44.20 is my virtual if that i config in my heartbeat. And that ip will move beetween my two nodes if my first node goes down(You cant start haproxy if thet ip is not config on the server)&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

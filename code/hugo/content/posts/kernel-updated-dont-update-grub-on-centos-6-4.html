@@ -1,0 +1,37 @@
+---
+title: Kernel updated don´t update grub on Centos 6.4
+date: 2013-08-15 15:02:42
+tags:
+    
+    - Linux
+    
+    
+    - Random
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Random
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Random
+    
+     
+---
+<p>So you have updated the kernel on you centos but you server is still running on the old kernel. Whenan kernel is updated yum updates the file /etc/grub.conf and that is an synlink to /boot/grub/grub.conf but if the link is broken then you will have two grub.conf. One /etc/grub.conf and one /boot/grub/grub.conf and then when you update en kernel the server will still not run on the new kernel.</p>
+<p>&nbsp;</p>
+<p>Fixing this</p>
+<pre>cd /etc
+mv /boot/grub/grub.conf /boot/grub/grub.conf_old
+mv /etc/grub.conf /boot/grub/
+ln -s /boot/grub/grub.conf .</pre>
+<p>Now the files are correct restart you server and it will start up on the new kernel</p>
+<pre>reboot</pre>

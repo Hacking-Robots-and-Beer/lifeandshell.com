@@ -1,0 +1,73 @@
+---
+title: Move an Megento site to new url
+date: 2015-10-07 09:19:38
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>So I hade to move en megent site from topunder.se to test.topunder.se this is so that you can test and try new stuff on a site that is not you primary site.<br />
+Moving magneto was some hazzel it not as easy as other site is take som sql to make it work.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<ol>
+<li>
+<h4>First setup you webbserver  (This is only the basic)</h4>
+</li>
+</ol>
+<p>&nbsp;</p>
+<pre>&lt;VirtualHost *:80&gt;
+ ServerAdmin webmaster@test.topunder.se
+ ServerName test.topunder.se
+ ServerAlias test.topunder.se# Indexes + Directory Root.
+ DirectoryIndex index.html
+ DocumentRoot /var/www/test.topunder.se/# Logfiles
+ ErrorLog /var/log/apache2/error.log
+ CustomLog /var/log/apache2/access.log combined
+&lt;/VirtualHost&gt;</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4>2. Setup you sql</h4>
+<pre>CREATE database test_topunder_se;
+<code>REATE USER 'top_test'@'localhost' IDENTIFIED BY 'top_test_pass';
+</code><code>GRANT ALL PRIVILEGES ON test_topunder_se.* TO 'top_test'@'localhost';
+flush privileges;</code></pre>
+<p>&nbsp;</p>
+<h4>3. Setup the copy of megento</h4>
+<pre>cp -r topunder.se/ test.topunder.se</pre>
+<p>&nbsp;</p>
+<p>Change the database setting in the new copy of the site</p>
+<pre>vi test.topunder.se/app/etc/local.xml</pre>
+<pre>
+
+ &lt;connection&gt;
+ &lt;host&gt;&lt;![CDATA[localhost]]&gt;&lt;/host&gt;
+ &lt;username&gt;&lt;![CDATA[test_top]]&gt;&lt;/username&gt;
+ &lt;password&gt;&lt;![CDATA[test_top_pass]]&gt;&lt;/password&gt;
+ &lt;dbname&gt;&lt;![CDATA[test_topunder_se]]&gt;&lt;/dbname&gt;
+ &lt;initStatements&gt;&lt;![CDATA[SET NAMES utf8]]&gt;
+ &lt;model&gt;&lt;![CDATA[mysql4]]&gt;
+ &lt;type&gt;&lt;![CDATA[pdo_mysql]]&gt;&lt;/type&gt;
+ &lt;pdoType&gt;&lt;![CDATA[]]&gt;&lt;/pdoType&gt;
+ &lt;active&gt;1&lt;/active&gt;
+ &lt;/connection&gt;</pre>
+<p>&nbsp;</p>
+<p>Now lets fill the database with some stuff. First we will dumpt the old and and make some change then reloadet inte the new database.</p>
+<pre>mysqldump -u root -p topunder &gt; /topunder.sql    &lt;--- dump the live database
+sed -i 's/topunder\.se/test\.topunder\.se/g' /topunder.sql   &lt;-- replace topunder.se with test.topunder.se ELSE SITE WILL NOT WORK
+mysql -u root -p test_topunder_se &lt; /topunder.sql    &lt;--- insert the new data in the new database</pre>
+<p>&nbsp;</p>
+<p>Done Done !!</p>

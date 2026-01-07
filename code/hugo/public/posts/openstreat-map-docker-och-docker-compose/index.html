@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Openstreat map Docker och docker compose | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/openstreat-map-docker-och-docker-compose/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/openstreat-map-docker-och-docker-compose/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Openstreat map Docker och docker compose">
+  <meta property="og:description" content="Split up in separate containers !
+Running openstreetmap map in docker was hard. And the docs all wanted to run it bounded with postgress and not in separate containers.
+I setup so we can run osm I different containers for you to scale
+https://github.com/mattiashem/osm
+Clone this GitHub repo and then start it with
+docker compose build
+then to start it, run docker compose up
+What is happening First we are building a custom Postgres docker image.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-11-17T16:53:00+00:00">
+    <meta property="article:modified_time" content="2022-11-17T16:53:00+00:00">
+    <meta property="article:tag" content="Code">
+    <meta property="article:tag" content="Eks">
+    <meta property="article:tag" content="K8s">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Web">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Openstreat map Docker och docker compose">
+  <meta name="twitter:description" content="Split up in separate containers !
+Running openstreetmap map in docker was hard. And the docs all wanted to run it bounded with postgress and not in separate containers.
+I setup so we can run osm I different containers for you to scale
+https://github.com/mattiashem/osm
+Clone this GitHub repo and then start it with
+docker compose build
+then to start it, run docker compose up
+What is happening First we are building a custom Postgres docker image.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/kubernetes-update-1-22-1-23-helm-error/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/migrate-elasticsearch-helm-to-elasticsearch-operator/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&text=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&title=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&is_video=false&description=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Openstreat%20map%20Docker%20och%20docker%20compose&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&title=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&title=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&name=Openstreat%20map%20Docker%20och%20docker%20compose&description=Split%20up%20in%20separate%20containers%20%21%0aRunning%20openstreetmap%20map%20in%20docker%20was%20hard.%20And%20the%20docs%20all%20wanted%20to%20run%20it%20bounded%20with%20postgress%20and%20not%20in%20separate%20containers.%0aI%20setup%20so%20we%20can%20run%20osm%20I%20different%20containers%20for%20you%20to%20scale%0ahttps%3a%2f%2fgithub.com%2fmattiashem%2fosm%0aClone%20this%20GitHub%20repo%20and%20then%20start%20it%20with%0adocker%20compose%20build%0athen%20to%20start%20it%2c%20run%20docker%20compose%20up%0aWhat%20is%20happening%20First%20we%20are%20building%20a%20custom%20Postgres%20docker%20image." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&t=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Openstreat map Docker och docker compose
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2022-11-17 16:53:00 &#43;0000 UTC" itemprop="datePublished">2022-11-17</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          1 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/code">Code</a>
+            
+             ,  
+            <a class="category-link" href="/categories/eks">eks</a>
+            
+             ,  
+            <a class="category-link" href="/categories/k8s">k8s</a>
+            
+             ,  
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+             ,  
+            <a class="category-link" href="/categories/web">Web</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/code" rel="tag">Code</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/eks" rel="tag">eks</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/k8s" rel="tag">k8s</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/web" rel="tag">Web</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      
+<p>Split up in separate containers !<br></p>
+
+
+
+<p>Running openstreetmap map in docker was hard. And the docs all wanted to run it bounded with postgress and not in separate containers.<br>I setup so we can run osm I different containers for you to scale</p>
+
+
+
+<p></p>
+
+
+
+<p><a href="https://github.com/mattiashem/osm">https://github.com/mattiashem/osm</a></p>
+
+
+
+<p>Clone this GitHub repo and then start it with</p>
+
+
+
+<p><code>docker compose build</code></p>
+
+
+
+<p><strong>then to start it, run </strong></p>
+
+
+
+<p><code>docker compose up</code></p>
+
+
+
+<h2 class="wp-block-heading">What is happening </h2>
+
+
+
+<p>First we are building a custom Postgres docker image. The image loads the extension that OSM needs.<br>Then we start the containers postgres, osm, tile-importer and web<br><br>Tile importer will look for the file /status/importer id the file DONT exist it will start the script to provision the Postgres SQL server by loading all the extensions and plugins.<br>It will then move on to importing tiles of Sweden.<br>And then install some extra scripts.<br><br>Then the init process is done it will write the file /status/imported</p>
+
+
+
+<p></p>
+
+
+
+<p>OSM container wait to start until the file /status/importer is present.<br>When the file is present, it will start up the rendered and apache service to start rendering tiles.</p>
+
+
+
+<pre class="wp-block-code"><code>url -v http://localhost:8080/hot/0/0/0.png</code></pre>
+
+
+
+<p></p>
+
+
+
+<p>Then web container connects to OSM over localhost:8080 and displays the tiles. Go to HTTP://localhost:8081 to display the content<br><br>IF you want to change any port ore localhost, some more changes are needed.</p>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+<p><br></p>
+
+
+
+<h2 class="wp-block-heading">To do<br></h2>
+
+
+
+<p>Make then run from ENV and make helm chart to deploy them into a Kubernetes cluster.<br></p>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&text=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&title=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&is_video=false&description=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Openstreat%20map%20Docker%20och%20docker%20compose&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&title=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&title=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&name=Openstreat%20map%20Docker%20och%20docker%20compose&description=Split%20up%20in%20separate%20containers%20%21%0aRunning%20openstreetmap%20map%20in%20docker%20was%20hard.%20And%20the%20docs%20all%20wanted%20to%20run%20it%20bounded%20with%20postgress%20and%20not%20in%20separate%20containers.%0aI%20setup%20so%20we%20can%20run%20osm%20I%20different%20containers%20for%20you%20to%20scale%0ahttps%3a%2f%2fgithub.com%2fmattiashem%2fosm%0aClone%20this%20GitHub%20repo%20and%20then%20start%20it%20with%0adocker%20compose%20build%0athen%20to%20start%20it%2c%20run%20docker%20compose%20up%0aWhat%20is%20happening%20First%20we%20are%20building%20a%20custom%20Postgres%20docker%20image." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fopenstreat-map-docker-och-docker-compose%2f&t=Openstreat%20map%20Docker%20och%20docker%20compose" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

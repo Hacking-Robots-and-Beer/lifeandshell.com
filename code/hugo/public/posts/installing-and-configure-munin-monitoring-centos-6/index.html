@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Installing and configure Munin Monitoring (Centos 6) | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/installing-and-configure-munin-monitoring-centos-6/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/installing-and-configure-munin-monitoring-centos-6/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Installing and configure Munin Monitoring (Centos 6)">
+  <meta property="og:description" content="to get some performance data from my server i use Munin monitroing system.
+And here is i samm guide how to install and set up munin on the munin serer and on the munin client.
+First up is to setup the munin server
+yum install munin munin-node &lt;-- on serveryum install munin-node &lt;-- on clients i install both the munin server and node on the same host so i can monitor the host that the munin server is on.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2014-02-22T21:40:44+00:00">
+    <meta property="article:modified_time" content="2014-02-22T21:40:44+00:00">
+    <meta property="article:tag" content="Linux">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Installing and configure Munin Monitoring (Centos 6)">
+  <meta name="twitter:description" content="to get some performance data from my server i use Munin monitroing system.
+And here is i samm guide how to install and set up munin on the munin serer and on the munin client.
+First up is to setup the munin server
+yum install munin munin-node &lt;-- on serveryum install munin-node &lt;-- on clients i install both the munin server and node on the same host so i can monitor the host that the munin server is on.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/centos-syncing-vps-moving-between-vps/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/install-elasticsearch-kibana-fluentd-opensource-splunk-with-syslog-clients/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&text=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&title=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&is_video=false&description=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&title=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&title=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&name=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29&description=to%20get%20some%20performance%20data%20from%20my%20server%20i%20use%20Munin%20monitroing%20system.%0aAnd%20here%20is%20i%20samm%20guide%20how%20to%20install%20and%20set%20up%20munin%20on%20the%20munin%20serer%20and%20on%20the%20munin%20client.%0aFirst%20up%20is%20to%20setup%20the%20munin%20server%0ayum%20install%20munin%20munin-node%20%26lt%3b--%20on%20server%0dyum%20install%20munin-node%20%26lt%3b--%20on%20clients%20i%20install%20both%20the%20munin%20server%20and%20node%20on%20the%20same%20host%20so%20i%20can%20monitor%20the%20host%20that%20the%20munin%20server%20is%20on." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&t=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Installing and configure Munin Monitoring (Centos 6)
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2014-02-22 21:40:44 &#43;0000 UTC" itemprop="datePublished">2014-02-22</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          1 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>to get some performance data from my server i use Munin monitroing system.<br />
+And here is i samm guide how to install and set up munin on the munin serer and on the munin client.</p>
+<p>First up is to setup the munin server</p>
+<pre>yum install munin munin-node &lt;-- on server
+
+yum install munin-node &lt;-- on clients</pre>
+<p>i install both the munin server and node on the same host so i can monitor the host that the munin server is on.</p>
+<p>Now when the package is install lets add some host to monitor on the server.<br />
+Here is my conf for my server. As you se my admin.elinodrift.se has the munin server on the same server. so then i use localhost</p>
+<pre>[admin.elinodrift.se]
+ address 127.0.0.1
+ use_node_name yes</pre>
+<pre>[eu1.elinodrift.se]
+ address 10.8.0.2
+ use_node_name yes</pre>
+<p>So now my munin server is ready time for setting up the munin node.<br />
+Open the file <strong>/etc/munin/munin-node.conf</strong> in this file there are two importent things.</p>
+<p><strong>host_name admin.elinodrift.se</strong>  &lt;&#8212; set this to same name you gave the client on the munin server</p>
+<p><strong>allow ^127\.0\.0\.1$</strong> &lt;&#8212; Add your munin server ip here so its allow to connect</p>
+<p>Save and restart you munin klient</p>
+<pre>/etc/init.d/munin-node restart</pre>
+<p>test from you munin server to run</p>
+<pre>telnet ip to munin client 4949</pre>
+<p>and you should se so that the munin server can connect to the munin client.</p>
+<p>So now we have a working conenctio between the munin server and the munin nodes.<br />
+So lets get some service to monitor.</p>
+<pre>cd /etc/munin/plugins/</pre>
+<p>In this folder you add the plugins you want to monitor. So for adding new plugins link in new plugins.</p>
+<pre>ln -s /usr/share/munin/plugins/name of plugin .</pre>
+<p>When you have added the plugins you want. Its time to test so that the plugins works. Run the node plugin test to verify</p>
+<pre>munin-node-configure</pre>
+<p>If you plugins need config look in the folder /etc/munin/plugin-conf.d/<br />
+After you added the plugin you want you can restart the muni-node and wait for the stats to update.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&text=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&title=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&is_video=false&description=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&title=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&title=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&name=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29&description=to%20get%20some%20performance%20data%20from%20my%20server%20i%20use%20Munin%20monitroing%20system.%0aAnd%20here%20is%20i%20samm%20guide%20how%20to%20install%20and%20set%20up%20munin%20on%20the%20munin%20serer%20and%20on%20the%20munin%20client.%0aFirst%20up%20is%20to%20setup%20the%20munin%20server%0ayum%20install%20munin%20munin-node%20%26lt%3b--%20on%20server%0dyum%20install%20munin-node%20%26lt%3b--%20on%20clients%20i%20install%20both%20the%20munin%20server%20and%20node%20on%20the%20same%20host%20so%20i%20can%20monitor%20the%20host%20that%20the%20munin%20server%20is%20on." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2finstalling-and-configure-munin-monitoring-centos-6%2f&t=Installing%20and%20configure%20Munin%20Monitoring%20%28Centos%206%29" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

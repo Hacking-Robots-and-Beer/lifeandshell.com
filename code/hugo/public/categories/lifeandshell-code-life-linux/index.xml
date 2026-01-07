@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Life, Linux on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-life-linux/</link>
+    <description>Recent content in Lifeandshell, Code, Life, Linux on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Wed, 21 Dec 2022 14:07:01 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-life-linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Device Tracker using Dhpcd server and bash</title>
+      <link>http://localhost:1313/posts/device-tracker-using-dhpcd-server-and-bash/</link>
+      <pubDate>Wed, 21 Dec 2022 14:07:01 +0000</pubDate>
+      <guid>http://localhost:1313/posts/device-tracker-using-dhpcd-server-and-bash/</guid>
+      <description>&lt;p&gt;I have used Home Assistance for some time. And have always used the device tracker to set different actions based if I&amp;#8217;m home or not.&lt;br&gt;But when my pfsense died and a install a clean Linux box as my fw and DHCP server I lost all my tracking for devices.&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&lt;p&gt;But I did found out that the dhcpd server can run a command every time it hands out a dhcpds leese. And HA has a great API that you can use !&lt;br&gt;&lt;br&gt;So with this a setup some small bash script in not more then 10 lines that connects and add my devices to HA&lt;br&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Install Bitsync on Raspberry Pi</title>
+      <link>http://localhost:1313/posts/install-bitsync-on-raspberry-pi/</link>
+      <pubDate>Fri, 13 Sep 2013 19:50:03 +0000</pubDate>
+      <guid>http://localhost:1313/posts/install-bitsync-on-raspberry-pi/</guid>
+      <description>&lt;p&gt;So today im using dropbox to sync all my stuff between devices. But now there are so much there so my free space is almost full. So now its time for me to move to bitsync an then sync all my devices.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Install bitsync&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Go to folder /opt&lt;/p&gt;&#xA;&lt;pre&gt;cd /opt&lt;/pre&gt;&#xA;&lt;p&gt;Download bitsync&lt;/p&gt;&#xA;&lt;pre&gt;wget &#34;http://btsync.s3-website-us-east-1.amazonaws.com/btsync_arm.tar.gz&#34;&lt;/pre&gt;&#xA;&lt;p&gt;unpack it&lt;/p&gt;&#xA;&lt;pre&gt;chmod 700 btsync_arm.tar.gz&#xD;&#xA;tarr zxvf btsync_arm.tar.gz&lt;/pre&gt;&#xA;&lt;p&gt;Start it&lt;/p&gt;&#xA;&lt;pre&gt;cd bitsync&#xD;&#xA;./bitsync&lt;/pre&gt;&#xA;&lt;p&gt;go to the webbpage&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

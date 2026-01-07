@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Boundery on Kubernetes with Keycloak | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/boundery-on-kubernetes-with-keycloak/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/boundery-on-kubernetes-with-keycloak/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Boundery on Kubernetes with Keycloak">
+  <meta property="og:description" content="We have 3 clusters running 2 on AWS and 1 on-prem. And to sort out connections for developers and admin the goal is to implement boundary as an access point. To verify the user we use Keycloak and 2FA, Then based on roles we give the different users access to different services inside the cluster.
+Service
+The user should be able to connect to an ssh server inside the network but also to service running inside Kubernetes like elasticsearch ore MySQL,">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-01-22T11:43:24+00:00">
+    <meta property="article:modified_time" content="2022-01-22T11:43:24+00:00">
+    <meta property="article:tag" content="Eks">
+    <meta property="article:tag" content="K8s">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Terraform">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Boundery on Kubernetes with Keycloak">
+  <meta name="twitter:description" content="We have 3 clusters running 2 on AWS and 1 on-prem. And to sort out connections for developers and admin the goal is to implement boundary as an access point. To verify the user we use Keycloak and 2FA, Then based on roles we give the different users access to different services inside the cluster.
+Service
+The user should be able to connect to an ssh server inside the network but also to service running inside Kubernetes like elasticsearch ore MySQL,">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/k8s-logs-to-elastic-with-dynamic-ilm-from-annotations/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/kubernetes-update-1-22-1-23-helm-error/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&text=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&title=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&is_video=false&description=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Boundery%20on%20Kubernetes%20with%20Keycloak&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&title=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&title=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&name=Boundery%20on%20Kubernetes%20with%20Keycloak&description=We%20have%203%20clusters%20running%202%20on%20AWS%20and%201%20on-prem.%20And%20to%20sort%20out%20connections%20for%20developers%20and%20admin%20the%20goal%20is%20to%20implement%20boundary%20as%20an%20access%20point.%20To%20verify%20the%20user%20we%20use%20Keycloak%20and%202FA%2c%20Then%20based%20on%20roles%20we%20give%20the%20different%20users%20access%20to%20different%20services%20inside%20the%20cluster.%0aService%0aThe%20user%20should%20be%20able%20to%20connect%20to%20an%20ssh%20server%20inside%20the%20network%20but%20also%20to%20service%20running%20inside%20Kubernetes%20like%20elasticsearch%20ore%20MySQL%2c" aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&t=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Boundery on Kubernetes with Keycloak
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2022-01-22 11:43:24 &#43;0000 UTC" itemprop="datePublished">2022-01-22</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          9 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/eks">eks</a>
+            
+             ,  
+            <a class="category-link" href="/categories/k8s">k8s</a>
+            
+             ,  
+            <a class="category-link" href="/categories/security">Security</a>
+            
+             ,  
+            <a class="category-link" href="/categories/terraform">terraform</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/eks" rel="tag">eks</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/k8s" rel="tag">k8s</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/security" rel="tag">Security</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/terraform" rel="tag">terraform</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      
+<p>We have 3 clusters running 2 on AWS and 1 on-prem. And to sort out connections for developers and admin the goal is to implement boundary as an access point. To verify the user we use Keycloak and 2FA, Then based on roles we give the different users access to different services inside the cluster.<br><br>Service<br>The user should be able to connect to an ssh server inside the network but also to service running inside Kubernetes like elasticsearch ore MySQL,</p>
+
+
+
+<p class="has-medium-font-size">2 stages</p>
+
+
+
+<p>We are to set up boundary in two stages the first is to deploy the boundary service into the cluster. And the second is to config boundery using terraform.</p>
+
+
+
+<p class="has-medium-font-size">Requirement</p>
+
+
+
+<p>To get started we have a Kubernetes cluster and we also need an external that we can use to get access. I will expose the boundary service using metal-lb but you can change to use node ports on example EKS or GCP.</p>
+
+
+
+<p>Postgress SQL boundary uses a Postgres SQL to store its configs. We need a Postgres SQL with username and password ready.</p>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+<p>We also need some keys to be used for bounder and the easy way to generate new keys are to run boundary dev </p>
+
+
+
+<p><code>boundary dev</code></p>
+
+
+
+<p></p>
+
+
+
+<pre class="wp-block-code"><code>
+   &#91;Controller] AEAD Key Bytes: kj9LoQqyZs2a3cfwmDy/u3tDwWdGEyPYhY3rXDoc5+A=
+   &#91;Recovery] AEAD Key Bytes: 2kgQXuYYuc5TyTyNi+DOg+DqiJVqZFuWlohUPfhz1Tc=
+   &#91;Worker-Auth] AEAD Key Bytes: okXvaWDI2FuRZO6ZnNJm1vBXL32jZsnrMNuZ7wQ8MHE=</code></pre>
+
+
+
+<ol class="has-medium-font-size wp-block-list"><li>Lets deploy </li></ol>
+
+
+
+<p>Let&#8217;s get a certificate with lets encrypt</p>
+
+
+
+<p><code>apiVersion: cert-manager.io/v1<br>kind: Certificate<br>metadata:<br>name: boundery-tls<br>namespace: boundery<br>spec:<br>secretName: boundery-tls<br>issuerRef:<br>name: letsencrypt<br>kind: ClusterIssuer<br>commonName: boundery.example.com<br>dnsNames:<br>- boundery.example.com</code></p>
+
+
+
+<p>PSP</p>
+
+
+
+<p>I have a cluster that enforces PSP hard and for that, I use the following PSP. You may not need this for example on EKS and PSP is to be terminated.</p>
+
+
+
+<pre class="wp-block-code"><code>apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: controller
+  namespace: boundery
+---
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: runtime/default
+    seccomp.security.alpha.kubernetes.io/defaultProfileName: runtime/default
+  name: 10-boundery-controller
+spec:
+  allowedCapabilities:
+    - IPC_LOCK
+    - SETFCAP
+  fsGroup:
+    rule: RunAsAny
+  privileged: true
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - secret
+  - configMap
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    kubernetes.io/cluster-service: "true"
+  name: psp-boundery-controller                    # named for psp-&lt;namespace&gt;-&lt;serviceaccount&gt;
+rules:
+- apiGroups:
+  - policy
+  resourceNames:
+  - 10-boundery-controller
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    kubernetes.io/description: 'tailored PSP for vault'
+  labels:
+    kubernetes.io/cluster-service: "true"
+  name: psp-boundery-controller
+  namespace: boundery
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: psp-boundery-controller
+subjects:
+  - kind: ServiceAccount
+    namespace: boundery
+    name: controller</code></pre>
+
+
+
+<p></p>
+
+
+
+<p>Now we can deploy the controller</p>
+
+
+
+<p>You need to add the keys from above and also add the posgress password IN 2 PLACES</p>
+
+
+
+<div class="wp-block-group is-layout-flow wp-block-group-is-layout-flow">
+<p></p>
+
+
+
+<pre class="wp-block-code"><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+name: boundery
+namespace: boundery
+data:
+boundary.hcl: |-
+    # Disable memory lock: https://www.man7.org/linux/man-pages/man2/mlock.2.html
+    disable_mlock = true    
+    # Controller configuration block
+    controller {
+      # This name attr must be unique across all controller instances if running in HA mode
+      name = "controller"
+      description = "Controller"
+      public_cluster_addr = "boundery.example.com"
+      # Database URL for postgres. This can be a direct "postgres://"
+      # URL, or it can be "file://" to read the contents of a file to
+      # supply the url, or "env://" to name an environment variable
+      # that contains the URL.
+       database {
+          url = "env://BOUNDARY_PG_URL"
+      }
+    }
+
+    # API listener configuration block
+    listener "tcp" {
+      # Should be the address of the NIC that the controller server will be reached on
+      address = "0.0.0.0"
+      # The purpose of this listener block
+      purpose = "api"
+
+      tls_disable = false
+      tls_cert_file = "/tls/tls.crt"
+      tls_key_file  = "/tls/tls.key"
+      tls_min_version = "tls13"
+
+
+
+
+      # Uncomment to enable CORS for the Admin UI. Be sure to set the allowed origin(s)
+      # to appropriate values.
+      cors_enabled = false
+      #cors_allowed_origins = &#91;"https://boundery.examples.com", "serve://boundary"]
+    }
+
+    # Data-plane listener configuration block (used for worker coordination)
+    listener "tcp" {
+      # Should be the IP of the NIC that the worker will connect on
+      address = "0.0.0.0"
+      # The purpose of this listener
+      purpose = "cluster"
+      tls_disable = false
+      tls_cert_file = "/tls/tls.crt"
+      tls_key_file  = "/tls/tls.key"
+      tls_min_version = "tls13"
+
+    }
+
+    # Root KMS configuration block: this is the root key for Boundary
+    # Use a production KMS such as AWS KMS in production installs
+    kms "aead" {
+      purpose = "root"
+      aead_type = "aes-gcm"
+      key = "ADD YOUR HERE"
+      key_id = "global_root"
+    }
+
+    # Worker authorization KMS
+    # Use a production KMS such as AWS KMS for production installs
+    # This key is the same key used in the worker configuration
+    kms "aead" {
+      purpose = "worker-auth"
+      aead_type = "aes-gcm"
+      key = "ADD YOUR HERE"
+      key_id = "global_worker-auth"
+    }
+
+    # Recovery KMS block: configures the recovery key for Boundary
+    # Use a production KMS such as AWS KMS for production installs
+    kms "aead" {
+      purpose = "recovery"
+      aead_type = "aes-gcm"
+      key = "ADD YOUR HERE"
+      key_id = "global_recovery"
+    }
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+name: controller
+namespace: boundery
+spec:
+replicas: 1
+selector:
+matchLabels:
+app: controller
+serviceName: controller
+podManagementPolicy: Parallel
+template:
+metadata:
+labels:
+app: controller
+name: controller
+spec:
+initContainers:
+- name: init-db
+image: hashicorp/boundary:0.7.1
+args: &#91;"database", "init","-skip-auth-method-creation","-skip-host-resources-creation","-skip-scopes-creation","-skip-target-creation","-config", "/boundary/boundary.hcl"]
+env:
+- name: BOUNDARY_PG_URL
+value: postgresql://postgres:PASSWORD@boundery-postgresql:5432/boundery?sslmode=disable
+- name: HOSTNAME
+value: boundary
+securityContext:
+capabilities:
+add:
+- IPC_LOCK
+volumeMounts:
+- name: config
+mountPath: /boundary/boundary.hcl
+subPath: boundary.hcl
+readOnly: true
+- name: tls
+mountPath: /tls
+readOnly: true
+  containers:
+    - name: controller
+      image: hashicorp/boundary:0.7.1
+      args: &#91;"server", "-config", "/boundary/boundary.hcl"]
+      env:
+        - name: BOUNDARY_PG_URL
+          value: postgresql://postgres:PASSWORD@boundery-postgresql:5432/boundery?sslmode=disable
+        - name: HOSTNAME
+          value: boundary
+      resources:
+        requests:
+          cpu: 200m
+          memory: 1024Mi
+        limits:
+          cpu: 500m
+          memory: 2048Mi           
+      ports:
+        - containerPort: 9200
+          name: api
+        - containerPort: 9201
+          name: connections
+        - containerPort: 9202
+          name: access
+      securityContext:
+        capabilities:
+          add:
+           - IPC_LOCK
+      volumeMounts:
+        - name: config
+          mountPath: /boundary/boundary.hcl
+          subPath: boundary.hcl
+          readOnly: true
+        - name: tls
+          mountPath: /tls
+          readOnly: true
+
+  serviceAccountName: controller
+  volumes:
+  - name: config
+    configMap:
+      name: boundery
+  - name: tls
+    secret:
+      secretName: boundery-tls</code></pre>
+
+
+
+<pre class="wp-block-preformatted">Apply the yaml to the cluster and verify the controller starts up. When it running we can go on deploying the worker.
+
+Adding Worker
+</pre>
+
+
+
+<hr class="wp-block-separator"/>
+
+
+
+<pre class="wp-block-code"><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: boundery-worker
+  namespace: boundery
+data:
+  boundary.hcl: |-
+        # Disable memory lock: https://www.man7.org/linux/man-pages/man2/mlock.2.html
+        disable_mlock = true
+
+        listener "tcp" {
+                purpose = "proxy"
+                address = "0.0.0.0"
+                tls_disable = false
+                tls_cert_file = "/tls/tls.crt"
+                tls_key_file  = "/tls/tls.key"
+                tls_min_version = "tls13"
+                }
+        worker {
+          # Name attr must be unique across workers
+          name = "worker"
+          description = "Worker in the  cluster"
+
+        # Workers must be able to reach controllers on :9201
+         controllers = &#91;
+                 "boundery.example.com"
+         ]
+        public_addr = "boundery.example.com"
+        tags {
+           type   = &#91;"onprem"]
+           }
+         }
+        # must be same key as used on controller config
+        kms "aead" {
+          purpose = "worker-auth"
+          aead_type = "aes-gcm"
+          key = ""
+          key_id = "global_worker-auth"
+        }
+
+         
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: worker
+  namespace: boundery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+  serviceName: worker
+  podManagementPolicy: Parallel
+  template:
+    metadata:
+      labels:
+        app: worker
+      name: worker
+    spec:   
+      containers:
+        - name: worker 
+          image: hashicorp/boundary:0.7.1
+          args: &#91;"server", "-config", "/boundary/boundary.hcl"]
+          env:
+            - name: HOSTNAME
+              value: boundary
+          volumeMounts:
+            - name: config
+              mountPath: /boundary/boundary.hcl
+              subPath: boundary.hcl
+              readOnly: true
+            - name: tls
+              mountPath: /tls
+              readOnly: true
+          resources:
+            requests:
+              cpu: 200m
+              memory: 1024Mi
+            limits:
+              cpu: 500m
+              memory: 2048Mi           
+          ports:
+            - containerPort: 9201
+              name: connections
+          securityContext:
+            capabilities:
+              add:
+               - IPC_LOCK
+          volumeMounts:
+            - name: config
+              mountPath: /boundary/boundary.hcl
+              subPath: boundary.hcl
+              readOnly: true
+      serviceAccountName: worker
+      volumes:
+      - name: config
+        configMap:
+          name: boundery-worker
+      - name: tls
+        secret:
+          secretName: boundery-tls</code></pre>
+
+
+
+<p>Note the Following <br></p>
+</div>
+
+
+
+<pre class="wp-block-code"><code>        tags {
+           type   = &#91;"onprem"]
+           }
+         }</code></pre>
+
+
+
+<p>This is how we can make different works handle different endpoints. Say we have an ssh server that is only are accessible from the on-prem cluster. Then we need to tag the worker with on-prem. And also tag the connection we will create later with on-prem. Then we can control so the right worker handle the right endpoints</p>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+<p>Now let&#8217;s deploy our service so we can access the boundary server. Here I use metal-lb and external-dns to setup IP and DNS. You need to config this to match your setup.</p>
+
+
+
+<pre class="wp-block-code"><code>---
+apiVersion: v1
+kind: Service
+metadata:
+  name: controller
+  namespace: boundery 
+  annotations:
+    metallb.universe.tf/address-pool: boundery
+    metallb.universe.tf/allow-shared-ip: "boundery"
+    external-dns.alpha.kubernetes.io/hostname: boundery.example.com
+spec:
+  ports:
+  - port: 9200
+    name: controller
+    targetPort: 9200
+  - port: 9201
+    name: workers
+    targetPort: 9201
+  selector:
+    app: controller
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: worker
+  namespace: boundery
+  annotations:
+    metallb.universe.tf/address-pool: boundery
+    metallb.universe.tf/allow-shared-ip: "boundery"
+spec:
+  ports:
+  - port: 9202
+    name: api
+    targetPort: 9202
+  selector:
+    app: worker
+  type: LoadBalancer</code></pre>
+
+
+
+<p>Test now so you have access to boundary on port 9200 you should see the login page of boundery.<br>If not go back and check your settings, TLS certs are created and postgress is running.</p>
+
+
+
+<p></p>
+
+
+
+<p>If you have the login let&#8217;s move on to set up boundary with terraform </p>
+
+
+
+<p>First, we create the settings for boundary</p>
+
+
+
+<p>terraform.tf</p>
+
+
+
+<pre class="wp-block-code"><code>provider "boundary" {
+  addr             = "https://boundery.example.com:9200"
+  recovery_kms_hcl = &lt;&lt;EOT
+kms "aead" {
+    purpose   = "recovery"
+    aead_type = "aes-gcm"
+    key       = "ADD YOUR HERE"
+    key_id    = "global_recovery"
+}
+EOT
+}
+</code></pre>
+
+
+
+<p>This will then be used to connect to boundary and config it </p>
+
+
+
+<p>some scopes</p>
+
+
+
+<pre class="wp-block-code"><code>resource "boundary_scope" "bundery" {
+
+  scope_id    = "global"
+  name        = "Boundey"
+  description = "globa Tech"
+
+  auto_create_admin_role   = false
+  auto_create_default_role = true
+}
+
+resource "boundary_scope" "onprem" {
+  name                     = "Onprem"
+  description              = "Onprem"
+  scope_id                 = boundary_scope.bundery.id
+  auto_create_admin_role   = false
+  auto_create_default_role = true
+}
+
+resource "boundary_scope" "aws" {
+  name                     = "aws"
+  description              = "AWS Prod"
+  scope_id                 = boundary_scope.bundery.id
+  auto_create_admin_role   = false
+  auto_create_default_role = true
+}</code></pre>
+
+
+
+<p>Setting up auth against keycloak </p>
+
+
+
+<pre class="wp-block-code"><code>resource "boundary_auth_method_oidc" "keycloak" {
+  name        = "SSO"
+  description = "Keycloak SSO"
+  type        = "oidc"
+  api_url_prefix = "https://boundery.example.com:9200/"
+  client_id = "boundery"
+  is_primary_for_scope =  "true"
+  #claims_scopes = &#91;"aud","sub","iss","auth_time","name","given_name","family_name","preferred_username","email","acr"]
+  client_secret = "92e9509d-8215-4e53-8ffc-4f742fbab720"
+  scope_id    = "global"
+  signing_algorithms = &#91;"PS384","ES384","RS384","ES256","RS256","ES512","PS256","PS512","RS512"]
+  issuer = "https://auth.example.com/auth/realms/master"
+}
+</code></pre>
+
+
+
+<p>some auth </p>
+
+
+
+<pre class="wp-block-code"><code>
+#Logged in users
+resource "boundary_role" "user" {
+  name          = "user_org"
+  description   = "User"
+  principal_ids = &#91;"u_auth"]
+  grant_strings = &#91;
+        "id=*;type=*;actions=read,list",
+]
+  scope_id      = boundary_scope.boundery.id
+}
+
+resource "boundary_role" "user_onprem" {
+  name          = "access_onprem"
+  description   = "Access for onprem"
+  principal_ids = &#91;"u_auth"]
+  grant_strings = &#91;
+	"id=*;type=*;actions=read,list,authorize-session",
+        "id=*;type=host-catalog;actions=read,list",
+        "id=*;type=target;actions=list,read,authorize-session",
+        "id=*;type=session;actions=cancel:self"
+
+]
+  scope_id      = boundary_scope.onprem.id
+}
+resource "boundary_role" "user_aws" {
+  name          = "access_aws"
+  description   = "Access for AWS"
+  principal_ids = &#91;"u_auth"]
+  grant_strings = &#91;
+        "id=*;type=*;actions=read,list,authorize-session",
+        "id=*;type=host-catalog;actions=read,list",
+        "id=*;type=target;actions=list,read,authorize-session",
+        "id=*;type=session;actions=cancel:self"
+]
+  scope_id      = boundary_scope.aws.id
+}
+
+
+
+## Anon Users
+
+resource "boundary_role" "global_anon_listing" {
+  scope_id = "global"
+  grant_strings = &#91;
+    "id=*;type=auth-method;actions=list,authenticate",
+    "id=*;type=scope;actions=read,list",
+    "id={{account.id}};actions=read,change-password"
+  ]
+  principal_ids = &#91;"u_anon"]
+}
+
+
+
+
+resource "boundary_role" "org_anon_listing_aws" {
+  scope_id = boundary_scope.aws.id
+  grant_strings = &#91;
+    "id=*;type=auth-method;actions=list,authenticate",
+    "id=*;type=scope;actions=read,list",
+    "id={{account.id}};actions=read,change-password"
+  ]
+  principal_ids = &#91;"u_anon"]
+}
+
+
+
+resource "boundary_role" "org_anon_listing_onprem" {
+  scope_id = boundary_scope.onprem.id
+  grant_strings = &#91;
+    "id=*;type=auth-method;actions=list,authenticate",
+    "id=*;type=scope;actions=read,list",
+    "id={{account.id}};actions=read,change-password"
+  ]
+  principal_ids = &#91;"u_anon"]
+}
+
+</code></pre>
+
+
+
+<p>And now finally let&#8217;s create some targets to connect to </p>
+
+
+
+<p></p>
+
+
+
+<pre class="wp-block-code"><code>
+#Make a hostgroup
+resource "boundary_host_catalog" "k8s_access" {
+  name        = "k8s"
+  description = "K8s Endpoints"
+  type        = "static"
+  scope_id    = boundary_scope.onprem.id
+}
+
+#Make a host
+resource "boundary_host" "search_onprem" {
+    type            = "static"
+    name            = "search"
+    description     = "search"
+    address         = "search.elasticsearch.svc" &lt;--- LOK AT THIS THIS WORKER IS RUNNING INSIDE K8S AND WE CAN ACCESS INTERNAL SERVICE !!!!
+    host_catalog_id = boundary_host_catalog.k8s_access.id
+  }
+
+
+# Make a Hostset 
+resource "boundary_host_set" "search_onprem" {
+  type            = "static"
+  name            = "k8s_master"
+  description     = "Host set for k8s master"
+  host_catalog_id = boundary_host_catalog.k8s_access.id
+  host_ids        = &#91;
+      		boundary_host.search_onprem.id
+		]
+}
+
+
+# The target we use the host and add the port 
+resource "boundary_target" "search_onprem" {
+  type         = "tcp"
+  name         = "search_9200"
+  description  = "9200 to search"
+  scope_id     = boundary_scope.onprem.id
+  default_port = "9200"
+  worker_filter = "\"onprem\" in \"/tags/type\""    &lt;--- REMEBER THIS TAG WE USE IN THE WORKER
+  host_source_ids = &#91;
+    boundary_host_set.search_onprem.id
+  ]
+}</code></pre>
+
+
+
+<p>so you can add more hosts and add them with IP ore DNS, Then you can assign targets to the hosts.<br>If you have workers running in some other location like AWS then you can simply deploy the worker and change the tag so it matches.</p>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&text=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&title=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&is_video=false&description=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Boundery%20on%20Kubernetes%20with%20Keycloak&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&title=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&title=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&name=Boundery%20on%20Kubernetes%20with%20Keycloak&description=We%20have%203%20clusters%20running%202%20on%20AWS%20and%201%20on-prem.%20And%20to%20sort%20out%20connections%20for%20developers%20and%20admin%20the%20goal%20is%20to%20implement%20boundary%20as%20an%20access%20point.%20To%20verify%20the%20user%20we%20use%20Keycloak%20and%202FA%2c%20Then%20based%20on%20roles%20we%20give%20the%20different%20users%20access%20to%20different%20services%20inside%20the%20cluster.%0aService%0aThe%20user%20should%20be%20able%20to%20connect%20to%20an%20ssh%20server%20inside%20the%20network%20but%20also%20to%20service%20running%20inside%20Kubernetes%20like%20elasticsearch%20ore%20MySQL%2c" aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fboundery-on-kubernetes-with-keycloak%2f&t=Boundery%20on%20Kubernetes%20with%20Keycloak" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

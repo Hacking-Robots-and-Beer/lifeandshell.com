@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Python on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-python/</link>
+    <description>Recent content in Lifeandshell, Code, Python on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Wed, 07 Aug 2013 11:26:42 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python ConfigParser using you own config files in python</title>
+      <link>http://localhost:1313/posts/python-configparser-using-you-own-config-files-in-python/</link>
+      <pubDate>Wed, 07 Aug 2013 11:26:42 +0000</pubDate>
+      <guid>http://localhost:1313/posts/python-configparser-using-you-own-config-files-in-python/</guid>
+      <description>&lt;p&gt;Storing settings in config files and then let python read the configfiles and to good stuff .&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;Read the file&lt;/p&gt;&#xA;&lt;pre&gt;#Reading config file&#xD;&#xA; config = ConfigParser.ConfigParser()&#xD;&#xA; config.read(&#39;setting.cfg&#39;)&lt;/pre&gt;&#xA;&lt;p&gt;print all items and values in an section&lt;/p&gt;&#xA;&lt;pre&gt;for name, value in config.items(&#34;monitor&#34;):&#xD;&#xA; print &#39; %s = %s&#39; % (name, value)&lt;/pre&gt;&#xA;&lt;p&gt;Print all items in configfile&lt;/p&gt;&#xA;&lt;pre&gt;for section_name in parser.sections():&#xD;&#xA;    print &#39;Section:&#39;, section_name&#xD;&#xA;    print &#39;  Options:&#39;, parser.options(section_name)&#xD;&#xA;    for name, value in parser.items(section_name):&#xD;&#xA;        print &#39;  %s = %s&#39; % (name, value)&lt;/pre&gt;&#xA;&lt;p&gt;My settings.cfg file looks like this&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

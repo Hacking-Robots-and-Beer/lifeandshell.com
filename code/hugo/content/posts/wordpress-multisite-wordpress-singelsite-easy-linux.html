@@ -1,0 +1,59 @@
+---
+title: WordPress multisite to wordpress singelsite (Easy linux)
+date: 2016-04-15 22:15:11
+tags:
+    
+    - Elino
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Elino
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Elino
+    
+    
+    - Web
+    
+     
+---
+<p>So i hade to slip up my wordpress multisite to singel sites and it was not that hard when i found out how.<br />
+First start with setting up the new wordpress and then we migrate over the old wordpress site into the new.</p>
+<p>1. Setup the new wordpress site<br />
+Install and setup the new wordpress site. You can run the instalation we will clean out the instalaltion later.</p>
+<p>2. In the old multisite find the site id. It will be a number like 1 ore 2. When you are in network admin and site check the links when you hold the mouse over i link and look for the digits 🙂</p>
+<p>3. Migrate all the themes and data into the site. Copy wp-content from the old into the new and give it the correct permissions.<br />
+ then go in the old wp-content/sites/YOUR SITE ID/ and copy the content in there to the new site wpcontent/upload </p>
+<p>Now we have all the files from the old wordpress multisite inti the new wordpress singel site</p>
+<p>4. SQL get the databas </p>
+<p>1. In the old server run a mysqldump database > databas.sql</p>
+<p>Now we have i sql dump with the wordpress multisite</p>
+<p>Then run the following sed to fix the sql dump to be ready.</p>
+<p>#This will move the standard tables away<br />
+sed -i &#8216;s/wp_commentmeta/wp_com2/g&#8217; databas.sql<br />
+sed -i &#8216;s/wp_comments/wp_comments2/g&#8217; databas.sql<br />
+sed -i &#8216;s/wp_links/wp_links2/g&#8217; databas.sql<br />
+sed -i &#8216;s/wp_options/wp_options2/g&#8217; databas.sql<br />
+sed -i &#8216;s/wp_postmeta/wp_postmeta2/g&#8217; databas.sql<br />
+sed -i &#8216;s/wp_posts/wp_posts22/g&#8217; databas.sql<br />
+sed -i &#8216;s/wp_term_relationships/wp_rs22/g&#8217; databas.sql<br />
+sed -i &#8216;s/wp_term_taxonomy/wp_ta22/g&#8217; databas.sql<br />
+sed -i &#8216;s/wp_terms/wp_terms22/g&#8217; databas.sql</p>
+<p> #This will move the site tables into the base<br />
+sed -i &#8216;s/wp_13_/wp_/g&#8217; databas.sql   ENTER YOUR SITE IT HERE </p>
+<p>Then install the sql into you new database in the new wordpress installation</p>
+<p>mysql database < database.sql
+
+
+
+And now you will have your old multiwordpress site as a singel site
+</p>

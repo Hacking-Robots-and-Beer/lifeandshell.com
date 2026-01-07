@@ -1,0 +1,75 @@
+---
+title: Django sending email
+date: 2013-06-04 21:35:24
+tags:
+    
+    - Code
+    
+    
+    - Python
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Python
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Python
+    
+     
+---
+<p>building and small webpage and in that page I want an small contact field. So my visitors (if any ) can contact me with an form input.<br />
+So I made an small html template that has a very small form (No validation ) and then post the email and massages back to the view that send the email.<br />
+small and simple and today work in front of the tv.</p>
+<p>django template my template extends my index as you see called contact.html</p>
+<pre>{% extends "index.html" %}
+
+{% block content %}&lt;/pre&gt;</pre>
+<pre><em id="__mceDel">&lt;div class="container"&gt;
+&lt;h2&gt;Contact&lt;/h2&gt;
+</em></pre>
+<pre>&lt;form action="#" method="post"&gt;{% csrf_token %} &lt;input type="text" name="email" placeholder="You Email" /&gt;
+&lt;textarea name="message" rows="3"&gt;Message&lt;/textarea&gt;
+&lt;button class="btn" type="submit"&gt;Send&lt;/button&gt;&lt;/form&gt;&lt;/div&gt;
+{% endblock %}</pre>
+<p>And urls.py entory to handel the request</p>
+<pre>url(r'^contact$', 'search.views.contact', name='contact'),</pre>
+<p>Then the matching view</p>
+<pre>def contact(request):
+	c = {}
+	c.update(csrf(request))
+
+	if request.method == 'POST':
+		incommingemail=request.POST["email"]
+		incommingmessage=request.POST["message"]
+		subject="Contact from taxering"
+		if incommingemail and incommingmessage:
+			try:
+   				send_mail(subject, incommingmessage, incommingemail, ['info@test.com'])
+			except BadHeaderError:
+   				return HttpResponse('Invalid header found.')
+			return HttpResponseRedirect('/thanks/')
+
+	return render_to_response('contact.html',context_instance=RequestContext(request))</pre>
+<p>then an new template for thanking the user for contacting me called thanks.html</p>
+<pre>{% extends "index.html" %}
+{% block content %}</pre>
+<pre>&lt;h2&gt;Thank you&lt;/h2&gt;
+We will contact you shortly {% endblock %}</pre>
+<p>and matching url in the urls.py file for thanks.</p>
+<pre>url(r'^thanks$', 'search.views.thanks', name='thanks'),</pre>
+<p>And the view for saying thanks</p>
+<pre>def thanks(request):
+	'''
+	Thanks you for contact us
+	'''
+	return render_to_response('thanks.html',context_instance=RequestContext(request))</pre>
+<p>So all done</p>

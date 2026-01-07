@@ -1,0 +1,83 @@
+---
+title: Apache performance config
+date: 2013-12-16 21:02:29
+tags:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>Now on all my Apache i always load this Apache config. It enabled some apache standard performance config for Apache as a good standard.</p>
+<p>KeepAlive. Gzip all transfer and local disk cache</p>
+<p>&nbsp;</p>
+<p>my /etc/httpd/cond.f/01.conf</p>
+<pre>NameVirtualHost *:80
+NameVirtualHost *:443</pre>
+<pre></pre>
+<pre>#Speedning upp webres Apache config</pre>
+<pre># 2 HOURS
+&lt;FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$"&gt;
+Header set Cache-Control "max-age=7200, public"
+&lt;/FilesMatch&gt;
+ 
+# 1 HOUR
+&lt;FilesMatch "\.(xml|txt)$"&gt;
+Header set Cache-Control "max-age=3600, public, must-revalidate"
+&lt;/FilesMatch&gt;
+ 
+# 2 HOURS
+&lt;FilesMatch "\.(html|htm)$"&gt;
+Header set Cache-Control "max-age=7200, must-revalidate"
+&lt;/FilesMatch&gt;</pre>
+<pre>
+#
+KeepAlive On</pre>
+<pre>#
+# MaxKeepAliveRequests: The maximum number of requests to allow
+# during a persistent connection. Set to 0 to allow an unlimited amount.
+# We recommend you leave this number high, for maximum performance.
+#
+MaxKeepAliveRequests 100</pre>
+<pre>#
+# KeepAliveTimeout: Number of seconds to wait for the next request from the
+# same client on the same connection.
+#
+KeepAliveTimeout 100</pre>
+<pre>
+&lt;ifModule mod_gzip.c&gt;
+mod_gzip_on Yes
+mod_gzip_dechunk Yes
+mod_gzip_item_include file .(html?|txt|css|js|php|pl)$
+mod_gzip_item_include handler ^cgi-script$
+mod_gzip_item_include mime ^text/.*
+mod_gzip_item_include mime ^application/x-javascript.*
+mod_gzip_item_exclude mime ^image/.*
+mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+&lt;/ifModule&gt;</pre>
+<pre>&lt;IfModule mod_cache.c&gt; 
+#LoadModule disk_cache_module modules/mod_disk_cache.so # If you want to use mod_disk_cache instead of mod_mem_cache, # uncomment the line above and comment out the LoadModule line below.</pre>
+<pre>&lt;IfModule mod_disk_cache.c&gt; 
+CacheRoot /tmp 
+CacheEnable disk / 
+CacheDirLevels 5 
+CacheDirLength 3 
+&lt;/IfModule&gt;</pre>

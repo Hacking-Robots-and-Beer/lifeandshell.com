@@ -1,0 +1,247 @@
+---
+title: Rsyslog TLS mellan server och klient
+date: 2012-09-05 12:53:33
+tags:
+    
+    - Random
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Random
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Random
+    
+    
+    - Security
+    
+     
+---
+<p>Syslog är i vanligt fall en öppen stadard vilket gör att<br />
+om man skulle kunna kolla i traffiken mellan klineten och server.<br />
+Men från rsyslog version 3? så kan man kryptera traffiken mellan server och klient.</p>
+<p>Viktoig då man skapar nycklar och ca till de olika servrana är att man hålelr reda på dns namn och server namn. Anger man fel namn i certifikaten mot vad server heter komm det inte fungera. Där för är det första viktigt att alla namn finns på servrana och pekar på rätt ip och att server har rätt namn.<br />
+Hos mig heter rsyslogserver central.fareonline.net och klienten client.fareonline.net.<br />
+Men där måste du ändra till vad ditt nätverk och servrar heter.</p>
+<p>För att få det att fungera ska vi först sätta upp en ca med krypterings nycklar som vi kan använda.</p>
+<p><b>Sätta upp en ca med krypterings nycklar att använda </b></p>
+<pre>
+yum install rsyslog-gnutls
+</pre>
+<p>Skapar katalog för nyclarna</p>
+<pre>
+mkdir /etc/rsyslog.d/tls
+cd /etc/rsyslog.d/tls
+</pre>
+<p>Skapar CA</p>
+<pre>
+yum install gnutls-utils <-- installerar certtool på centos 
+certtool --generate-privkey --outfile rsyslog-ca-key.pem <-- Skapar ca nyckel
+certtool --generate-self-signed --load-privkey rsyslog-ca-key.pem --outfile rsyslog-ca.pem <-- Skapar ca publict cert
+
+svara följande på frågorna använd defult svaren på de andra
+Does the certificate belong to an authority? (Y/N): y
+Will the certificate be used to sign other certificates? (Y/N): y
+
+chmod 400 rsyslog-ca-key.pem  <-- Sätt rättigheter på nycklen som vi skapat
+
+</pre>
+<p><b>Skapa certifikat till rsyslog clienten och rslsogserver som ska ansluta till server<br />
+ </b></p>
+<p><b>GÖR DENNA SAK TVÅ GÅNGER EN FÖR KLIENTEN OCH EN FÖR SERVER</B></p>
+<p>Om du ska lägga till fler klienter får du göra den flera gånger<br />
+Viktigt att du skriver in <b>Common Name</b> till servers namn tex central.fareonline.net eller clinet.fareonline.net</p>
+<pre>
+certtool --generate-privkey --outfile central.fareonline,net-key.pem --bits 2048 <-- skapar en nyckel till klienten
+certtool --generate-request --load-privkey central.fareonline,net-key.pem --outfile central.fareonline,net-request.pem  <-- Skapar en certifikat förfrågan
+Använd defult svaren på frågorna
+
+certtool --generate-certificate --load-request central.fareonline,net-request.pem --outfile central.fareonline,net-cert.pem --load-ca-certificate rsyslog-ca.pem --load-ca-privkey rsyslog-ca-key.pem   <-- Signa certifikaten med din CA nyckel
+
+Svara defult på alal frågor utom dessa
+Is this a TLS web client certificate? (y/N): y
+Is this also a TLS web server certificate? (y/N): y
+Enter a dnsName of the subject of the certificate: central.fareonline,net
+
+</pre>
+<p><b>Sätt upp rsyslog server att använda våra nya cert<b></p>
+<p>i /etc/rsyslog.conf lägg in följande kod<br />
+Kontrollera så sökvägen är rätt till certifikaten</p>
+<pre>
+##########TLS SETTINGS #######################
+# make gtls driver the default
+$DefaultNetstreamDriver gtls
+
+# certificate files
+$DefaultNetstreamDriverCAFile /etc/rsyslog.d/tls/ca.pem
+$DefaultNetstreamDriverCertFile /etc/rsyslog.d/tls/central.fareonline.net-cert.pem
+$DefaultNetstreamDriverKeyFile /etc/rsyslog.d/tls/central.fareonline.net-key.pem
+
+$InputTCPServerStreamDriverAuthMode x509/name
+$InputTCPServerStreamDriverPermittedPeer *.fareonline.net
+$InputTCPServerStreamDriverMode 1 # run driver in TLS-only mode
+$InputTCPServerRun 514 # start up listener at port 514
+
+</pre>
+<p>Ta och starta om rsyslog server och ta sedan och kolla i messanger loggen efter fel</p>
+<pre>
+/etc/init.d/rsyslog restart
+tail -f /var/log/messages
+</pre>
+<p><b>Daxs att sätta upp klienten<b></p>
+<p>Börja med att kopiera över clients nycklar från rsyslog server</p>
+<pre>
+scp clinet.fareonline.net-cert.pem clinet.fareonline.net-key.pem ca.pem root@192.168.122.158:/tmp
+</pre>
+<p>Lägg dina nycklarna på rätt ställe på den klient.</p>
+<pre>
+
+mkdir /etc/rsyslog.d/tls
+mv c* /etc/rsyslog-d/tls  <--- körde med allt som börja med c men kolla vad som passar dig
+
+</pre>
+<p>installera rsyslog med tls</p>
+<pre>
+yum install rsyslog-gnutls
+</pre>
+<p><b>Sätt sedan upp så att rsyslog klienten loggar till syslog server</b><br />
+Tänk på att rsyslog kan vara lite kinkig med hur man placerar olika<br />
+kommandon i rsyslog configen.</p>
+<p>Min config ser ut så här</p>
+<pre>
+# rsyslog v5 configuration file
+
+# For more information see /usr/share/doc/rsyslog-*/rsyslog_conf.html
+# If you experience problems, see http://www.rsyslog.com/doc/troubleshoot.html
+
+#### MODULES ####
+
+#$ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
+#$ModLoad imklog   # provides kernel logging support (previously done by rklogd)
+#$ModLoad immark  # provides --MARK-- message capability
+
+# Provides UDP syslog reception
+#$ModLoad imudp
+#$UDPServerRun 514
+
+# Provides TCP syslog reception
+#$ModLoad imtcp
+#$InputTCPServerRun 514
+
+
+
+$ModLoad immark.so # provides --MARK-- message capability
+$ModLoad imuxsock.so # provides support for local system logging (e.g. via logger command)
+$ModLoad imklog.so # provides kernel logging support (previously done by rklogd)
+$ModLoad imudp.so # provides UDP syslog reception
+$ModLoad imtcp.so # load module
+
+# make gtls driver the default
+$DefaultNetstreamDriver gtls
+
+
+
+
+##### TLS Settings ############
+
+
+
+# certificate files
+$DefaultNetstreamDriverCAFile /etc/rsyslog.d/tls/ca.pem
+$DefaultNetstreamDriverCertFile /etc/rsyslog.d/tls/clinet.fareonline.net-cert.pem
+$DefaultNetstreamDriverKeyFile /etc/rsyslog.d/tls/clinet.fareonline.net-key.pem
+
+
+
+$ActionSendStreamDriverAuthMode x509/name
+$ActionSendStreamDriverPermittedPeer central.fareonline.net
+$ActionSendStreamDriverMode 1 # run driver in TLS-only mode
+
+
+
+
+
+#### GLOBAL DIRECTIVES ####
+
+# Use default timestamp format
+$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
+
+# File syncing capability is disabled by default. This feature is usually not required,
+# not useful and an extreme performance hit
+#$ActionFileEnableSync on
+
+# Include all config files in /etc/rsyslog.d/
+$IncludeConfig /etc/rsyslog.d/*.conf
+
+
+#### RULES ####
+
+
+*.* @@central.fareonline.net:514 # forward everything to remote server
+
+# Log all kernel messages to the console.
+# Logging much else clutters up the screen.
+#kern.*                                                 /dev/console
+
+# Log anything (except mail) of level info or higher.
+# Don't log private authentication messages!
+*.info;mail.none;authpriv.none;cron.none                /var/log/messages
+
+# The authpriv file has restricted access.
+authpriv.*                                              /var/log/secure
+
+# Log all the mail messages in one place.
+mail.*                                                  -/var/log/maillog
+
+
+# Log cron stuff
+cron.*                                                  /var/log/cron
+
+# Everybody gets emergency messages
+*.emerg                                                 *
+
+# Save news errors of level crit and higher in a special file.
+uucp,news.crit                                          /var/log/spooler
+
+# Save boot messages also to boot.log
+local7.*                                                /var/log/boot.log
+
+
+# ### begin forwarding rule ###
+# The statement between the begin ... end define a SINGLE forwarding
+# rule. They belong together, do NOT split them. If you create multiple
+# forwarding rules, duplicate the whole block!
+# Remote Logging (we use TCP for reliable delivery)
+#
+# An on-disk queue is created for this action. If the remote host is
+# down, messages are spooled to disk and sent when it is up again.
+#$WorkDirectory /var/lib/rsyslog # where to place spool files
+#$ActionQueueFileName fwdRule1 # unique name prefix for spool files
+#$ActionQueueMaxDiskSpace 1g   # 1gb space limit (use as much as possible)
+#$ActionQueueSaveOnShutdown on # save messages to disk on shutdown
+#$ActionQueueType LinkedList   # run asynchronously
+#$ActionResumeRetryCount -1    # infinite retries if host is down
+# remote host is: name/ip:port, e.g. 192.168.0.1:514, port optional
+#*.* @@remote-host:514
+#*.* @@central.fareonline.net:514 # forward everything to remote server
+
+# ### end of the forwarding rule ###
+</pre>
+<p><b>Starta om syslog server och clineten</b><br />
+Lös ni i loggfilerna om det fungerar.<br />
+Då måste stänga av *selinux* och öppna upp portar mellan servrarna på port 514 tcp.<br />
+Kontrollera ochså så att ceritikaten stämmer med openssl.</p>
+<pre>
+openssl s_client -connect central.fareonline.net:514  -CAfile ca.pem -cert clinet.fareonline.net-cert.pem -key clinet.fareonline.net-key.pem
+</pre>
+<p>Om det inte fungerar testa även att starta rsyslog i debug läge och se vilka fel du får där,</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

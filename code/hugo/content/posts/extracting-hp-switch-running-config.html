@@ -1,0 +1,60 @@
+---
+title: Extracting HP-Switch running config
+date: 2013-06-10 15:29:02
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+---
+<p>Every so othen I have to extract my running-config from my hp switches. And put them under OSSEC file monitoring. And to verify so that no changes has bean done to the original running-config.</p>
+<p>So here is an small script for extracting my running-config and mf5 check that they are the same as my standard config.</p>
+<p>&nbsp;</p>
+<p>Make you own changes to the script to work in you system 🙂</p>
+<pre>#!/bin/bash
+#
+# Getting hp switch running config
+# Store the switch under folder monitored by ossec
+# Mattias Hemmingsson matte@elino.se</pre>
+<pre>DATE=$(date +%Y-%m-%d)
+USER='mahe'</pre>
+<pre>
+scp $USER@10.1.1.220:/cfg/startup-config hall1-switch-$DATE.conf
+scp $USER@10.1.2.220:/cfg/startup-config hall2-switch-$DATE.conf</pre>
+<pre>
+#md5sum of standard and new
+echo "MD5 CHECK CONFIG"
+md5sum hall1-standard.conf
+md5sum hall1-switch-$DATE.conf</pre>
+<pre>
+md5sum hall2-standard.conf
+md5sum hall2-switch-$DATE.conf</pre>
+<p>&nbsp;</p>

@@ -1,0 +1,65 @@
+---
+title: Install Glassfish4 and Java7 on Centos
+date: 2013-06-17 14:41:41
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>An easy guide to get glassfish4 and java7 running on you centos 6 server.<br />
+First install the java7 and get java working on your server.<br />
+Then we download and setup glassfish4.</p>
+<h2>Installing Java 7</h2>
+<p>Go to the java download page and get an version of java 7 jdk version. You must first download to you desktop and then copy the jdk over to you server. Oracel don&#8217; t support direct download of java to you server :-(.</p>
+<p>I got the file jdk-7u21-linux-x64.tar.gz</p>
+<p>Then unpack the file and put in into the folder <strong>/usr/java</strong></p>
+<pre>default -&gt; /usr/java/latest
+jdk1.6.0_37
+jdk1.7.0_21
+latest -&gt; jdk1.7.0_21/</pre>
+<p>I have an old java 1.6 there as well and then i can change java by changing the latest link.<br />
+But no its pointing to the latest java 1.7.<br />
+Run the command <strong>java -version</strong> and you should see the same output as I</p>
+<p>Enabling java in new version</p>
+<pre>alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 20000
+
+alternatives --install /usr/bin/jar jar /usr/java/latest/bin/jar 20000
+
+alternatives --install /usr/bin/java java /usr/java/latest/jre/bin/java 20000
+
+alternatives --install /usr/bin/javaws javaws /usr/java/latest/jre/bin/javaws 20000</pre>
+<pre></pre>
+<p>&nbsp;</p>
+<pre>java -version
+java version "1.7.0_21"
+Java(TM) SE Runtime Environment (build 1.7.0_21-b11)
+Java HotSpot(TM) 64-Bit Server VM (build 23.21-b01, mixed mode)</pre>
+<p>Now java is installed and working</p>
+<h2>Installing glassfish 4</h2>
+<p>download the glassfish form</p>
+<pre>wget http://download.java.net/glassfish/4.0/release/glassfish-4.0.zip</pre>
+<p>Unzip</p>
+<pre>unzip glassfish-4.0.zip</pre>
+<p>Move to right place</p>
+<pre>mv glassfish4 /usr/local</pre>
+<p>start domain</p>
+<pre>cd /usr/local/glassfish4/bin
+ ./asadmin start-domain</pre>
+<p>Set up admin user and enable login from desktop</p>
+<pre>./asadmin change-admin-password
+ ./asadmin --host 127.0.0.1 --port 4848 enable-secure-admin
+ ./asadmin stop-domain
+ ./asadmin start-domain</pre>
+<p>And now you can loggin with the glassfish webb</p>
+<p><strong>https://IP-TO-GLASSFISH:4848</strong></p>

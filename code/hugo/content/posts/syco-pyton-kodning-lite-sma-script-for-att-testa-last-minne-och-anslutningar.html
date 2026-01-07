@@ -1,0 +1,127 @@
+---
+title: Syco pyton kodning. Lite små script för att testa last minne och anslutningar
+date: 2012-03-13 15:49:22
+tags:
+    
+    - Security
+    
+     
+categories:
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Security
+    
+     
+---
+<p>Dagens kodning är avslutet. Idga har jag byggt en del funktioner för att testa lite olika saker.<br />
+Hare n funktion som testar om en tjänst svarar på en port kan vara både udp eller tcp.<br />
+Sedan så plockar jag ut last och minnes använing på server så jag kan se hur mycket minne apache drar.<br />
+Och så för att kunna kontrollera så att mina webbsidor är uppe så ett liten function för att kolla om en text sträng finns på en webbsida.</p>
+<pre>
+#!/usr/bin/env python
+'''
+TODO, THIS FILE IS NOT READY TO USE.
+
+'''
+
+__author__ = "mattias.hemmingsson@fareoffice.com"
+__copyright__ = "Copyright 2012, The System Console project"
+__maintainer__ = "Daniel Lindh"
+__email__ = "syco@cybercow.se"
+__credits__ = ["Daniel LIndh"]
+__license__ = "???"
+__version__ = "1.0.0"
+__status__ = "Production"
+
+import os
+import shutil
+import stat
+import sys
+import time
+import traceback
+import subprocess
+import app
+import general
+import version
+import socket
+from urllib import urlopen
+
+# The version of this module, used to prevent
+# the same script version to be executed more then
+# once on the same host.
+script_version = 1
+
+def build_commands(commands):
+  '''
+  Defines the commands that can be executed through the syco.py shell script.
+
+  '''
+  commands.add("get-status", getStatus, help="Getting status from services")
+  
+def getStatus(args):
+	'''
+	'''
+	print ""
+	openConnection("udp","ns1.elino.se",53)
+	openConnection("tcp","www.fareoffice.com",80)
+	getServerLoad()
+	GetUserMemory('apache')
+	webbPageUp("www.elino.se","elino")
+	webbPageUp("www.elino.se","auidiahdjhaisdjoai")
+
+
+
+def openConnection(prot,address,port):
+	'''
+	Function for testing if port is open for connections
+	'''
+	if prot=="udp":
+		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	else:
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	
+	try:
+ 		s.connect((address, port))
+ 		s.shutdown(2)
+ 		print "Connection ok"
+ 		return "true"
+	except:
+		print "NO connection"
+ 		return "false"
+
+
+def getServerLoad():
+	'''
+	Getting the server load from the server.
+	'''
+	print os.getloadavg()
+
+
+def GetUserMemory(username):
+	'''
+	Getting the users/ process memory use
+	'''
+	process = subprocess.Popen("ps -u %s -o rss | awk '{sum+=$1} END {print sum}'" % username,shell=True,stdout=subprocess.PIPE,)
+	stdout_list = process.communicate()[0].split('\n')
+	print int(stdout_list[0])
+
+def webbPageUp(url,string):
+	'''
+	Connects to url and get the full site. then match the respons to lock for string
+	If strings are in yrl content returns match if not resturns false
+	'''
+
+	content =urlopen("http://"+url).read()
+	if -1 == content.find(string):
+		print "string not found"
+	else:
+		print "string is found"
+
+
+</pre>
+<p>mer on syco finns på github</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

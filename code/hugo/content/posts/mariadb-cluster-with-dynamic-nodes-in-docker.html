@@ -1,0 +1,167 @@
+---
+title: MariaDB cluster with Dynamic Nodes on Centos 7 in Docker
+date: 2016-01-27 13:45:55
+tags:
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>So running sql in docker is a big qestion now. To make some test i have setup two mariadb cluster docker containers. The first one is the mariadb cluster master. This will setup a master mariadb sql node running.</p>
+<p>The second one is the MariaDB cluster slave. This docker will connect to the master and rsync the database over to the slave. Then en database is rsynced over it will start the sql and can process sql data.</p>
+<p>You can spinn up multi nodes of the Mariadb Slave and they will connect and join the cluster.</p>
+<p>&nbsp;</p>
+<p>NOTE When running in docker I don&#8217;t mount any local disk so ALL DATA will be lost if you redploy the  cluster. And the slave will copy the master database over rsync  to the slave so if you database is big this is not a good ide.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<ol>
+<li>
+<h3>Installing stuff and config (run on all nodes master and slave)</h3>
+</li>
+</ol>
+<pre>echo -e "[mariadb] \nname = MariaDB \nbaseurl = http://yum.mariadb.org/10.1/centos7-amd64 \ngpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB \ngpgcheck=1 \n "  &gt;  /etc/yum.repos.d/MariaDB.repo</pre>
+<pre>yum install MariaDB-server MariaDB-client -y</pre>
+<pre>yum install which rsync -y</pre>
+<pre>vi /etc/my.cnf.d</pre>
+<p>And add the following content</p>
+<p>&nbsp;</p>
+<pre>#
+# These groups are read by MariaDB server.
+# Use it for options that only the server (but not clients) should see
+#
+# See the examples of server my.cnf files in /usr/share/mysql/
+#
+# this is read by the standalone daemon and embedded servers
+[server]
+# this is only for the mysqld standalone daemon
+[mysqld]
+#
+# * Galera-related settings
+#
+[galera]
+query_cache_size=0
+binlog_format=ROW
+default-storage-engine=innodb
+innodb_autoinc_lock_mode=2
+query_cache_type=0
+bind-address=0.0.0.0
+# Galera Provider Configuration
+wsrep_on=ON
+#wsrep_provider=
+binlog_format=row
+wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+#wsrep_provider_options="gcache.size=32G"
+# Galera Cluster Configuration
+wsrep_cluster_name="docker_cluster"
+wsrep_cluster_address="gcomm://cluster_master"
+# Galera Synchronization Congifuration
+wsrep_sst_method=rsync
+
+[embedded]
+[mariadb]
+[mariadb-10.1]</pre>
+<p>&nbsp;</p>
+<p>Setup so that nodes now the master</p>
+<pre>vi /etc/hosts</pre>
+<pre>ip_to_master cluster_master</pre>
+<p>&nbsp;</p>
+<h3>2. Start the master node</h3>
+<pre>su mysql -s/bin/bash -c "/usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --user=mysql --wsrep-new-cluster"</pre>
+<p>Ore</p>
+<pre>/etc/init.d/mysql boostrap</pre>
+<p>&nbsp;</p>
+<h3>3. start the slave</h3>
+<pre>su mysql -s/bin/bash -c "/usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --user=mysql</pre>
+<p>Ore</p>
+<pre> /etc/init.d/mysql start</pre>
+<p>Rerun this on as many MariaDB slaves as you want to run in you cluster</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>4. Get it into docker</h3>
+<p>Here are the dockerfiles that build this setup for you</p>
+<p>&nbsp;</p>
+<p>MariaDB-cluster-Master</p>
+<p>&nbsp;</p>
+<pre>from fareoffice/base
+MAINTAINER Fareoffice
+#
+#
+# This will start the first node and boostrap the cluster
+# You must always need ONE cluster node starting up 
+#
+# docker run -i -t --name cluster_master mariadb-cluster-master
+#
+# Give it the name cluster_master so that the slave cluster can add to that name
+
+LABEL name="Fareoffice Mariadb Cluster Master tester Server"
+LABEL vendor="System Operations"
+
+RUN echo -e "[mariadb] \nname = MariaDB \nbaseurl = http://yum.mariadb.org/10.1/centos7-amd64 \ngpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB \ngpgcheck=1 \n " &gt; /etc/yum.repos.d/MariaDB.repo
+
+RUN yum install MariaDB-server MariaDB-client -y
+RUN yum install which -y
+
+ADD config/server.cnf /etc/my.cnf.d/
+RUN chmod 644 /etc/my.cnf.d/server.cnf
+
+#Starting the mysql as mysql user and starting the cluster
+CMD su mysql -s/bin/bash -c "/usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --user=mysql --wsrep-new-cluster"</pre>
+<p>&nbsp;</p>
+<p>MariaDB-cluster-Slave</p>
+<p>&nbsp;</p>
+<pre>from fareoffice/base
+
+MAINTAINER Fareoffice
+
+#
+# This will bring upp mariadb cluster nodes.
+# Every new node will goin the cluster and get the db rsync over (keep data small)
+# The node will look for the host cluster_master to conenct and get cluster info from and sync 
+#
+#
+# docker run -it --link cluster_master:cluster_master mariadb-cluster-slave
+#
+#
+
+LABEL name="Fareoffice Mariadb Cluster Slave Server"
+LABEL vendor="System Operations"
+
+RUN echo -e "[mariadb] \nname = MariaDB \nbaseurl = http://yum.mariadb.org/10.1/centos7-amd64 \ngpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB \ngpgcheck=1 \n " &gt; /etc/yum.repos.d/MariaDB.repo
+
+RUN yum install MariaDB-server MariaDB-client -y
+RUN yum install which -y
+
+ADD config/server.cnf /etc/my.cnf.d/
+RUN chmod 644 /etc/my.cnf.d/server.cnf
+
+CMD su mysql -s/bin/bash -c "/usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --user=mysql "</pre>
+<p>When starting check the startup command in the comments in the dockerfile. To work you need to start the master with name and link the slave to the master contanier.</p>

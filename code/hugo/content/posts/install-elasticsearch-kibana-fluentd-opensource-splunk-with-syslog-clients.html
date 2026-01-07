@@ -1,0 +1,74 @@
+---
+title: Install Elasticsearch, Kibana 4 , fluentd (Opensource splunk) with syslog clients
+date: 2014-02-22 21:48:54
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>So used splunk some times but it has its limit (money) so now Im testing</p>
+<h2>1. Java</h2>
+<p>first install java on your server. Get java from here <a title="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
+<pre> yum localinstall jdk-8u25-linux-x64.rpm</pre>
+<p>And install it on your server.</p>
+<h2>2. Elasticsearch</h2>
+<p>Get it from here <a title="http://www.elasticsearch.org/download" href="http://www.elasticsearch.org/download" target="_blank">http://www.elasticsearch.org/download</a> I installed the rpm and run</p>
+<pre>https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.0.Beta1.noarch.rpm
+yum localinstall elasticsearch-1.4.0.Beta1.noarch.rpm</pre>
+<p>I hade to make some settings in this file my vps only hade 512m</p>
+<pre>vi /etc/sysconfig/elasticsearch</pre>
+<pre>/etc/init.d/elasticsearch start</pre>
+<p>So moving on</p>
+<h2>3. Kibana 4</h2>
+<p>Download kibana from here <a title="http://www.elasticsearch.org/overview/kibana/installation/" href="http://www.elasticsearch.org/overview/kibana/installation/" target="_blank">http://www.elasticsearch.org/overview/kibana/installation/</a></p>
+<pre>cd /var/www/html
+wget https://download.elasticsearch.org/kibana/kibana/kibana-4.0.0-BETA1.1.tar.gz
+tar zxvf kibana-4.0.0-BETA1.1.tar.gz
+mv kibana-4.0.0-BETA1.1 kibana
+chown apache:apache -R kibana</pre>
+<h2>4. Install fluentd</h2>
+<p>http://docs.fluentd.org/articles/install-by-rpm</p>
+<pre>curl -L http://toolbelt.treasuredata.com/sh/install-redhat.sh | sh</pre>
+<p>Install gems needed</p>
+<pre>yum install libcurl-devel
+/usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-elasticsearch</pre>
+<p>open this file and have only this in the file</p>
+<pre>vi /etc/td-agent/td-agent.conf</pre>
+<pre>&lt;match td.*.*&gt;
+ type tdlog
+ apikey YOUR_API_KEY
+auto_create_table
+buffer_type file
+buffer_path /var/log/td-agent/buffer/td
+&lt;/match&gt;</pre>
+<pre>&lt;source&gt;
+ type syslog
+ port 42185
+ tag syslog
+&lt;/source&gt;
+&lt;source&gt;
+type forward
+&lt;/source&gt;
+&lt;match syslog.**&gt;
+type elasticsearch
+logstash_format true
+flush_interval 10s # for testing
+&lt;/match&gt;</pre>
+<p>&nbsp;</p>
+<p>Restart the agent</p>
+<pre>/etc/init.d/td-agent restart</pre>
+<p>Time for sending some logs to the server</p>
+<h2>5. Client</h2>
+<p>in rsyslog open the file /etc/rsyslog.conf and add at the buttom</p>
+<pre>*.* @127.0.0.1:42185</pre>

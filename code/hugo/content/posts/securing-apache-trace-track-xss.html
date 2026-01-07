@@ -1,0 +1,38 @@
+---
+title: Securing Apache &#8211; TRACE TRACK XSS
+date: 2013-10-07 15:12:50
+tags:
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Security
+    
+     
+---
+<p>So i will tryi to updated with some tips on securing apache as I stumbel over them.</p>
+<p>This will be the first one in not so many I hope (Apache will be secure )<br />
+I always scan my servers every month with Openvas as one of my PCI-DSS task. And this week I locking down my Apache servers.</p>
+<p>Add this in you vhost file ore in the welcome.conf file and rerun you scan.</p>
+<p>&nbsp;</p>
+<pre><code>TraceEnable off</code></pre>
+<pre></pre>
+<pre><code>RewriteEngine On</code></pre>
+<pre><code>RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)</code></pre>
+<pre><code>RewriteRule .* - [F]</code></pre>

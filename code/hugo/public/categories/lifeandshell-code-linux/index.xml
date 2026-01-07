@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Linux on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-linux/</link>
+    <description>Recent content in Lifeandshell, Code, Linux on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sat, 24 May 2014 20:56:02 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Starting with Go on Ubuntu</title>
+      <link>http://localhost:1313/posts/starting-with-go-on-ubuntu/</link>
+      <pubDate>Sat, 24 May 2014 20:56:02 +0000</pubDate>
+      <guid>http://localhost:1313/posts/starting-with-go-on-ubuntu/</guid>
+      <description>&lt;p&gt;So I starting to test to use the go language for some projects. Here is how i set up go on my ubuntu laptop.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;1. Installing go language&lt;/h2&gt;&#xA;&lt;pre class=&#34;default prettyprint prettyprinted&#34; style=&#34;color: #000000;&#34;&gt;&lt;code&gt;&lt;span class=&#34;pln&#34; style=&#34;color: #000000;&#34;&gt;sudo apt&lt;/span&gt;&lt;span class=&#34;pun&#34; style=&#34;color: #000000;&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;kwd&#34; style=&#34;color: #00008b;&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;pln&#34; style=&#34;color: #000000;&#34;&gt; install python&lt;/span&gt;&lt;span class=&#34;pun&#34; style=&#34;color: #000000;&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;pln&#34; style=&#34;color: #000000;&#34;&gt;software&lt;/span&gt;&lt;span class=&#34;pun&#34; style=&#34;color: #000000;&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;pln&#34; style=&#34;color: #000000;&#34;&gt;properties &lt;/span&gt;&lt;span class=&#34;pln&#34; style=&#34;color: #000000;&#34;&gt;&#xD;&#xA;sudo add&lt;/span&gt;&lt;span class=&#34;pun&#34; style=&#34;color: #000000;&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;pln&#34; style=&#34;color: #000000;&#34;&gt;apt&lt;/span&gt;&lt;span class=&#34;pun&#34; style=&#34;color: #000000;&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;pln&#34; style=&#34;color: #000000;&#34;&gt;repository ppa&lt;/span&gt;&lt;span class=&#34;pun&#34; style=&#34;color: #000000;&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;pln&#34; style=&#34;color: #000000;&#34;&gt;duh&lt;/span&gt;&lt;span class=&#34;pun&#34; style=&#34;color: #000000;&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;pln&#34; style=&#34;color: #000000;&#34;&gt;golang&#xD;&#xA;sudo apt&lt;/span&gt;&lt;span class=&#34;pun&#34; style=&#34;color: #000000;&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;kwd&#34; style=&#34;color: #00008b;&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;pln&#34; style=&#34;color: #000000;&#34;&gt; update&#xD;&#xA;sudo apt&lt;/span&gt;&lt;span class=&#34;pun&#34; style=&#34;color: #000000;&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;kwd&#34; style=&#34;color: #00008b;&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;pln&#34; style=&#34;color: #000000;&#34;&gt; install golang&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;verify&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,61 @@
+---
+title: Install Elgg social network on Centos
+date: 2013-12-26 16:26:57
+tags:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>Elgg is a social network web application that could e nice as intranet for companies.<br />
+Well Its a PHP application so its easy to install</p>
+<p>&nbsp;</p>
+<p><strong>First some yum packages</strong></p>
+<pre>yum install mysql mysql-server httpd php php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring wget unzip</pre>
+<p><strong>Setup an apache config</strong></p>
+<pre>&lt;VirtualHost *:80&gt;
+ DocumentRoot /var/www/html/elinodrift.se
+ServerName domain.se
+ServerAlias www.yourdomain.se
+ServerAdmin webmaster@domain.se
+ErrorLog /var/log/httpd/elgg.log
+&lt;Directory /var/www/html/elgg&gt;
+Options FollowSymLinks
+AllowOverride All
+Order allow,deny
+Allow from all
+&lt;/Directory&gt;
+&lt;/VirtualHost&gt;</pre>
+<p><strong>Setup mysql</strong></p>
+<pre>Create database elgg;</pre>
+<pre><strong><code>CREATE USER 'elgg_user'@'localhost' IDENTIFIED BY 'some_pass';</code></strong></pre>
+<pre><strong><code></code></strong><strong><code>GRANT ALL PRIVILEGES ON *.* TO 'elgg_user'@'localhost';</code></strong></pre>
+<pre><strong><code>flush privileges;</code></strong></pre>
+<p>Download and install elgg <a href="http://elgg.org/">http://elgg.org/</a></p>
+<pre>wget http://elgg.org/getelgg.php?forward=elgg-1.8.16.zip
+unzip elgg-1.8.16.zip
+mv elgg-1.8.16 elgg
+chown apache:apache -R elgg
+chown 774 -R elgg</pre>
+<p>Time to surf in and setup your elgg</p>
+<p><strong>http://your-ip/elgg/</strong></p>
+<p>Then your done</p>

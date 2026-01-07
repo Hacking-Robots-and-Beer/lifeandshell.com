@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Asylguiden on Life and Shell</title>
+    <link>https://lifeandshell.com/categories/asylguiden/</link>
+    <description>Recent content in Asylguiden on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Sun, 18 Jan 2015 21:25:59 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/categories/asylguiden/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Getting django docker prod ready with jenkins (part 1 the build)</title>
+      <link>https://lifeandshell.com/posts/getting-django-docker-prod-ready-with-jenkins-part-1-the-build/</link>
+      <pubDate>Sun, 18 Jan 2015 21:25:59 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/getting-django-docker-prod-ready-with-jenkins-part-1-the-build/</guid>
+      <description>So i have some django webb projects and now its time to get my django apps prod ready with docker.&#xA;My plan is to with jenkins build my django apps (soon start a docker of the app and run some test but that will be later) make a docker image and send that to the docker cloud.&#xA;Then a can download the docker image on my prod server and start the app.</description>
+    </item>
+    <item>
+      <title>Installing Asylguiden on centos Server</title>
+      <link>https://lifeandshell.com/posts/installing-asylguiden-on-centos-server/</link>
+      <pubDate>Mon, 17 Feb 2014 21:21:20 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installing-asylguiden-on-centos-server/</guid>
+      <description>One of my own prodjects are Asylguiden. Its A python publish system build with django, Mysql and mongodb.&#xA;You can find the code here on github&#xA;https://github.com/mattiashem/asylguiden&#xA;Asylguiden also works with wsgi for python and apache for displaying content&#xA;here is my own how to for downloadning and setting up asylguiden on a production server.&#xA;1. Setting up server for hosing Centos&#xA;yum install httpd mod_ssl git wget python-setuptools mod_wsgi &amp;nbsp;</description>
+    </item>
+  </channel>
+</rss>

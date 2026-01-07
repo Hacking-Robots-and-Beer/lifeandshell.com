@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Linux, Random on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-linux-random/</link>
+    <description>Recent content in Lifeandshell, Linux, Random on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Thu, 15 Aug 2013 15:02:42 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-linux-random/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kernel updated don´t update grub on Centos 6.4</title>
+      <link>http://localhost:1313/posts/kernel-updated-dont-update-grub-on-centos-6-4/</link>
+      <pubDate>Thu, 15 Aug 2013 15:02:42 +0000</pubDate>
+      <guid>http://localhost:1313/posts/kernel-updated-dont-update-grub-on-centos-6-4/</guid>
+      <description>&lt;p&gt;So you have updated the kernel on you centos but you server is still running on the old kernel. Whenan kernel is updated yum updates the file /etc/grub.conf and that is an synlink to /boot/grub/grub.conf but if the link is broken then you will have two grub.conf. One /etc/grub.conf and one /boot/grub/grub.conf and then when you update en kernel the server will still not run on the new kernel.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Remove old kernel in Centos</title>
+      <link>http://localhost:1313/posts/remove-old-kernel-in-centos/</link>
+      <pubDate>Thu, 15 Aug 2013 13:47:45 +0000</pubDate>
+      <guid>http://localhost:1313/posts/remove-old-kernel-in-centos/</guid>
+      <description>&lt;p&gt;So you try to update you server and it says that you /boot pertision is full and cant update kernel.&lt;br /&gt;&#xA;Will this is how you remove some old kernels so you can keep your system up to date.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;1. First what kernel is running now (We dont want to remove that kernel)&lt;/p&gt;&#xA;&lt;pre&gt;uname -a&#xD;&#xA;Linux install 2.6.32-279.19.1.el6.x86_64 #1 SMP Tue Nov 6 23:43:09 UTC 2012 x86_64 x86_64 x86_64 GNU/Linux&lt;/pre&gt;&#xA;&lt;p&gt;Ok kernel 2.6.32-279.14.1 is running now&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,105 @@
+---
+title: Roll you own Docker Registry with nginx (In Docker)
+date: 2016-03-19 23:25:36
+tags:
+    
+    - docker
+    
+     
+categories:
+    
+    - docker
+    
+     
+keywords: 
+    
+    - docker
+    
+     
+---
+<p>When yor private numbers of docker images grow is time to setup you own private repo.<br />
+Do have you own docker repo you need 1. the docker registry 2. nginx to handel users 3. tls so that all conenctions are encrypted.</p>
+<p>So here is what yu do to have you own docker repo running.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<ol>
+<li>Install docker-compsoe and setup the followin docker-compose file</li>
+</ol>
+<pre>storage: 
+ image: busybox 
+ volumes: 
+ - /backup/docker/registry:/var/lib/docker/registry 
+cache: 
+ image: redis 
+registry: 
+ image: registry 
+ ports: 
+ - 127.0.0.1:5000:5000 
+ links: 
+ - cache 
+ - storage 
+ volumes_from: 
+ - storage
+ environment: 
+ STANDALONE: true
+ SETTINGS_FLAVOR: local 
+ STORAGE_PATH: /var/lib/docker/registry 
+ SEARCH_BACKEND: sqlalchemy 
+ CACHE_REDIS_HOST: cache 
+ CACHE_REDIS_PORT: 6379 
+ CACHE_LRU_REDIS_HOST: cache 
+ CACHE_LRU_REDIS_PORT: 6379
+webb:
+ #image: mattiashem/nginx-registry
+ build: registry-front/
+ ports:
+ - 443:443
+ - 80:80
+ links:
+ - registry</pre>
+<p>&nbsp;</p>
+<p>create the folder registry-front in that folder we are going to add our users and our certs for the tls.<br />
+So create a Dockerfile and add the following</p>
+<p>&nbsp;</p>
+<pre>#Base docker file for lifeandshell.com
+FROM mattiashem/nginx-registry
+MAINTAINER "Mattias Hemmingsson" &lt;matte.hemmingsson@gmail.com&gt;
+
+EXPOSE 80
+EXPOSE 443
+
+ADD nginx.htpasswd /etc/nginx/nginx.htpasswd
+ADD cert.pem /etc/nginx/ssl/nginx.crt
+ADD privkey.pem /etc/nginx/ssl/nginx.key
+ADD fullchain.pem /etc/nginx/ssl/fullchain.pem
+
+CMD nginx -g "daemon off;"</pre>
+<p>The file I get from using letsencrypt that are free but you can  get from any source. Chnage so that the source files are mathcing with you certs.</p>
+<p>&nbsp;</p>
+<p>Now time for setting up some users create the file add_user.sh and add the followin content to it</p>
+<p>&nbsp;</p>
+<pre>docker run --rm --entrypoint htpasswd registry:2 -bn user1 password &gt; nginx.htpasswd
+docker run --rm --entrypoint htpasswd registry:2 -bn user2 password &gt;&gt; nginx.htpasswd
+docker run --rm --entrypoint htpasswd registry:2 -bn user3 password &gt;&gt; nginx.htpasswd
+docker run --rm --entrypoint htpasswd registry:2 -bn user4 password &gt;&gt; nginx.htpasswd</pre>
+<p>&nbsp;</p>
+<p>make the script x and run intt In the registry-front folder</p>
+<pre>chmod +x add_user.sh
+./add_user.sh</pre>
+<p>&nbsp;</p>
+<p>Now we are ready to start our registry do the the base filer with the docker-compose.yml and run</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre>docker-compose build</pre>
+<pre>docker-compose up</pre>
+<p>&nbsp;</p>
+<p>And now when everthing is wokring run</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre>docker-compose start</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>And now you docker-registry should be up and running</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

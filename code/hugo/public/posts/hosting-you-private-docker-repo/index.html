@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Hosting you private docker repo | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/hosting-you-private-docker-repo/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/hosting-you-private-docker-repo/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Hosting you private docker repo">
+  <meta property="og:description" content="We are staring using docker in our developing process. and in that we need to have our own docker repo for hosting our private docker.
+The path is
+[public docker cloud(centos img)] –public docker image- &gt; [jenkins build our code and docker img] —&gt; our docker images —&gt; [private docker repo]–our docker image-&gt;[Servers [int,qa,prod]
+ 
+1. Setting up the docker imaged for the docker repo make a folder that will hold you data">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2015-02-11T16:41:19+00:00">
+    <meta property="article:modified_time" content="2015-02-11T16:41:19+00:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Web">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Hosting you private docker repo">
+  <meta name="twitter:description" content="We are staring using docker in our developing process. and in that we need to have our own docker repo for hosting our private docker.
+The path is
+[public docker cloud(centos img)] –public docker image- &gt; [jenkins build our code and docker img] —&gt; our docker images —&gt; [private docker repo]–our docker image-&gt;[Servers [int,qa,prod]
+ 
+1. Setting up the docker imaged for the docker repo make a folder that will hold you data">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/getting-django-docker-prod-ready-with-jenkins-part-1-the-build/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/installing-go-build-server-on-centos-7/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&text=Hosting%20you%20private%20docker%20repo" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&title=Hosting%20you%20private%20docker%20repo" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&is_video=false&description=Hosting%20you%20private%20docker%20repo" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Hosting%20you%20private%20docker%20repo&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&title=Hosting%20you%20private%20docker%20repo" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&title=Hosting%20you%20private%20docker%20repo" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&name=Hosting%20you%20private%20docker%20repo&description=We%20are%20staring%20using%20docker%20in%20our%20developing%20process.%20and%20in%20that%20we%20need%20to%20have%20our%20own%20docker%20repo%20for%20hosting%20our%20private%20docker.%0aThe%20path%20is%0a%5bpublic%20docker%20cloud%28centos%20img%29%5d%20%26%238211%3bpublic%20docker%20image-%20%26gt%3b%20%5bjenkins%20build%20our%20code%20and%20docker%20img%5d%20%26%238212%3b%26gt%3b%20our%20docker%20images%20%26%238212%3b%26gt%3b%20%5bprivate%20docker%20repo%5d%26%238211%3bour%20docker%20image-%26gt%3b%5bServers%20%5bint%2cqa%2cprod%5d%0a%26nbsp%3b%0a1.%20Setting%20up%20the%20docker%20imaged%20for%20the%20docker%20repo%20make%20a%20folder%20that%20will%20hold%20you%20data" aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&t=Hosting%20you%20private%20docker%20repo" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Hosting you private docker repo
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2015-02-11 16:41:19 &#43;0000 UTC" itemprop="datePublished">2015-02-11</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          2 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+             ,  
+            <a class="category-link" href="/categories/web">Web</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/web" rel="tag">Web</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>We are staring using docker in our developing process. and in that we need to have our own docker repo for hosting our private docker.</p>
+<p>The path is</p>
+<p>[public docker cloud(centos img)] <strong>&#8211;public docker image- &gt;</strong> [jenkins build our code and docker img] <strong>&#8212;&gt; our docker images &#8212;&gt;</strong> [private docker repo]<strong>&#8211;our docker image-&gt;</strong>[Servers [int,qa,prod]</p>
+<p>&nbsp;</p>
+<h3>1. Setting up the docker imaged for the docker repo</h3>
+<p>make a folder that will hold you data</p>
+<pre>mkdir /docker_repo</pre>
+<p>Start the docker registry</p>
+<pre>docker run -p 5000:5000 -e STORAGE_PATH=/docker_repo registry</pre>
+<p>To have it running in the background</p>
+<pre>docker run -d -p 5000:5000 -e STORAGE_PATH=/docker_repo registry</pre>
+<p>&nbsp;</p>
+<h3>2. Making apache proxy to docker use https else docker will not push image</h3>
+<p>here is link for setting up tls with apache <a title="http://wiki.centos.org/HowTos/Https" href="http://wiki.centos.org/HowTos/Https" target="_blank">http://wiki.centos.org/HowTos/Https</a></p>
+<pre>&lt;VirtualHost *:443&gt;
+ ServerName docker.xxxxx.net
+ ServerAlias docker.xxxx.net
+ DocumentRoot /var/www/html
+ProxyPreserveHost On
+ProxyPass / http://127.0.0.1:5000/
+<span style="line-height: 1.428571429;">ProxyPassReverse / http://127.0.0.1:5000/
+ 
+SSLEngine on
+ SSLProtocol -all +TLSv1
+ #NEW ENTORY
+ SSLHonorCipherOrder On
+ SSLCipherSuite ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256:RC4:HIGH:!MD5:!aNULL:!EDH
+
+
+ SSLCertificateFile /etc/httpd/ssl/wild.xxxxx.net.crt
+ SSLCertificateKeyFile /etc/httpd/ssl/wild.xxxxx.net.key
+ SSLCertificateChainFile /etc/httpd/ssl/ca/geotrust-ca.pem
+
+</span>&lt;/VirtualHost&gt;</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Now you should be able to see the &#8220;docker registry service&#8221; if you go to the doman docker.xxxxx.net.</p>
+<p>&nbsp;</p>
+<h3>3. Adding images</h3>
+<p>&nbsp;</p>
+<p>Download a image</p>
+<pre>[root@test mahe]# docker pull centos
+Pulling repository centos
+dade6cb4530a: Download complete 
+511136ea3c5a: Download complete 
+5b12ef8fd570: Download complete 
+Status: Downloaded newer image for centos:latest</pre>
+<p>Show images</p>
+<pre>[root@test mahe]# docker images
+REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE
+centos 7 <strong>dade6cb4530a</strong> 4 days ago 224 MB
+centos centos7 dade6cb4530a 4 days ago 224 MB
+centos latest dade6cb4530a 4 days ago 224 MB</pre>
+<p>Tag the images</p>
+<pre class="commandline">docker tag <strong>dade6cb4530a </strong>docker.xxxxx.net/centos:latest</pre>
+<p>Show the images</p>
+<pre>[root@test mahe]# docker images
+REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE
+centos 7 dade6cb4530a 4 days ago 224 MB
+centos centos7 dade6cb4530a 4 days ago 224 MB
+centos latest dade6cb4530a 4 days ago 224 MB
+<strong>docker.xxxxx.net/centos</strong> latest dade6cb4530a 4 days ago 224 MB</pre>
+<p>push the images to our private repo</p>
+<p>&nbsp;</p>
+<pre>[root@test sysconfig]#<strong>docker push docker.xxxxx.net/centos</strong>
+The push refers to a repository [docker.xxxxx.net/centos] (len: 1)
+Sending image list
+Pushing repository docker.xxxxx.net/centos (1 tags)
+511136ea3c5a: Image successfully pushed 
+5b12ef8fd570: Image successfully pushed 
+dade6cb4530a: Image successfully pushed 
+Pushing tag for rev [dade6cb4530a] on {https://docker.xxxxx.net/v1/repositories/centos/tags/latest}</pre>
+<p>&nbsp;</p>
+<p>And now you have the image in your own repo and ready .</p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&text=Hosting%20you%20private%20docker%20repo" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&title=Hosting%20you%20private%20docker%20repo" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&is_video=false&description=Hosting%20you%20private%20docker%20repo" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Hosting%20you%20private%20docker%20repo&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&title=Hosting%20you%20private%20docker%20repo" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&title=Hosting%20you%20private%20docker%20repo" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&name=Hosting%20you%20private%20docker%20repo&description=We%20are%20staring%20using%20docker%20in%20our%20developing%20process.%20and%20in%20that%20we%20need%20to%20have%20our%20own%20docker%20repo%20for%20hosting%20our%20private%20docker.%0aThe%20path%20is%0a%5bpublic%20docker%20cloud%28centos%20img%29%5d%20%26%238211%3bpublic%20docker%20image-%20%26gt%3b%20%5bjenkins%20build%20our%20code%20and%20docker%20img%5d%20%26%238212%3b%26gt%3b%20our%20docker%20images%20%26%238212%3b%26gt%3b%20%5bprivate%20docker%20repo%5d%26%238211%3bour%20docker%20image-%26gt%3b%5bServers%20%5bint%2cqa%2cprod%5d%0a%26nbsp%3b%0a1.%20Setting%20up%20the%20docker%20imaged%20for%20the%20docker%20repo%20make%20a%20folder%20that%20will%20hold%20you%20data" aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fhosting-you-private-docker-repo%2f&t=Hosting%20you%20private%20docker%20repo" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

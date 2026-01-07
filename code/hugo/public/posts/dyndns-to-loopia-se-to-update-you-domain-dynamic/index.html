@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Dyndns to loopia.se to update you domain dynamic | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/dyndns-to-loopia-se-to-update-you-domain-dynamic/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/dyndns-to-loopia-se-to-update-you-domain-dynamic/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Dyndns to loopia.se to update you domain dynamic">
+  <meta property="og:description" content="So many of my dominas I have registered on loopia.se. And they have dyndns support so I can create a subdomain to my domian. And have it updated when my laptop ore home ip changes.
+This make the task of connecting back to my home server easy.
+First install the dyndns clinet on you host here I’m installing it on my Centos 6 server with EPEL REPO installed
+ 
+yum install ddclient  ">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2014-07-06T21:37:17+00:00">
+    <meta property="article:modified_time" content="2014-07-06T21:37:17+00:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Web">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Dyndns to loopia.se to update you domain dynamic">
+  <meta name="twitter:description" content="So many of my dominas I have registered on loopia.se. And they have dyndns support so I can create a subdomain to my domian. And have it updated when my laptop ore home ip changes.
+This make the task of connecting back to my home server easy.
+First install the dyndns clinet on you host here I’m installing it on my Centos 6 server with EPEL REPO installed
+ 
+yum install ddclient  ">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/oauth2-server-on-python-with-flask-on-centos/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/vmware-to-kvm-owasp-broken-webb-app-on-kvm/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&text=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&title=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&is_video=false&description=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&title=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&title=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&name=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic&description=So%20many%20of%20my%20dominas%20I%20have%20registered%20on%20loopia.se.%20And%20they%20have%20dyndns%20support%20so%20I%20can%20create%20a%20subdomain%20to%20my%20domian.%20And%20have%20it%20updated%20when%20my%20laptop%20ore%20home%20ip%20changes.%0aThis%20make%20the%20task%20of%20connecting%20back%20to%20my%20home%20server%20easy.%0aFirst%20install%20the%20dyndns%20clinet%20on%20you%20host%20here%20I%26%238217%3bm%20installing%20it%20on%20my%20Centos%206%20server%20with%20EPEL%20REPO%20installed%0a%26nbsp%3b%0ayum%20install%20ddclient%20%26nbsp%3b" aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&t=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Dyndns to loopia.se to update you domain dynamic
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2014-07-06 21:37:17 &#43;0000 UTC" itemprop="datePublished">2014-07-06</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          1 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+             ,  
+            <a class="category-link" href="/categories/web">Web</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/web" rel="tag">Web</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>So many of my dominas I have registered on loopia.se. And they have dyndns support so I can create a subdomain to my domian. And have it updated when my laptop ore home ip changes.</p>
+<p>This make the task of connecting back to my home server easy.</p>
+<p>First install the dyndns clinet on you host here I&#8217;m installing it on my <strong>Centos 6</strong> server with <strong>EPEL REPO</strong> installed</p>
+<p>&nbsp;</p>
+<pre>yum install ddclient</pre>
+<p>&nbsp;</p>
+<p>Open the file</p>
+<pre>vi ddclient.conf</pre>
+<p>&nbsp;</p>
+<p>Find the sections starting with #loopia</p>
+<p>&nbsp;</p>
+<p>Uncomment the values and ad you username that will be you domain, Add your password and the domain you want to update.</p>
+<p>Same the file and</p>
+<p>&nbsp;</p>
+<pre>/etc/init.d/ddclient restart
+chkconfig ddclient on</pre>
+<p>&nbsp;</p>
+<p>tail you log to see</p>
+<p>&nbsp;</p>
+<pre>Jul  6 21:28:26 home ddclient[23784]: WARNING:  updating home.ollebo.com: nochg: No update required;</pre>
+<p>and now you can always find you way back home</p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&text=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&title=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&is_video=false&description=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&title=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&title=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&name=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic&description=So%20many%20of%20my%20dominas%20I%20have%20registered%20on%20loopia.se.%20And%20they%20have%20dyndns%20support%20so%20I%20can%20create%20a%20subdomain%20to%20my%20domian.%20And%20have%20it%20updated%20when%20my%20laptop%20ore%20home%20ip%20changes.%0aThis%20make%20the%20task%20of%20connecting%20back%20to%20my%20home%20server%20easy.%0aFirst%20install%20the%20dyndns%20clinet%20on%20you%20host%20here%20I%26%238217%3bm%20installing%20it%20on%20my%20Centos%206%20server%20with%20EPEL%20REPO%20installed%0a%26nbsp%3b%0ayum%20install%20ddclient%20%26nbsp%3b" aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fdyndns-to-loopia-se-to-update-you-domain-dynamic%2f&t=Dyndns%20to%20loopia.se%20to%20update%20you%20domain%20dynamic" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

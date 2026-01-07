@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Life, Linux on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-life-linux/</link>
+    <description>Recent content in Lifeandshell, Life, Linux on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sun, 16 Feb 2014 11:34:53 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-life-linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Installing Plex Mediaserver Centos 6</title>
+      <link>http://localhost:1313/posts/installing-plex-mediaserver-centos-6/</link>
+      <pubDate>Sun, 16 Feb 2014 11:34:53 +0000</pubDate>
+      <guid>http://localhost:1313/posts/installing-plex-mediaserver-centos-6/</guid>
+      <description>&lt;p&gt;So I use plex for my media and i have a small server running with my plex server on it.&lt;br /&gt;&#xA;and here is how I install plex server on my home centos server.&lt;br /&gt;&#xA;This guide will work on several Linux dist&lt;/p&gt;&#xA;&lt;p&gt;1. Grab latest plex server&lt;/p&gt;&#xA;&lt;p&gt;go to https://plex.tv/downloads and choose the one best match for you system&lt;/p&gt;&#xA;&lt;p&gt;I got&lt;/p&gt;&#xA;&lt;pre&gt;wget http://downloads.plexapp.com/plex-media-server/0.9.8.18.290-11b7fdd/plexmediaserver-0.9.8.18.290-11b7fdd.x86_64.rpm&lt;/pre&gt;&#xA;&lt;p&gt;Install the package&lt;/p&gt;&#xA;&lt;pre&gt;rpm -i plexmediaserver-0.9.8.18.290-11b7fdd.x86_64.rpm&lt;/pre&gt;&#xA;&lt;p&gt;Start the plex server&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mining Litecoins and Feathercoin</title>
+      <link>http://localhost:1313/posts/mining-litecoins-and-feathercoin/</link>
+      <pubDate>Mon, 23 Dec 2013 11:05:37 +0000</pubDate>
+      <guid>http://localhost:1313/posts/mining-litecoins-and-feathercoin/</guid>
+      <description>&lt;p&gt;Start mining some coins right now. First you need to sign up to some mining pools.&lt;br /&gt;&#xA;I use for Litecoins &lt;a href=&#34;http://pool-x.eu/&#34;&gt;http://pool-x.eu&lt;/a&gt; and for Feathercoin https://ftc.d2.cc.&lt;/p&gt;&#xA;&lt;p&gt;You can have differnt mining task running on you GPU ore on you CPU.&lt;br /&gt;&#xA;I at the moment only using my CPU but it i get the GPU runing as well i will update the blog.&lt;/p&gt;&#xA;&lt;p&gt;This is and great blog on how to get started with minerd&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Ubuntu Phone First Week</title>
+      <link>http://localhost:1313/posts/ubuntu-phone-first-week/</link>
+      <pubDate>Sat, 26 Oct 2013 19:47:46 +0000</pubDate>
+      <guid>http://localhost:1313/posts/ubuntu-phone-first-week/</guid>
+      <description>&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;So my first week has gone since i rooted my Nexus 4 and installed the new Ubuntu phone.&lt;/p&gt;&#xA;&lt;p&gt;It was realy easy to root and install the phone the hole process was done in 30 min including backup.&lt;br /&gt;&#xA;It has bean I hard week but now at the end life with the phone is better.&lt;/p&gt;&#xA;&lt;p&gt;So the ONLY things that really work in the phone is.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Make and receives calls&lt;/li&gt;&#xA;&lt;li&gt;Send and receives SMS&lt;/li&gt;&#xA;&lt;li&gt;With i browser surf (Only from wifi )&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;That about it so my connections to the world when Im on the road is dead. No more facebook, Instagram and so on.&lt;br /&gt;&#xA;I use the browser to look things up if i had to.(This require a start my 4gwifi device)&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

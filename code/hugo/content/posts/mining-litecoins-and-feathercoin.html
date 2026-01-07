@@ -1,0 +1,51 @@
+---
+title: Mining Litecoins and Feathercoin
+date: 2013-12-23 11:05:37
+tags:
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+categories:
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Life
+    
+    
+    - Linux
+    
+     
+---
+<p>Start mining some coins right now. First you need to sign up to some mining pools.<br />
+I use for Litecoins <a href="http://pool-x.eu/">http://pool-x.eu</a> and for Feathercoin https://ftc.d2.cc.</p>
+<p>You can have differnt mining task running on you GPU ore on you CPU.<br />
+I at the moment only using my CPU but it i get the GPU runing as well i will update the blog.</p>
+<p>This is and great blog on how to get started with minerd</p>
+<p>On Ubuntu install some programs</p>
+<pre>sudo apt-get install build-essential libcurl4-openssl-dev screen</pre>
+<p>Download program</p>
+<pre>wget http://sourceforge.net/projects/cpuminer/files/pooler-cpuminer-2.3.2-linux-x86_64.tar.gz</pre>
+<p>Unpack program</p>
+<pre>tar zxvf pooler-cpuminer-2.3.2-linux-x86_64.tar.gz</pre>
+<p>start a screen</p>
+<pre>screen</pre>
+<p>Setup an slave from one of the websites depending on what you want to mine<br />
+And the start the slave</p>
+<pre>./minerd -o stratum+tcp://pool.d2.cc:3333 -a scrypt -O username.2:pass</pre>
+<p>Se the output then</p>
+<pre>[2013-12-23 10:01:27] thread 0: 144612 hashes, 6.94 khash/s
+[2013-12-23 10:01:43] thread 0: 103416 hashes, 6.83 khash/s
+[2013-12-23 10:01:43] accepted: 1/1 (100.00%), 13.81 khash/s (yay!!!)</pre>
+<p>Press ctr+a and then d to exit the screen and now your server is mining for you.<br />
+The mining will spinn upp the cpu to 100% but i have not seen any big performance diffent on one of my webbserver will running apache and mining on the same host.<br />
+But would not start mining on prod server 🙂</p>

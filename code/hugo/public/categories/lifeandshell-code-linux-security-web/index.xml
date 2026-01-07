@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Linux, Security, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-linux-security-web/</link>
+    <description>Recent content in Lifeandshell, Code, Linux, Security, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Fri, 06 Nov 2015 15:18:51 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-linux-security-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python DOS protection (iptables,dos)</title>
+      <link>http://localhost:1313/posts/python-dos-protection-iptablesdos/</link>
+      <pubDate>Fri, 06 Nov 2015 15:18:51 +0000</pubDate>
+      <guid>http://localhost:1313/posts/python-dos-protection-iptablesdos/</guid>
+      <description>&lt;p&gt;here are a small script I use to have some sort of dos protection on my webservers.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;import subprocess&#xD;&#xA;&#xD;&#xA;whitelist=[&#39;192.168.1.2&#39;]&#xD;&#xA;blockvalue=2&#xD;&#xA;alertvalue=1&#xD;&#xA;&#xD;&#xA;proc = subprocess.Popen(&#34;netstat -ntu | awk &#39;{print $5}&#39; | cut -d: -f1 | sort | uniq -c | sort -n&#34;, shell=True,stdout=subprocess.PIPE)&#xD;&#xA;running = proc.stdout.read()&#xD;&#xA;runing_sorted = running.split(&#39;\n&#39;)&#xD;&#xA;&#xD;&#xA;for r in runing_sorted:&#xD;&#xA; con =r.split()&#xD;&#xA; if len(con) ==2:&#xD;&#xA; #If ip has more conenctions then block value ip block&#xD;&#xA; if con[0] &amp;lt;= blockvalue:&#xD;&#xA; print &#34;BLOCKING &#34; + str(con[1])+ &#34; - &#34;+str(con[0]) &#xD;&#xA;&#xD;&#xA; else:&#xD;&#xA; print &#34;Ok &#34; + str(con[1])+ &#34; - &#34;+str(con[0])&#xD;&#xA;&#xD;&#xA;#If ip has more values the alertvalue send alert&#xD;&#xA; if con[0] &amp;lt;= alertvalue:&#xD;&#xA; print &#34;BLOCKING &#34; + str(con[1])+ &#34; - &#34;+str(con[0]) &#xD;&#xA; else:&#xD;&#xA; print &#34;Ok &#34; + str(con[1])+ &#34; - &#34;+str(con[0])&#xD;&#xA;&#xD;&#xA;def block_ip(ip):&#xD;&#xA; &#39;&#39;&#39;&#xD;&#xA; Get ip from list and block with iptables&#xD;&#xA; &#39;&#39;&#39;&#xD;&#xA; if ip in whitelist:&#xD;&#xA; print &#34;Ip are a whitelisted&#34;&#xD;&#xA; else:&#xD;&#xA; subprocess.Popen(&#39;iptables -I INPUT 1 -s {0} -j DROP&#39;.format(ip))&#xD;&#xA; subprocess.Popen(&#39;logger &#34;IP {0} BLOCKED by script&#34;&#39;.format(ip))&#xD;&#xA;&#xD;&#xA;def alert_ip(ip):&#xD;&#xA; &#39;&#39;&#39;&#xD;&#xA; Get ip from list and block with iptables&#xD;&#xA; &#39;&#39;&#39;&#xD;&#xA; if ip in whitelist:&#xD;&#xA; print &#34;Ip are a whitelisted&#34;&#xD;&#xA; else:&#xD;&#xA; subprocess.Popen(&#39;echo &#34;Ip varning for {0}&#34; &#34;&amp;gt; mail -s &#34;Ip warning on ip {0} &#34; alert@lifenadshell.com&#39;.format(ip))&#xD;&#xA; subprocess.Popen(&#39;logger &#34;Warning IP {0} has many conenctions&#34; &#39;.format(ip))&lt;/pre&gt;</description>
+    </item>
+  </channel>
+</rss>

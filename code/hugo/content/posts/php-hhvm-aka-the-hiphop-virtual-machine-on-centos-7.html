@@ -1,0 +1,135 @@
+---
+title: Php HHVM (aka the HipHop Virtual Machine) on Centos 7
+date: 2015-02-20 21:49:47
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>To get my php projects running as fast as possible om trying to use hhvm.<br />
+And here is my small guide how to install it on centos 7</p>
+<p>I used the docs from <a title="https://github.com/facebook/hhvm/wiki/Building-and-installing-hhvm-on-CentOS-7.x" href="https://github.com/facebook/hhvm/wiki/Building-and-installing-hhvm-on-CentOS-7.x" target="_blank">https://github.com/facebook/hhvm/wiki/Building-and-installing-hhvm-on-CentOS-7.x</a></p>
+<p>&nbsp;</p>
+<h3>1. First setup you centos linux host</h3>
+<p>&nbsp;</p>
+<pre>yum localinstall http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+yum localinstall http://rpms.famillecollet.com/enterprise/remi-release-7.rpm</pre>
+<pre>yum install cpp gcc-c++ cmake git psmisc {binutils,boost,jemalloc}-devel \
+{sqlite,tbb,bzip2,openldap,readline,elfutils-libelf,gmp,lz4,pcre}-devel \
+lib{xslt,event,yaml,vpx,png,zip,icu,mcrypt,memcached,cap,dwarf}-devel \
+{unixODBC,expat,mariadb}-devel lib{edit,curl,xml2,xslt}-devel \
+glog-devel oniguruma-devel inotify-tools-devel ocaml</pre>
+<pre>yum install ImageMagick-last<span class="pl-cce">\*</span> --enablerepo=remi</pre>
+<p>My box is a clean centos 7. If you have ImageMagic install already uninstall it.</p>
+<p>&nbsp;</p>
+<h3>2. Ok now we have the server ready lets get and build hhvm</h3>
+<p>&nbsp;</p>
+<pre>cd /opt
+git clone https://github.com/facebook/hhvm -b master  hhvm  --recursive
+cd hhvm</pre>
+<p>Time to build</p>
+<pre>cmake \
+-DLIBMAGICKWAND_INCLUDE_DIRS=<span class="pl-s1"><span class="pl-pds">"</span>/usr/include/ImageMagick-6<span class="pl-pds">"</span></span> \
+-DLIBMAGICKCORE_LIBRARIES=<span class="pl-s1"><span class="pl-pds">"</span>/usr/lib64/libMagickCore-6.Q16.so<span class="pl-pds">"</span></span> \
+-DLIBMAGICKWAND_LIBRARIES=<span class="pl-s1"><span class="pl-pds">"</span>/usr/lib64/libMagickWand-6.Q16.so<span class="pl-pds">"</span></span> <span class="pl-s3">.</span></pre>
+<pre>make -j<span class="pl-s1"><span class="pl-pds">$((</span>$(nproc)<span class="pl-k">+</span><span class="pl-c1">1</span><span class="pl-pds">))</span></span></pre>
+<p>&nbsp;</p>
+<pre>./hphp/hhvm/hhvm --version</pre>
+<pre>sudo make install</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>3. Config setup</h3>
+<p>&nbsp;</p>
+<p>First create some folders</p>
+<p>&nbsp;</p>
+<pre>mkdir /etc/hhvm
+mkdir /var/run/hhvm
+mkdir /var/log/hhvm
+mkdir /var/tmp/hhvm
+mkdir -p /usr/share/hhvm/hdf/
+chmod 775 /var/run/hhvm
+chmod 777 /var/tmp/hhvm
+
+</pre>
+<p>Now add some config files</p>
+<pre>vi /etc/hhvm/server.hdf</pre>
+<pre>PidFile = /var/run/hhvm/pid
+ 
+Server {
+ Port = 9000
+ SourceRoot = /var/www/
+ DefaultDocument = index.php
+}
+ 
+Log {
+ Level = Warning
+ AlwaysLogUnhandledExceptions = true
+ RuntimeErrorReportingLevel = 8191
+ UseLogFile = true
+ UseSyslog = false
+ File = /var/log/hhvm/error.log
+ Access {
+ * {
+ File = /var/log/hhvm/access.log
+ Format = %h %l %u % t \"%r\" %&gt;s %b
+ }
+ }
+}
+ 
+Repo {
+ Central {
+ Path = /var/tmp/hhvm/.hhvm.hhbc
+ }
+}
+ 
+#include "/usr/share/hhvm/hdf/static.mime-types.hdf"
+StaticFile {
+ FilesMatch {
+ * {
+ pattern = .*\.(dll|exe)
+ headers { 
+ * = Content-Disposition: attachment 
+ }
+ }
+ }
+ Extensions : StaticMimeTypes
+}
+ 
+MySQL {
+ TypedResults = false
+}
+
+</pre>
+<p>and the file</p>
+<pre>vi /usr/share/hhvm/hdf/static.mime-types.hdf</pre>
+<p>I added this file <a title="https://github.com/hhvm/packaging/blob/master/hhvm/rpm/fedora20/rpmbuild/SOURCES/static.mime-types.hdf" href="https://github.com/hhvm/packaging/blob/master/hhvm/rpm/fedora20/rpmbuild/SOURCES/static.mime-types.hdf" target="_blank">https://github.com/hhvm/packaging/blob/master/hhvm/rpm/fedora20/rpmbuild/SOURCES/static.mime-types.hdf</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Adding the service</p>
+<pre>vi /usr/lib/systemd/system/hhvm.service</pre>
+<pre><span class="pl-en">[Unit]</span>
+<span class="pl-k">Description</span>=HHVM HipHop Virtual Machine (FCGI)
+
+<span class="pl-en">[Service]</span>
+<span class="pl-k">ExecStart</span>=/usr/local/bin/hhvm --config /etc/hhvm/server.hdf --user nobody --mode daemon -<span class="pl-k">vServer.Type</span>=fastcgi -<span class="pl-k">vServer.Port</span>=9000
+
+<span class="pl-en">[Install]</span>
+<span class="pl-k">WantedBy</span>=multi-user.target</pre>
+<p>Enable and start</p>
+<pre>systemctl <span class="pl-s3">enable</span> hhvm
+systemctl start hhvm
+systemctl status hhvm</pre>
+<p>Error if not started i had some trying with dirs and permissions test chmod 777 to the dirs and then when it works start tight the perms</p>
+<pre>tail /var/log/hhvm/error.log</pre>

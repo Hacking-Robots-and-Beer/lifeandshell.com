@@ -1,0 +1,81 @@
+---
+title: Protecting you web with ModSecurity On Centos
+date: 2014-03-04 22:00:40
+tags:
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+---
+<p>So it you worry about you webb then modsecurity is rely nice to have on your webbserver. I have it installed on my apache server with the regular rules from OWAS and also some rules for my own sites.<br />
+But here is also how to install it.</p>
+<p>&nbsp;</p>
+<h2>1. Download and build modsec on your server</h2>
+<p>Add some packages</p>
+<pre>yum install gcc make
+yum install libxml2 libxml2-devel httpd-devel pcre-devel curl-devel</pre>
+<p>Go to <a href="http://www.modsecurity.org/" target="_blank">http://www.modsecurity.org/</a> and get the latest packages</p>
+<pre>wget https://www.modsecurity.org/tarball/2.7.7/modsecurity-apache_2.7.7.tar.gz
+tar zxvf modsecurity-apache_2.7.7.tar.gz
+cd modsecurity-apache_2.7.7</pre>
+<p>And build it and copy config</p>
+<pre>./configure
+make install
+cp modsecurity.conf-recommended /etc/httpd/conf.d/modsecurity.conf
+cp /tmp/modsecurity-apache_2.7.7/unicode.mapping /etc/httpd/conf.d</pre>
+<p>Add the to the top of the file /etc/httpd/conf.d/modsecurity.conf</p>
+<pre>LoadModule security2_module modules/mod_security2.so
+LoadModule unique_id_module modules/mod_unique_id.so
+&lt;IfModule security2_module&gt;</pre>
+<p>And change</p>
+<pre>SecRuleEngine On</pre>
+<p>Also at the buttom of the file close the module</p>
+<p>&lt;/IfModule&gt;</p>
+<p>Ok now we should have a working modsecurity up and running. But we dont have any rules yet.</p>
+<h2>2. Adding rules</h2>
+<p>Go to <a href="https://www.owasp.org/index.php/Category:OWASP_ModSecurity_Core_Rule_Set_Project" target="_blank">https://www.owasp.org/index.php/Category:OWASP_ModSecurity_Core_Rule_Set_Project</a></p>
+<p>Download the rule and untar the file<br />
+Copy the content of the folder into /etc/httpd/modsec</p>
+<pre>wget https://github.com/SpiderLabs/owasp-modsecurity-crs/tarball/master
+tar zxvf master
+mv SpiderLabs-owasp-modsecurity-crs-7528b8b/ /etc/httpd/modsec
+mv /etc/httpd/modsec/modsecurity_crs_10_setup.conf.example /etc/httpd/modsec/activated_rules/modsecurity_crs_10_setup.conf</pre>
+<p>Now activate you modsec folder again open the file /etc/httpd/conf.d/modsecurity.conf</p>
+<p>and add ad the bottom <strong>INSIDE the IfModule</strong></p>
+<pre>Include modsec/activated_rules/*.conf</pre>
+<p>Now you we have a working modsec installations with some basic rules.<br />
+To add rules link them into the activate_rules folder</p>
+<p>like this</p>
+<p>One rule</p>
+<pre> ln -s /etc/httpd/modsec/base_rules/modsecurity_crs_35_bad_robots.conf /etc/httpd/modsec/activated_rules/</pre>
+<p>alla rules in the folder</p>
+<pre> ln -s /etc/httpd/modsec/base_rules/* /etc/httpd/modsec/activated_rules/</pre>
+<p>don&#8217;t forget some rules need the .data file as well</p>

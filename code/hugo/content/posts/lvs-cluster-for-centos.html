@@ -1,0 +1,85 @@
+---
+title: LVS cluster for Centos
+date: 2013-08-01 14:08:13
+tags:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>An other cluster solution for Linux is LVS. I im testing to use LVS cluster for some cloud server. My cloudserver has one external ip and i want all traffic to come to that ip and after that be redirected to my web nodes. Witch LVS i will redirect all traffic to that ip and load balance it between my nodes. When i set up HAProxy i only loadbalanse webb traffic. In this guide i load balanse my ssh server between my two web nodes. (I already have Haproxy load balance my web)</p>
+<p>So install the directory witch will receive and spreed the traffic.</p>
+<p># modprobe ip_vs<br />
+# cat /proc/net/ip_vs<br />
+IP Virtual Server version 1.2.1 (size=4096)<br />
+Prot LocalAddress:Port Scheduler Flags<br />
+-&gt; RemoteAddress:Port Forward Weghit ActiveConn InActConn</p>
+<p>&nbsp;</p>
+<p>Install ipvsadm tool</p>
+<pre>yum install ipvsadm</pre>
+<p>I have an eth alias called 192.168.44.20 and will use that to receive all my incoming traffic. Then i will have two nodes behind my directory that will do the work 192.168.44.21 and 192.168.44.22. (192.168.44.20 is my heartbeat ip and will go to my secondary server for HA)</p>
+<p>Enable packet forwarding<br />
+# echo 1 &gt; /proc/sys/net/ipv4/ip_forward</p>
+<p>Set up the director for round robin traffic</p>
+<pre>/sbin/ipvsadm -C
+/sbin/ipvsadm -A -t 192.168.44.20:22 -s rr
+/sbin/ipvsadm -a -t 192.168.44.20:22 -r 192.168.44.21 -g
+/sbin/ipvsadm -a -t 192.168.44.20:22 -r 192.168.44.22 -g</pre>
+<p>You can change the -g against -m -w 1</p>
+<p>-m Using NAT load balancing -w 1 is the wight of the server<br />
+-r is for direct load balancing</p>
+<p>read more here <a href="http://www.centos.org/docs/5/html/Virtual_Server_Administration/s2-lvs-nat-VSA.html">http://www.centos.org/docs/5/html/Virtual_Server_Administration/s2-lvs-nat-VSA.html</a></p>
+<p>&nbsp;</p>
+<p>The -rr tels witch type of load balasing you want to use</p>
+<ul>
+<li><b>Round Robin (RR)</b>: New incoming connections are assigned to each realserver in turn.</li>
+<li><b>Weighted Round Robin (WRR)</b>: RR scheduling with additional weighting factor to compensate for differences in realserver capabilities such as additional CPUs, more memory, and so on.</li>
+<li><b>Least Connected (LC)</b>: New connections go to the realserver with the least number of connections. This is not necessarily the least-busy realserver, but it is a step in that direction.</li>
+<li><b>Weighted Least Connection</b> (WLC): LC with weighting.</li>
+</ul>
+<p>List the config</p>
+<pre>/sbin/ipvsadm -Ln
+IP Virtual Server version 1.2.1 (size=4096)
+Prot LocalAddress:Port Scheduler Flags
+ -&gt; RemoteAddress:Port Forward Weight ActiveConn InActConn
+TCP 192.168.44.20:81 rr
+ -&gt; 192.168.44.21:81 Local 1 0 0 
+ -&gt; 192.168.44.22:81 Route 1 0 0</pre>
+<p>Now the director is done and its time to fix the real server (my direktor and realserver are the same )</p>
+<h3>The Realservers</h3>
+<p>start by altering some network settings .</p>
+<p>Add this at the bottom of the file /etc/sysctl.conf</p>
+<pre>net.ipv4.conf.lo.arp_ignore = 1
+net.ipv4.conf.lo.arp_announce = 2
+net.ipv4.conf.all.arp_ignore = 1
+net.ipv4.conf.all.arp_announce = 2</pre>
+<p>Reload the settings</p>
+<pre>sysctl -p</pre>
+<p>DONE</p>
+<p>I have both my real server and directory on the same server so this is now working for me. I can now ssh to my 192.168.44.20 ip and get round robin between the servers.<br />
+If you planning on using more servers ore NAT then you want to setup route rules.<br />
+See links for more info.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><a href="http://www.linuxvirtualserver.org/Documents.html">http://www.linuxvirtualserver.org/Documents.html</a><br />
+<a href="http://www.ibm.com/developerworks/linux/library/l-linux-ha/index.html">http://www.ibm.com/developerworks/linux/library/l-linux-ha/index.html</a><br />
+<a href="http://kezhong.wordpress.com/2010/02/28/implementing-load-balance-on-centos-5-4/">http://kezhong.wordpress.com/2010/02/28/implementing-load-balance-on-centos-5-4/</a></p>

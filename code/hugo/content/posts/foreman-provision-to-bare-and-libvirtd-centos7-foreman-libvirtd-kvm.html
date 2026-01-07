@@ -1,0 +1,183 @@
+---
+title: Foreman provision to bare and libvirtd (Centos7, foreman, libvirtd, KVM)
+date: 2015-07-05 21:26:46
+tags:
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Security
+    
+    
+    - Web
+    
+     
+---
+<p>So I have started to play around with foreman and to get it to provision my diffrent servers. I started by starting up some local virtual servers on my laptop and played around with them.</p>
+<p>The flow is i started installing foreman as a virtual server. Then i provisin a new virtual server as bare matal (I created a virtual server in virsh) ater that virtual server is prevision i installed it as a virtual host(kvm on kvm) and connected it to foreman so foreman kan provision kvm host.</p>
+<p>First is to get you local laptop / computer ready for the running all settings.</p>
+<h3>
+<p>1. Laptop / host</h3>
+<p>&nbsp;</p>
+<p>In libvirt create a now network NAT but DISABLE DHCP settings in that network. my is 10.0.0.0/24 and the host has ip 10.0.0.1 for routing</p>
+<p>&nbsp;</p>
+<p>Under processor set the &#8220;copy host CPU configuration&#8221; this must be set for kvm in kvm to work</p>
+<p>&nbsp;</p>
+<h3>2. Install Foreman</h3>
+<p>Start with setting upp a clean new virtual server and install centos7 on that server. Connect it to the new network you set up before and set it to 10.0.0.2/24 and gw 10.0.0.1 dns 10.0.0.1</p>
+<p>Verify that the host has network connection</p>
+<p>&nbsp;</p>
+<p>set the correct hostname and ip in /etc/hosts if you hostname is foreman and you domain example.com other we will have some problems</p>
+<pre>vi /etc/hosts</pre>
+<pre>10.0.0.2 foreman.example.com</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Now we can install foreman and i disable fw and selinux for now in my lab,</p>
+<p>&nbsp;</p>
+<pre><code class="bash">rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm</code></pre>
+<pre><code class="bash">yum -y install epel-release http://yum.theforeman.org/releases/1.7/el7/x86_64/foreman-release.rpm</code></pre>
+<pre><code class="bash">yum -y install foreman-installer</code></pre>
+<pre><code class="bash">foreman-installer --enable-foreman-proxy</code></pre>
+<pre>systemctl stop firewalld</pre>
+<pre>setenforce 0</pre>
+<p>&nbsp;</p>
+<p>Thats it now foreman shoule be installed and ready</p>
+<p>&nbsp;</p>
+<h3>3. Provision your first bare metal host (here its a virtual server that i create  :-))</h3>
+<p>There are some settings that needed to be done before setting it all uo.</p>
+<p>1. under operattionsystem and CentOS7.1 under minor i have a 1 remove that so that box is empty (there are no centos mirror for /7/1 so it does not work)</p>
+<p>2. go to infrastruktur / provision setup and fill in all the settings</p>
+<p><strong>Network</strong></p>
+<pre>name:example.com
+subnet
+name:hostnet
+network:10.0.0.0
+mask:255.255.255.0
+router:10.0.0.1
+primary dns:10.0.0.2 &lt;--ip to you foreman
+secundary dns:10.0.0.3 &lt;--- to ip not there
+IPAM:DHCP
+From:10.0.0.100
+To:10.0.0.200
+Boot mode:DHCP</pre>
+<p><strong>foreman-installer</strong></p>
+<p>Now you will get some foreman-installer command to run. run the command WITH the DHCP config and run on foreman host.</p>
+<p>&nbsp;</p>
+<p>my looke like this DO NOT RUN THIS ON YOUR FOREMAN</p>
+<p>&nbsp;</p>
+<pre>foreman-installer \
+ --enable-foreman-proxy \
+ --foreman-proxy-tftp=true \
+ --foreman-proxy-tftp-servername=10.0.0.2 \
+ --foreman-proxy-dhcp=true \
+ --foreman-proxy-dhcp-interface=ens3 \
+ --foreman-proxy-dhcp-gateway= \
+ --foreman-proxy-dhcp-range="10.0.0.100 10.0.0.210" \
+ --foreman-proxy-dhcp-nameservers="10.0.0.2" \
+ --foreman-proxy-dns=true \
+ --foreman-proxy-dns-interface=ens3 \
+ --foreman-proxy-dns-zone=ollebo.com \
+ --foreman-proxy-dns-reverse=0.0.10.in-addr.arpa \
+ --foreman-proxy-dns-forwarders=10.0.0.1 \
+ --foreman-proxy-foreman-base-url=https://forman.ollebo.com \
+ --foreman-proxy-oauth-consumer-key=BPWNafbAMTEADEEf \
+ --foreman-proxy-oauth-consumer-secret=3UwzrvN</pre>
+<p>&nbsp;</p>
+<p><strong>Installation media</strong><br />
+see that Centos mirror is enabled and click next</p>
+<p><strong>New Host</strong></p>
+<p>1. Start by creating a new virtual server on you laptop (The bare metal server to be install) make it to the network we created, Choose pxe installatio AND copy cpu settings. The rest you can choose fre</p>
+<p>Now create a new bare metal host fill in you settings copy the mac from the virtual host you created.</p>
+<p>Start you virtual machine and se it be installed and provision by foreman.</p>
+<p>&nbsp;</p>
+<h3>4. Setup foreman with KVM (libvirtd)</h3>
+<p>So we should now have a server running provision from foreman lets install kvm on it and ad it as a foreman resource.</p>
+<p>&nbsp;</p>
+<p>In the provision server the new kvm host install kvm.</p>
+<div class="wp_syntax">
+<table>
+<tbody>
+<tr>
+<td class="code">
+<pre class="dos">yum install qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client virt-install virt-viewer</pre>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Turn selinux and firewalld of</p>
+<pre>systemctl stop firewalld</pre>
+<pre>setenforce 0</pre>
+<p>&nbsp;</p>
+<p>destroy the default network</p>
+<pre>[root@generic ~]# virsh
+Välkommen till virsh, den interaktiva terminalen för virtualisering.</pre>
+<pre>Skriv: 'help' för hjälp med kommandon
+ 'quit' för att avsluta</pre>
+<pre>virsh # net-destroy default
+Nätverk default förstört</pre>
+<pre>virsh # net-list
+ Namn Tillstånd Autostart Persistent
+----------------------------------------------------------</pre>
+<p>I connect to the host and with the virsh gui connect a new bridge network connected to the intreface connected to the host network we created on the virsh base host.</p>
+<p>&nbsp;</p>
+<p>Foreman setup</p>
+<p>Go to the foreman server and do the following to setup so that foreman has access to the new kvm host</p>
+<pre>root# su foreman -s /bin/bash 
+foreman$ ssh-keygen 
+foreman$ ssh-copy-id root@hostname.com 
+foreman$ ssh root@hostname.com 
+foreman$ <code>virsh -c qemu+ssh://root@hypervisor.example.com/system list</code>.
+ Id Namn Tillstånd
+----------------------------------------------------
+
+</pre>
+<p>&nbsp;</p>
+<p>Now we have a working connection between the formeman server an our kvm host</p>
+<p>install foreman packages</p>
+<pre>yum install foreman-libvirt</pre>
+<p>reboot foreman server (some say it should work with onky restart foreman service but it did not work for me)</p>
+<p><strong>When foreman comes back up stop firewalld and setenforce to 0</strong></p>
+<p>&nbsp;</p>
+<p>Login into the foreman webbpage and go to &#8220;computer resource&#8221; and add new</p>
+<pre>name:kvm host
+provider:Libvird
+URL:qemu+ssh://root@10.0.0.104/system  CHANGE TO YOUR IP
+Display type:VNC
+Console Password:No</pre>
+<p>Now you have a new an libvird kvm provider ready and we can start provision out new host and choose our libvirtd host</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>5. when it does not work</h3>
+<p>&nbsp;</p>
+<p>&#8211; Verify that selinux and firewalld is off</p>
+<p>&#8211; no pxe check /var/lib/tft/boot and the files there has any content I hade files that where blank. then download the new files from the centos mirrors and change there name to fit.</p>
+<pre>wget http://mirror.centos.org/centos/7/os/x86_64/images/pxeboot/initrd.img
+wget http://mirror.centos.org/centos/7/os/x86_64/images/pxeboot/vmlinuz</pre>
+<p>&#8211; no kickstart well it can be your dns verify that the forman dns gives back the correct dns record</p>
+<pre>dig forman.examlpe.com @localhost</pre>

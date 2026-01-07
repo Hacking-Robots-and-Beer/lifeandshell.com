@@ -1,0 +1,42 @@
+---
+title: Glassfish Asadmin commandon to remeber
+date: 2013-09-17 19:39:08
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>here are som glassfish 4 asadmin commandon to remeber</p>
+<p>&nbsp;</p>
+<pre>asadmin --host 127.0.0.1 --port 4848 enable-secure-admin</pre>
+<p>Enabel so that you can use 4848 from external computer</p>
+<pre>asadmin change-master-password --savemasterpassword=true</pre>
+<p>Change you master password  (keystore access)</p>
+<pre>asadmin change-admin-password</pre>
+<p>Change you glassfish admin password to use asadmin and admin gui.</p>
+<pre>asadmin login</pre>
+<p>Store you password on disk so you can login without password</p>
+<pre>asadmin create-jvm-options
+asadmin delete-jvm-options</pre>
+<p>Create and delete server jvm options</p>
+<pre>asadmin set configs.config.server-config.ejb-container.ejb-timer-service.max-redeliveries=300
+asadmin get *</pre>
+<p>Set config options and  get them</p>
+<pre>asadmin create-password-alias
+asadmin delete-password-alias</pre>
+<p>Delete and create password Alias so you dont need plaintext passwords in domain.xml</p>
+<pre>asadmin deploy  filename
+asadmin undeploy name</pre>
+<p>Deploy and undeploy applications</p>
+<p>I will add more commands on the way that i have to use them 🙂</p>

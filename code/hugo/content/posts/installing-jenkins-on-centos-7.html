@@ -1,0 +1,55 @@
+---
+title: Installing Jenkins on Centos 7
+date: 2014-10-03 14:43:32
+tags:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>So guide how to get jenkins up and running on centos 7</p>
+<p>1. First install it !</p>
+<pre>yum install -y wget
+<tt>sudo wget -O /etc/yum.repos.d/jenkins.repo</tt> <tt><a class="external-link" href="http://pkg.jenkins-ci.org/redhat/jenkins.repo" rel="nofollow">http://pkg.jenkins-ci.org/redhat/jenkins.repo
+</a></tt><tt>sudo rpm --import</tt> <tt><a class="external-link" href="http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key" rel="nofollow">https://jenkins-ci.org/redhat/jenkins-ci.org.key
+</a></tt>sudo yum install jenkins</pre>
+<p><tt><a class="external-link" href="http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key" rel="nofollow"> </a></tt></p>
+<p>2. Install java</p>
+<pre class="code-java"> sudo yum install java-1.7.0-openjdk</pre>
+<p>&nbsp;</p>
+<p>3. Open firewall</p>
+<p>&nbsp;</p>
+<pre><code>firewall-cmd --zone=public --add-port=8080/tcp --permanent
+</code>firewall-cmd --reload
+
+systemctl enable firewalld
+systemctl start firewalld
+systemctl status firewalld</pre>
+<p>&nbsp;</p>
+<p>4. start it !</p>
+<pre>sudo /etc/init.d/jenkins restart
+systemctl restart jenkins.service</pre>
+<p>one should work 🙂</p>
+<p>&nbsp;</p>
+<p>5. Visit it http://ip-addre:8080</p>
+<p>&nbsp;</p>
+<p>i follewed this guide <a title="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins" href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins</a></p>

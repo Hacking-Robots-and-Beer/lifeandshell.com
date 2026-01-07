@@ -1,0 +1,43 @@
+---
+title: Zimbra nya cert
+date: 2012-04-19 07:04:58
+tags:
+    
+    - Random
+    
+     
+categories:
+    
+    - Random
+    
+     
+keywords: 
+    
+    - Random
+    
+     
+---
+<p>Man måste updatera certen till zimbran annars kommer den bara säga.<br />
+&#8220;Nätverksfel då man försöker logga in&#8221;<br />
+Och man kommer få fel i loggarna med SSL och så kan man inte starta om den.</p>
+<p>Har gjort ett litet script som man då kan köra ingång per år.<br />
+för att förnya certen.</p>
+<p>Denna genererar bara ett nytt själv signat cert.<br />
+Har du publica sigande cert kan du inte använda denna.</p>
+<p>Man jag brukar lägga dom publika certen på webbserver.<br />
+Och då fungerar denna kalas.</p>
+<pre>
+!/bin/bash
+#Making new zimbra certs
+#As ROOT
+/opt/zimbra/bin/zmcertmgr createca -new
+/opt/zimbra/bin/zmcertmgr createcrt -new -days 365
+/opt/zimbra/bin/zmcertmgr deploycrt self
+/opt/zimbra/bin/zmcertmgr deployca
+/opt/zimbra/bin/zmcertmgr viewdeployedcrt
+
+su zimbra
+zmcontrol shutdown
+zmcontrol start
+</pre>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

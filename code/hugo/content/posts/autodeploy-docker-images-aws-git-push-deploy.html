@@ -1,0 +1,118 @@
+---
+title: Autodeploy you docker images to AWS (git push = deploy)
+date: 2016-05-26 12:56:19
+tags:
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - docker
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+---
+<p>So I have a lot of small project and some large. To buil in quality into my code i need to run test in my code. And my code in a prod like env.<br />
+I always uses docker so my dev env are verly like my prod.<br />
+One key thing that i do is that when i push code to my master branch i do a release do server. This is so that i can verify that everything is working and i can run test on it.</p>
+<p>&nbsp;</p>
+<p>So what do you need to autodeploy you code to an AWS server.</p>
+<p>&nbsp;</p>
+<h3>The code and docker</h3>
+<p>I have build a small app for an hackaton i did and it here <a href="https://github.com/mattiashem/cars">https://github.com/mattiashem/cars</a> (look in the autobuild branch ) so it this code that i want to run on my server.<br />
+Login into your docker hub account go &#8220;settings &gt; linked account and settings&#8221; and link you docker account with you dockerhub account.<br />
+Now we can make a autobuild for our code. This will when i push code to github build my docker image (I have i dockerfile in my git repo base )</p>
+<p>&nbsp;</p>
+<p>Test that when you push some new stuff to git the autobuild starts (You can also trigger an build manuall from the dockerhub page)</p>
+<p>&nbsp;</p>
+<h3>Deploying into AWS</h3>
+<p>Now i have a aws server running and port 8555 open to that server.<br />
+download the python code from <a href="https://github.com/schickling/docker-hook">https://github.com/schickling/docker-hook</a> that will be my hock. When I trigger my hock it will run i script for me.</p>
+<p>So first I need to create the  script i run i docker-compose so i create i docker-compose file</p>
+<p>&nbsp;</p>
+<pre>web1:
+ image: mattiashem/cars
+ links:
+ - db
+web2:
+ image: mattiashem/cars
+ links:
+ - db
+web3:
+ image: mattiashem/cars
+ links:
+ - db
+web4:
+ image: mattiashem/cars
+ links:
+ - db
+lb:
+ image: mattiashem/cars-lb
+ ports:
+ - "80:80"
+ - "443:443"
+ links:
+ - web1
+ - web2
+ - web3
+ - web4
+db:
+ image: mongo</pre>
+<p>&nbsp;</p>
+<p>This docker-compose it NOT like the one i use for dev this ONLY has image and do not build aything.</p>
+<p>&nbsp;</p>
+<p>This is a test this script it stops my app and pulls down the latest images, and then start my app again.</p>
+<pre>#!/bin/bash
+docker-compose stop
+docker pull mattiashem/cars
+docker pull mattiashem/bars-lb
+docker-compose start
+echo "Cars is now deployd" | mail -s "I have autodeployd cars" mattias.hemmingsson@gmail.com</pre>
+<p>So lets trigger it when a build is done</p>
+<p>&nbsp;</p>
+<p>Start the python script for autodeploys</p>
+<pre>curl https://raw.githubusercontent.com/schickling/docker-hook/master/docker-hook &gt; /usr/local/bin/docker-hook; chmod +x /usr/local/bin/docker-hook
+
+docker-hook -t asdasdhh11wweddds  -c sh /opt/matte/run.sh</pre>
+<p>Test it</p>
+<pre>curl -X POST http://luckyluke.madeatfareoffice.com:8555/asdasdhh11wweddds</pre>
+<p>&nbsp;</p>
+<p>You should see your command bean triggerd.<br />
+It it woks stop the docker-hook and start it in background</p>
+<pre>docker-hook -t asdasdhh11wweddds  -c sh /opt/matte/run.sh &amp;</pre>
+<p>And go to your dockerhub and klick webhook. Give it a name and past in you url http://luckyluke.madeatfareoffice.com:8555/asdasdhh11wweddds</p>
+<p><strong>Now you have a working push to git = deploy system</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

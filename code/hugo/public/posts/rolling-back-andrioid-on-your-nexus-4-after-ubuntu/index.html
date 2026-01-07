@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Rolling back Andrioid on your Nexus 4 after Ubuntu | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/rolling-back-andrioid-on-your-nexus-4-after-ubuntu/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/rolling-back-andrioid-on-your-nexus-4-after-ubuntu/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Rolling back Andrioid on your Nexus 4 after Ubuntu">
+  <meta property="og:description" content="So i had to roll back to andriod. ubunut is not realy ready for my phone.
+So this is how you do.
+1. download you andriod images from here
+https://developers.google.com/android/nexus/images#nakasi
+Download and untar in nice folder.
+2. Connect with USB to phone and power it on (Booting to ubuntu is ok)
+run
+adb reboot-bootloader
+This will make the phone go into boot image.
+ 
+3. Install andriod
+in the folder that the downloadin andriod image is in run">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2013-11-04T16:58:16+00:00">
+    <meta property="article:modified_time" content="2013-11-04T16:58:16+00:00">
+    <meta property="article:tag" content="Life">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Rolling back Andrioid on your Nexus 4 after Ubuntu">
+  <meta name="twitter:description" content="So i had to roll back to andriod. ubunut is not realy ready for my phone.
+So this is how you do.
+1. download you andriod images from here
+https://developers.google.com/android/nexus/images#nakasi
+Download and untar in nice folder.
+2. Connect with USB to phone and power it on (Booting to ubuntu is ok)
+run
+adb reboot-bootloader
+This will make the phone go into boot image.
+ 
+3. Install andriod
+in the folder that the downloadin andriod image is in run">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/ubuntu-phone-first-week/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/custom-nagios-plugins-in-python/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&text=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&title=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&is_video=false&description=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&title=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&title=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&name=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu&description=So%20i%20had%20to%20roll%20back%20to%20andriod.%20ubunut%20is%20not%20realy%20ready%20for%20my%20phone.%0aSo%20this%20is%20how%20you%20do.%0a1.%20download%20you%20andriod%20images%20from%20here%0ahttps%3a%2f%2fdevelopers.google.com%2fandroid%2fnexus%2fimages%23nakasi%0aDownload%20and%20untar%20in%20nice%20folder.%0a2.%20Connect%20with%20USB%20to%20phone%20and%20power%20it%20on%20%28Booting%20to%20ubuntu%20is%20ok%29%0arun%0aadb%c2%a0reboot-bootloader%0aThis%20will%20make%20the%20phone%20go%20into%20boot%20image.%0a%26nbsp%3b%0a3.%20Install%20andriod%0ain%20the%20folder%20that%20the%20downloadin%20andriod%20image%20is%20in%20run" aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&t=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Rolling back Andrioid on your Nexus 4 after Ubuntu
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2013-11-04 16:58:16 &#43;0000 UTC" itemprop="datePublished">2013-11-04</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          0 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/life">Life</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/life" rel="tag">Life</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>So i had to roll back to andriod. ubunut is not realy ready for my phone.<br />
+So this is how you do.</p>
+<p>1. download you andriod images from here</p>
+<p><a href="https://developers.google.com/android/nexus/images#nakasi">https://developers.google.com/android/nexus/images#nakasi</a></p>
+<p>Download and untar in nice folder.</p>
+<p>2. Connect with USB to phone and power it on (Booting to ubuntu is ok)</p>
+<p>run</p>
+<p>adb reboot-bootloader</p>
+<p>This will make the phone go into boot image.</p>
+<p>&nbsp;</p>
+<p>3. Install andriod</p>
+<p>in the folder that the downloadin andriod image is in run</p>
+<p>sudo ./flash-all.sh</p>
+<p>&nbsp;</p>
+<p>4. All Done</p>
+<p>So now you have you phone back to running andriod. You can look down the boot images but i did not 🙂</p>
+<p>&nbsp;</p>
+<p><a href="http://lifeandshell.com/wp-content/uploads/2013/11/2013-11-04-10.33.26.jpg"><img loading="lazy" decoding="async" class="alignnone size-medium wp-image-221" alt="2013-11-04 10.33.26" src="http://lifeandshell.com/wp-content/uploads/2013/11/2013-11-04-10.33.26-300x225.jpg" width="300" height="225" /></a><br />
+<a href="http://lifeandshell.com/wp-content/uploads/2013/11/2013-11-04-10.37.16.jpg"><img loading="lazy" decoding="async" class="alignnone size-medium wp-image-222" alt="2013-11-04 10.37.16" src="http://lifeandshell.com/wp-content/uploads/2013/11/2013-11-04-10.37.16-300x225.jpg" width="300" height="225" /><br />
+</a> <a href="http://lifeandshell.com/wp-content/uploads/2013/11/2013-11-04-10.36.11.jpg"><img loading="lazy" decoding="async" class="alignnone size-medium wp-image-223" alt="2013-11-04 10.36.11" src="http://lifeandshell.com/wp-content/uploads/2013/11/2013-11-04-10.36.11-225x300.jpg" width="225" height="300" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&text=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&title=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&is_video=false&description=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&title=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&title=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&name=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu&description=So%20i%20had%20to%20roll%20back%20to%20andriod.%20ubunut%20is%20not%20realy%20ready%20for%20my%20phone.%0aSo%20this%20is%20how%20you%20do.%0a1.%20download%20you%20andriod%20images%20from%20here%0ahttps%3a%2f%2fdevelopers.google.com%2fandroid%2fnexus%2fimages%23nakasi%0aDownload%20and%20untar%20in%20nice%20folder.%0a2.%20Connect%20with%20USB%20to%20phone%20and%20power%20it%20on%20%28Booting%20to%20ubuntu%20is%20ok%29%0arun%0aadb%c2%a0reboot-bootloader%0aThis%20will%20make%20the%20phone%20go%20into%20boot%20image.%0a%26nbsp%3b%0a3.%20Install%20andriod%0ain%20the%20folder%20that%20the%20downloadin%20andriod%20image%20is%20in%20run" aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2frolling-back-andrioid-on-your-nexus-4-after-ubuntu%2f&t=Rolling%20back%20Andrioid%20on%20your%20Nexus%204%20after%20Ubuntu" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

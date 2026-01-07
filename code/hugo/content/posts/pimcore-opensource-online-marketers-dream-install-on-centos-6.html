@@ -1,0 +1,64 @@
+---
+title: Pimcore Opensource online marketers dream install on Centos 6
+date: 2014-03-16 20:18:00
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>For my elinodrift project I was searching for a online tool for handle online marketers.<br />
+So I ended up with Pimcore for my service.<br />
+Here is a small guide to install Pimcore on my Centos 6 server.</p>
+<p>First have install apache, Php and mysql on the server. I installed it on my webbserver so the server was pretty well configured.</p>
+<h2>1. PHP</h2>
+<p>But for pimcore to run you must upgrade you php to version 5.5 and here is a short list of command taken from this webpage http://webtatic.com/packages/php55/</p>
+<p>&nbsp;</p>
+<pre>rpm -Uvh http://mirror.webtatic.com/yum/el6/latest.rpm</pre>
+<pre>yum install yum-plugin-replace</pre>
+<pre>yum replace php-common --replace-with=php55w-common</pre>
+<pre>yum install php55w-opcache php55w-mcrypt php5w-cli</pre>
+<p>Add this to the file /etc/php.ini change it to your timezone</p>
+<pre>date.timezone = Europe/Stockholm</pre>
+<h2>2. Mysql server</h2>
+<pre>mysql&gt; CREATE DATABASE `pimcore` CHARACTER SET utf8 COLLATE utf8_general_ci;
+mysql&gt; CREATE USER 'pimcore_u'@'localhost' IDENTIFIED BY 'ygggfdscdrw!22;
+mysql&gt; GRANT ALL PRIVILEGES ON pimcore.* TO 'pimcore_u'@'localhost';
+mysql&gt; flush privileges;</pre>
+<h2>3. apache</h2>
+<p>Here is my apache webbconfig</p>
+<pre>&lt;VirtualHost *:80&gt;
+ ServerName market.elinodrift.se
+AddDefaultCharset UTF-8
+DocumentRoot /var/www/html/market.elinodrift.se
+&lt;directory "/var/www/html/market.elinodrift.se"&gt;
+Allowoverride All
+allow from all
+&lt;/directory&gt;
+&lt;/VirtualHost&gt;</pre>
+<p>4. Installing pimcore</p>
+<p>Making folder pimcore DONT WORK INSIDE FOLDER SO MUST HAVE ONE DOMAIN</p>
+<pre>mkdir /var/www/html/market.domain.com
+cd /var/www/html/market.domain.com</pre>
+<p>https://www.pimcore.org/en/resources/download</p>
+<p>Download the pimcore you want I took the one with data inside</p>
+<pre>wget https://www.pimcore.org/download/pimcore-data.zip
+unzip pimcore-data.zip
+chown -R apache:apache website/var pimcore plugins
+chmod 774 -R website/var pimcore plugins</pre>
+<p>Add this to you crontab</p>
+<pre>vi /etc/crontab</pre>
+<pre>*/10 * * * * root php /var/www/html/market.domain.com/pimcore/cli/maintenance.php</pre>
+<p>Now restart you apache webbserver and go to you new domain and you should see the installer being lunch.</p>
+<p>First check requirements so you / I miss something.<br />
+Then enter your mysql settings and press install and after some while you platform should be up.</p>

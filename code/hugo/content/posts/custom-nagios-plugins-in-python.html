@@ -1,0 +1,105 @@
+---
+title: Custom nagios plugins in python
+date: 2013-11-05 15:20:51
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>For monitoring different service and function you may need to build some custom monitoring plugins. I have some build for nrpe and will work with both nagios and icinga.<br />
+This script will do and <strong>mysql</strong> check and then send the data back and also start graphing the data back if you use <strong>pnp4nagios</strong> 🙂</p>
+<p>Every plugin must have <strong>two</strong> things.</p>
+<h3>1. an exit code thet will say the state of the plugin (OK.Critical,warning) &lt;- this will generate the alerts</h3>
+<ul>
+<li>1 = ok</li>
+<li>2= Critical</li>
+<li>3=Warnings</li>
+<li>4= unknown</li>
+</ul>
+<p>&nbsp;</p>
+<h3>2. Some text to abaout the plugin saying for exampel disk space.</h3>
+<p>&nbsp;</p>
+<p>Here below is my small script that will de some db qestions ans return the result to nagios. If the values return is under 0 then it will exit in state 2 and then nagios will alert.</p>
+<p>&nbsp;</p>
+<pre>#!/usr/bin/env python
+#Mysql stats
+#Get stats from mysql server
+#then prints the stats to icinga to process</pre>
+<pre>import MySQLdb
+from datetime import date, timedelta
+import datetime
+import sys</pre>
+<pre>'''
+MYSQL
+'''
+mysqlhost="localhost"
+mysqluser="monitor"
+mysqlpass="XXXXXXX"
+mysqldb="db"</pre>
+<pre>
+def mysql_query(sql):
+ '''
+ run an mysql mysql_query
+ '''
+ try:
+ con = None
+ con = MySQLdb.Connection(mysqlhost, mysqluser,
+ mysqlpass, mysqldb)
+ curs = con.cursor()
+ curs.execute(sql)
+ con.commit()
+ back=[]
+ for value in curs:
+ back.append(value[0])
+ return back</pre>
+<pre>
+ except MySQLdb.Error, e:
+ print "Error in MYSQL {0} : {1}".format(e.args[0], e.args[1])
+ sys.exit(1)
+ finally:
+ if con:
+ con.close()</pre>
+<pre></pre>
+<pre>
+#mysql to run on the mysql server
+qery="""SELEC your own super mysql qery and the group by"""
+
+#Send mysql to server
+back =mysql_query(qery)
+
+#Testing result and building string back to nagios
+if back[0] &lt;= 30:
+ print "CRITICAL | 'value'="+str(back[0])+" 'value'="+str(back[1])
+ sys.exit(2)
+else:
+ print "OK: | 'value'="+str(back[0])+" 'value'="+str(back[1])
+ sys.exit(0)</pre>

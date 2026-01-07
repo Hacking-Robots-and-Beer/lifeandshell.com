@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Foreman provision to bare and libvirtd (Centos7, foreman, libvirtd, KVM) | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/foreman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/foreman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Foreman provision to bare and libvirtd (Centos7, foreman, libvirtd, KVM)">
+  <meta property="og:description" content="So I have started to play around with foreman and to get it to provision my diffrent servers. I started by starting up some local virtual servers on my laptop and played around with them.
+The flow is i started installing foreman as a virtual server. Then i provisin a new virtual server as bare matal (I created a virtual server in virsh) ater that virtual server is prevision i installed it as a virtual host(kvm on kvm) and connected it to foreman so foreman kan provision kvm host.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2015-07-05T21:26:46+00:00">
+    <meta property="article:modified_time" content="2015-07-05T21:26:46+00:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Web">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Foreman provision to bare and libvirtd (Centos7, foreman, libvirtd, KVM)">
+  <meta name="twitter:description" content="So I have started to play around with foreman and to get it to provision my diffrent servers. I started by starting up some local virtual servers on my laptop and played around with them.
+The flow is i started installing foreman as a virtual server. Then i provisin a new virtual server as bare matal (I created a virtual server in virsh) ater that virtual server is prevision i installed it as a virtual host(kvm on kvm) and connected it to foreman so foreman kan provision kvm host.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/build-openvpn-centos-7/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/move-an-megento-site-to-new-url/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&text=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&title=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&is_video=false&description=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&title=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&title=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&name=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29&description=So%20I%20have%20started%20to%20play%20around%20with%20foreman%20and%20to%20get%20it%20to%20provision%20my%20diffrent%20servers.%20I%20started%20by%20starting%20up%20some%20local%20virtual%20servers%20on%20my%20laptop%20and%20played%20around%20with%20them.%0aThe%20flow%20is%20i%20started%20installing%20foreman%20as%20a%20virtual%20server.%20Then%20i%20provisin%20a%20new%20virtual%20server%20as%20bare%20matal%20%28I%20created%20a%20virtual%20server%20in%20virsh%29%20ater%20that%20virtual%20server%20is%20prevision%20i%20installed%20it%20as%20a%20virtual%20host%28kvm%20on%20kvm%29%20and%20connected%20it%20to%20foreman%20so%20foreman%20kan%20provision%20kvm%20host." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&t=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Foreman provision to bare and libvirtd (Centos7, foreman, libvirtd, KVM)
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2015-07-05 21:26:46 &#43;0000 UTC" itemprop="datePublished">2015-07-05</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          4 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+             ,  
+            <a class="category-link" href="/categories/security">Security</a>
+            
+             ,  
+            <a class="category-link" href="/categories/web">Web</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/security" rel="tag">Security</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/web" rel="tag">Web</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>So I have started to play around with foreman and to get it to provision my diffrent servers. I started by starting up some local virtual servers on my laptop and played around with them.</p>
+<p>The flow is i started installing foreman as a virtual server. Then i provisin a new virtual server as bare matal (I created a virtual server in virsh) ater that virtual server is prevision i installed it as a virtual host(kvm on kvm) and connected it to foreman so foreman kan provision kvm host.</p>
+<p>First is to get you local laptop / computer ready for the running all settings.</p>
+<h3>
+<p>1. Laptop / host</h3>
+<p>&nbsp;</p>
+<p>In libvirt create a now network NAT but DISABLE DHCP settings in that network. my is 10.0.0.0/24 and the host has ip 10.0.0.1 for routing</p>
+<p>&nbsp;</p>
+<p>Under processor set the &#8220;copy host CPU configuration&#8221; this must be set for kvm in kvm to work</p>
+<p>&nbsp;</p>
+<h3>2. Install Foreman</h3>
+<p>Start with setting upp a clean new virtual server and install centos7 on that server. Connect it to the new network you set up before and set it to 10.0.0.2/24 and gw 10.0.0.1 dns 10.0.0.1</p>
+<p>Verify that the host has network connection</p>
+<p>&nbsp;</p>
+<p>set the correct hostname and ip in /etc/hosts if you hostname is foreman and you domain example.com other we will have some problems</p>
+<pre>vi /etc/hosts</pre>
+<pre>10.0.0.2 foreman.example.com</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Now we can install foreman and i disable fw and selinux for now in my lab,</p>
+<p>&nbsp;</p>
+<pre><code class="bash">rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm</code></pre>
+<pre><code class="bash">yum -y install epel-release http://yum.theforeman.org/releases/1.7/el7/x86_64/foreman-release.rpm</code></pre>
+<pre><code class="bash">yum -y install foreman-installer</code></pre>
+<pre><code class="bash">foreman-installer --enable-foreman-proxy</code></pre>
+<pre>systemctl stop firewalld</pre>
+<pre>setenforce 0</pre>
+<p>&nbsp;</p>
+<p>Thats it now foreman shoule be installed and ready</p>
+<p>&nbsp;</p>
+<h3>3. Provision your first bare metal host (here its a virtual server that i create  :-))</h3>
+<p>There are some settings that needed to be done before setting it all uo.</p>
+<p>1. under operattionsystem and CentOS7.1 under minor i have a 1 remove that so that box is empty (there are no centos mirror for /7/1 so it does not work)</p>
+<p>2. go to infrastruktur / provision setup and fill in all the settings</p>
+<p><strong>Network</strong></p>
+<pre>name:example.com
+subnet
+name:hostnet
+network:10.0.0.0
+mask:255.255.255.0
+router:10.0.0.1
+primary dns:10.0.0.2 &lt;--ip to you foreman
+secundary dns:10.0.0.3 &lt;--- to ip not there
+IPAM:DHCP
+From:10.0.0.100
+To:10.0.0.200
+Boot mode:DHCP</pre>
+<p><strong>foreman-installer</strong></p>
+<p>Now you will get some foreman-installer command to run. run the command WITH the DHCP config and run on foreman host.</p>
+<p>&nbsp;</p>
+<p>my looke like this DO NOT RUN THIS ON YOUR FOREMAN</p>
+<p>&nbsp;</p>
+<pre>foreman-installer \
+ --enable-foreman-proxy \
+ --foreman-proxy-tftp=true \
+ --foreman-proxy-tftp-servername=10.0.0.2 \
+ --foreman-proxy-dhcp=true \
+ --foreman-proxy-dhcp-interface=ens3 \
+ --foreman-proxy-dhcp-gateway= \
+ --foreman-proxy-dhcp-range="10.0.0.100 10.0.0.210" \
+ --foreman-proxy-dhcp-nameservers="10.0.0.2" \
+ --foreman-proxy-dns=true \
+ --foreman-proxy-dns-interface=ens3 \
+ --foreman-proxy-dns-zone=ollebo.com \
+ --foreman-proxy-dns-reverse=0.0.10.in-addr.arpa \
+ --foreman-proxy-dns-forwarders=10.0.0.1 \
+ --foreman-proxy-foreman-base-url=https://forman.ollebo.com \
+ --foreman-proxy-oauth-consumer-key=BPWNafbAMTEADEEf \
+ --foreman-proxy-oauth-consumer-secret=3UwzrvN</pre>
+<p>&nbsp;</p>
+<p><strong>Installation media</strong><br />
+see that Centos mirror is enabled and click next</p>
+<p><strong>New Host</strong></p>
+<p>1. Start by creating a new virtual server on you laptop (The bare metal server to be install) make it to the network we created, Choose pxe installatio AND copy cpu settings. The rest you can choose fre</p>
+<p>Now create a new bare metal host fill in you settings copy the mac from the virtual host you created.</p>
+<p>Start you virtual machine and se it be installed and provision by foreman.</p>
+<p>&nbsp;</p>
+<h3>4. Setup foreman with KVM (libvirtd)</h3>
+<p>So we should now have a server running provision from foreman lets install kvm on it and ad it as a foreman resource.</p>
+<p>&nbsp;</p>
+<p>In the provision server the new kvm host install kvm.</p>
+<div class="wp_syntax">
+<table>
+<tbody>
+<tr>
+<td class="code">
+<pre class="dos">yum install qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client virt-install virt-viewer</pre>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Turn selinux and firewalld of</p>
+<pre>systemctl stop firewalld</pre>
+<pre>setenforce 0</pre>
+<p>&nbsp;</p>
+<p>destroy the default network</p>
+<pre>[root@generic ~]# virsh
+Välkommen till virsh, den interaktiva terminalen för virtualisering.</pre>
+<pre>Skriv: 'help' för hjälp med kommandon
+ 'quit' för att avsluta</pre>
+<pre>virsh # net-destroy default
+Nätverk default förstört</pre>
+<pre>virsh # net-list
+ Namn Tillstånd Autostart Persistent
+----------------------------------------------------------</pre>
+<p>I connect to the host and with the virsh gui connect a new bridge network connected to the intreface connected to the host network we created on the virsh base host.</p>
+<p>&nbsp;</p>
+<p>Foreman setup</p>
+<p>Go to the foreman server and do the following to setup so that foreman has access to the new kvm host</p>
+<pre>root# su foreman -s /bin/bash 
+foreman$ ssh-keygen 
+foreman$ ssh-copy-id root@hostname.com 
+foreman$ ssh root@hostname.com 
+foreman$ <code>virsh -c qemu+ssh://root@hypervisor.example.com/system list</code>.
+ Id Namn Tillstånd
+----------------------------------------------------
+
+</pre>
+<p>&nbsp;</p>
+<p>Now we have a working connection between the formeman server an our kvm host</p>
+<p>install foreman packages</p>
+<pre>yum install foreman-libvirt</pre>
+<p>reboot foreman server (some say it should work with onky restart foreman service but it did not work for me)</p>
+<p><strong>When foreman comes back up stop firewalld and setenforce to 0</strong></p>
+<p>&nbsp;</p>
+<p>Login into the foreman webbpage and go to &#8220;computer resource&#8221; and add new</p>
+<pre>name:kvm host
+provider:Libvird
+URL:qemu+ssh://root@10.0.0.104/system  CHANGE TO YOUR IP
+Display type:VNC
+Console Password:No</pre>
+<p>Now you have a new an libvird kvm provider ready and we can start provision out new host and choose our libvirtd host</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>5. when it does not work</h3>
+<p>&nbsp;</p>
+<p>&#8211; Verify that selinux and firewalld is off</p>
+<p>&#8211; no pxe check /var/lib/tft/boot and the files there has any content I hade files that where blank. then download the new files from the centos mirrors and change there name to fit.</p>
+<pre>wget http://mirror.centos.org/centos/7/os/x86_64/images/pxeboot/initrd.img
+wget http://mirror.centos.org/centos/7/os/x86_64/images/pxeboot/vmlinuz</pre>
+<p>&#8211; no kickstart well it can be your dns verify that the forman dns gives back the correct dns record</p>
+<pre>dig forman.examlpe.com @localhost</pre>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&text=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&title=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&is_video=false&description=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&title=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&title=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&name=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29&description=So%20I%20have%20started%20to%20play%20around%20with%20foreman%20and%20to%20get%20it%20to%20provision%20my%20diffrent%20servers.%20I%20started%20by%20starting%20up%20some%20local%20virtual%20servers%20on%20my%20laptop%20and%20played%20around%20with%20them.%0aThe%20flow%20is%20i%20started%20installing%20foreman%20as%20a%20virtual%20server.%20Then%20i%20provisin%20a%20new%20virtual%20server%20as%20bare%20matal%20%28I%20created%20a%20virtual%20server%20in%20virsh%29%20ater%20that%20virtual%20server%20is%20prevision%20i%20installed%20it%20as%20a%20virtual%20host%28kvm%20on%20kvm%29%20and%20connected%20it%20to%20foreman%20so%20foreman%20kan%20provision%20kvm%20host." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fforeman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm%2f&t=Foreman%20provision%20to%20bare%20and%20libvirtd%20%28Centos7%2c%20foreman%2c%20libvirtd%2c%20KVM%29" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

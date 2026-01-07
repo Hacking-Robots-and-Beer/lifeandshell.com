@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Thinstataion PXE Ubuntu | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/thinstataion-pxe-ubuntu/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/thinstataion-pxe-ubuntu/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Thinstataion PXE Ubuntu">
+  <meta property="og:description" content="Hämta thinstation:
+apt-get install git
+mkdir /opt/thinstation
+cd /opp
+git clone –depth 1 git://thinstation.git.sourceforge.net/gitroot/thinstation/thinstation
+Sätt upp chroot thinstation:
+cd /opt/thinstation
+./setup-chroot
+Bygg din första thinstatin cd /ts/5.1
+./build
+Sätt upp thinstation med våra paket
+Öppna upp build.conf.
+I denna fil måste du lägga i de hårdvaru paket som körs.
+Vi vill hålla start avbilden så liten som möjligt det gör att för att den ska vara snabb så väljer vi bara de moduler som vi verkligen behöva.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2012-11-12T18:48:30+00:00">
+    <meta property="article:modified_time" content="2012-11-12T18:48:30+00:00">
+    <meta property="article:tag" content="Random">
+    <meta property="article:tag" content="Security">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Thinstataion PXE Ubuntu">
+  <meta name="twitter:description" content="Hämta thinstation:
+apt-get install git
+mkdir /opt/thinstation
+cd /opp
+git clone –depth 1 git://thinstation.git.sourceforge.net/gitroot/thinstation/thinstation
+Sätt upp chroot thinstation:
+cd /opt/thinstation
+./setup-chroot
+Bygg din första thinstatin cd /ts/5.1
+./build
+Sätt upp thinstation med våra paket
+Öppna upp build.conf.
+I denna fil måste du lägga i de hårdvaru paket som körs.
+Vi vill hålla start avbilden så liten som möjligt det gör att för att den ska vara snabb så väljer vi bara de moduler som vi verkligen behöva.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/ubuntu-tftp-server/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/fredags-kul/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&text=Thinstataion%20PXE%20Ubuntu" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&title=Thinstataion%20PXE%20Ubuntu" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&is_video=false&description=Thinstataion%20PXE%20Ubuntu" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Thinstataion%20PXE%20Ubuntu&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&title=Thinstataion%20PXE%20Ubuntu" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&title=Thinstataion%20PXE%20Ubuntu" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&name=Thinstataion%20PXE%20Ubuntu&description=H%c3%a4mta%20thinstation%3a%0aapt-get%20install%20git%0amkdir%20%2fopt%2fthinstation%0acd%20%2fopp%0agit%20clone%20%26%238211%3bdepth%201%20git%3a%2f%2fthinstation.git.sourceforge.net%2fgitroot%2fthinstation%2fthinstation%0aS%c3%a4tt%20upp%20chroot%20thinstation%3a%0acd%20%2fopt%2fthinstation%0a.%2fsetup-chroot%0aBygg%20din%20f%c3%b6rsta%20thinstatin%c2%a0cd%20%2fts%2f5.1%0a.%2fbuild%0aS%c3%a4tt%20upp%20thinstation%20med%20v%c3%a5ra%20paket%0a%c3%96ppna%20upp%20build.conf.%0aI%20denna%20fil%20m%c3%a5ste%20du%20l%c3%a4gga%20i%20de%20h%c3%a5rdvaru%20paket%20som%20k%c3%b6rs.%0aVi%20vill%20h%c3%a5lla%20start%20avbilden%20s%c3%a5%20liten%20som%20m%c3%b6jligt%20det%20g%c3%b6r%20att%20f%c3%b6r%20att%20den%20ska%20vara%20snabb%20s%c3%a5%20v%c3%a4ljer%20vi%20bara%20de%20moduler%20som%20vi%20verkligen%20beh%c3%b6va." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&t=Thinstataion%20PXE%20Ubuntu" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Thinstataion PXE Ubuntu
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2012-11-12 18:48:30 &#43;0000 UTC" itemprop="datePublished">2012-11-12</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          2 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/random">Random</a>
+            
+             ,  
+            <a class="category-link" href="/categories/security">Security</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/random" rel="tag">Random</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/security" rel="tag">Security</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Hämta thinstation:</strong></p>
+<blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><span style="font-style: italic;">apt-get install git</span></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><span style="font-style: italic;">mkdir /opt/thinstation</span></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><span style="font-style: italic;">cd /opp</span></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><span style="font-style: italic;">git clone &#8211;depth 1 git://thinstation.git.sourceforge.net/gitroot/thinstation/thinstation</span></p>
+</blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong><br />
+</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Sätt upp chroot thinstation:</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>cd /opt/thinstation<br />
+./setup-chroot</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Bygg din första thinstatin </strong></p>
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>cd /ts/5.1<br />
+./build</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Sätt upp thinstation med våra paket</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Öppna upp build.conf.<br />
+I denna fil måste du lägga i de hårdvaru paket som körs.<br />
+Vi vill hålla start avbilden så liten som möjligt det gör att för att den ska vara snabb så väljer vi bara de moduler som vi verkligen behöva.<br />
+Dock ska vi köra den med generell och boota från pxe kan vi lägga till alla moduler.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Minn build.conf ser som följande.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">FÖr att få det att fungera börja först med att få stadard sakerna att fungera.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">kör en</p>
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>./build</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Steg 1</strong><br />
+Det första steget är att få klientan att få upp ett skrivbord.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Öppna upp din builf.conf fil av aktivra några hårdvaru moduler.<br />
+Jag aktivera följande för att få det att fungera med kvm i ubuntu.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<pre style="margin-right: 1em; margin-left: 1.6em; padding: 2px 2px 2px 0px; background-color: #fafafa; border: 1px solid #dadada; width: auto; overflow-x: auto; overflow-y: hidden; color: #484848; font-size: 12px;">machine classic_generic package xorg7-chips package xorg7-vesa package xorg7-ati</pre>
+<p><br style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;" /><span style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Efter det kör en</span></p>
+<div><span style="color: #484848; font-family: Verdana, sans-serif;"><span style="font-size: 12px;"><br />
+</span></span></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>./build</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Och testa om det fungerar.<br />
+Börja annars att markera fram en sak i taget och bygg om till din miljö fungerar</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Efter det fick jag den tunna klineten att ladda och jag kom in till ett skrivbord.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Steg 2</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Nu är det daxs att aktivera de andra modulerna som vi vill använda och bygga med.<br />
+Jag aktiverar följande.</p>
+<pre style="margin-right: 1em; margin-left: 1.6em; padding: 2px 2px 2px 0px; background-color: #fafafa; border: 1px solid #dadada; width: auto; overflow-x: auto; overflow-y: hidden; color: #484848; font-size: 12px;">package locale-sv_SE # Swedish package rdesktop</pre>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Sedan bygger vi om miljön igen med</p>
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>./build</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">och testar att boota en klient mot den.<br />
+Vi ska komma till samma skrivbord som innan man nu är modulerna laddade och vi vill så så inget går sönder</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>steg 3</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Nu ska vi sätta upp så vi bootar upp en rdp klient istället för vårat skrivbord.<br />
+Copera orginal thinstation.conf.bultime till ett säkert ställe.<br />
+Och lägg in min thinstation.conf.builtime som finns som fil i detta wiki.<br />
+Efter det är det daxs att bygga om.</p>
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>./build</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Och nu ska klienten boota upp och visa en rdp anslutning i stället mot en windows server.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Bygg allt rent</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>./build &#8211;update</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">nu ska din thinstation byggas rent.</p>
+<div class="contextual" style="float: right; white-space: nowrap; line-height: 1.4em; margin-top: 5px; padding-left: 10px; font-size: 0.9em; color: #484848; font-family: Verdana, sans-serif; background-color: #ffffff;" title="Edit this section"><a style="color: #2a5685; text-decoration: none; opacity: 0.4;" href="http://redmine.elino.se/projects/elinoesbs/wiki/Installera_thinstation/edit?section=2"><img decoding="async" style="border: 0px; vertical-align: middle;" src="http://redmine.elino.se/images/edit.png?1346320829" alt="Edit" /></a></div>
+<p><a style="color: #2a5685; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;" name="Sätt-upp-thinstation-för-att-boota-PXE"></a></p>
+<h2 style="font-family: 'Trebuchet MS', Verdana, sans-serif; font-size: 16px; padding: 2px 10px 1px 0px; margin: 0px 0px 10px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #bbbbbb; color: #444444; background-color: #ffffff;">Sätt upp thinstation för att boota PXE</h2>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>OBS DU FÅR INTE VARA INNE I THINSTATION CHROOT NÄR DU SÄTTER UPP DENNA</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong><br />
+</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>root@labbserver:/# rm -rf tftpboot/<br />
+root@labbserver:/# ln -s /opt/thinstation/build/boot-images/pxe tftpboot<br />
+root@labbserver:/# chmod 777 -R tftpboot</p></blockquote>
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>ls -la /tftpboot</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Testa så det fungerar med</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>tftp localhost<br />
+tftp&gt; get vmlinuz<br />
+Received 2361928 bytes in 0.1 seconds<br />
+tftp&gt; quit</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Snygga till thinstation pxe då den fungerar</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Snygga till bootningen med lite bättre text.</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Öppna upp filen</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>vi /tftpboot/thinstation.txt</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Och ta bort det som finns där och lägg in följande i den</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<pre style="margin-right: 1em; margin-left: 1.6em; padding: 2px 2px 2px 0px; background-color: #fafafa; border: 1px solid #dadada; width: auto; overflow-x: auto; overflow-y: hidden; color: #484848; font-size: 12px;">###################################################### # # PXE booting # # Power by Elino IT-Solutions AB # www.elino.se info@elino.se ######################################################</pre>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><strong>Byt ut bakgrund bilden så den ser bättre ut</strong></p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">Gå in i katalogen</p>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<blockquote style="font-style: italic; border-left-width: 3px; border-left-style: solid; border-left-color: #e0e0e0; padding-left: 0.6em; margin-left: 2.4em; color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;"><p>cd /opt/thinstation/built/background</p></blockquote>
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">
+<p style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px; background-color: #ffffff;">DÄr finns det några bilder som heter thinstation-upplösing.<br />
+Byt ut alla de bilderna mot din egan bilder och bygg sedan in systemet igen.</p>
+</div>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&text=Thinstataion%20PXE%20Ubuntu" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&title=Thinstataion%20PXE%20Ubuntu" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&is_video=false&description=Thinstataion%20PXE%20Ubuntu" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Thinstataion%20PXE%20Ubuntu&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&title=Thinstataion%20PXE%20Ubuntu" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&title=Thinstataion%20PXE%20Ubuntu" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&name=Thinstataion%20PXE%20Ubuntu&description=H%c3%a4mta%20thinstation%3a%0aapt-get%20install%20git%0amkdir%20%2fopt%2fthinstation%0acd%20%2fopp%0agit%20clone%20%26%238211%3bdepth%201%20git%3a%2f%2fthinstation.git.sourceforge.net%2fgitroot%2fthinstation%2fthinstation%0aS%c3%a4tt%20upp%20chroot%20thinstation%3a%0acd%20%2fopt%2fthinstation%0a.%2fsetup-chroot%0aBygg%20din%20f%c3%b6rsta%20thinstatin%c2%a0cd%20%2fts%2f5.1%0a.%2fbuild%0aS%c3%a4tt%20upp%20thinstation%20med%20v%c3%a5ra%20paket%0a%c3%96ppna%20upp%20build.conf.%0aI%20denna%20fil%20m%c3%a5ste%20du%20l%c3%a4gga%20i%20de%20h%c3%a5rdvaru%20paket%20som%20k%c3%b6rs.%0aVi%20vill%20h%c3%a5lla%20start%20avbilden%20s%c3%a5%20liten%20som%20m%c3%b6jligt%20det%20g%c3%b6r%20att%20f%c3%b6r%20att%20den%20ska%20vara%20snabb%20s%c3%a5%20v%c3%a4ljer%20vi%20bara%20de%20moduler%20som%20vi%20verkligen%20beh%c3%b6va." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fthinstataion-pxe-ubuntu%2f&t=Thinstataion%20PXE%20Ubuntu" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

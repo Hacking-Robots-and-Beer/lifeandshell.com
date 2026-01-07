@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Elino, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-elino-web/</link>
+    <description>Recent content in Lifeandshell, Elino, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Fri, 15 Apr 2016 22:15:11 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-elino-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WordPress multisite to wordpress singelsite (Easy linux)</title>
+      <link>http://localhost:1313/posts/wordpress-multisite-wordpress-singelsite-easy-linux/</link>
+      <pubDate>Fri, 15 Apr 2016 22:15:11 +0000</pubDate>
+      <guid>http://localhost:1313/posts/wordpress-multisite-wordpress-singelsite-easy-linux/</guid>
+      <description>&lt;p&gt;So i hade to slip up my wordpress multisite to singel sites and it was not that hard when i found out how.&lt;br /&gt;&#xA;First start with setting up the new wordpress and then we migrate over the old wordpress site into the new.&lt;/p&gt;&#xA;&lt;p&gt;1. Setup the new wordpress site&lt;br /&gt;&#xA;Install and setup the new wordpress site. You can run the instalation we will clean out the instalaltion later.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,89 @@
+---
+title: Ossec agent auto multi installation
+date: 2012-09-06 09:31:32
+tags:
+    
+    - Security
+    
+     
+categories:
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Security
+    
+     
+---
+<p>Ossec är det övervakninsg system som jag använder mest.<br />
+En sak som dock ställer till det lite att man hela tiden måste para ihop agneten med server.<br />
+Det fungerar kalas om man bara har några få servrar. Men har man en massa blir det lite mekigare.<br />
+Men nu så kan man scripta upp så man kan installera agenter automatist.</p>
+<p><b>Börja med att skapa nycklarna på ossec server</b><br />
+Det första vi ska göra är att skapa upp nycklarna på ossec server.<br />
+Här kan man använda en ny funktion i ossec som heter bash.<br />
+Jag visar nu bara hur man gör så kan du sen själv scripta upp så den skapar upp nycklar till alla dina servrar</p>
+<p>Batchmanager finns i packfilen som du laddar hem från ossec.<br />
+Så den finns INTE i ossec som är installerad på server.<br />
+Kolla i ossec installations katalogen och under &#8220;contrib&#8221;</p>
+<p>Centos 6<br />
+Installera följande paket för att bath ska fungera</p>
+<pre>
+yum install perl-Time-HiRes
+</pre>
+<p>Och för att kunna bygga ossec måste gcc och make finnas.</p>
+<pre>
+yum install gcc make
+</pre>
+<p>Skapa nyckeln</p>
+<pre>
+./ossec-batch-manager.pl -a -n clinet.fareonline.net -p 192.168.122.158
+</pre>
+<p>Nu kan du kolla i filen /var/ossec/clinet.keys där ska nu den nya nyckeln finnas</p>
+<pre>
+grep clinet.fareonline.net /var/ossec/etc/client.keys
+</pre>
+<p><b>Sätta upp agent configurationen</b><br />
+Nu ska vi konfa vilka installningar ageneten ska ha när den installeras.<br />
+I ossec installations katalogen leta fram filen preload-vars.conf och öppna den.</p>
+<p>Ställ där in de saker som du vill att din klinet ska göra.<br />
+Tex installera med engelska och ossec server ip.<br />
+Samnt vilka säkerhets tjänster du vill aktivera.<br />
+Glöm inte att även ställa in att den inte ska visa några frågor vid installationen.</p>
+<p>Ta sedan och kopiera över hela din ossec installations katalog till klineten.<br />
+Jag kommer att lägga in den i min git.<br />
+Sedan så kan jag enkelt scripta att så den uppdaterar min git och kör igång installtionen.<br />
+Men det fungerar även kalas att dra över den med tex scp.<br />
+Du kan sedan scripta in det som passar bäst.</p>
+<p>med scp till min klinet</p>
+<pre>
+scp -r ossec-hids-2.6/ root@192.168.122.158:/opt
+</pre>
+<p>Sedan är det daxs att köra igång installationen på clienten med /install.sh<br />
+Om nu allt går bra ska du inte få några frågor utan instalaltionen ska bara rull igenom.</p>
+<p>Nu ska vi kopiera över nycklarna som vi har på ossec server.<br />
+Följande kommando tar ut rätt nyckeln och lägge den i en fil.</p>
+<pre>
+grep clinet.fareonline.net /var/ossec/etc/client.keys > /tmp/clinet.fareonline.net
+</pre>
+<p>Sedan kopierar vi över den till ossec klienten</p>
+<pre>
+scp /tmp/clinet.fareonline.net root@192.168.122.158:/var/ossec/etc/client.keys
+</pre>
+<p>Sedan måste vi sätta rätt rättigheter på clinet.keys filen</p>
+<pre>
+chown root:ossec /var/ossec/etc/client.keys
+</pre>
+<p>Nu ska det bara vara att starta om ossec server och agneten och det ska fungera.</p>
+<p>Jag har dock haft lite problem med att iblen få agneten att ansluta till server och för att felsöka brukar jag köra.</p>
+<p>på server för att få info om agneten skcikar rätt och om ossec-remoted fungerar</p>
+<pre>
+ps aux | grep ossec-remote
+netstat -anp | grep 1514
+tcpdump port 1514
+./ossec-remotd -f
+</pre>
+<p>Sedan brukar jag starta om klienten och se vad som händer.</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

@@ -1,0 +1,32 @@
+---
+title: syca Zimbra med Zimbra
+date: 2012-02-01 14:34:41
+tags:
+    
+    - Uncategorized
+    
+     
+categories:
+    
+    - Uncategorized
+    
+     
+keywords: 
+    
+    - Uncategorized
+    
+     
+---
+<p>Sätter upp en del zimbra servrar.<br />
+Och åker alltid på att synca mailkonton från den gamla till den nya.</p>
+<p>Har testat tror alla olika sätt som föreslås med att synca men igentligen bara hittat ett som fungerar bra.</p>
+<p>Kör nu mera alltid imapsync som kör kör mellan de båda zimbra servrarna.<br />
+Sedan får mina användare att komma förbi och skriva in sin uppgifter så kör jag igång scriptet som syncar<br />
+de båda servrarna med varandra</p>
+<p><code></p>
+<p>imapsync --buffersize 8192000 --nosyncacls --syncinternaldates \<br />
+   --host1 10.100.0.6 --user1 mattias@fareoffice.com --password1 ******--ssl1 --port1 993 \<br />
+   --host2 10.100.130.21 --user2 mattias@fareoffice.com --password2 ****** --ssl2 --port2 993 --noauthmd5</p>
+<p></code><br />
+Nu ska jag i alla fall slippa att söka efter denna rad varje gång en ny zimbra ska upp.</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

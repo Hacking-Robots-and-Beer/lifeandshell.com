@@ -1,0 +1,44 @@
+---
+title: Openvpn generate clinet config and keys
+date: 2013-07-24 20:36:29
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>On my openvpn server i have built an small script so i can create new clients certs easy.<br />
+My server is and Ubuntu server and my openvpn server is set up from this guide.</p>
+<p><a href="https://help.ubuntu.com/community/OpenVPN">https://help.ubuntu.com/community/OpenVPN</a></p>
+<p>In the folder <strong>/etc/openvpn/easy-rsa</strong> i created he folder <strong>TEMP</strong></p>
+<p>Then i used this script to create the clients</p>
+<pre>#!/bin/bash
+echo "Enter name of server"
+read NAME</pre>
+<pre>#Making Certs
+source ./vars
+KEY_CN=$NAME ./pkitool $NAME</pre>
+<pre>
+#Copy keys and files
+cp keys/$NAME.* temp/
+cp keys/ca.crt temp/
+cp keys/ta.key temp/
+cp client.ovpn temp/</pre>
+<pre>
+#Packing config
+tar -czf $NAME.tar.gz temp/* --remove-files</pre>
+<p>&nbsp;</p>
+<p>I then get an tar file with the right keys and config file.<br />
+You must put you client.ovpn file in the right place.</p>
+<p>and after you unpack the tar enter the client.ovpn file to match the keys. (Next relase fix this with sed )</p>
+<p>&nbsp;</p>

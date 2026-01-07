@@ -1,0 +1,49 @@
+---
+title: Dyndns to loopia.se to update you domain dynamic
+date: 2014-07-06 21:37:17
+tags:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>So many of my dominas I have registered on loopia.se. And they have dyndns support so I can create a subdomain to my domian. And have it updated when my laptop ore home ip changes.</p>
+<p>This make the task of connecting back to my home server easy.</p>
+<p>First install the dyndns clinet on you host here I&#8217;m installing it on my <strong>Centos 6</strong> server with <strong>EPEL REPO</strong> installed</p>
+<p>&nbsp;</p>
+<pre>yum install ddclient</pre>
+<p>&nbsp;</p>
+<p>Open the file</p>
+<pre>vi ddclient.conf</pre>
+<p>&nbsp;</p>
+<p>Find the sections starting with #loopia</p>
+<p>&nbsp;</p>
+<p>Uncomment the values and ad you username that will be you domain, Add your password and the domain you want to update.</p>
+<p>Same the file and</p>
+<p>&nbsp;</p>
+<pre>/etc/init.d/ddclient restart
+chkconfig ddclient on</pre>
+<p>&nbsp;</p>
+<p>tail you log to see</p>
+<p>&nbsp;</p>
+<pre>Jul  6 21:28:26 home ddclient[23784]: WARNING:  updating home.ollebo.com: nochg: No update required;</pre>
+<p>and now you can always find you way back home</p>

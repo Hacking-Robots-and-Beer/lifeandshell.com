@@ -1,0 +1,37 @@
+---
+title: Nikto webbscanner for kubernetes (samma.io)
+date: 2020-02-24 14:50:20
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+
+<p>I hope that you have already test my nmap scanners for kubernetes. Now its time for some more OWASP and webb scanner.<br>Nikto is a webb application scanners and run against a target to verify its security.</p>
+
+
+
+<p>I have created a nikto docker and a helm job that deploys the nikto scanner into your kubernetes cluster.<br>The nikto scanner will then on regular basic scan you webbapps for security issues. Any finding will be logged as a json log ready for your log pipeline to pick up and visualize.</p>
+
+
+
+<p>docker run -it -e TARGET=samma.io sammascanner/nikto</p>
+
+
+
+<p>To get started go to https://samma.io to learn more</p>
+
+
+
+<p></p>

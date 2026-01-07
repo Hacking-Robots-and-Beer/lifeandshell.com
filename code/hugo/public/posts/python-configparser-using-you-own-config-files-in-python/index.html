@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Python ConfigParser using you own config files in python | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/python-configparser-using-you-own-config-files-in-python/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/python-configparser-using-you-own-config-files-in-python/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Python ConfigParser using you own config files in python">
+  <meta property="og:description" content="Storing settings in config files and then let python read the configfiles and to good stuff .
+ 
+Read the file
+#Reading config fileconfig = ConfigParser.ConfigParser()config.read(&#39;setting.cfg&#39;) print all items and values in an section
+for name, value in config.items(&#34;monitor&#34;):print &#39; %s = %s&#39; % (name, value) Print all items in configfile
+for section_name in parser.sections():print &#39;Section:&#39;, section_nameprint &#39; Options:&#39;, parser.options(section_name)for name, value in parser.items(section_name):print &#39; %s = %s&#39; % (name, value) My settings.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2013-08-07T11:26:42+00:00">
+    <meta property="article:modified_time" content="2013-08-07T11:26:42+00:00">
+    <meta property="article:tag" content="Code">
+    <meta property="article:tag" content="Python">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Python ConfigParser using you own config files in python">
+  <meta name="twitter:description" content="Storing settings in config files and then let python read the configfiles and to good stuff .
+ 
+Read the file
+#Reading config fileconfig = ConfigParser.ConfigParser()config.read(&#39;setting.cfg&#39;) print all items and values in an section
+for name, value in config.items(&#34;monitor&#34;):print &#39; %s = %s&#39; % (name, value) Print all items in configfile
+for section_name in parser.sections():print &#39;Section:&#39;, section_nameprint &#39; Options:&#39;, parser.options(section_name)for name, value in parser.items(section_name):print &#39; %s = %s&#39; % (name, value) My settings.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/how-the-hell-is-oncall-the-oncall-reminder-script/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/remove-old-kernel-in-centos/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&text=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&title=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&is_video=false&description=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&title=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&title=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&name=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python&description=Storing%20settings%20in%20config%20files%20and%20then%20let%20python%20read%20the%20configfiles%20and%20to%20good%20stuff%20.%0a%26nbsp%3b%0aRead%20the%20file%0a%23Reading%20config%20file%0dconfig%20%3d%20ConfigParser.ConfigParser%28%29%0dconfig.read%28%27setting.cfg%27%29%20print%20all%20items%20and%20values%20in%20an%20section%0afor%20name%2c%20value%20in%20config.items%28%22monitor%22%29%3a%0dprint%20%27%20%25s%20%3d%20%25s%27%20%25%20%28name%2c%20value%29%20Print%20all%20items%20in%20configfile%0afor%20section_name%20in%20parser.sections%28%29%3a%0dprint%20%27Section%3a%27%2c%20section_name%0dprint%20%27%20Options%3a%27%2c%20parser.options%28section_name%29%0dfor%20name%2c%20value%20in%20parser.items%28section_name%29%3a%0dprint%20%27%20%25s%20%3d%20%25s%27%20%25%20%28name%2c%20value%29%20My%20settings." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&t=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Python ConfigParser using you own config files in python
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2013-08-07 11:26:42 &#43;0000 UTC" itemprop="datePublished">2013-08-07</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          0 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/code">Code</a>
+            
+             ,  
+            <a class="category-link" href="/categories/python">Python</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/code" rel="tag">Code</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/python" rel="tag">Python</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>Storing settings in config files and then let python read the configfiles and to good stuff .</p>
+<p>&nbsp;</p>
+<p>Read the file</p>
+<pre>#Reading config file
+ config = ConfigParser.ConfigParser()
+ config.read('setting.cfg')</pre>
+<p>print all items and values in an section</p>
+<pre>for name, value in config.items("monitor"):
+ print ' %s = %s' % (name, value)</pre>
+<p>Print all items in configfile</p>
+<pre>for section_name in parser.sections():
+    print 'Section:', section_name
+    print '  Options:', parser.options(section_name)
+    for name, value in parser.items(section_name):
+        print '  %s = %s' % (name, value)</pre>
+<p>My settings.cfg file looks like this</p>
+<pre>[monitor] &lt;--- Section
+check_load:10
+name:value</pre>
+<p>That easy.</p>
+<p>&nbsp;</p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&text=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&title=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&is_video=false&description=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&title=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&title=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&name=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python&description=Storing%20settings%20in%20config%20files%20and%20then%20let%20python%20read%20the%20configfiles%20and%20to%20good%20stuff%20.%0a%26nbsp%3b%0aRead%20the%20file%0a%23Reading%20config%20file%0dconfig%20%3d%20ConfigParser.ConfigParser%28%29%0dconfig.read%28%27setting.cfg%27%29%20print%20all%20items%20and%20values%20in%20an%20section%0afor%20name%2c%20value%20in%20config.items%28%22monitor%22%29%3a%0dprint%20%27%20%25s%20%3d%20%25s%27%20%25%20%28name%2c%20value%29%20Print%20all%20items%20in%20configfile%0afor%20section_name%20in%20parser.sections%28%29%3a%0dprint%20%27Section%3a%27%2c%20section_name%0dprint%20%27%20Options%3a%27%2c%20parser.options%28section_name%29%0dfor%20name%2c%20value%20in%20parser.items%28section_name%29%3a%0dprint%20%27%20%25s%20%3d%20%25s%27%20%25%20%28name%2c%20value%29%20My%20settings." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fpython-configparser-using-you-own-config-files-in-python%2f&t=Python%20ConfigParser%20using%20you%20own%20config%20files%20in%20python" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

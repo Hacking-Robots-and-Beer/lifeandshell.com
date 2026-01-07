@@ -1,0 +1,136 @@
+---
+title: Installing Asylguiden on centos Server
+date: 2014-02-17 21:21:20
+tags:
+    
+    - Asylguiden
+    
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Asylguiden
+    
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Asylguiden
+    
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Web
+    
+     
+---
+<p>One of my own prodjects are Asylguiden. Its A python publish system build with django, Mysql and mongodb.<br />
+You can find the code here on github</p>
+<p>https://github.com/mattiashem/asylguiden</p>
+<p>Asylguiden also works with wsgi for python and apache for displaying content</p>
+<p>here is my own how to for downloadning and setting up asylguiden on a production server.</p>
+<h2>1. Setting up server for hosing</h2>
+<p>Centos</p>
+<pre>yum install httpd mod_ssl git wget python-setuptools mod_wsgi</pre>
+<p>&nbsp;</p>
+<p>Django https://www.djangoproject.com/download/</p>
+<pre>wget https://www.djangoproject.com/download/1.6.2/tarball/
+tar zxvf index.html
+cd Django-1.6.2/
+sudo python setup.py install</pre>
+<p>MariaDB https://mariadb.org/</p>
+<pre>vi /etc/yum.repos.d/maria.repo</pre>
+<pre>[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/5.5/centos5-x86
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1</pre>
+<pre>yum install MariaDB-Galera-server MariaDB-client galera</pre>
+<p>Mongodb http://www.mongodb.org/</p>
+<pre>vi /etc/yum.repos.d/mongodb.repo</pre>
+<pre>[mongodb]
+name=MongoDB Repository
+baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
+gpgcheck=0
+enabled=1</pre>
+<p>Mongoegine http://mongoengine.org/</p>
+<p>&nbsp;</p>
+<pre>easy_install -U mongoengine</pre>
+<p>&nbsp;</p>
+<p>2. Getting CODE</p>
+<p>cd /var/www</p>
+<pre>git clone https://github.com/mattiashem/asylguiden.git
+git branch dev
+git checkout dev
+git pull origin dev</pre>
+<p>As you see here om using dev branch</p>
+<pre>vi .gitignore</pre>
+<pre>asylguiden/settings.py
+*.pyc</pre>
+<pre>git rm --cached asylguiden/settings.py
+git rm --cached *.pyc</pre>
+<p>In asylguiden/settings.py change the following</p>
+<pre>MEDIA_ROOT = '/var/www/asylguiden/media'
+MEDIA_URL = 'http://www.asylguiden.se/media/'
+STATIC_ROOT = '/var/www/asylguiden/static'
+STATIC_URL = 'http://www.asylguiden.se/static/'
+SECRET_KEY = 'XXXXXXXXXXXXXXXXXXXXXXX' &lt;--- change</pre>
+<p>In template_dir</p>
+<pre>'/var/www/asylguiden/template'</pre>
+<h2>Setup apache and wsgi_mod</h2>
+<p>Setup apache config</p>
+<pre>&lt;VirtualHost *:80&gt;
+ ServerName www.asylguiden.se
+ DocumentRoot /var/www/asylguiden
+ Alias /robots.txt /var/www/asylguiden/static/robots.txt
+ Alias /favicon.ico /var/www/asylguiden/static/favicon.ico
+ AliasMatch ^/([^/]*\.css) /var/www/asylguiden/static/css/styles/$1
+ Alias /media/ /var/www/asylguiden/static/
+ &lt;Directory /var/www/asylguiden/static/&gt;
+ Order deny,allow
+ Allow from all
+ &lt;/Directory&gt;
+ WSGIScriptAlias / /var/www/asylguiden/asylguiden/wsgi.py
+ &lt;Directory /var/www/asylguiden/asylguiden/wsgi.py&gt;
+ Order allow,deny
+ Allow from all
+ &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</pre>
+<p>Do some fix in wsgi.py ADD the follwing and leave the rest</p>
+<pre> vi /var/www/asylguiden/asylguiden/wsgi.py</pre>
+<pre>import os, sys
+sys.path.append('/var/www/asylguiden')</pre>
+<h2>Bring it all upp</h2>
+<pre>/etc/init.d/httpd restart
+/etc/init.d/mongo restart</pre>
+<p>And disable selinux &lt;&#8211; Fix will come</p>
+<pre>setenforce 0</pre>

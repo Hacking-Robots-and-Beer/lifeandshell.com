@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on Life and Shell</title>
+    <link>https://lifeandshell.com/categories/python/</link>
+    <description>Recent content in Python on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Tue, 16 Sep 2025 09:59:24 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Automate LinkedIn Posts with Python 2025</title>
+      <link>https://lifeandshell.com/posts/how-to-automate-linkedin-posts-with-python-the-2025-guide/</link>
+      <pubDate>Tue, 16 Sep 2025 09:59:24 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/how-to-automate-linkedin-posts-with-python-the-2025-guide/</guid>
+      <description>I have a simple workflow: I write my posts in WordPress, and once they&amp;#8217;re ready, a workflow kicks off to get them published. A key part of this process is announcing the new post on LinkedIn to let my network know it&amp;#8217;s live.&#xA;Sounds easy, right? Well, I quickly discovered that most Python libraries for the LinkedIn API are outdated. LinkedIn has deprecated large parts of its old API, leaving many tools broken.</description>
+    </item>
+    <item>
+      <title>Alexa and Jenkins (Docker)</title>
+      <link>https://lifeandshell.com/posts/alexa-jenkins-docker/</link>
+      <pubDate>Sat, 26 Nov 2016 22:05:28 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/alexa-jenkins-docker/</guid>
+      <description>So I have an Alexa echo dot at home. Use it to control stuff but I wanted it to do more like release and deploy the stuff I build.&#xA;This is how you can integrate Alexa voice service with Jenkins.&#xA;First setup the server For receiving commands from Alexa and sending them to Jenkins we need a server and some code. First start with the server i use docker and a docker-compose to set it up.</description>
+    </item>
+    <item>
+      <title>Autodeploy you docker images to AWS (git push = deploy)</title>
+      <link>https://lifeandshell.com/posts/autodeploy-docker-images-aws-git-push-deploy/</link>
+      <pubDate>Thu, 26 May 2016 12:56:19 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/autodeploy-docker-images-aws-git-push-deploy/</guid>
+      <description>So I have a lot of small project and some large. To buil in quality into my code i need to run test in my code. And my code in a prod like env.&#xA;I always uses docker so my dev env are verly like my prod.&#xA;One key thing that i do is that when i push code to my master branch i do a release do server. This is so that i can verify that everything is working and i can run test on it.</description>
+    </item>
+    <item>
+      <title>Python3 and rabbitmq</title>
+      <link>https://lifeandshell.com/posts/python3-and-rabbitmq/</link>
+      <pubDate>Tue, 21 Apr 2015 22:38:05 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/python3-and-rabbitmq/</guid>
+      <description>Im using rabbitmq in some of my python apps. Here is a small guide to get pyton3 to send and recive data from rabbitmq&#xA;&amp;nbsp;&#xA;I uses the code from&#xA;https://code.google.com/p/py-amqplib/&#xA;And read some guide from&#xA;http://blogs.digitar.com/jjww/2009/01/rabbits-and-warrens/ from 2009 !!!!&#xA;&amp;nbsp;&#xA;Get the pip you need to connect&#xA;sudo pip3 install amqp &amp;nbsp;&#xA;&amp;nbsp;&#xA;My python code for sending and reciving&#xA;&amp;nbsp;&#xA;#!/usr/bin/env python&#xD;from amqplib import client_0_8 as amqp&#xD;import time&#xD;conn = amqp.</description>
+    </item>
+    <item>
+      <title>Setup SPI on Raspberry pi (mcp3008, Adafruit)</title>
+      <link>https://lifeandshell.com/posts/setup-spi-on-raspberry-pi-mcp3008-adafruit/</link>
+      <pubDate>Sun, 19 Apr 2015 20:25:33 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/setup-spi-on-raspberry-pi-mcp3008-adafruit/</guid>
+      <description>Im building my own watering system and to that I will have some sensores..&#xA;They are connected to my pi over SFI and a mcp3008 from Adafruit.&#xA;&amp;nbsp;&#xA;The gear http://www.adafruit.com/products/1989&#xA;http://www.adafruit.com/products/856&#xA;http://www.kjell.com/sortiment/el/elektronik/elektroniklab/kopplingsplatta-lodfri-p87886&#xA;http://www.elecfreaks.com/store/octopus-soil-moisture-sensor-brick-p-422.html&#xA;&amp;nbsp;&#xA;Setup the cables Use this guide and se how the you should connect the mcp3008 and the sensore.&#xA;http://www.raspberrypi-spy.co.uk/2013/10/analogue-sensors-on-the-raspberry-pi-using-an-mcp3008/&#xA;&amp;nbsp;&#xA;Get the Pi ready &amp;nbsp;&#xA;1. First enable SFI on the board here&#xA;http://www.raspberrypi-spy.co.uk/2014/08/enabling-the-spi-interface-on-the-raspberry-pi/&#xA;I uses the raspi-config and enabled the SFI</description>
+    </item>
+    <item>
+      <title>OAuth2 Server on Python (with flask on Centos)</title>
+      <link>https://lifeandshell.com/posts/oauth2-server-on-python-with-flask-on-centos/</link>
+      <pubDate>Fri, 30 May 2014 20:04:05 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/oauth2-server-on-python-with-flask-on-centos/</guid>
+      <description>So at work we have started to look at OAuth2 for our web apps. So on our creativ friday today i started looking at putting together an OAuth2 server using python and flask.&#xA;I followed the guide from this page http://lepture.com/en/2013/create-oauth-server&#xA;And after some work I got an working server and client running on my Centos server.&#xA;The code only uses an sqlite db and are only testing the OAuth functions so for a working solutions there are some more work.</description>
+    </item>
+    <item>
+      <title>Recover you python files from rm -rf *</title>
+      <link>https://lifeandshell.com/posts/recover-you-python-files-from-rm-rf/</link>
+      <pubDate>Thu, 03 Apr 2014 14:49:50 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/recover-you-python-files-from-rm-rf/</guid>
+      <description>So after cleaning up my work i run rm -rf * in the woring folder. Deleting all my work!.&#xA;After fighting holding back some tears I set down and start see if i could recover my lost work.&#xA;First recover you file from the filesystem and my laptop is an ubuntu desktop&#xA;sudo apt-get install extundelete Then its time to recover the files i run this command to get my lost folder back</description>
+    </item>
+    <item>
+      <title>Build you first syco Module</title>
+      <link>https://lifeandshell.com/posts/build-you-first-syco-module/</link>
+      <pubDate>Tue, 18 Feb 2014 22:12:56 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/build-you-first-syco-module/</guid>
+      <description>SO from the last post you can install syco but you also need to build and update your own plugins in syco.&#xA;Here is a small guide how to build you first plugin.&#xA;Here om building some syco commands for controlling apache and glassfish server.&#xA;the commands are run from our syco-chuck release commands center so for adding them to syco i can controll the script from sudo and do some extra test before starting and stopping the service.</description>
+    </item>
+    <item>
+      <title>Setup SYCO on you centos box</title>
+      <link>https://lifeandshell.com/posts/setup-syco-on-you-centos-box/</link>
+      <pubDate>Tue, 18 Feb 2014 15:27:04 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/setup-syco-on-you-centos-box/</guid>
+      <description>So if you care about security and stability you must have syco installed on your server.&#xA;Read more about syco on the github project https://github.com/systemconsole&#xA;Im staring to use syco not only production but also on my &amp;#8220;Own&amp;#8221; server.&#xA;So more of you should really start using it and here is i guide for you to start using syco&#xA;1. Installing and setting up centos yum install git &amp;nbsp;&#xA;Gettings syco</description>
+    </item>
+    <item>
+      <title>Installing Asylguiden on centos Server</title>
+      <link>https://lifeandshell.com/posts/installing-asylguiden-on-centos-server/</link>
+      <pubDate>Mon, 17 Feb 2014 21:21:20 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installing-asylguiden-on-centos-server/</guid>
+      <description>One of my own prodjects are Asylguiden. Its A python publish system build with django, Mysql and mongodb.&#xA;You can find the code here on github&#xA;https://github.com/mattiashem/asylguiden&#xA;Asylguiden also works with wsgi for python and apache for displaying content&#xA;here is my own how to for downloadning and setting up asylguiden on a production server.&#xA;1. Setting up server for hosing Centos&#xA;yum install httpd mod_ssl git wget python-setuptools mod_wsgi &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>ejabber users from postfixadmin (python,mysql,md5crypt)</title>
+      <link>https://lifeandshell.com/posts/ejabber-users-from-postfixadmin-pythonmysqlmd5crypt/</link>
+      <pubDate>Fri, 10 Jan 2014 21:28:51 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ejabber-users-from-postfixadmin-pythonmysqlmd5crypt/</guid>
+      <description>So Im running my emails with postfix and have postfix admin to manager my users and domains. But now it should be nice to have i jabber server running and to have the same user and password for both email and jabber.&#xA;Ejabber support custom auth plugins and with some python i now have a working plugin.&#xA;&amp;nbsp;&#xA;First install python packages yum install MySQL-python&#xD;yum install python-passlib &amp;nbsp;&#xA;Add this script to you ejabber folder</description>
+    </item>
+    <item>
+      <title>Install and setup Haystack search for Django</title>
+      <link>https://lifeandshell.com/posts/install-and-setup-haystack-search-for-django/</link>
+      <pubDate>Sun, 05 Jan 2014 22:28:01 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-and-setup-haystack-search-for-django/</guid>
+      <description>So Mysql is crap at doing full text search. So in one of my projects i use Haystack so i can do full text searches.&#xA;I have a running Django project up and this is how I setup haystack for my project.&#xA;&amp;nbsp;&#xA;Install and config sudo pip install django-haystack &amp;nbsp;&#xA;in settings.py under INSTALLED_APPS add haystack&#xA;&#39;haystack&#39;, &amp;nbsp;&#xA;And also in settings.py file add some haystack settings&#xA;import os&#xD;HAYSTACK_CONNECTIONS = {&#xD;&#39;default&#39;: {&#xD;&#39;ENGINE&#39;: &#39;haystack.</description>
+    </item>
+    <item>
+      <title>Python ConfigParser using you own config files in python</title>
+      <link>https://lifeandshell.com/posts/python-configparser-using-you-own-config-files-in-python/</link>
+      <pubDate>Wed, 07 Aug 2013 11:26:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/python-configparser-using-you-own-config-files-in-python/</guid>
+      <description>Storing settings in config files and then let python read the configfiles and to good stuff .&#xA;&amp;nbsp;&#xA;Read the file&#xA;#Reading config file&#xD;config = ConfigParser.ConfigParser()&#xD;config.read(&#39;setting.cfg&#39;) print all items and values in an section&#xA;for name, value in config.items(&#34;monitor&#34;):&#xD;print &#39; %s = %s&#39; % (name, value) Print all items in configfile&#xA;for section_name in parser.sections():&#xD;print &#39;Section:&#39;, section_name&#xD;print &#39; Options:&#39;, parser.options(section_name)&#xD;for name, value in parser.items(section_name):&#xD;print &#39; %s = %s&#39; % (name, value) My settings.</description>
+    </item>
+    <item>
+      <title>How the HELL is oncall ? (the oncall reminder script)</title>
+      <link>https://lifeandshell.com/posts/how-the-hell-is-oncall-the-oncall-reminder-script/</link>
+      <pubDate>Mon, 05 Aug 2013 21:59:17 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/how-the-hell-is-oncall-the-oncall-reminder-script/</guid>
+      <description>When you have oncall often sometimes is easy to forget hows oncall and when you are not. So for the last time wonder how is oncall and ask some python for some help,&#xA;&amp;nbsp;&#xA;The script&#xA;#!/usr/bin/env python&#xD;#&#xD;# Mattias Hemmingsson&#xD;# matte@elino.se&#xD;#&#xD;# Script for reminder friend when to bet&#xD;# Uses and csv file and send email to remind when its time to bet.&#xD;#&#xD;# import csv&#xD;import smtplib&#xD;from datetime import datetime, timedelta, date #Get users and send email to users&#xD;sender = &#39;noreply@elino.</description>
+    </item>
+    <item>
+      <title>restrict sms in nagios / icinga</title>
+      <link>https://lifeandshell.com/posts/limit-sms-flood-in-nagios-icing/</link>
+      <pubDate>Mon, 05 Aug 2013 16:13:58 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/limit-sms-flood-in-nagios-icing/</guid>
+      <description>Im using nagios as primary monitoring tool. And to get alerts we use an sms gateway. The problem is that sometimes when we work we bring down and server and we get so many sms from icinga that you trow away you phone. So for bringing the sms cost down and to have not so many sms to you phone i build a small email blocking script. This will take the address of the sms and only send one sms / email every 5 min (can be set to anything).</description>
+    </item>
+    <item>
+      <title>Django sending email</title>
+      <link>https://lifeandshell.com/posts/django-sending-email/</link>
+      <pubDate>Tue, 04 Jun 2013 21:35:24 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/django-sending-email/</guid>
+      <description>building and small webpage and in that page I want an small contact field. So my visitors (if any ) can contact me with an form input.&#xA;So I made an small html template that has a very small form (No validation ) and then post the email and massages back to the view that send the email.&#xA;small and simple and today work in front of the tv.&#xA;django template my template extends my index as you see called contact.</description>
+    </item>
+    <item>
+      <title>Testing OSSEC / Syslog auth</title>
+      <link>https://lifeandshell.com/posts/testing-ossec-syslog-auth/</link>
+      <pubDate>Mon, 03 Jun 2013 20:38:35 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/testing-ossec-syslog-auth/</guid>
+      <description>Im runing and PCI DSS Level 1 system. And during our PCI Audit i have to provide evidence that our monitoring system (OSSEC) can log logins that fails.&#xA;So or testing this and to provide evidence for our audit I made a small python script.&#xA;the Scripts tries to login to th host specified in and text field and tries to run an command on them. (You can alter this to the correct username / password and then run commands on all server)</description>
+    </item>
+    <item>
+      <title>DNS Verify new ns servers</title>
+      <link>https://lifeandshell.com/posts/dns-new-ns-servers/</link>
+      <pubDate>Sun, 02 Jun 2013 17:06:10 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/dns-new-ns-servers/</guid>
+      <description>The dns tester scripot lets you check so that you dns name are correct checking first used names today and then verify the names with you new DNS server.&#xA;You will need an file of you doman names first to run in the script.&#xA;&amp;nbsp;&#xA;#!/usr/bin/env python import socket import dns.resolver #v=&amp;#8221;yes&amp;#8221; g_dns=&amp;#8221;88.80.170.189&amp;#8243; o_dns=&amp;#8221;81.201.209.55&amp;#8243; def test_dns(name,typ,v): print &amp;#8220;===================================================================&amp;#8221; try: answers = dns.resolver.query(name,typ ) for rdata in answers: if v ==&amp;#8221;yes&amp;#8221;: print &amp;#8220;Your DNS = &amp;#8221; + str(rdata) except dns.</description>
+    </item>
+  </channel>
+</rss>

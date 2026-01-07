@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-web/</link>
+    <description>Recent content in Lifeandshell, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sun, 04 Feb 2018 21:20:20 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Recover SQL innodb Database</title>
+      <link>http://localhost:1313/posts/recover-sql-innodb-database/</link>
+      <pubDate>Sun, 04 Feb 2018 21:20:20 +0000</pubDate>
+      <guid>http://localhost:1313/posts/recover-sql-innodb-database/</guid>
+      <description>&lt;p&gt;How to recover an SQL innodb db with docker. When I moved this wordpress to it new hosting a did not have any good backup of the db. And i only got the mysql files from /var/lib/mysql.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;So to get the site back without to much work I want to see if I could get the sql files mounted into a mysql docker and recverd to the export a .sql file.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

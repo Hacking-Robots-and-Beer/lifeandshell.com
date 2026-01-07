@@ -1,0 +1,144 @@
+---
+title: Sätta upp vlan med dhcpd server med ubuntu
+date: 2012-04-21 20:06:15
+tags:
+    
+    - Security
+    
+     
+categories:
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Security
+    
+     
+---
+<p>Vlan kan användas för att kunna prata med moderana switchar och nätverkutrustning.<br />
+I de kan man tex sätta att en port eller trådlöst nätverk ska använa sig av tex &#8220;vlan1&#8221;.<br />
+Då när jag sätter upp ett nytt lan på min ubuntu kommer jag ha en nätverks port som kan prata med de andra som också använder vlan1 och går genom den port eller trådlösa som är taggade som vlan1.</p>
+<p>På så sätt kan vi sepparera nät från varandra.</p>
+<p>Men nu ska vi sätta upp vlan som jag gjort på växthuset trådlösa nät.<br />
+Där sätetr vi upp tre stycken vlan och så sättr vi upp en dhcpd server att sedan hantera de olika nätet.</p>
+<p><b>Börja med att installera vlan</b></p>
+<pre>
+sudo apt-get install vlan
+</pre>
+<p>Sätt sedan upp dina vlan i din interfaces fil i /etc/network</p>
+<pre>
+auto vlan1
+auto vlan2
+auto vlan3
+
+# VLAN 1
+#trandlosa VAXTHUSET
+iface vlan1 inet static
+address 192.168.1.2
+netmask 255.255.255.0
+network 192.168.1.0
+broadcast 192.168.1.254
+mtu 1500
+vlan_raw_device eth1
+
+# VLAN 2
+#trandlosa VAXTHUSET_SYSOP
+iface vlan2 inet static
+address 192.168.2.2
+netmask 255.255.255.0
+network 192.168.2.0
+broadcast 192.168.2.254
+mtu 1500
+vlan_raw_device eth1
+
+# VLAN 3
+#Trandlosa VAXTHUSET OPEN
+iface vlan3 inet static
+address 192.168.3.2
+netmask 255.255.255.0
+network 192.168.3.0
+broadcast 192.168.3.255
+mtu 1500
+vlan_raw_device eth1
+</pre>
+<p><b>Starta om nätverket</b></p>
+<pre>
+/etc/init.d/networking restart
+</pre>
+<p><b> Nu ska vi installera dhcpd server och sätta upp den att använda de olika vlanen</b></p>
+<pre>
+apt-get install dhcp3-server
+</pre>
+<p>Sätt upp i dhcpd.cond i /etc/dhcp enligt följnade </p>
+<pre>
+ddns-update-style none;
+option domain-name "ahavaxthuset.se";
+option domain-name-servers 10.0.2.2, 10.0.2.3;
+default-lease-time 600;
+max-lease-time 7200;
+authoritative;
+log-facility local7;
+
+
+#
+# DHCP for trandlosa VAXTHUSET vlan1
+subnet 192.168.1.0 netmask 255.255.255.0 {
+option routers                  192.168.1.1;
+option subnet-mask              255.255.255.0;
+option broadcast-address        192.168.1.255;
+option domain-name-servers      10.0.2.30;
+option ntp-servers              192.168.1.1;
+option netbios-name-servers     192.168.1.1;
+option netbios-node-type 2;
+default-lease-time 86400;
+max-lease-time 86400;
+
+
+range 192.168.1.10 192.168.1.100;
+
+} 
+#
+# DHCP for trandlosa VAXTHUSET_SYSOP vlan2
+subnet 192.168.2.0 netmask 255.255.255.0 {
+option routers                  192.168.2.1;
+option subnet-mask              255.255.255.0;
+option broadcast-address        192.168.2.255;
+option domain-name-servers      10.0.2.2;
+option ntp-servers              192.168.2.1;
+option netbios-name-servers     192.168.2.1;
+option netbios-node-type 2;
+default-lease-time 86400;
+max-lease-time 86400;
+
+range 192.168.2.10 192.168.2.100;
+} 
+
+#
+# DHCP for trandlosa VAXTHUSET_OPEN vlan1
+subnet 192.168.3.0 netmask 255.255.255.0 {
+option routers                  192.168.3.1;
+option subnet-mask              255.255.255.0;
+option broadcast-address        192.168.3.255;
+option domain-name-servers      192.168.3.1;
+option ntp-servers              192.168.3.1;
+option netbios-name-servers     192.168.3.1;
+option netbios-node-type 2;
+default-lease-time 86400;
+max-lease-time 86400;
+
+range 192.168.3.10 192.168.3.100;
+} 
+
+
+
+
+</pre>
+<p>Sedan ska det bara vara att starta om dhcod server med.</p>
+<pre>
+service isc-dhcp-server restart
+</pre>
+<p>Nu ska du kunna ha ett fungerade nätverk som är vlant och du kan nu tex i den trådlösa<br />
+accespunkten tagga upp olka nät och ges de rätt vlan beronde på du vill ska hända.</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

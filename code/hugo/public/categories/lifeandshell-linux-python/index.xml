@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Linux, Python on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-linux-python/</link>
+    <description>Recent content in Lifeandshell, Linux, Python on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Tue, 21 Apr 2015 22:38:05 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-linux-python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python3 and rabbitmq</title>
+      <link>http://localhost:1313/posts/python3-and-rabbitmq/</link>
+      <pubDate>Tue, 21 Apr 2015 22:38:05 +0000</pubDate>
+      <guid>http://localhost:1313/posts/python3-and-rabbitmq/</guid>
+      <description>&lt;p&gt;Im using rabbitmq in some of my python apps. Here is a small guide to get pyton3 to send and recive data from rabbitmq&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;I uses the code from&lt;/p&gt;&#xA;&lt;p&gt;&lt;a title=&#34;https://code.google.com/p/py-amqplib/&#34; href=&#34;https://code.google.com/p/py-amqplib/&#34; target=&#34;_blank&#34;&gt;https://code.google.com/p/py-amqplib/&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;And read some guide from&lt;/p&gt;&#xA;&lt;p&gt;&lt;a title=&#34;http://blogs.digitar.com/jjww/2009/01/rabbits-and-warrens/&#34; href=&#34;http://blogs.digitar.com/jjww/2009/01/rabbits-and-warrens/&#34; target=&#34;_blank&#34;&gt;http://blogs.digitar.com/jjww/2009/01/rabbits-and-warrens/&lt;/a&gt; from 2009 !!!!&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;Get the pip you need to connect&lt;/p&gt;&#xA;&lt;pre&gt;sudo pip3 install amqp&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;My python code for sending and reciving&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;pre&gt;#!/usr/bin/env python&#xD;&#xA;from amqplib import client_0_8 as amqp&#xD;&#xA;import time&#xD;&#xA;&#xD;&#xA;conn = amqp.Connection(host=&#34;192.168.122.208:5672 &#34;, userid=&#34;guest&#34;,&#xD;&#xA;password=&#34;guest&#34;, virtual_host=&#34;/&#34;, insist=False)&#xD;&#xA;chan = conn.channel()&#xD;&#xA;&#xD;&#xA;#Setup que&#xD;&#xA;chan.queue_declare(queue=&#34;work&#34;, durable=True,&#xD;&#xA;exclusive=False, auto_delete=False)&#xD;&#xA;chan.exchange_declare(exchange=&#34;sorting_room&#34;, type=&#34;direct&#34;, durable=True,&#xD;&#xA;auto_delete=False,)&#xD;&#xA;chan.queue_bind(queue=&#34;work&#34;, exchange=&#34;sorting_room&#34;,&#xD;&#xA;routing_key=&#34;domain&#34;)&#xD;&#xA;&#xD;&#xA;#Send messages&#xD;&#xA;send = amqp.Message(&#34;Test message!&#34;)&#xD;&#xA;send.properties[&#34;delivery_mode&#34;] = 2&#xD;&#xA;chan.basic_publish(send,exchange=&#34;sorting_room&#34;,routing_key=&#34;domain&#34;)&#xD;&#xA;&#xD;&#xA;#Get data runns and lissen for the loop&#xD;&#xA;def recv_callback(msg):&#xD;&#xA;    print(&#39;Received: &#39; + msg.body + &#39; from channel #&#39; + str(msg.channel.channel_id))&#xD;&#xA;&#xD;&#xA;chan.basic_consume(queue=&#39;work&#39;, no_ack=True, callback=recv_callback, consumer_tag=&#34;testtag&#34;)&#xD;&#xA;while True:&#xD;&#xA;    chan.wait()&#xD;&#xA;chan.basic_cancel(&#34;testtag&#34;)&lt;/pre&gt;</description>
+    </item>
+  </channel>
+</rss>

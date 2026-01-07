@@ -1,0 +1,65 @@
+---
+title: Install HA-Proxy for load-balansing on Centos
+date: 2013-07-30 20:25:36
+tags:
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+categories:
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+keywords: 
+    
+    - Elino
+    
+    
+    - Linux
+    
+    
+    - Web
+    
+     
+---
+<p>For load balasing my weebtraffic im setting up HA-proxy. The proxy recives reqest on one ip and then even loads the reqest between my web server nodes.</p>
+<p>First install and enable Epel repo</p>
+<pre>yum install haproxy</pre>
+<p>open the configfile /etc/haproxy/haproxt.cfg and ad to the buttom of the file</p>
+<pre>listen http_web 192.168.44.20:80
+ mode http
+ balance roundrobin # Load Balancing algorithm
+ option httpchk
+ option forwardfor
+ server server1 192.168.44.21:80 weight 1 maxconn 512 check
+ server server2 192.168.44.22:80 weight 1 maxconn 512 check</pre>
+<p>192.168.44.20 is my virtual if that i config in my heartbeat. And that ip will move beetween my two nodes if my first node goes down(You cant start haproxy if thet ip is not config on the server)</p>
+<p>The server config says with two server i will use as load based webserver and the traffic will goes to does web nodes.</p>
+<p>Restart haproxy now</p>
+<p>/etc/init.d/haproxy restart</p>
+<p>Now the problem i have the loadbalanser and my webnodes on the same host. And when i start haproxy it will recive connections on port 80. But my apache server would also like to use port 80.</p>
+<p>for letting both haproxy and apache use port 80 i will lock them to there ip. So Hproxy will use ip 192.168.44.20 and port 80. and apache vill use 192.168.44.21 port 80. and they will both be on the same server node.</p>
+<p>&nbsp;</p>
+<p>open up httpd config /etc/httpd/cond/httpd.conf and change Listen to</p>
+<pre>Listen 192.168.44.21:80</pre>
+<p>and now you can restart you apache</p>
+<pre>/etc/init.d/httpd restart</pre>
+<p>and we can see with netstat that it works</p>
+<pre>tcp 0 0 192.168.44.21:80 0.0.0.0:* LISTEN 20101/httpd 
+tcp 0 0 192.168.44.20:80 0.0.0.0:* LISTEN 19857/haproxy</pre>
+<p>And now we have an load balasing webb server cluster. And if you use my previus post and HA and load balansing web system.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

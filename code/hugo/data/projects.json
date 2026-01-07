@@ -1,0 +1,24 @@
+{
+  "list": [
+    {
+      "name":"Ollebo",
+      "url":"https://ollebo.com/",
+      "desc":"Drone maps and live tracking"
+    },
+    {
+      "name":"Samma.io",
+      "url":"https://samma.io",
+      "desc":"A security scanner done diffently"
+    },
+    {
+      "name":"DevSecOps FM",
+      "url":"https://devsecops.fm",
+      "desc":"Podcast and Video content abount DevSecOps"
+    },
+    {
+      "name":"Hacking Robots Beer",
+      "url":"https://hacking.robots.beer",
+      "desc":"My Company"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+---
+title: Nginx with TLS (Handel certs in Docker)
+date: 2016-05-26 12:56:45
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>I use alot of nginx with tls. And almost ll of my docker are public. So how do i solve the tls issues.<br />
+Well i have done it like so in my docker file i generate ssl cert for nginx in a folder i called /etc/nginx/tls<br />
+Then when i use my ngix in dev i get the generated certs.</p>
+<p>&nbsp;</p>
+<p>But in prod then i mount the volum from the host with the correct certs into my ngix in /etc/nginx/tls and now my nginx pick up the prod certs and use them.</p>
+<p>&nbsp;</p>
+<pre>FROM nginx
+MAINTAINER Fareoffice
+
+LABEL name="Hackathon"
+LABEL vendor="Base"
+
+#Setting up tls
+RUN mkdir /etc/nginx/tls
+WORKDIR /etc/nginx/tls
+RUN openssl req \
+ -new \
+ -newkey rsa:4096 \
+ -days 365 \
+ -nodes \
+ -x509 \
+ -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com" \
+ -keyout nginx.key \
+ -out nginx.crt
+
+#Adding config
+ADD nginx.conf /etc/nginx/nginx.conf
+
+
+CMD nginx -g "daemon off;"</pre>
+<p>my nginx config</p>
+<p>&nbsp;</p>
+<pre>#user nobody;
+worker_processes 1;
+
+events {
+ worker_connections 1024;
+}
+
+
+http {
+ include mime.types;
+ include sites-enabled/*.conf;
+
+default_type application/octet-stream;
+ sendfile on;
+ keepalive_timeout 65;
+
+
+upstream web {
+ server web1:5000;
+ server web2:5000;
+ server web3:5000;
+ server web4:5000;
+
+}
+
+server { 
+ server_name example.com;
+
+listen 80;
+ listen 443 ssl;
+
+ssl_certificate /etc/nginx/tls/nginx.crt;
+ ssl_certificate_key /etc/nginx/tls/nginx.key;
+ ssl_trusted_certificate /etc/nginx/tls/ca-certs.pem;
+
+location / {
+ 
+ proxy_pass http://web;
+ proxy_set_header Host \$http_host; # required for docker client's sake
+ proxy_set_header X-Real-IP \$remote_addr; # pass on real client's IP
+ proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+ proxy_set_header X-Forwarded-Proto \$scheme;
+ proxy_read_timeout 900;
+ }
+
+}
+
+}</pre>
+<p>Then when I start my continer in prod i uses <strong>docker run -d -v /etc/tls/hosname:/etc/ngix/tls -t cars-lb</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

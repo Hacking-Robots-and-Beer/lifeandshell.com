@@ -1,0 +1,88 @@
+---
+title: Testing OSSEC / Syslog auth
+date: 2013-06-03 20:38:35
+tags:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Linux
+    
+    
+    - Python
+    
+    
+    - Security
+    
+     
+---
+<p>Im runing and PCI DSS Level 1 system. And during our PCI Audit i have to provide evidence that our monitoring system (OSSEC) can log logins that fails.<br />
+So or testing this and to provide evidence for our audit I made a small python script.</p>
+<p>the Scripts tries to login to th host specified in and text field and tries to run an command on them. (You can alter this to the correct username / password and then run commands on all server)</p>
+<p>&nbsp;</p>
+<pre>#!/usr/bin/env python</pre>
+<pre>#
+# Script for testing ossec logs.
+# tries to loggin on server widh wrong password 
+# that will generat en log on the host sent to ossec and then
+# ossec will alert on the login attempt</pre>
+<pre>
+import paramiko</pre>
+<pre>def ssh_in(host):
+ '''
+ ssh in to host with user and pass
+ '''</pre>
+<pre>ssh = paramiko.SSHClient()
+ ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ try:
+ ssh.connect(hostname=host, username='HACKER', password='XXXX')
+ ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('df -h')
+ print ssh_stdout.readlines()
+ except Exception, e:
+ print "Error"</pre>
+<pre>f = open('hosts.txt')
+for line in iter(f):
+ line = line.replace('\n','')
+ host = line.split(' ')
+ print "SSH into host"+host[0]
+ ssh_in(host[0])
+f.close()
+
+
+
+</pre>
+<p>The script then need an file that gives the script the ip to use.</p>
+<p>hosts.txt</p>
+<pre>
+10.10.1.1
+10.10.1.2
+
+</pre>

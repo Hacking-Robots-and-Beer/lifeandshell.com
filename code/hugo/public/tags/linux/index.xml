@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on Life and Shell</title>
+    <link>https://lifeandshell.com/tags/linux/</link>
+    <description>Recent content in Linux on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Mon, 22 Sep 2025 10:11:02 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Securing Wazuh- A Guide to Keycloak OAuth2 &amp;amp; MFA Integration</title>
+      <link>https://lifeandshell.com/posts/securing-wazuh-a-guide-to-keycloak-oauth2-mfa-integration/</link>
+      <pubDate>Mon, 22 Sep 2025 10:11:02 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/securing-wazuh-a-guide-to-keycloak-oauth2-mfa-integration/</guid>
+      <description>If you&amp;#8217;re running Wazuh in an environment with compliance requirements like PCI DSS, SOC 2, or HIPAA, you know that multi-factor authentication (MFA) and strict access control are non-negotiable. The need to prove who has access to sensitive security logs—and who can modify configurations—means that shared accounts and simple passwords are no longer enough.&#xA;It&amp;#8217;s time to connect Wazuh to a modern authentication provider. This guide will walk you through integrating Wazuh with Keycloak, a powerful open-source Identity and Access Management (IAM) solution.</description>
+    </item>
+    <item>
+      <title>Wazuh  Digest any source!</title>
+      <link>https://lifeandshell.com/posts/wazuh-digest-any-source/</link>
+      <pubDate>Sun, 13 Apr 2025 09:32:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wazuh-digest-any-source/</guid>
+      <description>How I Built a Custom Wazuh Log Ingest Pipeline (And Ditched the Wodle) If you&amp;#8217;ve ever tried to push custom logs into Wazuh, you’ve probably stumbled across something called a Wodle. Wazuh uses these built-in scripts to collect and parse data—especially useful for integrations like AWS.&#xA;So… Wodle for AWS? Sure, Wodle can collect AWS logs. But when I tried using it for my AWS environment, things didn’t exactly go as planned.</description>
+    </item>
+    <item>
+      <title>Running Wazuh Agents in Docker – From Traditional HIDS to Ingest Agents</title>
+      <link>https://lifeandshell.com/posts/wa/</link>
+      <pubDate>Sun, 13 Apr 2025 08:56:12 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wa/</guid>
+      <description>Wazuh Wazuh is a powerful open-source security platform built to monitor systems for threats, intrusions, and anomalies. Traditionally, the Wazuh agent is installed on physical or virtual Linux servers to perform host-based intrusion detection (HIDS). It passively monitors the system and reports any suspicious changes or activity to the Wazuh manager.&#xA;This works well in environments where systems are treated as immutable infrastructure — where servers are expected to remain unchanged.</description>
+    </item>
+    <item>
+      <title>Wazuh On Kubernetes using Helm</title>
+      <link>https://lifeandshell.com/posts/wazuh-on-kubernetes-using-helm/</link>
+      <pubDate>Sat, 12 Apr 2025 21:50:16 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wazuh-on-kubernetes-using-helm/</guid>
+      <description>From OSSEC to Wazuh: My Journey and Kubernetes Setup I started a long time ago using OSSEC, and eventually transitioned over to Wazuh—back when it still relied on Elasticsearch for storage and search. Recently, when I returned to Wazuh for a new project, I was surprised to find that there was no simple way to deploy Wazuh into a local Kubernetes cluster for testing. So, I decided to revive and modernize an old Helm chart I had built a while back.</description>
+    </item>
+    <item>
+      <title>k3s Cluster on setup master and node</title>
+      <link>https://lifeandshell.com/posts/k3s-cluster-on-setup-master-and-node/</link>
+      <pubDate>Sat, 07 Jan 2023 11:31:43 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/k3s-cluster-on-setup-master-and-node/</guid>
+      <description>For some IoT setups a need a k3s cluster running. To make it spread and to add more nodes a installed the k3s Master on my firewall running a small atom processor. But wanted to run the nodes on raspberry or rock nodes to handle the load.&#xA;Then by using labels on nodes I want to apply different workloads on the nodes.&#xA;Pre So before installing k3s master. I had my pihole running on port 80 and that did not work that well.</description>
+    </item>
+    <item>
+      <title>Device Tracker using Dhpcd server and bash</title>
+      <link>https://lifeandshell.com/posts/device-tracker-using-dhpcd-server-and-bash/</link>
+      <pubDate>Wed, 21 Dec 2022 14:07:01 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/device-tracker-using-dhpcd-server-and-bash/</guid>
+      <description>I have used Home Assistance for some time. And have always used the device tracker to set different actions based if I&amp;#8217;m home or not.&#xA;But when my pfsense died and a install a clean Linux box as my fw and DHCP server I lost all my tracking for devices.&#xA;But I did found out that the dhcpd server can run a command every time it hands out a dhcpds leese.</description>
+    </item>
+    <item>
+      <title>Openstreat map Docker och docker compose</title>
+      <link>https://lifeandshell.com/posts/openstreat-map-docker-och-docker-compose/</link>
+      <pubDate>Thu, 17 Nov 2022 16:53:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/openstreat-map-docker-och-docker-compose/</guid>
+      <description>Split up in separate containers !&#xA;Running openstreetmap map in docker was hard. And the docs all wanted to run it bounded with postgress and not in separate containers.&#xA;I setup so we can run osm I different containers for you to scale&#xA;https://github.com/mattiashem/osm&#xA;Clone this GitHub repo and then start it with&#xA;docker compose build&#xA;then to start it, run docker compose up&#xA;What is happening First we are building a custom Postgres docker image.</description>
+    </item>
+    <item>
+      <title>K8s Logs to Elastic with Dynamic ILM from annotations</title>
+      <link>https://lifeandshell.com/posts/k8s-logs-to-elastic-with-dynamic-ilm-from-annotations/</link>
+      <pubDate>Thu, 18 Feb 2021 23:34:48 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/k8s-logs-to-elastic-with-dynamic-ilm-from-annotations/</guid>
+      <description>#fluentd #fluent-bit #kubernetes #elasticsearch #ILM #logpain The time a spent fixing logs problems &amp;#8230; From cleaning out logs that eats disk setting up log-rotate and now Elasticsearch &amp;#8230;.. I want a easy log system that setups a Elasticsearch ILM with different life time on the logs depending on a annotation that I set on the pod.&#xA;If no annotations well then I want the logs for 30 days. And then a can set different annotations and store logs for 90 days, send to s3 ore what ever comes up.</description>
+    </item>
+    <item>
+      <title>Gitlab runners in K8s Helm (Working DockerInDocker)</title>
+      <link>https://lifeandshell.com/posts/gitlab-runners-in-k8s-helm-working-dockerindocker/</link>
+      <pubDate>Fri, 11 Dec 2020 13:24:35 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/gitlab-runners-in-k8s-helm-working-dockerindocker/</guid>
+      <description>So&amp;#8230; I spent alot of time trying to get gitlab runners working in kubernetes. using the helm from gitlab.&#xA;This is the setup i use now that works for me aand that you dont need to put to mutch inte the build job.&#xA;Replace so you have your domain and key&#xA;name the file runners1-values.yaml&#xA;## The GitLab Server URL (with protocol) that want to register the runner against</description>
+    </item>
+    <item>
+      <title>Vault EKS / AWS to pod The complete guide</title>
+      <link>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</link>
+      <pubDate>Thu, 29 Oct 2020 09:17:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</guid>
+      <description>I have bean working some time with vault and to deploy it to our EKS cluster and then to get the secrets into our pods.&#xA;After many hours of searching i have found out that using kube-vault and vault-env. This gude uses tarraform to setup the resources you need in AWS.&#xA;Then deploy the kubevault with ui into to cluster that will use a s3 bucket and backend and autoseal it self during boot</description>
+    </item>
+    <item>
+      <title>Modsecurity 3 dos / scaraping protection Working  !</title>
+      <link>https://lifeandshell.com/posts/modsecurity-3-dos-scaraping-protection-working/</link>
+      <pubDate>Mon, 16 Mar 2020 17:46:47 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/modsecurity-3-dos-scaraping-protection-working/</guid>
+      <description>Yess this is a brute force that work for modsecurity 3 and its not that many. Spent days searching the net and trying to find out how to get them working.&#xA;First setup a devoloper box Start by cloning this repo i have https://github.com/Ollebo/modsecurity3 it using the OWASP Modsecurity docker that i run is box&#xA;WARNING: i started with the first docker that installed modsec with apt but with that box i could not get block to work.</description>
+    </item>
+    <item>
+      <title>Filebeat =&gt; logstash =&gt; Elasticsearch and working modules</title>
+      <link>https://lifeandshell.com/posts/filebeat-logstash-elasticsearch-and-working-modules/</link>
+      <pubDate>Mon, 16 Mar 2020 14:39:23 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/filebeat-logstash-elasticsearch-and-working-modules/</guid>
+      <description>Setting up filbeat modules to work when you are uisng logstash to send logs over to elastic.&#xA;So i started setting up filbeat to ship my mysql-slow.log and planned to use the filbeat module.&#xA;The logs started flowing and after some time i got the logs into the correct index. But to my surprise the logs where not correct parsed. ?&#xA;The problem is that filebeat want to connect direct to elastic and ad a pipline script (grokparser in elastic )</description>
+    </item>
+    <item>
+      <title>WordPress &#43;  Gatsby = Love</title>
+      <link>https://lifeandshell.com/posts/wordpress-gatsby-love/</link>
+      <pubDate>Mon, 24 Feb 2020 15:03:30 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wordpress-gatsby-love/</guid>
+      <description>I like the ide of using wordpress as a backend service and then use a static file genertor to fetch the data from wordpress and then generate static files. Its how this blog is now woring with firebase and google cloud.&#xA;But before i started using firebase a build a small demo project to use gatsby to extract data from wordpress. I use i gatsby to connect to a wordpress and then generate html from it.</description>
+    </item>
+    <item>
+      <title>Openvas results to json and Elasticsearch and kibana</title>
+      <link>https://lifeandshell.com/posts/openvas-results-to-json-and-elasticsearch-and-kibana/</link>
+      <pubDate>Mon, 24 Feb 2020 14:59:57 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/openvas-results-to-json-and-elasticsearch-and-kibana/</guid>
+      <description>I have some openvas scanners running but to use the scanners a need the results as json files. Then i can use my ELK stack to visualize and have dashboards over the results from the scan.&#xA;Before I used vulwisperer to export the result from openvas and to get them into elk. But from the latest release of openvas the support from vulwipspere is gone.&#xA;So i have created my own pyton script that reads the results from openvas scannings.</description>
+    </item>
+    <item>
+      <title>Send Openvas result to Kibana with vulwisperer</title>
+      <link>https://lifeandshell.com/posts/send-openvas-result-to-kibana-with-vulwisperer/</link>
+      <pubDate>Mon, 24 Feb 2020 14:55:26 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/send-openvas-result-to-kibana-with-vulwisperer/</guid>
+      <description>Vulwisperer is a tool to read the finding from a openvas scanner and to send them to a other tools. Here i want them to be sent to a elasticsearch and kibana. To do this i first need to start a openvas scan and get some results. &amp;#8211;Then use vulwisperer to get the results from openvas and store the results in json files.From the json files a then uses logstash to send the finding to elastic.</description>
+    </item>
+    <item>
+      <title>Nikto webbscanner for kubernetes (samma.io)</title>
+      <link>https://lifeandshell.com/posts/nikto-webbscanner-for-kubernetes-samma-io/</link>
+      <pubDate>Mon, 24 Feb 2020 14:50:20 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/nikto-webbscanner-for-kubernetes-samma-io/</guid>
+      <description>I hope that you have already test my nmap scanners for kubernetes. Now its time for some more OWASP and webb scanner.&#xA;Nikto is a webb application scanners and run against a target to verify its security.&#xA;I have created a nikto docker and a helm job that deploys the nikto scanner into your kubernetes cluster.&#xA;The nikto scanner will then on regular basic scan you webbapps for security issues.</description>
+    </item>
+    <item>
+      <title>Nmap security scanner for kubernetes (samma.io)</title>
+      <link>https://lifeandshell.com/posts/nmap-security-scanner-for-kubernetes-samma-io/</link>
+      <pubDate>Mon, 24 Feb 2020 14:45:56 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/nmap-security-scanner-for-kubernetes-samma-io/</guid>
+      <description>I have worked with many of the diffent scanners around i i have a hard time liking them. What a miss is a scanner that can be run fast and simple and that send it outut in JSON so I can load the data into my own kibana.&#xA;For this i have created the project samma.io and the first scanner was the nmap scanner.&#xA;You can simply deploy the scanner with helm as a cronob.</description>
+    </item>
+    <item>
+      <title>WordPress static hosting with firebase and google cloud</title>
+      <link>https://lifeandshell.com/posts/wordpress-static-hosting-with-firebase-and-google-cloud/</link>
+      <pubDate>Mon, 24 Feb 2020 14:07:35 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wordpress-static-hosting-with-firebase-and-google-cloud/</guid>
+      <description>Some time ago i started looking to move this wordpress blog into a static file blog system. So to find the best tool a started to test the different blog tools like jekyll and hugo.&#xA;They all worked good but a found it hard to edit my blogs in static files and also to generate and then deploy the site. Its hard to move away from wordpress when you have started.</description>
+    </item>
+    <item>
+      <title>Move Bind DNS config to Route53 CloudFormations</title>
+      <link>https://lifeandshell.com/posts/move-bind-dns-config-to-route53-cloudformations/</link>
+      <pubDate>Wed, 16 Oct 2019 13:18:26 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/move-bind-dns-config-to-route53-cloudformations/</guid>
+      <description>I have started migrate our bind server into AWS and Route53. We have all our config as code so to migrate over our DNS I needed to convert our bind Zone files into Route53 Cloudformations.&#xA;I found that one of our ZONE files was big so i wrote a small Python script in docker that converts zone files into route53 Cloudformations.&#xA;After the convert is done a did some manual check to verify i looks good and add any TXT record.</description>
+    </item>
+    <item>
+      <title>Local Developing for Google Cloud</title>
+      <link>https://lifeandshell.com/posts/local-developing-google-cloud/</link>
+      <pubDate>Fri, 27 Apr 2018 20:06:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/local-developing-google-cloud/</guid>
+      <description>I have now starting to move all my hosting and code to the Google cloud platform.&#xA;But when i developing new things i want to use the power and flexibility that the platform gives me but i want to develop local.&#xA;So for my new project with using Datastore and the python app engine. I have set up a docker-compose for me.&#xA;Now i can spin up my compose and build my app and then when don deploy to the cloud platform.</description>
+    </item>
+    <item>
+      <title>Alexa and Jenkins (Docker)</title>
+      <link>https://lifeandshell.com/posts/alexa-jenkins-docker/</link>
+      <pubDate>Sat, 26 Nov 2016 22:05:28 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/alexa-jenkins-docker/</guid>
+      <description>So I have an Alexa echo dot at home. Use it to control stuff but I wanted it to do more like release and deploy the stuff I build.&#xA;This is how you can integrate Alexa voice service with Jenkins.&#xA;First setup the server For receiving commands from Alexa and sending them to Jenkins we need a server and some code. First start with the server i use docker and a docker-compose to set it up.</description>
+    </item>
+    <item>
+      <title>ddclient for loopia in Docker</title>
+      <link>https://lifeandshell.com/posts/ddclient-loopia-docker/</link>
+      <pubDate>Mon, 27 Jun 2016 20:43:23 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ddclient-loopia-docker/</guid>
+      <description>So i uses loopia.se as my dns provider.&#xA;And a also have some dns for my home but it always change ip (have dynamic ip home )&#xA;&amp;nbsp;&#xA;So for fixing this i build a docker images that updates my loopia server from the docker images.&#xA;So i if you are using loopia i but this is the best way of updating you dns records&#xA;&amp;nbsp;&#xA;Run with&#xA;docker run -e &#34;</description>
+    </item>
+    <item>
+      <title>Nginx with TLS (Handel certs in Docker)</title>
+      <link>https://lifeandshell.com/posts/nginx-tls-cert-issues-docker/</link>
+      <pubDate>Thu, 26 May 2016 12:56:45 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/nginx-tls-cert-issues-docker/</guid>
+      <description>I use alot of nginx with tls. And almost ll of my docker are public. So how do i solve the tls issues.&#xA;Well i have done it like so in my docker file i generate ssl cert for nginx in a folder i called /etc/nginx/tls&#xA;Then when i use my ngix in dev i get the generated certs.&#xA;&amp;nbsp;&#xA;But in prod then i mount the volum from the host with the correct certs into my ngix in /etc/nginx/tls and now my nginx pick up the prod certs and use them.</description>
+    </item>
+    <item>
+      <title>Autodeploy you docker images to AWS (git push = deploy)</title>
+      <link>https://lifeandshell.com/posts/autodeploy-docker-images-aws-git-push-deploy/</link>
+      <pubDate>Thu, 26 May 2016 12:56:19 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/autodeploy-docker-images-aws-git-push-deploy/</guid>
+      <description>So I have a lot of small project and some large. To buil in quality into my code i need to run test in my code. And my code in a prod like env.&#xA;I always uses docker so my dev env are verly like my prod.&#xA;One key thing that i do is that when i push code to my master branch i do a release do server. This is so that i can verify that everything is working and i can run test on it.</description>
+    </item>
+    <item>
+      <title>Maxscale Sql scaling with mariadb Cluster on Centos in Docker</title>
+      <link>https://lifeandshell.com/posts/maxscale-sql-scaling-with-mariadb-cluster-in-docker/</link>
+      <pubDate>Thu, 28 Jan 2016 22:31:46 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/maxscale-sql-scaling-with-mariadb-cluster-in-docker/</guid>
+      <description>So scaling sql server has now bean easy with mariadb maxscale. Here i uses it to connect to my mariadb cluster and setup two new servers. One is a loadbalanser and onw is a read/write splitter&#xA;1.First prep your mariadb servers with som users for you maxscale CREATE user &#39;maxscale&#39;@&#39;%&#39; identified by &#39;maxscaleW222&#39;;&#xD;GRANT SELECT ON mysql.user TO &#39;maxscale&#39;@&#39;%&#39;;&#xD;GRANT SELECT ON mysql.db TO &#39;maxscale&#39;@&#39;%&#39;;&#xD;GRANT SHOW DATABASES ON *.* TO &#39;maxscale&#39;@&#39;%&#39;; &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>MariaDB cluster with Dynamic Nodes on Centos 7 in Docker</title>
+      <link>https://lifeandshell.com/posts/mariadb-cluster-with-dynamic-nodes-in-docker/</link>
+      <pubDate>Wed, 27 Jan 2016 13:45:55 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mariadb-cluster-with-dynamic-nodes-in-docker/</guid>
+      <description>So running sql in docker is a big qestion now. To make some test i have setup two mariadb cluster docker containers. The first one is the mariadb cluster master. This will setup a master mariadb sql node running.&#xA;The second one is the MariaDB cluster slave. This docker will connect to the master and rsync the database over to the slave. Then en database is rsynced over it will start the sql and can process sql data.</description>
+    </item>
+    <item>
+      <title>Openldap with SQL Backend (Mariadb Centos 7 ) in Docker</title>
+      <link>https://lifeandshell.com/posts/openldap-with-sql-backend-mariadb/</link>
+      <pubDate>Thu, 21 Jan 2016 15:59:14 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/openldap-with-sql-backend-mariadb/</guid>
+      <description>We use Ldap for handling our users and I have spent time setting up Openldap and tryng to configur it.&#xA;But now i have given up my ldap skills and setup my openldap to use a sql backend and then i config my user with SQL that i like more.&#xA;I have also build i Dockerfile for docker that you can use.&#xA;&amp;nbsp;&#xA;&amp;nbsp;&#xA;So what you need is one sql databserver to hold that database, One odbc connection from the ldap server to that sql server.</description>
+    </item>
+    <item>
+      <title>Mesos cluster with Marathon running Docker</title>
+      <link>https://lifeandshell.com/posts/mesos-cluster-with-marathon-running-docker/</link>
+      <pubDate>Fri, 11 Dec 2015 21:47:19 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mesos-cluster-with-marathon-running-docker/</guid>
+      <description>Hi&#xA;So for hosting docker in large scale i have tested mesos cluster. Here is a guide for setting up 3 nodes in mesos running Centos 7. And the adding Marathon to controll the dockers running.&#xA;The network&#xA;mesos-master 172.0.0.10&#xA;mesos-slave1 172.0.0.11&#xA;mesos-slave2 172.0.0.12&#xA;&amp;nbsp;&#xA;The node also have on nic connect to the network with internet access.&#xA;&amp;nbsp;&#xA;Security&#xA;For this guide stop iptables and turn selinux off&#xA;setenforce 0&#xD;systemect stop firewalld &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Python DOS protection (iptables,dos)</title>
+      <link>https://lifeandshell.com/posts/python-dos-protection-iptablesdos/</link>
+      <pubDate>Fri, 06 Nov 2015 15:18:51 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/python-dos-protection-iptablesdos/</guid>
+      <description>here are a small script I use to have some sort of dos protection on my webservers.&#xA;&amp;nbsp;&#xA;import subprocess&#xD;whitelist=[&#39;192.168.1.2&#39;]&#xD;blockvalue=2&#xD;alertvalue=1&#xD;proc = subprocess.Popen(&#34;netstat -ntu | awk &#39;{print $5}&#39; | cut -d: -f1 | sort | uniq -c | sort -n&#34;, shell=True,stdout=subprocess.PIPE)&#xD;running = proc.stdout.read()&#xD;runing_sorted = running.split(&#39;\n&#39;)&#xD;for r in runing_sorted:&#xD;con =r.split()&#xD;if len(con) ==2:&#xD;#If ip has more conenctions then block value ip block&#xD;if con[0] &amp;lt;= blockvalue:&#xD;print &#34;</description>
+    </item>
+    <item>
+      <title>Move an Megento site to new url</title>
+      <link>https://lifeandshell.com/posts/move-an-megento-site-to-new-url/</link>
+      <pubDate>Wed, 07 Oct 2015 09:19:38 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/move-an-megento-site-to-new-url/</guid>
+      <description>So I hade to move en megent site from topunder.se to test.topunder.se this is so that you can test and try new stuff on a site that is not you primary site.&#xA;Moving magneto was some hazzel it not as easy as other site is take som sql to make it work.&#xA;&amp;nbsp;&#xA;&amp;nbsp;&#xA;&amp;nbsp;&#xA;First setup you webbserver (This is only the basic) &amp;nbsp;&#xA;&amp;lt;VirtualHost *:80&amp;gt;&#xD;ServerAdmin webmaster@test.topunder.se&#xD;ServerName test.</description>
+    </item>
+    <item>
+      <title>Foreman provision to bare and libvirtd (Centos7, foreman, libvirtd, KVM)</title>
+      <link>https://lifeandshell.com/posts/foreman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm/</link>
+      <pubDate>Sun, 05 Jul 2015 21:26:46 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/foreman-provision-to-bare-and-libvirtd-centos7-foreman-libvirtd-kvm/</guid>
+      <description>So I have started to play around with foreman and to get it to provision my diffrent servers. I started by starting up some local virtual servers on my laptop and played around with them.&#xA;The flow is i started installing foreman as a virtual server. Then i provisin a new virtual server as bare matal (I created a virtual server in virsh) ater that virtual server is prevision i installed it as a virtual host(kvm on kvm) and connected it to foreman so foreman kan provision kvm host.</description>
+    </item>
+    <item>
+      <title>Build Openvpn centos 7</title>
+      <link>https://lifeandshell.com/posts/build-openvpn-centos-7/</link>
+      <pubDate>Wed, 17 Jun 2015 22:33:25 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/build-openvpn-centos-7/</guid>
+      <description>Here is how i build and setup openvpn on my centos 7 box.&#xA;1. Download and install openvpn latest&#xA;Some yum packages&#xA;&amp;nbsp;&#xA;yum install openssl-devel lzo-devel pam-devel &amp;nbsp;&#xA;&amp;nbsp;&#xA;https://openvpn.net/index.php/open-source/downloads.html&#xA;&amp;nbsp;&#xA;wget https://swupdate.openvpn.org/community/releases/openvpn-2.3.7.tar.gz tar zxvf openvpn-2.3.7.tar.gz cd openvpn-2.3.7 ./configure make make install # /usr/local/sbin/openvpn --version &amp;nbsp;&#xA;&amp;nbsp;&#xA;So now we have the latest version setup and lets create some cert that we can use for the server ans clients.</description>
+    </item>
+    <item>
+      <title>Python3 and rabbitmq</title>
+      <link>https://lifeandshell.com/posts/python3-and-rabbitmq/</link>
+      <pubDate>Tue, 21 Apr 2015 22:38:05 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/python3-and-rabbitmq/</guid>
+      <description>Im using rabbitmq in some of my python apps. Here is a small guide to get pyton3 to send and recive data from rabbitmq&#xA;&amp;nbsp;&#xA;I uses the code from&#xA;https://code.google.com/p/py-amqplib/&#xA;And read some guide from&#xA;http://blogs.digitar.com/jjww/2009/01/rabbits-and-warrens/ from 2009 !!!!&#xA;&amp;nbsp;&#xA;Get the pip you need to connect&#xA;sudo pip3 install amqp &amp;nbsp;&#xA;&amp;nbsp;&#xA;My python code for sending and reciving&#xA;&amp;nbsp;&#xA;#!/usr/bin/env python&#xD;from amqplib import client_0_8 as amqp&#xD;import time&#xD;conn = amqp.</description>
+    </item>
+    <item>
+      <title>Setup SPI on Raspberry pi (mcp3008, Adafruit)</title>
+      <link>https://lifeandshell.com/posts/setup-spi-on-raspberry-pi-mcp3008-adafruit/</link>
+      <pubDate>Sun, 19 Apr 2015 20:25:33 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/setup-spi-on-raspberry-pi-mcp3008-adafruit/</guid>
+      <description>Im building my own watering system and to that I will have some sensores..&#xA;They are connected to my pi over SFI and a mcp3008 from Adafruit.&#xA;&amp;nbsp;&#xA;The gear http://www.adafruit.com/products/1989&#xA;http://www.adafruit.com/products/856&#xA;http://www.kjell.com/sortiment/el/elektronik/elektroniklab/kopplingsplatta-lodfri-p87886&#xA;http://www.elecfreaks.com/store/octopus-soil-moisture-sensor-brick-p-422.html&#xA;&amp;nbsp;&#xA;Setup the cables Use this guide and se how the you should connect the mcp3008 and the sensore.&#xA;http://www.raspberrypi-spy.co.uk/2013/10/analogue-sensors-on-the-raspberry-pi-using-an-mcp3008/&#xA;&amp;nbsp;&#xA;Get the Pi ready &amp;nbsp;&#xA;1. First enable SFI on the board here&#xA;http://www.raspberrypi-spy.co.uk/2014/08/enabling-the-spi-interface-on-the-raspberry-pi/&#xA;I uses the raspi-config and enabled the SFI</description>
+    </item>
+    <item>
+      <title>Php HHVM (aka the HipHop Virtual Machine) on Centos 7</title>
+      <link>https://lifeandshell.com/posts/php-hhvm-aka-the-hiphop-virtual-machine-on-centos-7/</link>
+      <pubDate>Fri, 20 Feb 2015 21:49:47 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/php-hhvm-aka-the-hiphop-virtual-machine-on-centos-7/</guid>
+      <description>To get my php projects running as fast as possible om trying to use hhvm.&#xA;And here is my small guide how to install it on centos 7&#xA;I used the docs from https://github.com/facebook/hhvm/wiki/Building-and-installing-hhvm-on-CentOS-7.x&#xA;&amp;nbsp;&#xA;1. First setup you centos linux host &amp;nbsp;&#xA;yum localinstall http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm&#xD;yum localinstall http://rpms.famillecollet.com/enterprise/remi-release-7.rpm yum install cpp gcc-c++ cmake git psmisc {binutils,boost,jemalloc}-devel \&#xD;{sqlite,tbb,bzip2,openldap,readline,elfutils-libelf,gmp,lz4,pcre}-devel \&#xD;lib{xslt,event,yaml,vpx,png,zip,icu,mcrypt,memcached,cap,dwarf}-devel \&#xD;{unixODBC,expat,mariadb}-devel lib{edit,curl,xml2,xslt}-devel \&#xD;glog-devel oniguruma-devel inotify-tools-devel ocaml yum install ImageMagick-last\* --enablerepo=remi My box is a clean centos 7.</description>
+    </item>
+    <item>
+      <title>Installing Go build server on centos 7</title>
+      <link>https://lifeandshell.com/posts/installing-go-build-server-on-centos-7/</link>
+      <pubDate>Wed, 11 Feb 2015 21:39:35 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installing-go-build-server-on-centos-7/</guid>
+      <description>Installing the go build server in centos 7 with some easy step&#xA;&amp;nbsp;&#xA;&amp;nbsp;&#xA;1. First head over to the go page and have a look around http://www.go.cd/&#xA;2. Download go server to you centos box &amp;nbsp;&#xA;wget http://download.go.cd/gocd-rpm/go-server-14.4.0-1356.noarch.rpm&#xD;wget http://download.go.cd/gocd-rpm/go-agent-14.4.0-1356.noarch.rpm 3. Install it First start by adding the go user (something broken in install)&#xA;useradd go Now run yum localinstall to install local packages&#xA;yum install java-1.7.0-openjdk -y&#xD;yum localinstall go-server-14.</description>
+    </item>
+    <item>
+      <title>Hosting you private docker repo</title>
+      <link>https://lifeandshell.com/posts/hosting-you-private-docker-repo/</link>
+      <pubDate>Wed, 11 Feb 2015 16:41:19 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/hosting-you-private-docker-repo/</guid>
+      <description>We are staring using docker in our developing process. and in that we need to have our own docker repo for hosting our private docker.&#xA;The path is&#xA;[public docker cloud(centos img)] &amp;#8211;public docker image- &amp;gt; [jenkins build our code and docker img] &amp;#8212;&amp;gt; our docker images &amp;#8212;&amp;gt; [private docker repo]&amp;#8211;our docker image-&amp;gt;[Servers [int,qa,prod]&#xA;&amp;nbsp;&#xA;1. Setting up the docker imaged for the docker repo make a folder that will hold you data</description>
+    </item>
+    <item>
+      <title>Getting django docker prod ready with jenkins (part 1 the build)</title>
+      <link>https://lifeandshell.com/posts/getting-django-docker-prod-ready-with-jenkins-part-1-the-build/</link>
+      <pubDate>Sun, 18 Jan 2015 21:25:59 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/getting-django-docker-prod-ready-with-jenkins-part-1-the-build/</guid>
+      <description>So i have some django webb projects and now its time to get my django apps prod ready with docker.&#xA;My plan is to with jenkins build my django apps (soon start a docker of the app and run some test but that will be later) make a docker image and send that to the docker cloud.&#xA;Then a can download the docker image on my prod server and start the app.</description>
+    </item>
+    <item>
+      <title>Installing Openstack Centos 7</title>
+      <link>https://lifeandshell.com/posts/installing-openstack-centos-7/</link>
+      <pubDate>Fri, 03 Oct 2014 14:45:31 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installing-openstack-centos-7/</guid>
+      <description>Time to install Openstack on an Centos 7 server. This was my first meeting with Openstack and it took some time for gettings things up.&#xA;This would be a beginners guide to get you first server up and running.&#xA;I followed this page in my installation&#xA;&amp;nbsp;&#xA;https://openstack.redhat.com/Neutron_with_existing_external_network&#xA;&amp;nbsp;&#xA;My Openstack server has one NIC connect to my DMZ network and then routed out.&#xA;&amp;nbsp;&#xA;First install a Centos 7 minimal server and setup network &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Installing Jenkins on Centos 7</title>
+      <link>https://lifeandshell.com/posts/installing-jenkins-on-centos-7/</link>
+      <pubDate>Fri, 03 Oct 2014 14:43:32 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installing-jenkins-on-centos-7/</guid>
+      <description>So guide how to get jenkins up and running on centos 7&#xA;1. First install it !&#xA;yum install -y wget&#xD;sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo&#xD;sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key&#xD;sudo yum install jenkins 2. Install java&#xA;sudo yum install java-1.7.0-openjdk &amp;nbsp;&#xA;3. Open firewall&#xA;&amp;nbsp;&#xA;firewall-cmd --zone=public --add-port=8080/tcp --permanent&#xD;firewall-cmd --reload&#xD;systemctl enable firewalld&#xD;systemctl start firewalld&#xD;systemctl status firewalld &amp;nbsp;&#xA;4. start it !&#xA;sudo /etc/init.d/jenkins restart&#xD;systemctl restart jenkins.</description>
+    </item>
+    <item>
+      <title>vmware to kvm (OWASP broken webb app on KVM)</title>
+      <link>https://lifeandshell.com/posts/vmware-to-kvm-owasp-broken-webb-app-on-kvm/</link>
+      <pubDate>Tue, 09 Sep 2014 10:38:29 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/vmware-to-kvm-owasp-broken-webb-app-on-kvm/</guid>
+      <description>So I uses kvm for my virtual server. But i got OWASP broken webb app in vmware format and its not ok.&#xA;But with the help from google i found some help to get the OWASP Broken Webb App on my kvm hosts.&#xA;I follewed the info from this page&#xA;&amp;nbsp;&#xA;http://blog.bodhizazen.net/linux/convert-vmware-vmdk-to-kvm-qcow2-or-virtualbox-vdi/&#xA;&amp;nbsp;&#xA;&amp;nbsp;&#xA;1. Download and unzip Owasp Broken Webb app to you folder (It uses 7zip for some reason) https://www.</description>
+    </item>
+    <item>
+      <title>Dyndns to loopia.se to update you domain dynamic</title>
+      <link>https://lifeandshell.com/posts/dyndns-to-loopia-se-to-update-you-domain-dynamic/</link>
+      <pubDate>Sun, 06 Jul 2014 21:37:17 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/dyndns-to-loopia-se-to-update-you-domain-dynamic/</guid>
+      <description>So many of my dominas I have registered on loopia.se. And they have dyndns support so I can create a subdomain to my domian. And have it updated when my laptop ore home ip changes.&#xA;This make the task of connecting back to my home server easy.&#xA;First install the dyndns clinet on you host here I&amp;#8217;m installing it on my Centos 6 server with EPEL REPO installed&#xA;&amp;nbsp;&#xA;yum install ddclient &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Starting with Go on Ubuntu</title>
+      <link>https://lifeandshell.com/posts/starting-with-go-on-ubuntu/</link>
+      <pubDate>Sat, 24 May 2014 20:56:02 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/starting-with-go-on-ubuntu/</guid>
+      <description>So I starting to test to use the go language for some projects. Here is how i set up go on my ubuntu laptop.&#xA;&amp;nbsp;&#xA;1. Installing go language sudo apt-get install python-software-properties sudo add-apt-repository ppa:duh/golang&#xD;sudo apt-get update&#xD;sudo apt-get install golang verify&#xA;go version 2. Getting an good IDE I uses sublime text find if here and install it&#xA;http://www.sublimetext.com/&#xA;3. Write you first line of code in GO Start up an new file in sublime and past this in the file (I call the file main.</description>
+    </item>
+    <item>
+      <title>Install Pandora fms monitoring system on Centos</title>
+      <link>https://lifeandshell.com/posts/install-pandora-fms-monitoring-system-on-centos/</link>
+      <pubDate>Sat, 22 Mar 2014 13:10:54 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-pandora-fms-monitoring-system-on-centos/</guid>
+      <description>So for many years i use nagios to monitor my server and now im would say i can handle nagios config files good. But I fund pandora fms monitoring and this i must try.&#xA;From the pandora console its mutch easy to from the webbrowser setup new task and tweek task so you alarms realy are correct. Doing this in nagios then i had to change config files and restart nagios and nrpe.</description>
+    </item>
+    <item>
+      <title>Pimcore Opensource online marketers dream install on Centos 6</title>
+      <link>https://lifeandshell.com/posts/pimcore-opensource-online-marketers-dream-install-on-centos-6/</link>
+      <pubDate>Sun, 16 Mar 2014 20:18:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/pimcore-opensource-online-marketers-dream-install-on-centos-6/</guid>
+      <description>For my elinodrift project I was searching for a online tool for handle online marketers.&#xA;So I ended up with Pimcore for my service.&#xA;Here is a small guide to install Pimcore on my Centos 6 server.&#xA;First have install apache, Php and mysql on the server. I installed it on my webbserver so the server was pretty well configured.&#xA;1. PHP But for pimcore to run you must upgrade you php to version 5.</description>
+    </item>
+    <item>
+      <title>Open Webbmail RainLoop installation and setup</title>
+      <link>https://lifeandshell.com/posts/open-webbmail-rainloop-installation-and-setup/</link>
+      <pubDate>Sat, 15 Mar 2014 11:00:59 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/open-webbmail-rainloop-installation-and-setup/</guid>
+      <description>So I have testet so many differnt webbbased email programs. And have not been 100% happy with any of them. some are to big other look really bad.&#xA;(Rainloop is open for non profit companies 🙂 )&#xA;But now i found one that I hope i can like some boor Rainloop http://rainloop.net/&#xA;It looks nice and are realy easy to install and setup.&#xA;Here is how I installe if for my domain.</description>
+    </item>
+    <item>
+      <title>Protecting you web with ModSecurity On Centos</title>
+      <link>https://lifeandshell.com/posts/protecting-you-web-with-modsecurity-on-centos/</link>
+      <pubDate>Tue, 04 Mar 2014 22:00:40 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/protecting-you-web-with-modsecurity-on-centos/</guid>
+      <description>So it you worry about you webb then modsecurity is rely nice to have on your webbserver. I have it installed on my apache server with the regular rules from OWAS and also some rules for my own sites.&#xA;But here is also how to install it.&#xA;&amp;nbsp;&#xA;1. Download and build modsec on your server Add some packages&#xA;yum install gcc make&#xD;yum install libxml2 libxml2-devel httpd-devel pcre-devel curl-devel Go to http://www.</description>
+    </item>
+    <item>
+      <title>Install Elasticsearch, Kibana 4 , fluentd (Opensource splunk) with syslog clients</title>
+      <link>https://lifeandshell.com/posts/install-elasticsearch-kibana-fluentd-opensource-splunk-with-syslog-clients/</link>
+      <pubDate>Sat, 22 Feb 2014 21:48:54 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-elasticsearch-kibana-fluentd-opensource-splunk-with-syslog-clients/</guid>
+      <description>So used splunk some times but it has its limit (money) so now Im testing&#xA;1. Java first install java on your server. Get java from here http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&#xA;yum localinstall jdk-8u25-linux-x64.rpm And install it on your server.&#xA;2. Elasticsearch Get it from here http://www.elasticsearch.org/download I installed the rpm and run&#xA;https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.0.Beta1.noarch.rpm&#xD;yum localinstall elasticsearch-1.4.0.Beta1.noarch.rpm I hade to make some settings in this file my vps only hade 512m&#xA;vi /etc/sysconfig/elasticsearch /etc/init.</description>
+    </item>
+    <item>
+      <title>Installing and configure Munin Monitoring (Centos 6)</title>
+      <link>https://lifeandshell.com/posts/installing-and-configure-munin-monitoring-centos-6/</link>
+      <pubDate>Sat, 22 Feb 2014 21:40:44 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installing-and-configure-munin-monitoring-centos-6/</guid>
+      <description>to get some performance data from my server i use Munin monitroing system.&#xA;And here is i samm guide how to install and set up munin on the munin serer and on the munin client.&#xA;First up is to setup the munin server&#xA;yum install munin munin-node &amp;lt;-- on server&#xD;yum install munin-node &amp;lt;-- on clients i install both the munin server and node on the same host so i can monitor the host that the munin server is on.</description>
+    </item>
+    <item>
+      <title>Centos syncing VPS (Moving between VPS)</title>
+      <link>https://lifeandshell.com/posts/centos-syncing-vps-moving-between-vps/</link>
+      <pubDate>Wed, 19 Feb 2014 21:17:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/centos-syncing-vps-moving-between-vps/</guid>
+      <description>So I have one vps on a company not that good so now I want to move my centos server to A new VPS server. But I dont want to install eveything from the start again.&#xA;So here is how I move my service between the two hosts.&#xA;&amp;nbsp;&#xA;1. Syncing yum Copy over you repo files I hade rpm forge and epel on my servers.&#xA;scp rpm* root@eu1.elinodrift.se:/etc/yum.repos.d/&#xD;scp epel* root@eu1.</description>
+    </item>
+    <item>
+      <title>Build you first syco Module</title>
+      <link>https://lifeandshell.com/posts/build-you-first-syco-module/</link>
+      <pubDate>Tue, 18 Feb 2014 22:12:56 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/build-you-first-syco-module/</guid>
+      <description>SO from the last post you can install syco but you also need to build and update your own plugins in syco.&#xA;Here is a small guide how to build you first plugin.&#xA;Here om building some syco commands for controlling apache and glassfish server.&#xA;the commands are run from our syco-chuck release commands center so for adding them to syco i can controll the script from sudo and do some extra test before starting and stopping the service.</description>
+    </item>
+    <item>
+      <title>Setup SYCO on you centos box</title>
+      <link>https://lifeandshell.com/posts/setup-syco-on-you-centos-box/</link>
+      <pubDate>Tue, 18 Feb 2014 15:27:04 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/setup-syco-on-you-centos-box/</guid>
+      <description>So if you care about security and stability you must have syco installed on your server.&#xA;Read more about syco on the github project https://github.com/systemconsole&#xA;Im staring to use syco not only production but also on my &amp;#8220;Own&amp;#8221; server.&#xA;So more of you should really start using it and here is i guide for you to start using syco&#xA;1. Installing and setting up centos yum install git &amp;nbsp;&#xA;Gettings syco</description>
+    </item>
+    <item>
+      <title>Installing Asylguiden on centos Server</title>
+      <link>https://lifeandshell.com/posts/installing-asylguiden-on-centos-server/</link>
+      <pubDate>Mon, 17 Feb 2014 21:21:20 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installing-asylguiden-on-centos-server/</guid>
+      <description>One of my own prodjects are Asylguiden. Its A python publish system build with django, Mysql and mongodb.&#xA;You can find the code here on github&#xA;https://github.com/mattiashem/asylguiden&#xA;Asylguiden also works with wsgi for python and apache for displaying content&#xA;here is my own how to for downloadning and setting up asylguiden on a production server.&#xA;1. Setting up server for hosing Centos&#xA;yum install httpd mod_ssl git wget python-setuptools mod_wsgi &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Installing Plex Mediaserver Centos 6</title>
+      <link>https://lifeandshell.com/posts/installing-plex-mediaserver-centos-6/</link>
+      <pubDate>Sun, 16 Feb 2014 11:34:53 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installing-plex-mediaserver-centos-6/</guid>
+      <description>So I use plex for my media and i have a small server running with my plex server on it.&#xA;and here is how I install plex server on my home centos server.&#xA;This guide will work on several Linux dist&#xA;1. Grab latest plex server&#xA;go to https://plex.tv/downloads and choose the one best match for you system&#xA;I got&#xA;wget http://downloads.plexapp.com/plex-media-server/0.9.8.18.290-11b7fdd/plexmediaserver-0.9.8.18.290-11b7fdd.x86_64.rpm Install the package&#xA;rpm -i plexmediaserver-0.9.8.18.290-11b7fdd.x86_64.rpm Start the plex server</description>
+    </item>
+    <item>
+      <title>Blocking unwanted traffic (ddos,scrapers) Apache, Iptables</title>
+      <link>https://lifeandshell.com/posts/blocking-unwanted-traffic-ddosscrapers-apache-iptables/</link>
+      <pubDate>Tue, 11 Feb 2014 23:16:22 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/blocking-unwanted-traffic-ddosscrapers-apache-iptables/</guid>
+      <description>So spent last evning blocking ip comming from packetflip to our server. Looks in our Apache access log that there was some evil scraping going on so we started blocking. But its not that funny to block many ip manually so time for some scripts.&#xA;&amp;nbsp;&#xA;First some info to use Packetflip user agent was&#xA;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.</description>
+    </item>
+    <item>
+      <title>Apache Strong SSL config</title>
+      <link>https://lifeandshell.com/posts/apache-strong-ssl-config/</link>
+      <pubDate>Sun, 19 Jan 2014 22:46:53 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/apache-strong-ssl-config/</guid>
+      <description>So only enable SSL on Apache is not good enough there are some config to add to&#xA;apache to make it stronger.&#xA;&amp;nbsp;&#xA;This are the setting i use in my apache ssl configs.&#xA;SSLEngine On&#xD;SSLCertificateFile /etc/apache2/ssl/apache.pem&#xD;SSLCertificateKeyFile /etc/apache2/ssl/apache.key Header add Strict-Transport-Security &#34;max-age=15768000&#34;&#xD;SSLCompression off&#xD;SSLUseStapling on&#xD;SSLStaplingResponderTimeout 5&#xD;SSLStaplingReturnResponderErrors off&#xD;SSLStaplingCache shmcb:/var/run/ocsp(128000)&#xD;SSLProtocol All -SSLv2 -SSLv3&#xD;SSLCipherSuite ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4 And for generating you cert I use&#xA;openssl req -new -x509 -days 365 -nodes -out /etc/apache2/ssl/apache.</description>
+    </item>
+    <item>
+      <title>ejabber users from postfixadmin (python,mysql,md5crypt)</title>
+      <link>https://lifeandshell.com/posts/ejabber-users-from-postfixadmin-pythonmysqlmd5crypt/</link>
+      <pubDate>Fri, 10 Jan 2014 21:28:51 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ejabber-users-from-postfixadmin-pythonmysqlmd5crypt/</guid>
+      <description>So Im running my emails with postfix and have postfix admin to manager my users and domains. But now it should be nice to have i jabber server running and to have the same user and password for both email and jabber.&#xA;Ejabber support custom auth plugins and with some python i now have a working plugin.&#xA;&amp;nbsp;&#xA;First install python packages yum install MySQL-python&#xD;yum install python-passlib &amp;nbsp;&#xA;Add this script to you ejabber folder</description>
+    </item>
+    <item>
+      <title>Install and setup Haystack search for Django</title>
+      <link>https://lifeandshell.com/posts/install-and-setup-haystack-search-for-django/</link>
+      <pubDate>Sun, 05 Jan 2014 22:28:01 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-and-setup-haystack-search-for-django/</guid>
+      <description>So Mysql is crap at doing full text search. So in one of my projects i use Haystack so i can do full text searches.&#xA;I have a running Django project up and this is how I setup haystack for my project.&#xA;&amp;nbsp;&#xA;Install and config sudo pip install django-haystack &amp;nbsp;&#xA;in settings.py under INSTALLED_APPS add haystack&#xA;&#39;haystack&#39;, &amp;nbsp;&#xA;And also in settings.py file add some haystack settings&#xA;import os&#xD;HAYSTACK_CONNECTIONS = {&#xD;&#39;default&#39;: {&#xD;&#39;ENGINE&#39;: &#39;haystack.</description>
+    </item>
+    <item>
+      <title>Install Elgg social network on Centos</title>
+      <link>https://lifeandshell.com/posts/install-elgg-social-network-on-centos/</link>
+      <pubDate>Thu, 26 Dec 2013 16:26:57 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-elgg-social-network-on-centos/</guid>
+      <description>Elgg is a social network web application that could e nice as intranet for companies.&#xA;Well Its a PHP application so its easy to install&#xA;&amp;nbsp;&#xA;First some yum packages&#xA;yum install mysql mysql-server httpd php php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring wget unzip Setup an apache config&#xA;&amp;lt;VirtualHost *:80&amp;gt;&#xD;DocumentRoot /var/www/html/elinodrift.se&#xD;ServerName domain.se&#xD;ServerAlias www.yourdomain.se&#xD;ServerAdmin webmaster@domain.se&#xD;ErrorLog /var/log/httpd/elgg.log&#xD;&amp;lt;Directory /var/www/html/elgg&amp;gt;&#xD;Options FollowSymLinks&#xD;AllowOverride All&#xD;Order allow,deny&#xD;Allow from all&#xD;&amp;lt;/Directory&amp;gt;&#xD;&amp;lt;/VirtualHost&amp;gt; Setup mysql</description>
+    </item>
+    <item>
+      <title>No more spam (Centos and postfix)</title>
+      <link>https://lifeandshell.com/posts/no-more-spam-centos-and-postfix/</link>
+      <pubDate>Wed, 25 Dec 2013 23:11:32 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/no-more-spam-centos-and-postfix/</guid>
+      <description>So i HATE spam and now to get rid of as so many as possible i go for 3 step.&#xA;1. Postfix Get postfix to restrict witch is to allow to send email to me.&#xA;No strange name and use spam block lists. Also restrict time in how many connections you can do.&#xA;2. Greylisting&#xA;So the first time some server tries to send email greylist says no resend that email.</description>
+    </item>
+    <item>
+      <title>Mailsystem Centos 6 (Postfix,Mysql,Dovecot) with TLS and SSL Part 2</title>
+      <link>https://lifeandshell.com/posts/mailsystem-centos-6-postfixmysqldovecot-with-tls-and-ssl-part-2/</link>
+      <pubDate>Wed, 25 Dec 2013 22:49:09 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mailsystem-centos-6-postfixmysqldovecot-with-tls-and-ssl-part-2/</guid>
+      <description>So now I have en working Postfix that receive email i need something so that I can read me emails.&#xA;So we will setup dovecot to use our mysql for users. and use SSL on all our connections.&#xA;&amp;nbsp;&#xA;Setup Mysql Create a file called dovecot-sql.conf.ext in /etc/dovecot (Ore where you want to have it)&#xA;Add the following settings to the config file&#xA;driver = mysql&#xD;connect = host=localhost dbname=virtual_mail user=postfix password=some_pass&#xD;default_pass_scheme = MD5-CRYPT&#xD;user_query = SELECT &#39;/home/vmail/%n@%d/&#39; as home, 5000 AS uid, 5000 AS gid FROM mailbox WHERE username = &#39;%u&#39;&#xD;password_query = SELECT password FROM mailbox WHERE username = &#39;%u&#39; Update so it match you config.</description>
+    </item>
+    <item>
+      <title>Mailsystem Centos 6 (Postfix,Mysql,Dovecot) with TLS and SSL</title>
+      <link>https://lifeandshell.com/posts/mailsystem-centos-6-postfixmysqldovecot-with-tls-and-ssl/</link>
+      <pubDate>Wed, 25 Dec 2013 22:28:37 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mailsystem-centos-6-postfixmysqldovecot-with-tls-and-ssl/</guid>
+      <description>So for my virtual machines I have set up an mail system with Postfix that will look up users and domain in a Mysql server. Then store the emails in one mailbox.&#xA;For users to get there mail it uses Dovecot IMAP and Squrrelmail for displaying email.&#xA;This setup can be deployed all on one machine as I do. Or If you have allot of mail u can use cluster function for postfix.</description>
+    </item>
+    <item>
+      <title>Mysql InnoDB- Error- checksum mismatch</title>
+      <link>https://lifeandshell.com/posts/mysql-innodb-error-checksum-mismatch/</link>
+      <pubDate>Mon, 23 Dec 2013 12:25:18 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mysql-innodb-error-checksum-mismatch/</guid>
+      <description>So efter I had publish mw post i got some mysql error.&#xA;The checksum did was not correct. So for solving this i had to.&#xA;&amp;nbsp;&#xA;Control the checksum ibdata is you innodb data file&#xA;innochecksum ibdata1 -d So i have not all writen to database.&#xA;so lets write then with force&#xA;mysqld_safe --innodb_force_recovery 4 Then when it done kill the mysql and restart it normaly and you data mysql should be up and running again.</description>
+    </item>
+    <item>
+      <title>Mining Litecoins and Feathercoin</title>
+      <link>https://lifeandshell.com/posts/mining-litecoins-and-feathercoin/</link>
+      <pubDate>Mon, 23 Dec 2013 11:05:37 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mining-litecoins-and-feathercoin/</guid>
+      <description>Start mining some coins right now. First you need to sign up to some mining pools.&#xA;I use for Litecoins http://pool-x.eu and for Feathercoin https://ftc.d2.cc.&#xA;You can have differnt mining task running on you GPU ore on you CPU.&#xA;I at the moment only using my CPU but it i get the GPU runing as well i will update the blog.&#xA;This is and great blog on how to get started with minerd</description>
+    </item>
+    <item>
+      <title>Apache performance config</title>
+      <link>https://lifeandshell.com/posts/apache-performance-config/</link>
+      <pubDate>Mon, 16 Dec 2013 21:02:29 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/apache-performance-config/</guid>
+      <description>Now on all my Apache i always load this Apache config. It enabled some apache standard performance config for Apache as a good standard.&#xA;KeepAlive. Gzip all transfer and local disk cache&#xA;&amp;nbsp;&#xA;my /etc/httpd/cond.f/01.conf&#xA;NameVirtualHost *:80&#xD;NameVirtualHost *:443 #Speedning upp webres Apache config # 2 HOURS&#xD;&amp;lt;FilesMatch &#34;\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$&#34;&amp;gt;&#xD;Header set Cache-Control &#34;max-age=7200, public&#34;&#xD;&amp;lt;/FilesMatch&amp;gt;&#xD;# 1 HOUR&#xD;&amp;lt;FilesMatch &#34;\.(xml|txt)$&#34;&amp;gt;&#xD;Header set Cache-Control &#34;max-age=3600, public, must-revalidate&#34;&#xD;&amp;lt;/FilesMatch&amp;gt;&#xD;# 2 HOURS&#xD;&amp;lt;FilesMatch &#34;</description>
+    </item>
+    <item>
+      <title>Fail2Ban on Centos</title>
+      <link>https://lifeandshell.com/posts/fail2ban-on-centos/</link>
+      <pubDate>Mon, 16 Dec 2013 20:58:10 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/fail2ban-on-centos/</guid>
+      <description>Fail2Ban is a small service to block unwanted traffic to you server. I use it to block ssh,and postfix loggins in to my virtual hosts.&#xA;Fail2Ban scans the service loggfiles and if it find any strange traffik like ssh bruteforce. That ip will be blocket for some time.&#xA;All settings are done in /etc/fail2ban/ folder.&#xA;Install&#xA;Have epel repo aktivated on server tha run&#xA;yum install fail2ban Then do your local config in</description>
+    </item>
+    <item>
+      <title>Install Diaspora one Centos 6.4 with Apache</title>
+      <link>https://lifeandshell.com/posts/install-diaspora-one-centos-6-4-with-apache/</link>
+      <pubDate>Sun, 24 Nov 2013 21:25:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-diaspora-one-centos-6-4-with-apache/</guid>
+      <description>So Im going to test diaspora on one of my virtual server with run centos 6.4.&#xA;Setup Centos Setup Repos&#xA;wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm&#xD;wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm&#xD;rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm&#34; Install packages&#xA;yum install tar make automake gcc gcc-c++ git net-tools libcurl-devel libxml2-devel libffi-devel libxslt-devel tcl redis ImageMagick npm mysql-server mysql-devel httpd mod_ssl libyaml libyaml-devel patch readline-devel libtool bison Start services&#xA;chkconfig --level 3 httpd on chkconfig --level 3 mysqld on chkconfig --level 3 redis on &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Custom nagios plugins in python</title>
+      <link>https://lifeandshell.com/posts/custom-nagios-plugins-in-python/</link>
+      <pubDate>Tue, 05 Nov 2013 15:20:51 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/custom-nagios-plugins-in-python/</guid>
+      <description>For monitoring different service and function you may need to build some custom monitoring plugins. I have some build for nrpe and will work with both nagios and icinga.&#xA;This script will do and mysql check and then send the data back and also start graphing the data back if you use pnp4nagios 🙂&#xA;Every plugin must have two things.&#xA;1. an exit code thet will say the state of the plugin (OK.</description>
+    </item>
+    <item>
+      <title>Ubuntu Phone First Week</title>
+      <link>https://lifeandshell.com/posts/ubuntu-phone-first-week/</link>
+      <pubDate>Sat, 26 Oct 2013 19:47:46 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ubuntu-phone-first-week/</guid>
+      <description>&amp;nbsp;&#xA;&amp;nbsp;&#xA;So my first week has gone since i rooted my Nexus 4 and installed the new Ubuntu phone.&#xA;It was realy easy to root and install the phone the hole process was done in 30 min including backup.&#xA;It has bean I hard week but now at the end life with the phone is better.&#xA;So the ONLY things that really work in the phone is.&#xA;Make and receives calls Send and receives SMS With i browser surf (Only from wifi ) That about it so my connections to the world when Im on the road is dead.</description>
+    </item>
+    <item>
+      <title>Private GIT server on centos 6</title>
+      <link>https://lifeandshell.com/posts/private-git-server-on-centos-6/</link>
+      <pubDate>Tue, 15 Oct 2013 14:40:50 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/private-git-server-on-centos-6/</guid>
+      <description>So i need to have an private git server. The plan is to fill the git server with my backups so I can see changes done to my git server.&#xA;&amp;nbsp;&#xA;Set up the local GIT server Users&#xA;adduser git&#xD;passwd git Become the git user and go to home folder&#xA;su git&#xD;cd ~ Create the repo&#xA;mkdir myrepo.git&#xD;cd myrepo.git/&#xD;git --bare init So now the repo is done lets connect to it and start using it.</description>
+    </item>
+    <item>
+      <title>Owncloud 5 on Centos 6.4 apache-mysql</title>
+      <link>https://lifeandshell.com/posts/owncloud-5-on-centos-6-4-apache-mysql/</link>
+      <pubDate>Thu, 10 Oct 2013 13:33:35 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/owncloud-5-on-centos-6-4-apache-mysql/</guid>
+      <description>How to install owncloud 5 on you centos 6.4 server with mysql and apache to serve it.&#xA;First install packages and service needed. yum -y install mysql-server httpd php php-mysql unzip wget php-json php-xml php-mbstring php-zip php-gd curl php-curl php-pdo mod_ssl Set apache and mysql to start at boot&#xA;chkconfig httpd on&#xD;chkconfig mysqld on Start them up&#xA;/etc/init.d/httpd start&#xD;/etc/init.d/mysqld start Make a new file called /tmp/setup_owncloud.sql and put this in the file (Ore past it in the mysql shell)</description>
+    </item>
+    <item>
+      <title>Securing Apache &amp;#8211; TRACE TRACK XSS</title>
+      <link>https://lifeandshell.com/posts/securing-apache-trace-track-xss/</link>
+      <pubDate>Mon, 07 Oct 2013 15:12:50 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/securing-apache-trace-track-xss/</guid>
+      <description>So i will tryi to updated with some tips on securing apache as I stumbel over them.&#xA;This will be the first one in not so many I hope (Apache will be secure )&#xA;I always scan my servers every month with Openvas as one of my PCI-DSS task. And this week I locking down my Apache servers.&#xA;Add this in you vhost file ore in the welcome.conf file and rerun you scan.</description>
+    </item>
+    <item>
+      <title>Glassfish Monitoring with VisualVM</title>
+      <link>https://lifeandshell.com/posts/glassfish-monitoring-with-visualvm/</link>
+      <pubDate>Wed, 25 Sep 2013 14:45:28 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/glassfish-monitoring-with-visualvm/</guid>
+      <description>For monitoring Glassfish performance i use VisualVM. I have visual installed on my laptop and the connects using jmx to my glassfish servers to get server stats.&#xA;This is only to get the current data and to se how mutch memory my apps are using and so on.&#xA;&amp;nbsp;&#xA;1. Download and start VisualVM Go here and download VisualVM http://visualvm.java.net/&#xA;Install visual on you local computer.&#xA;&amp;nbsp;&#xA;2. Set up Glassfish for reciving JMX connections from external ip On your glassfish you need to add som jvm values so in your server-config &amp;#8211;&amp;gt; jvm-settings &amp;#8211;&amp;gt; JVM options add the following.</description>
+    </item>
+    <item>
+      <title>Glassfish Asadmin commandon to remeber</title>
+      <link>https://lifeandshell.com/posts/glassfish-asadmin-commandon-to-remeber/</link>
+      <pubDate>Tue, 17 Sep 2013 19:39:08 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/glassfish-asadmin-commandon-to-remeber/</guid>
+      <description>here are som glassfish 4 asadmin commandon to remeber&#xA;&amp;nbsp;&#xA;asadmin --host 127.0.0.1 --port 4848 enable-secure-admin Enabel so that you can use 4848 from external computer&#xA;asadmin change-master-password --savemasterpassword=true Change you master password (keystore access)&#xA;asadmin change-admin-password Change you glassfish admin password to use asadmin and admin gui.&#xA;asadmin login Store you password on disk so you can login without password&#xA;asadmin create-jvm-options&#xD;asadmin delete-jvm-options Create and delete server jvm options</description>
+    </item>
+    <item>
+      <title>Set Glassfish4 to production state</title>
+      <link>https://lifeandshell.com/posts/set-glassfish4-to-production-state/</link>
+      <pubDate>Tue, 17 Sep 2013 19:19:09 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/set-glassfish4-to-production-state/</guid>
+      <description>Ot work we are using Glassfish 4 for our applications. And to set glassfish for production there are some setting you need to set.&#xA;We are scripting our installation so our changes are done with the asadmin tool.&#xA;This is my reminder of the asadmin commands I run when setting glassfish4 into production state.&#xA;&amp;nbsp;&#xA;First lets delete some values that are default&#xA;asadmin delete-jvm-options -client&#xD;asadmin delete-jvm-options &#39;-XX:MaxPermSize=192m&#xD;asadmin delete-jvm-options -Xmx512m First setup that we are using an server and some memory values</description>
+    </item>
+    <item>
+      <title>Install Crashplan on Raspberry Pi</title>
+      <link>https://lifeandshell.com/posts/install-crashplan-on-raspberry-pi/</link>
+      <pubDate>Fri, 13 Sep 2013 20:36:06 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-crashplan-on-raspberry-pi/</guid>
+      <description>For syncing my data to my raspberry i use bitsync but its even better to have the data on two locations as well.&#xA;So for having my stuff safer i will try using crashplan&#xA;Installing java for crashplan&#xA;sudo apt-get install openjdk-6-jre libjna-java Download crashplan&#xA;wget http://download.crashplan.com/installs/linux/install/CrashPlan/CrashPlan_3.5.3_Linux.tgz Run the installer&#xA;cd CrashPlan-install/&#xD;./install.sh Follow the installar and press enter to install crashplan in with its defult settings.&#xA;Fixing so crasplan will start (OPTIONAL TEST TO START CRASHPLAN NOW TO SE IF IT WORKS IF NOT MAKE THE CHANGES)</description>
+    </item>
+    <item>
+      <title>Install Bitsync on Raspberry Pi</title>
+      <link>https://lifeandshell.com/posts/install-bitsync-on-raspberry-pi/</link>
+      <pubDate>Fri, 13 Sep 2013 19:50:03 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-bitsync-on-raspberry-pi/</guid>
+      <description>So today im using dropbox to sync all my stuff between devices. But now there are so much there so my free space is almost full. So now its time for me to move to bitsync an then sync all my devices.&#xA;Install bitsync&#xA;Go to folder /opt&#xA;cd /opt Download bitsync&#xA;wget &#34;http://btsync.s3-website-us-east-1.amazonaws.com/btsync_arm.tar.gz&#34; unpack it&#xA;chmod 700 btsync_arm.tar.gz&#xD;tarr zxvf btsync_arm.tar.gz Start it&#xA;cd bitsync&#xD;./bitsync go to the webbpage</description>
+    </item>
+    <item>
+      <title>Centos What files are open to that PID</title>
+      <link>https://lifeandshell.com/posts/centos-what-files-are-open-to-that-pid/</link>
+      <pubDate>Thu, 29 Aug 2013 09:06:39 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/centos-what-files-are-open-to-that-pid/</guid>
+      <description>Find out what files are open by that pid file.&#xA;&amp;nbsp;&#xA;&amp;nbsp;&#xA;&amp;nbsp;&#xA;1. Find the pid for you service ps aux | grep httpd apache 24179 0.0 0.0 251316 15528 ? S 08:58 0:00 /usr/sbin/httpd Here this pid is 8582 now list all files open by that pid.&#xA;2. List files beloning to that file &amp;nbsp;&#xA;lsof -p 24179 &amp;nbsp;&#xA;OR&#xA;&amp;nbsp;&#xA;&amp;nbsp;&#xA;ls -l /proc/24179/fd &amp;nbsp;&#xA;l-wx------ 1 root root 64 Aug 29 09:04 113 -&amp;gt; /var/log/httpd/access_log_sycochuck&#xD;l-wx------ 1 root root 64 Aug 29 09:04 114 -&amp;gt; /var/log/httpd/_apache_access_log&#xD;l-wx------ 1 root root 64 Aug 29 09:04 115 -&amp;gt; /var/log/httpd/_apache_access_log&#xD;l-wx------ 1 root root 64 Aug 29 09:04 116 -&amp;gt; /var/log/httpd/_apache_access_log &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Mysql Commands to Remember</title>
+      <link>https://lifeandshell.com/posts/mysql-commands-to-remember/</link>
+      <pubDate>Thu, 29 Aug 2013 08:45:06 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mysql-commands-to-remember/</guid>
+      <description>This is an reminder for mw some mysql commands that i use often and my mind not always bring with me.&#xA;&amp;nbsp;&#xA;Optimize table When i table that has many writes and delets get fregmant this will speed up the database.&#xA;optimize table Sys &amp;nbsp;&#xA;Creating users CREATE USER &#39;dbuser&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;some_pass&#39;;&#xD;GRANT ALL PRIVILEGES ON *.* TO &#39;dbuser&#39;@&#39;localhost&#39; FLUSH PRIVILEGES; Adding Mysql Monitoring User GRANT SELECT, REPLICATION CLIENT, SHOW DATABASES, SUPER, PROCESS ON *.</description>
+    </item>
+    <item>
+      <title>Kernel updated don´t update grub on Centos 6.4</title>
+      <link>https://lifeandshell.com/posts/kernel-updated-dont-update-grub-on-centos-6-4/</link>
+      <pubDate>Thu, 15 Aug 2013 15:02:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/kernel-updated-dont-update-grub-on-centos-6-4/</guid>
+      <description>So you have updated the kernel on you centos but you server is still running on the old kernel. Whenan kernel is updated yum updates the file /etc/grub.conf and that is an synlink to /boot/grub/grub.conf but if the link is broken then you will have two grub.conf. One /etc/grub.conf and one /boot/grub/grub.conf and then when you update en kernel the server will still not run on the new kernel.&#xA;&amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Remove old kernel in Centos</title>
+      <link>https://lifeandshell.com/posts/remove-old-kernel-in-centos/</link>
+      <pubDate>Thu, 15 Aug 2013 13:47:45 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/remove-old-kernel-in-centos/</guid>
+      <description>So you try to update you server and it says that you /boot pertision is full and cant update kernel.&#xA;Will this is how you remove some old kernels so you can keep your system up to date.&#xA;&amp;nbsp;&#xA;1. First what kernel is running now (We dont want to remove that kernel)&#xA;uname -a&#xD;Linux install 2.6.32-279.19.1.el6.x86_64 #1 SMP Tue Nov 6 23:43:09 UTC 2012 x86_64 x86_64 x86_64 GNU/Linux Ok kernel 2.</description>
+    </item>
+    <item>
+      <title>How the HELL is oncall ? (the oncall reminder script)</title>
+      <link>https://lifeandshell.com/posts/how-the-hell-is-oncall-the-oncall-reminder-script/</link>
+      <pubDate>Mon, 05 Aug 2013 21:59:17 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/how-the-hell-is-oncall-the-oncall-reminder-script/</guid>
+      <description>When you have oncall often sometimes is easy to forget hows oncall and when you are not. So for the last time wonder how is oncall and ask some python for some help,&#xA;&amp;nbsp;&#xA;The script&#xA;#!/usr/bin/env python&#xD;#&#xD;# Mattias Hemmingsson&#xD;# matte@elino.se&#xD;#&#xD;# Script for reminder friend when to bet&#xD;# Uses and csv file and send email to remind when its time to bet.&#xD;#&#xD;# import csv&#xD;import smtplib&#xD;from datetime import datetime, timedelta, date #Get users and send email to users&#xD;sender = &#39;noreply@elino.</description>
+    </item>
+    <item>
+      <title>restrict sms in nagios / icinga</title>
+      <link>https://lifeandshell.com/posts/limit-sms-flood-in-nagios-icing/</link>
+      <pubDate>Mon, 05 Aug 2013 16:13:58 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/limit-sms-flood-in-nagios-icing/</guid>
+      <description>Im using nagios as primary monitoring tool. And to get alerts we use an sms gateway. The problem is that sometimes when we work we bring down and server and we get so many sms from icinga that you trow away you phone. So for bringing the sms cost down and to have not so many sms to you phone i build a small email blocking script. This will take the address of the sms and only send one sms / email every 5 min (can be set to anything).</description>
+    </item>
+    <item>
+      <title>NTP Server and client setup</title>
+      <link>https://lifeandshell.com/posts/ntp-server-and-client-setup/</link>
+      <pubDate>Sun, 04 Aug 2013 22:23:12 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ntp-server-and-client-setup/</guid>
+      <description>Time is critical when having many server and using different clusters. So i made this guide to save all my notes when working with time.&#xA;Setting local time I make an link to /etc/timezone&#xA;ln -sf /usr/share/zoneinfo/Etc/GMT /etc/timezone To check if i use the correct time zone&#xA;date Install ntpd &amp;nbsp;&#xA;Ubuntu&#xA;apt-get install ntp Centos&#xA;yum install ntp &amp;nbsp;&#xA;Set up my ntp server for my other server. My ntp server is and ubuntu server</description>
+    </item>
+    <item>
+      <title>LVS cluster for Centos</title>
+      <link>https://lifeandshell.com/posts/lvs-cluster-for-centos/</link>
+      <pubDate>Thu, 01 Aug 2013 14:08:13 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/lvs-cluster-for-centos/</guid>
+      <description>An other cluster solution for Linux is LVS. I im testing to use LVS cluster for some cloud server. My cloudserver has one external ip and i want all traffic to come to that ip and after that be redirected to my web nodes. Witch LVS i will redirect all traffic to that ip and load balance it between my nodes. When i set up HAProxy i only loadbalanse webb traffic.</description>
+    </item>
+    <item>
+      <title>Install HA-Proxy for load-balansing on Centos</title>
+      <link>https://lifeandshell.com/posts/install-ha-proxy-for-load-balansing-on-centos/</link>
+      <pubDate>Tue, 30 Jul 2013 20:25:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-ha-proxy-for-load-balansing-on-centos/</guid>
+      <description>For load balasing my weebtraffic im setting up HA-proxy. The proxy recives reqest on one ip and then even loads the reqest between my web server nodes.&#xA;First install and enable Epel repo&#xA;yum install haproxy open the configfile /etc/haproxy/haproxt.cfg and ad to the buttom of the file&#xA;listen http_web 192.168.44.20:80&#xD;mode http&#xD;balance roundrobin # Load Balancing algorithm&#xD;option httpchk&#xD;option forwardfor&#xD;server server1 192.168.44.21:80 weight 1 maxconn 512 check&#xD;server server2 192.</description>
+    </item>
+    <item>
+      <title>Install Heartbeat HA cluster on Centos</title>
+      <link>https://lifeandshell.com/posts/install-heartbeat-ha-cluster-on-centos/</link>
+      <pubDate>Tue, 30 Jul 2013 19:40:01 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-heartbeat-ha-cluster-on-centos/</guid>
+      <description>So the backbone of my webcluster i use Heartbeat to monitor the server performance.&#xA;Heartbeat is setup to monitor the servers and to take actions if anything happens with some of the nodes.&#xA;This guide is for migraing and ip addres from one node to the secondary of the first node goes down.&#xA;Then i configure the other servers like apache ore mysql ontop.&#xA;First begin to enabling EPEL repos.</description>
+    </item>
+    <item>
+      <title>Install puppet clinet on Centos 6</title>
+      <link>https://lifeandshell.com/posts/install-puppet-clinet-on-centos-6/</link>
+      <pubDate>Wed, 24 Jul 2013 21:55:16 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-puppet-clinet-on-centos-6/</guid>
+      <description>Setting up my puppet clinet in centos and then connect it to my puppetmaster.&#xA;Enbling the puppet lab repository&#xA;rpm -ivh http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-7.noarch.rpm Enabling EPEL repos&#xA;rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm &amp;nbsp;&#xA;Install puppet client&#xA;yum install puppet &amp;nbsp;&#xA;make shore that you hostfile is ok /etc/hosts&#xA;10.30.0.1 puppetmaster.xxx.xx puppetmaster &amp;nbsp;&#xA;Openup the file /etc/sysconfig/puppet and set&#xA;# The puppetmaster server&#xD;PUPPET_SERVER=puppetmaster &amp;nbsp;&#xA;Now its time to start the puppet client&#xA;/etc/init.d/puppet start&#xD;chkconfig puppet on &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>Openvpn Fixed static ip for clients</title>
+      <link>https://lifeandshell.com/posts/openvpn-fixed-static-ip-for-clients/</link>
+      <pubDate>Wed, 24 Jul 2013 20:46:54 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/openvpn-fixed-static-ip-for-clients/</guid>
+      <description>When my cloud server connect to my openvpn server i need them to have the same ip addres. All the time this is so I can set up monitoring and alerts system. Internal DNS and puppet controll.&#xA;&amp;nbsp;&#xA;On the openvpn server ad this in you server.conf&#xA;client-config-dir /etc/openvpn/ccd then create the folder /etc/openvpn/ccd&#xA;&amp;nbsp;&#xA;In that folder create an file and give it the file name as you user ore keys are called.</description>
+    </item>
+    <item>
+      <title>Openvpn generate clinet config and keys</title>
+      <link>https://lifeandshell.com/posts/openvpn-generate-clinet-config-and-keys/</link>
+      <pubDate>Wed, 24 Jul 2013 20:36:29 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/openvpn-generate-clinet-config-and-keys/</guid>
+      <description>On my openvpn server i have built an small script so i can create new clients certs easy.&#xA;My server is and Ubuntu server and my openvpn server is set up from this guide.&#xA;https://help.ubuntu.com/community/OpenVPN&#xA;In the folder /etc/openvpn/easy-rsa i created he folder TEMP&#xA;Then i used this script to create the clients&#xA;#!/bin/bash&#xD;echo &#34;Enter name of server&#34;&#xD;read NAME #Making Certs&#xD;source ./vars&#xD;KEY_CN=$NAME ./pkitool $NAME #Copy keys and files&#xD;cp keys/$NAME.</description>
+    </item>
+    <item>
+      <title>Set up Openvpn client on Centos 6.4</title>
+      <link>https://lifeandshell.com/posts/set-up-openvpn-client-on-centos-6-4/</link>
+      <pubDate>Sun, 21 Jul 2013 22:39:45 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/set-up-openvpn-client-on-centos-6-4/</guid>
+      <description>I often use Openvpn to connect my servers toghter over several cloud servers provider.&#xA;This is my small how to for setting up the openvpn client.&#xA;Install the openvpn server yum install wget&#xD;wget http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm&#xD;rpm -Uvh epel-release-6-8.noarch.rpm yum install openvpn &amp;nbsp;&#xA;Set up the Vpn client&#xA;In /etc/openvpn extract you vpn config&#xA;Save you openvpn config file as client.conf&#xA;Test you vpn&#xA;openvpn --config client.conf Now when its working restart you openvpn with</description>
+    </item>
+    <item>
+      <title>Install Glassfish4 and Java7 on Centos</title>
+      <link>https://lifeandshell.com/posts/install-glassfish4-and-java7-on-centos/</link>
+      <pubDate>Mon, 17 Jun 2013 14:41:41 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/install-glassfish4-and-java7-on-centos/</guid>
+      <description>An easy guide to get glassfish4 and java7 running on you centos 6 server.&#xA;First install the java7 and get java working on your server.&#xA;Then we download and setup glassfish4.&#xA;Installing Java 7 Go to the java download page and get an version of java 7 jdk version. You must first download to you desktop and then copy the jdk over to you server. Oracel don&amp;#8217; t support direct download of java to you server :-(.</description>
+    </item>
+    <item>
+      <title>Openvpn on Raspberry Pi</title>
+      <link>https://lifeandshell.com/posts/openvpn-on-raspberry-pi/</link>
+      <pubDate>Mon, 17 Jun 2013 08:12:52 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/openvpn-on-raspberry-pi/</guid>
+      <description>So sommar is comming and I planning to be away as mutch as possible.&#xA;But I need an door in to my server at home for some work. When Im of i only will have an 3g/4g connections so its mutch nicer to work against my server home at a stabel 100 line.&#xA;So for making this possibel I install en openvpn server on my PI sitting in my closet.</description>
+    </item>
+    <item>
+      <title>Installing PfSense on Clavister</title>
+      <link>https://lifeandshell.com/posts/installing-pfsense-on-clavister/</link>
+      <pubDate>Sat, 15 Jun 2013 12:17:54 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/installing-pfsense-on-clavister/</guid>
+      <description>After we change our server location and install some new servers and firewalls (Firewall now in centos with iptables) we got one Clavister over.&#xA;We needed a new firewall in our office but did not want to use the Clavister firewall software so we decided to see if we could get PfSense running on the hardware.&#xA;We open the Clvister up and made some hardware changes to it.&#xA;Incresning the memeory from 512mb to 2g.</description>
+    </item>
+    <item>
+      <title>Extracting HP-Switch running config</title>
+      <link>https://lifeandshell.com/posts/extracting-hp-switch-running-config/</link>
+      <pubDate>Mon, 10 Jun 2013 15:29:02 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/extracting-hp-switch-running-config/</guid>
+      <description>Every so othen I have to extract my running-config from my hp switches. And put them under OSSEC file monitoring. And to verify so that no changes has bean done to the original running-config.&#xA;So here is an small script for extracting my running-config and mf5 check that they are the same as my standard config.&#xA;&amp;nbsp;&#xA;Make you own changes to the script to work in you system 🙂</description>
+    </item>
+    <item>
+      <title>SE Linux allowing Mysql Socket</title>
+      <link>https://lifeandshell.com/posts/selinux-allow-mysql-socket/</link>
+      <pubDate>Wed, 05 Jun 2013 10:55:53 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/selinux-allow-mysql-socket/</guid>
+      <description>So this morning my mysql server did not start properly. But when I disabled selinux the mysql server come back up. After some digging i found that we have linked the mysql folder /var/lib/mysql from the /var/log disk (its my syslog server and /var/log has all the disk) So for starting my mysql I hade to do some small changers. First setting my socket to the right path i my.cnf</description>
+    </item>
+    <item>
+      <title>Testing OSSEC / Syslog auth</title>
+      <link>https://lifeandshell.com/posts/testing-ossec-syslog-auth/</link>
+      <pubDate>Mon, 03 Jun 2013 20:38:35 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/testing-ossec-syslog-auth/</guid>
+      <description>Im runing and PCI DSS Level 1 system. And during our PCI Audit i have to provide evidence that our monitoring system (OSSEC) can log logins that fails.&#xA;So or testing this and to provide evidence for our audit I made a small python script.&#xA;the Scripts tries to login to th host specified in and text field and tries to run an command on them. (You can alter this to the correct username / password and then run commands on all server)</description>
+    </item>
+  </channel>
+</rss>

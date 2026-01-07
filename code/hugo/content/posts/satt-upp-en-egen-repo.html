@@ -1,0 +1,148 @@
+---
+title: Sätt upp en egen repo
+date: 2012-04-15 18:53:37
+tags:
+    
+    - Security
+    
+     
+categories:
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Security
+    
+     
+---
+<p>Sätt upp en egen repo underlättar ganska mycket för en.<br />
+I denna guide så visar hur man sätter upp en repo. I nästa guide blir det hur man skapar och gör egna paket för att sedan lägga i sin repo.</p>
+<p>Börja med att installera reprepro på din ubuntu hoj</p>
+<pre>
+sudo apt-get install reprepro 
+mkdir /srv/reprepro 
+cd /srv/reprepro 
+mkdir conf dists incoming indices logs pool project tmp files
+</pre>
+<p>Sedan behöver vi vi lite filer till våran repo.<br />
+I conf katalogen skapa tre stycken filer.</p>
+<p>*uploaders*</p>
+<pre>
+allow * by unsigned
+</pre>
+<p>*distributions*</p>
+<pre>
+Origin: Elino
+Label: Elino
+Suite: Precise
+Codename: precise
+Version: 12.04
+Architectures: i386 amd64 source
+Components: main
+Description: Repo for Elino IT-Solutions AB
+SignWith:yes
+DebOverride: ../indices/override.precise.main
+UDebOverride: ../indices/override.precise.main.debian-installer
+DscOverride: ../indices/override.precise.main.src
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Contents: . .gz .bz2
+Log: packages.repo.elino.se.log
+</pre>
+<p>*incoming*</p>
+<pre>
+Name: default
+IncomingDir: incoming
+TempDir: tmp
+Allow: precise
+Cleanup: on_deny on_error
+</pre>
+<p>*options*</p>
+<pre>
+ask-passphrase
+basedir .
+</pre>
+<p>Nu måste vi bara skapa en nyckel till vårat repo så att vi kan använda det och få sakerna signade.</p>
+<pre>
+gpg --gen-key
+</pre>
+<p>Välj val 1 </p>
+<p>Så ska vi ta och exportera ut den nyckeln så att våra client kan använda den sen.<br />
+Ändra till så email stämmer med din gpg nyckel och namn.</p>
+<p>gpg &#8211;armor &#8211;output /srv/reprepro/files/packages.elino.key &#8211;export support@elino.se</p>
+<p>Fixa till lite filer till repot</p>
+<pre>
+cd /srv/reprepro/indices 
+touch override.precise.main 
+touch override.precise.main.debian-installer 
+touch override.precise.main.src
+</pre>
+<p>Nu är det daxs att sätt upp det nya repot.<br />
+Vill du lägga till några paket kan du lägga de i incoming katalogen</p>
+<pre>
+reprepro -Vb /srv/reprepro export
+</pre>
+<p>Daxs att sätta upp Apache för att serverna vårat repo.<br />
+Slän in följande apache config.</p>
+<pre>
+<VirtualHost *>
+        DocumentRoot /srv/reprepro
+        ServerName repo
+        ErrorLog /var/log/apache2/error.log
+ 
+        LogLevel warn
+ 
+        CustomLog /var/log/apache2/access.log combined
+        ServerSignature On
+ 
+        # Allow directory listings so that people can browse the repository from their browser too
+        <Directory "/srv/reprepro">
+                Options Indexes FollowSymLinks MultiViews
+                DirectoryIndex index.html
+                AllowOverride Options
+                Order allow,deny
+                allow from all
+        </Directory>
+ 
+        # Hide the conf/ directory for all repositories
+        <Directory "/srv/reprepro/*/conf">
+                Order allow,deny
+                Deny from all
+                Satisfy all
+        </Directory>
+
+
+
+ 
+        # Hide the db/ directory for all repositories
+        <Directory "/srv/reprepro/*/db">
+                Order allow,deny
+                Deny from all
+                Satisfy all
+        </Directory>
+</VirtualHost>
+
+</pre>
+<p>Nu är det daxs att haka på lite clienter till vårat repo.</p>
+<p>Börja med lägga till repot i apt.source listan</p>
+<pre>
+deb http://repo.ahavaxthuset.se precise main
+sudo echo "deb http://repo.vaxthuset.se/ precise main" >> /etc/apt/sources.list
+</pre>
+<p>Lägg sedan till våran nyckel till servers nyckelhantering</p>
+<pre>
+sudo wget http://repo.vaxthuset.se/packages.elino.key
+sudo apt-key add packages.elino.key
+</pre>
+<p>Nu kan du upatera dina föråd med.</p>
+<pre>
+apt-get update
+</pre>
+<pre>
+apt-get install elinoltsp
+</pre>
+<p>Nu borde du ha ett fungerade repo som signar din paket och som du kan använda med dina egna klienter</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

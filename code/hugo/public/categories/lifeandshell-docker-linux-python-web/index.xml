@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Docker, Linux, Python, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-docker-linux-python-web/</link>
+    <description>Recent content in Lifeandshell, Docker, Linux, Python, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sat, 26 Nov 2016 22:05:28 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-docker-linux-python-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Alexa and Jenkins (Docker)</title>
+      <link>http://localhost:1313/posts/alexa-jenkins-docker/</link>
+      <pubDate>Sat, 26 Nov 2016 22:05:28 +0000</pubDate>
+      <guid>http://localhost:1313/posts/alexa-jenkins-docker/</guid>
+      <description>&lt;p&gt;So I have an Alexa echo dot at home. Use it to control stuff but I wanted it to do more like release and deploy the stuff I build.&lt;br /&gt;&#xA;This is how you can integrate Alexa voice service with Jenkins.&lt;/p&gt;&#xA;&lt;h3&gt;First setup the server&lt;/h3&gt;&#xA;&lt;p&gt;For receiving commands from Alexa and sending them to Jenkins we need a server and some code. First start with the server i use docker and a docker-compose to set it up.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Autodeploy you docker images to AWS (git push = deploy)</title>
+      <link>http://localhost:1313/posts/autodeploy-docker-images-aws-git-push-deploy/</link>
+      <pubDate>Thu, 26 May 2016 12:56:19 +0000</pubDate>
+      <guid>http://localhost:1313/posts/autodeploy-docker-images-aws-git-push-deploy/</guid>
+      <description>&lt;p&gt;So I have a lot of small project and some large. To buil in quality into my code i need to run test in my code. And my code in a prod like env.&lt;br /&gt;&#xA;I always uses docker so my dev env are verly like my prod.&lt;br /&gt;&#xA;One key thing that i do is that when i push code to my master branch i do a release do server. This is so that i can verify that everything is working and i can run test on it.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

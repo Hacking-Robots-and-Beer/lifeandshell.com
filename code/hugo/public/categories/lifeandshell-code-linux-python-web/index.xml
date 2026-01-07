@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Code, Linux, Python, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-code-linux-python-web/</link>
+    <description>Recent content in Lifeandshell, Code, Linux, Python, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sun, 05 Jan 2014 22:28:01 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-code-linux-python-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Install and setup Haystack search for Django</title>
+      <link>http://localhost:1313/posts/install-and-setup-haystack-search-for-django/</link>
+      <pubDate>Sun, 05 Jan 2014 22:28:01 +0000</pubDate>
+      <guid>http://localhost:1313/posts/install-and-setup-haystack-search-for-django/</guid>
+      <description>&lt;p&gt;So Mysql is crap at doing full text search. So in one of my projects i use Haystack so i can do full text searches.&lt;/p&gt;&#xA;&lt;p&gt;I have a running Django project up and this is how I setup haystack for my project.&lt;/p&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;h2&gt;Install and config&lt;/h2&gt;&#xA;&lt;pre&gt;sudo pip install django-haystack&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;in settings.py under INSTALLED_APPS add haystack&lt;/p&gt;&#xA;&lt;pre&gt;&#39;haystack&#39;,&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#xA;&lt;p&gt;And also in settings.py file add some haystack settings&lt;/p&gt;&#xA;&lt;pre&gt;import os&#xD;&#xA;HAYSTACK_CONNECTIONS = {&#xD;&#xA;    &#39;default&#39;: {&#xD;&#xA;        &#39;ENGINE&#39;: &#39;haystack.backends.whoosh_backend.WhooshEngine&#39;,&#xD;&#xA;        &#39;PATH&#39;: os.path.join(os.path.dirname(__file__), &#39;whoosh_index&#39;),&#xD;&#xA;    },&#xD;&#xA;}&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

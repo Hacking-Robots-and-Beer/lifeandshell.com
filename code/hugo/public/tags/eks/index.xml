@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Eks on Life and Shell</title>
+    <link>https://lifeandshell.com/tags/eks/</link>
+    <description>Recent content in Eks on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Sun, 13 Apr 2025 09:32:36 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/tags/eks/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wazuh  Digest any source!</title>
+      <link>https://lifeandshell.com/posts/wazuh-digest-any-source/</link>
+      <pubDate>Sun, 13 Apr 2025 09:32:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wazuh-digest-any-source/</guid>
+      <description>How I Built a Custom Wazuh Log Ingest Pipeline (And Ditched the Wodle) If you&amp;#8217;ve ever tried to push custom logs into Wazuh, you’ve probably stumbled across something called a Wodle. Wazuh uses these built-in scripts to collect and parse data—especially useful for integrations like AWS.&#xA;So… Wodle for AWS? Sure, Wodle can collect AWS logs. But when I tried using it for my AWS environment, things didn’t exactly go as planned.</description>
+    </item>
+    <item>
+      <title>Wazuh On Kubernetes using Helm</title>
+      <link>https://lifeandshell.com/posts/wazuh-on-kubernetes-using-helm/</link>
+      <pubDate>Sat, 12 Apr 2025 21:50:16 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wazuh-on-kubernetes-using-helm/</guid>
+      <description>From OSSEC to Wazuh: My Journey and Kubernetes Setup I started a long time ago using OSSEC, and eventually transitioned over to Wazuh—back when it still relied on Elasticsearch for storage and search. Recently, when I returned to Wazuh for a new project, I was surprised to find that there was no simple way to deploy Wazuh into a local Kubernetes cluster for testing. So, I decided to revive and modernize an old Helm chart I had built a while back.</description>
+    </item>
+    <item>
+      <title>Migrate Elasticsearch helm to Elasticsearch Operator</title>
+      <link>https://lifeandshell.com/posts/migrate-elasticsearch-helm-to-elasticsearch-operator/</link>
+      <pubDate>Thu, 01 Dec 2022 13:17:35 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/migrate-elasticsearch-helm-to-elasticsearch-operator/</guid>
+      <description>Migrate elasticsearch helm to elasticsearch operator and from version 7 to version 8.&#xA;So in the start, I used the helm chart for elasticsearch, and everything worked fine. Then elasticsearch 8 comes and the Elasticsearch operator.&#xA;This broke by helm chart and kind of left me in a stalled state.&#xA;But now I have to migrate my current elasticsearch that uses a helm chart to start using the operator.</description>
+    </item>
+    <item>
+      <title>Openstreat map Docker och docker compose</title>
+      <link>https://lifeandshell.com/posts/openstreat-map-docker-och-docker-compose/</link>
+      <pubDate>Thu, 17 Nov 2022 16:53:00 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/openstreat-map-docker-och-docker-compose/</guid>
+      <description>Split up in separate containers !&#xA;Running openstreetmap map in docker was hard. And the docs all wanted to run it bounded with postgress and not in separate containers.&#xA;I setup so we can run osm I different containers for you to scale&#xA;https://github.com/mattiashem/osm&#xA;Clone this GitHub repo and then start it with&#xA;docker compose build&#xA;then to start it, run docker compose up&#xA;What is happening First we are building a custom Postgres docker image.</description>
+    </item>
+    <item>
+      <title>kubernetes update 1.22 -&gt;1.23 Helm Error</title>
+      <link>https://lifeandshell.com/posts/kubernetes-update-1-22-1-23-helm-error/</link>
+      <pubDate>Thu, 15 Sep 2022 16:02:06 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/kubernetes-update-1-22-1-23-helm-error/</guid>
+      <description>I was in the progress of updating my cluster and in version 1.23 we have breaking changes.&#xA;What I did not know was that helm saves the latest deployed version in secret.&#xA;So I updated the cluster to version 1.23 and started getting helm errors.&#xA;And it does not matter if I delete the resources in the cluster. The issue is that helm has saved the last deployment with a API version that with the new k8s version is no longer supported.</description>
+    </item>
+    <item>
+      <title>Boundery on Kubernetes with Keycloak</title>
+      <link>https://lifeandshell.com/posts/boundery-on-kubernetes-with-keycloak/</link>
+      <pubDate>Sat, 22 Jan 2022 11:43:24 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/boundery-on-kubernetes-with-keycloak/</guid>
+      <description>We have 3 clusters running 2 on AWS and 1 on-prem. And to sort out connections for developers and admin the goal is to implement boundary as an access point. To verify the user we use Keycloak and 2FA, Then based on roles we give the different users access to different services inside the cluster.&#xA;Service&#xA;The user should be able to connect to an ssh server inside the network but also to service running inside Kubernetes like elasticsearch ore MySQL,</description>
+    </item>
+    <item>
+      <title>Vault EKS / AWS to pod The complete guide</title>
+      <link>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</link>
+      <pubDate>Thu, 29 Oct 2020 09:17:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</guid>
+      <description>I have bean working some time with vault and to deploy it to our EKS cluster and then to get the secrets into our pods.&#xA;After many hours of searching i have found out that using kube-vault and vault-env. This gude uses tarraform to setup the resources you need in AWS.&#xA;Then deploy the kubevault with ui into to cluster that will use a s3 bucket and backend and autoseal it self during boot</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,283 @@
+---
+title: k3s Cluster on setup master and node
+date: 2023-01-07 11:31:43
+tags:
+    
+    - Code
+    
+    
+    - k3s
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - ollebo
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - k3s
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - ollebo
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - k3s
+    
+    
+    - k8s
+    
+    
+    - Linux
+    
+    
+    - ollebo
+    
+     
+---
+
+<p>For some IoT setups a need a k3s cluster running. To make it spread and to add more nodes a installed the k3s Master on my firewall running a small atom processor. But wanted to run the nodes on raspberry or rock nodes to handle the load.<br>Then by using labels on nodes I want to apply different workloads on the nodes.</p>
+
+
+
+<h2 class="wp-block-heading">Pre</h2>
+
+
+
+<p>So before installing k3s master. I had my pihole running on port 80 and that did not work that well. The default installation of k3s will install the traefik ingress and will bind to ports 80 and 443.<br>So before you start verify if you have any other service running on the server.</p>
+
+
+
+<h2 class="wp-block-heading">Master</h2>
+
+
+
+<p>Installing the master is easy </p>
+
+
+
+<p><code>curl -sfL https://get.k3s.io | sh -</code></p>
+
+
+
+<p>This command will download and set up the K3s master and its the easy step</p>
+
+
+
+<h2 class="wp-block-heading">Nodes</h2>
+
+
+
+<p>To install the nodes we need to </p>
+
+
+
+<ol class="wp-block-list">
+<li>Setup some name resolutions so the nodes can find each other</li>
+
+
+
+<li>Get the token to join the cluster <br> </li>
+</ol>
+
+
+
+<p>Setup name on the master and node. NOTICE on the node runs ubuntu for raspberry and it uses cloud-init to set up the host&#8217;s file </p>
+
+
+
+<p>This is on my ubuntu server </p>
+
+
+
+<pre class="wp-block-code"><code>cat /etc/hosts
+127.0.0.1 localhost
+127.0.1.1 fw1
+10.xxx.xxx.xx2 k3s-node1
+10.xxx.xxx.xx1 k3s-master</code></pre>
+
+
+
+<p>This is the host file from the ubuntu running on a Raspberry </p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-node1:/home/pi# cat /etc/cloud/templates/hosts.debian.tmpl 
+## template:jinja
+{#
+This file (/etc/cloud/templates/hosts.debian.tmpl) is only utilized
+if enabled in cloud-config.  Specifically, in order to enable it
+you need to add the following to config:
+   manage_etc_hosts: True
+-#}
+# Your system has configured 'manage_etc_hosts' as True.
+# As a result, if you wish for changes to this file to persist
+# then you will need to either
+# a.) make changes to the master file in /etc/cloud/templates/hosts.debian.tmpl
+# b.) change or remove the value of 'manage_etc_hosts' in
+#     /etc/cloud/cloud.cfg or cloud-config from user-data
+#
+{# The value '{{hostname}}' will be replaced with the local-hostname -#}
+127.0.1.1 {{fqdn}} {{hostname}}
+127.0.0.1 localhost
+10.xxx.xxx.xx1      k3s-master
+10.xxx.xxx.xx2     k3s-node1
+# The following lines are desirable for IPv6 capable hosts
+::1 localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters</code></pre>
+
+
+
+<h2 class="wp-block-heading">Ubuntu raspberry fixing cgroup </h2>
+
+
+
+<p>On the ubuntu running on raspberry, I had to add cgroups before k3s will start. (I first install and it complained and I had to enable it after )</p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-node1:/home/pi# cat /boot/firmware/cmdline.txt 
+elevator=deadline net.ifnames=0 console=serial0,115200 dwc_otg.lpm_enable=0 console=tty1 root=LABEL=writable rootfstype=ext4 cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 rootwait fixrtc quiet splash
+root@k3s-node1:/home/pi# </code></pre>
+
+
+
+<h2 class="wp-block-heading">Time to install the node </h2>
+
+
+
+<p>First we need to find the join toklen from the master then we can call the k3s installation script </p>
+
+
+
+<p>On the master run</p>
+
+
+
+<pre class="wp-block-code"><code>cat /var/lib/rancher/k3s/server/node-token
+K10d4aab890dbb9acc5fc1axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx::server:d08ccccccccccccccc</code></pre>
+
+
+
+<p>No we can run the command on the node to connect it notice the <br>&#8211; MASTER URL that we have in our hostfile <br>&#8211; Node NAME is the name of our node<br>&#8211; TOKEN the token we got from the master</p>
+
+
+
+<pre class="wp-block-code"><code>curl -sfL https://get.k3s.io | K3S_URL=https://k3s-master:6443 K3S_TOKEN=K10d4aab890dbb9acc5fc1axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx::server:d08ccccccccccccccc K3S_NODE_NAME=k3s-node1 sh -</code></pre>
+
+
+
+<h2 class="wp-block-heading">Verify we have it all good</h2>
+
+
+
+<p>On the master run the following commands</p>
+
+
+
+<p>Bellow are some commands show the k3s nodes and pods are running</p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-master:/home/mahe# kubectl get nodes
+NAME         STATUS   ROLES                  AGE   VERSION
+fw1          Ready    control-plane,master   2d    v1.25.5+k3s1
+k3s-garage   Ready    &lt;none>                 35h   v1.25.5+k3s1
+
+
+root@k3s-master:/home/mahe# kubectl get pods -A
+NAMESPACE     NAME                                      READY   STATUS      RESTARTS      AGE
+kube-system   helm-install-traefik-crd-bqnsd            0/1     Completed   0             2d
+kube-system   helm-install-traefik-dzqtz                0/1     Completed   2             2d
+kube-system   svclb-traefik-0763cc1f-xbhgq              2/2     Running     0             35h
+kube-system   coredns-597584b69b-6nsd7                  1/1     Running     1 (24h ago)   2d
+kube-system   traefik-66c46d954f-lbnwp                  1/1     Running     1 (25h ago)   2d
+kube-system   svclb-traefik-0763cc1f-tw82q              2/2     Running     2 (24h ago)   2d
+kube-system   metrics-server-5f9f776df5-qnxds           1/1     Running     1 (24h ago)   2d
+kube-system   local-path-provisioner-79f67d76f8-zf4d9   1/1     Running     1 (24h ago)   2d
+root@k3s-master:/home/mahe#</code></pre>
+
+
+
+<p>Lets verify we have a network conenctions between the nodes</p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-master:/home/mahe# ip a | grep flannel
+47: flannel.1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc noqueue state UNKNOWN group default 
+    inet 10.42.0.0/32 scope global flannel.1
+</code></pre>
+
+
+
+<p>verify the service is running</p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-master:/home/mahe# systemctl status k3s
+● k3s.service - Lightweight Kubernetes
+     Loaded: loaded (/etc/systemd/system/k3s.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2023-01-06 08:32:40 UTC; 24h ago
+       Docs: https://k3s.io
+    Process: 3949250 ExecStartPre=/bin/sh -xc ! /usr/bin/systemctl is-enabled --quiet nm-cloud-setup.service (code=exited, status=0/SUCCESS)
+    Process: 3949252 ExecStartPre=/sbin/modprobe br_netfilter (code=exited, status=0/SUCCESS)
+    Process: 3949253 ExecStartPre=/sbin/modprobe overlay (code=exited, status=0/SUCCESS)
+   Main PID: 3949254 (k3s-server)
+      Tasks: 115
+     Memory: 490.0M
+     CGroup: /system.slice/k3s.service
+             ├─3949254 /usr/local/bin/k3s server
+             ├─3949270 containerd -c /var/lib/rancher/k3s/agent/etc/containerd/config.toml -a /run/k3s/containerd/containerd.sock --state /run/k3s/containerd --root /var/lib/rancher/k3s/agent/containerd
+             ├─3949885 /var/lib/rancher/k3s/data/691f04419e1d8a92fa96d43d6c1ad05162cda6e445ba30bc5eac758bf7597063/bin/containerd-shim-runc-v2 -namespace k8s.io -id 66a565b46a9f81acf3461f4188335b8b0b408ef602b1fb7c82b7cd4318c>
+             ├─3950026 /var/lib/rancher/k3s/data/691f04419e1d8a92fa96d43d6c1ad05162cda6e445ba30bc5eac758bf7597063/bin/containerd-shim-runc-v2 -namespace k8s.io -id 3c85656865be50910787f638ae42b45c9c8c17530741fd14a94bd144cb7>
+             ├─3950095 /var/lib/rancher/k3s/data/691f04419e1d8a92fa96d43d6c1ad05162cda6e445ba30bc5eac758bf7597063/bin/containerd-shim-runc-v2 -namespace k8s.io -id 670779454f288288530ec4ebf100d8a70e077ec0cd0335a2e35479edce8>
+             ├─3950298 /var/lib/rancher/k3s/data/691f04419e1d8a92fa96d43d6c1ad05162cda6e445ba30bc5eac758bf7597063/bin/containerd-shim-runc-v2 -namespace k8s.io -id a2da750f76b491bc010b3841c93a9dca07d92913445c77a2d476e23272e>
+             └─3951213 /var/lib/rancher/k3s/data/691f04419e1d8a92fa96d43d6c1ad05162cda6e445ba30bc5eac758bf7597063/bin/containerd-shim-runc-v2 -namespace k8s.io -id 8c602c443c2501ba10deb5f1f8ea61cb5003688dd243492fe8223b6e701>
+
+Jan 07 09:16:09 fw1 k3s&#91;3949254]: E0107 09:16:09.071471 3949254 dns.go:157] "Nameserver limits exceeded" err="Nameserver limits were exceeded, some nameservers have been omitted, the applied nameserver line is: fdfe:2a80:6e>
+</code></pre>
+
+
+
+<p>check we have traefik running </p>
+
+
+
+<pre class="wp-block-code"><code>root@k3s-master:/home/mahe# curl -v http://127.0.0.1
+*   Trying 127.0.0.1:80...
+* TCP_NODELAY set
+* Connected to 127.0.0.1 (127.0.0.1) port 80 (#0)
+> GET / HTTP/1.1
+> Host: 127.0.0.1
+> User-Agent: curl/7.68.0
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+&lt; HTTP/1.1 404 Not Found
+&lt; Content-Type: text/plain; charset=utf-8
+&lt; X-Content-Type-Options: nosniff
+&lt; Date: Sat, 07 Jan 2023 09:29:32 GMT
+&lt; Content-Length: 19
+&lt; 
+404 page not found
+* Connection #0 to host 127.0.0.1 left intact
+</code></pre>

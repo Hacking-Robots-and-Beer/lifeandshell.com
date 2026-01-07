@@ -1,0 +1,45 @@
+---
+title: Gitlab runners in K8s Helm (Working DockerInDocker)
+date: 2020-12-11 13:24:35
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+
+<p id="block-813bada9-6b23-4850-b652-97b1be6d04bd">So&#8230; I spent alot of time trying to get gitlab runners working in kubernetes. using the helm from gitlab.<br>This is the setup i use now that works for me aand that you dont need to put to mutch inte the build job.<br><br>Replace so you have your domain and key</p>
+
+
+
+<p id="block-0f41831b-8681-4547-8d7a-0ab8885a9259">name the file runners1-values.yaml</p>
+
+
+
+<pre id="block-9711e90c-47e7-4e46-9241-9e56107a54dc" class="wp-block-code"><code>## The GitLab Server URL (with protocol) that want to register the runner against<br>## ref: https://docs.gitlab.com/runner/commands/README.html#gitlab-runner-register<br>##<br>gitlabUrl: https://    .booli.se/<br>name: "K8s INT"<br>## The registration token for adding new Runners to the GitLab server. This must<br>## be retrieved from your GitLab instance.<br>## ref: https://docs.gitlab.com/ee/ci/runners/<br>##<br>runnerRegistrationToken: ""<br><br>## Set the certsSecretName in order to pass custom certificates for GitLab Runner to use<br>## Provide resource name for a Kubernetes Secret Object in the same namespace,<br>## this is used to populate the /etc/gitlab-runner/certs directory<br>## ref: https://docs.gitlab.com/runner/configuration/tls-self-signed.html#supported-options-for-self-signed-certificates<br>##<br>#certsSecretName:<br><br>## Configure the maximum number of concurrent jobs<br>## ref: https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-global-section<br>##<br>concurrent: 10<br><br>## Defines in seconds how often to check GitLab for a new builds<br>## ref: https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-global-section<br>##<br>checkInterval: 2<br><br>## For RBAC support:<br>rbac:<br><br>  ## Run the gitlab-bastion container with the ability to deploy/manage containers of jobs<br>  ## cluster-wide or only within namespace<br>  clusterWideAccess: false<br><br>  ## If RBAC is disabled in this Helm chart, use the following Kubernetes Service Account name.<br>  ##<br>  serviceAccountName: gitlab-runner-admin<br><br>## Configuration for the Pods that the runner launches for each new job<br>##<br>metrics:<br>  enabled: true<br><br>runners:<br>  ## Default container image to use for builds when none is specified<br>  ##<br>  image: docker:19.03.13<br>  config: |<br>    &#91;&#91;runners]]<br>      environment = &#91;"DOCKER_HOST=tcp://docker:2376", "DOCKER_TLS_CERTDIR=/certs", "DOCKER_TLS_VERIFY=1", "DOCKER_CERT_PATH=/certs/client"]<br>      &#91;runners.kubernetes]<br>        image = "docker:19.03.13"<br>        privileged = true<br>        cpu_request = "100m"<br>        memory_request = "128Mi"<br>        helper_cpu_request = "200m"<br>        &#91;runners.kubernetes.node_selector]<br>           gitlab = "true"<br>        &#91;&#91;runners.kubernetes.volumes.empty_dir]]<br>          name = "docker-certs"<br>          mount_path = "/certs/client"<br>          medium = "Memory"<br><br><br><br><br><br>  ## Run all containers with the privileged flag enabled<br>  ## This will allow the docker:stable-dind image to run if you need to run Docker<br>  ## commands. Please read the docs before turning this on:<br>  ## ref: https://docs.gitlab.com/runner/executors/kubernetes.html#using-docker-dind<br>  ##<br>  tags: "int,k8s,dind"<br>  ## Namespace to run Kubernetes jobs in (defaults to 'default')<br>  ##<br>  namespace: gitlab<br>  nodeSelector:<br>    gitlab: true<br>  ## Build Container specific configuration<br>  ##<br>  kubernetes:<br>    node_selector:<br>      gitlab = "true"<br>  builds:<br>    cpuLimit: 2000m<br>    memoryLimit: 2048Mi<br>    cpuRequests: 100m<br>    memoryRequests: 128Mi<br>    node_selector: gitlab=true<br>  ## Service Container specific configuration<br>  ##<br>  services:<br>    # cpuLimit: 200m<br>    # memoryLimit: 256Mi<br>    cpuRequests: 100m<br>    memoryRequests: 128Mi<br><br>  ## Helper Container specific configuration<br>  ##<br>  helpers:<br>    # cpuLimit: 200m<br>    # memoryLimit: 256Mi<br>    cpuRequests: 100m<br>    memoryRequests: 128Mi<br>    node_selector: gitlab=true<br>﻿</code></pre>
+
+
+
+<p id="block-bd3ddfe3-4833-4a5f-98bb-b5eb3a2100ae">Apply it with</p>
+
+
+
+<pre id="block-12b4354f-02f6-4626-8f5d-258e4c5ccf58" class="wp-block-code"><code>#!/bin/bash<br>helm repo add gitlab https://charts.gitlab.io<br>helm repo update<br><br>kubectl create namespace gitlab<br>kubectl apply -f gitlab-service-account.yaml <br><br>helm upgrade --install --namespace gitlab gitlab-runner -f runners1-values.yaml gitlab/gitlab-runner<br>﻿</code></pre>
+
+
+
+<p id="block-6e4ec73e-1a52-497d-a938-23d3169c621d">And now you have it wokring fine in the cluster</p>
+
+
+
+<p></p>

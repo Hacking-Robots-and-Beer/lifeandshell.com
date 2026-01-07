@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Install Pandora fms monitoring system on Centos | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/install-pandora-fms-monitoring-system-on-centos/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/install-pandora-fms-monitoring-system-on-centos/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Install Pandora fms monitoring system on Centos">
+  <meta property="og:description" content="So for many years i use nagios to monitor my server and now im would say i can handle nagios config files good. But I fund pandora fms monitoring and this i must try.
+From the pandora console its mutch easy to from the webbrowser setup new task and tweek task so you alarms realy are correct. Doing this in nagios then i had to change config files and restart nagios and nrpe.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2014-03-22T13:10:54+00:00">
+    <meta property="article:modified_time" content="2014-03-22T13:10:54+00:00">
+    <meta property="article:tag" content="Elino">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Web">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Install Pandora fms monitoring system on Centos">
+  <meta name="twitter:description" content="So for many years i use nagios to monitor my server and now im would say i can handle nagios config files good. But I fund pandora fms monitoring and this i must try.
+From the pandora console its mutch easy to from the webbrowser setup new task and tweek task so you alarms realy are correct. Doing this in nagios then i had to change config files and restart nagios and nrpe.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/pimcore-opensource-online-marketers-dream-install-on-centos-6/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/recover-you-python-files-from-rm-rf/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&text=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&title=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&is_video=false&description=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&title=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&title=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&name=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos&description=So%20for%20many%20years%20i%20use%20nagios%20to%20monitor%20my%20server%20and%20now%20im%20would%20say%20i%20can%20handle%20nagios%20config%20files%20good.%20But%20I%20fund%20pandora%20fms%20monitoring%20and%20this%20i%20must%20try.%0aFrom%20the%20pandora%20console%20its%20mutch%20easy%20to%20from%20the%20webbrowser%20setup%20new%20task%20and%20tweek%20task%20so%20you%20alarms%20realy%20are%20correct.%20Doing%20this%20in%20nagios%20then%20i%20had%20to%20change%20config%20files%20and%20restart%20nagios%20and%20nrpe." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&t=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Install Pandora fms monitoring system on Centos
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2014-03-22 13:10:54 &#43;0000 UTC" itemprop="datePublished">2014-03-22</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          1 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/elino">Elino</a>
+            
+             ,  
+            <a class="category-link" href="/categories/linux">Linux</a>
+            
+             ,  
+            <a class="category-link" href="/categories/security">Security</a>
+            
+             ,  
+            <a class="category-link" href="/categories/web">Web</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/elino" rel="tag">Elino</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/linux" rel="tag">Linux</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/security" rel="tag">Security</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/web" rel="tag">Web</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>So for many years i use nagios to monitor my server and now im would say i can handle nagios config files good. But I fund pandora fms monitoring and this i must try.</p>
+<p>From the pandora console its mutch easy to from the webbrowser setup new task and tweek task so you alarms realy are correct. Doing this in nagios then i had to change config files and restart nagios and nrpe.</p>
+<p>&nbsp;</p>
+<p>So here is i small guide to install and set up i basic pandora fms monitoring,</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Download the console, server client AND wsdi</p>
+<pre>wget http://downloads.sourceforge.net/project/pandora/Pandora%20FMS%205.0/FinalSP3/RHEL_CentOS/pandorafms_agent_unix-5.0SP3-1.noarch.rpm?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%2520FMS%25205.0%2FFinalSP3%2FRHEL_CentOS%2F&amp;ts=1395336652&amp;use_mirror=heanet</pre>
+<pre>wget http://downloads.sourceforge.net/project/pandora/Pandora%20FMS%205.0/FinalSP3/RHEL_CentOS/pandorafms_server-5.0SP3-1.noarch.rpm?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%2520FMS%25205.0%2FFinalSP3%2FRHEL_CentOS%2F&amp;ts=1395336686&amp;use_mirror=freefr</pre>
+<pre>wget http://downloads.sourceforge.net/project/pandora/Pandora%20FMS%205.0/FinalSP3/RHEL_CentOS/pandorafms_console-5.0SP3-1.noarch.rpm?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%2520FMS%25205.0%2FFinalSP3%2FRHEL_CentOS%2F&amp;ts=1395336727&amp;use_mirror=skylink</pre>
+<pre>wget http://downloads.sourceforge.net/project/pandora/Tools%20and%20dependencies%20%28All%20versions%29/RPM%20CentOS%2C%20RHEL/wmic-4.0.0SVN-2.1.el5.centos.noarch.rpm?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FTools%2520and%2520dependencies%2520%28All%2520versions%29%2FRPM%2520CentOS%2C%2520RHEL%2F&amp;ts=1395337829&amp;use_mirror=garr</pre>
+<p>&nbsp;</p>
+<p>Move them so they have the .rpm name ate the end</p>
+<p>&nbsp;</p>
+<pre>mv pandorafms_console-5.0SP3-1.noarch.rpm\?r\=http\:%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%20FMS%205.0%2FFinalSP3%2FRHEL_CentOS%2F pandorafms_console-5.0SP3-1.noarch.rpm</pre>
+<pre>mv pandorafms_server-5.0SP3-1.noarch.rpm\?r\=http\:%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%20FMS%205.0%2FFinalSP3%2FRHEL_CentOS%2F pandorafms_server-5.0SP3-1.noarch.rpm</pre>
+<pre>mv pandorafms_agent_unix-5.0SP3-1.noarch.rpm\?r\=http\:%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FPandora%20FMS%205.0%2FFinalSP3%2FRHEL_CentOS%2F pandorafms_agent_unix-5.0SP3-1.noarch.rpm</pre>
+<pre>mv wmic-4.0.0SVN-2.1.el5.centos.noarch.rpm\?r\=http\:%2F%2Fsourceforge.net%2Fprojects%2Fpandora%2Ffiles%2FTools%20and%20dependencies%20\(All%20versions\)%2FRPM%20CentOS\,%20RHEL%2F wmic-4.0.0SVN-2.1.el5.centos.noarch.rpm</pre>
+<p>So now we have the 4 packaged that we need lets install them IMPORTANT that you do this in the correct order.</p>
+<p>&nbsp;</p>
+<p>1.</p>
+<pre>sudo yum localinstall pandorafms_console-5.0SP3-1.noarch.rpm</pre>
+<p>2.</p>
+<pre>sudo yum localinstall wmic-4.0.0SVN-2.1.el5.centos.noarch.rpm</pre>
+<p>3.</p>
+<pre>sudo yum localinstall pandorafms_server-5.0SP3-1.noarch.rpm</pre>
+<p>4</p>
+<pre>sudo yum localinstall pandorafms_agent_unix-5.0SP3-1.noarch.rpm</pre>
+<p>&nbsp;</p>
+<h2>Config Pandora console</h2>
+<p>Now we have the packages install its time to set up pandora console server and client.<br />
+Start i webbrowser and go to you pandora_console http://hostname/pandora_console</p>
+<p>There setup you mysql details and let pandora install it self into you mysql.</p>
+<h2>Config Pandora Server</h2>
+<p>Next up is to setup the pandora server.<br />
+Open the file</p>
+<pre>vi /var/www/html/pandora_console/include/config.php</pre>
+<p>And COPY the mysql password from that file</p>
+<p>Open the file</p>
+<pre>vi /etc/pandora/pandora_server.conf</pre>
+<p>And PAST in the mysql password on the correct place.</p>
+<p>Restart you pandora server</p>
+<pre>/etc/init.d/pandora_server restart
+/etc/init.d/tentacle_serverd restart</pre>
+<h2>Pandora Client</h2>
+<p>Open the file</p>
+<pre>vi /etc/pandora/pandora_agent.conf</pre>
+<p>Change the ip to your pandora server ip.</p>
+<p>Restart the pandora client and pandora server deamon.</p>
+<p>Then for every new host you would like to add only install the pandora client and chnage the ip. then all of you server will show up in the pandora_console.</p>
+<p>&nbsp;</p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&text=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&title=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&is_video=false&description=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&title=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&title=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&name=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos&description=So%20for%20many%20years%20i%20use%20nagios%20to%20monitor%20my%20server%20and%20now%20im%20would%20say%20i%20can%20handle%20nagios%20config%20files%20good.%20But%20I%20fund%20pandora%20fms%20monitoring%20and%20this%20i%20must%20try.%0aFrom%20the%20pandora%20console%20its%20mutch%20easy%20to%20from%20the%20webbrowser%20setup%20new%20task%20and%20tweek%20task%20so%20you%20alarms%20realy%20are%20correct.%20Doing%20this%20in%20nagios%20then%20i%20had%20to%20change%20config%20files%20and%20restart%20nagios%20and%20nrpe." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2finstall-pandora-fms-monitoring-system-on-centos%2f&t=Install%20Pandora%20fms%20monitoring%20system%20on%20Centos" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

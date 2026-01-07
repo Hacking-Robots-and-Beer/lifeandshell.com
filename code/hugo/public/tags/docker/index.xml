@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on Life and Shell</title>
+    <link>https://lifeandshell.com/tags/docker/</link>
+    <description>Recent content in Docker on Life and Shell</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Mattias Hemmingssion mattias@lifeandshell.com</copyright>
+    <lastBuildDate>Sun, 13 Apr 2025 09:32:36 +0000</lastBuildDate>
+    <atom:link href="https://lifeandshell.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wazuh  Digest any source!</title>
+      <link>https://lifeandshell.com/posts/wazuh-digest-any-source/</link>
+      <pubDate>Sun, 13 Apr 2025 09:32:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wazuh-digest-any-source/</guid>
+      <description>How I Built a Custom Wazuh Log Ingest Pipeline (And Ditched the Wodle) If you&amp;#8217;ve ever tried to push custom logs into Wazuh, you’ve probably stumbled across something called a Wodle. Wazuh uses these built-in scripts to collect and parse data—especially useful for integrations like AWS.&#xA;So… Wodle for AWS? Sure, Wodle can collect AWS logs. But when I tried using it for my AWS environment, things didn’t exactly go as planned.</description>
+    </item>
+    <item>
+      <title>Wazuh On Kubernetes using Helm</title>
+      <link>https://lifeandshell.com/posts/wazuh-on-kubernetes-using-helm/</link>
+      <pubDate>Sat, 12 Apr 2025 21:50:16 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/wazuh-on-kubernetes-using-helm/</guid>
+      <description>From OSSEC to Wazuh: My Journey and Kubernetes Setup I started a long time ago using OSSEC, and eventually transitioned over to Wazuh—back when it still relied on Elasticsearch for storage and search. Recently, when I returned to Wazuh for a new project, I was surprised to find that there was no simple way to deploy Wazuh into a local Kubernetes cluster for testing. So, I decided to revive and modernize an old Helm chart I had built a while back.</description>
+    </item>
+    <item>
+      <title>Vault EKS / AWS to pod The complete guide</title>
+      <link>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</link>
+      <pubDate>Thu, 29 Oct 2020 09:17:42 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/vault-eks-aws-to-pod-the-complete-guide/</guid>
+      <description>I have bean working some time with vault and to deploy it to our EKS cluster and then to get the secrets into our pods.&#xA;After many hours of searching i have found out that using kube-vault and vault-env. This gude uses tarraform to setup the resources you need in AWS.&#xA;Then deploy the kubevault with ui into to cluster that will use a s3 bucket and backend and autoseal it self during boot</description>
+    </item>
+    <item>
+      <title>Running Counter-strike 1.6 and CSGO in kubernetes !</title>
+      <link>https://lifeandshell.com/posts/running-counter-strike-1-6-and-csgo-in-kubernetes/</link>
+      <pubDate>Wed, 29 Apr 2020 14:09:45 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/running-counter-strike-1-6-and-csgo-in-kubernetes/</guid>
+      <description>Yee so it was a long time ago when I spend days playing counter strike 1.6. And now when i got some more power full servers and some time I was thinking of setting up a some counter-strike server for me and some friends so we can play.&#xA;I have a nice kubernetes cluster in my garage and a run all my stuff inside kubernetes so it was natural to make them into a kubernetes deploy.</description>
+    </item>
+    <item>
+      <title>Alexa and Jenkins (Docker)</title>
+      <link>https://lifeandshell.com/posts/alexa-jenkins-docker/</link>
+      <pubDate>Sat, 26 Nov 2016 22:05:28 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/alexa-jenkins-docker/</guid>
+      <description>So I have an Alexa echo dot at home. Use it to control stuff but I wanted it to do more like release and deploy the stuff I build.&#xA;This is how you can integrate Alexa voice service with Jenkins.&#xA;First setup the server For receiving commands from Alexa and sending them to Jenkins we need a server and some code. First start with the server i use docker and a docker-compose to set it up.</description>
+    </item>
+    <item>
+      <title>ddclient for loopia in Docker</title>
+      <link>https://lifeandshell.com/posts/ddclient-loopia-docker/</link>
+      <pubDate>Mon, 27 Jun 2016 20:43:23 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/ddclient-loopia-docker/</guid>
+      <description>So i uses loopia.se as my dns provider.&#xA;And a also have some dns for my home but it always change ip (have dynamic ip home )&#xA;&amp;nbsp;&#xA;So for fixing this i build a docker images that updates my loopia server from the docker images.&#xA;So i if you are using loopia i but this is the best way of updating you dns records&#xA;&amp;nbsp;&#xA;Run with&#xA;docker run -e &#34;</description>
+    </item>
+    <item>
+      <title>Autodeploy you docker images to AWS (git push = deploy)</title>
+      <link>https://lifeandshell.com/posts/autodeploy-docker-images-aws-git-push-deploy/</link>
+      <pubDate>Thu, 26 May 2016 12:56:19 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/autodeploy-docker-images-aws-git-push-deploy/</guid>
+      <description>So I have a lot of small project and some large. To buil in quality into my code i need to run test in my code. And my code in a prod like env.&#xA;I always uses docker so my dev env are verly like my prod.&#xA;One key thing that i do is that when i push code to my master branch i do a release do server. This is so that i can verify that everything is working and i can run test on it.</description>
+    </item>
+    <item>
+      <title>Roll you own Docker Registry with nginx (In Docker)</title>
+      <link>https://lifeandshell.com/posts/roll-you-own-docker-registry-with-nginx-in-docker/</link>
+      <pubDate>Sat, 19 Mar 2016 23:25:36 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/roll-you-own-docker-registry-with-nginx-in-docker/</guid>
+      <description>When yor private numbers of docker images grow is time to setup you own private repo.&#xA;Do have you own docker repo you need 1. the docker registry 2. nginx to handel users 3. tls so that all conenctions are encrypted.&#xA;So here is what yu do to have you own docker repo running.&#xA;&amp;nbsp;&#xA;&amp;nbsp;&#xA;Install docker-compsoe and setup the followin docker-compose file storage: image: busybox volumes: - /backup/docker/registry:/var/lib/docker/registry cache: image: redis registry: image: registry ports: - 127.</description>
+    </item>
+    <item>
+      <title>Maxscale Sql scaling with mariadb Cluster on Centos in Docker</title>
+      <link>https://lifeandshell.com/posts/maxscale-sql-scaling-with-mariadb-cluster-in-docker/</link>
+      <pubDate>Thu, 28 Jan 2016 22:31:46 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/maxscale-sql-scaling-with-mariadb-cluster-in-docker/</guid>
+      <description>So scaling sql server has now bean easy with mariadb maxscale. Here i uses it to connect to my mariadb cluster and setup two new servers. One is a loadbalanser and onw is a read/write splitter&#xA;1.First prep your mariadb servers with som users for you maxscale CREATE user &#39;maxscale&#39;@&#39;%&#39; identified by &#39;maxscaleW222&#39;;&#xD;GRANT SELECT ON mysql.user TO &#39;maxscale&#39;@&#39;%&#39;;&#xD;GRANT SELECT ON mysql.db TO &#39;maxscale&#39;@&#39;%&#39;;&#xD;GRANT SHOW DATABASES ON *.* TO &#39;maxscale&#39;@&#39;%&#39;; &amp;nbsp;</description>
+    </item>
+    <item>
+      <title>MariaDB cluster with Dynamic Nodes on Centos 7 in Docker</title>
+      <link>https://lifeandshell.com/posts/mariadb-cluster-with-dynamic-nodes-in-docker/</link>
+      <pubDate>Wed, 27 Jan 2016 13:45:55 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mariadb-cluster-with-dynamic-nodes-in-docker/</guid>
+      <description>So running sql in docker is a big qestion now. To make some test i have setup two mariadb cluster docker containers. The first one is the mariadb cluster master. This will setup a master mariadb sql node running.&#xA;The second one is the MariaDB cluster slave. This docker will connect to the master and rsync the database over to the slave. Then en database is rsynced over it will start the sql and can process sql data.</description>
+    </item>
+    <item>
+      <title>Openldap with SQL Backend (Mariadb Centos 7 ) in Docker</title>
+      <link>https://lifeandshell.com/posts/openldap-with-sql-backend-mariadb/</link>
+      <pubDate>Thu, 21 Jan 2016 15:59:14 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/openldap-with-sql-backend-mariadb/</guid>
+      <description>We use Ldap for handling our users and I have spent time setting up Openldap and tryng to configur it.&#xA;But now i have given up my ldap skills and setup my openldap to use a sql backend and then i config my user with SQL that i like more.&#xA;I have also build i Dockerfile for docker that you can use.&#xA;&amp;nbsp;&#xA;&amp;nbsp;&#xA;So what you need is one sql databserver to hold that database, One odbc connection from the ldap server to that sql server.</description>
+    </item>
+    <item>
+      <title>Mesos cluster with Marathon running Docker</title>
+      <link>https://lifeandshell.com/posts/mesos-cluster-with-marathon-running-docker/</link>
+      <pubDate>Fri, 11 Dec 2015 21:47:19 +0000</pubDate>
+      <guid>https://lifeandshell.com/posts/mesos-cluster-with-marathon-running-docker/</guid>
+      <description>Hi&#xA;So for hosting docker in large scale i have tested mesos cluster. Here is a guide for setting up 3 nodes in mesos running Centos 7. And the adding Marathon to controll the dockers running.&#xA;The network&#xA;mesos-master 172.0.0.10&#xA;mesos-slave1 172.0.0.11&#xA;mesos-slave2 172.0.0.12&#xA;&amp;nbsp;&#xA;The node also have on nic connect to the network with internet access.&#xA;&amp;nbsp;&#xA;Security&#xA;For this guide stop iptables and turn selinux off&#xA;setenforce 0&#xD;systemect stop firewalld &amp;nbsp;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,79 @@
+---
+title: koha bibliotek till OpenLDAP
+date: 2012-03-12 21:08:43
+tags:
+    
+    - Random
+    
+    
+    - Security
+    
+     
+categories:
+    
+    - Random
+    
+    
+    - Security
+    
+     
+keywords: 
+    
+    - Random
+    
+    
+    - Security
+    
+     
+---
+<p>Hur man kopplar ihop koha bibliotek med din openldap server.<br />
+För att få det att fungera fick jag trixa till lite i koden.</p>
+<p>1 Börja med att editera koha configfilen.</p>
+<p>Min fanns under den bibliotek jag gjort på växthuset</p>
+<p>vi /etc/koha/sites/vaxthuset/koha-conf.xml</p>
+<p>börja med att aktivera ldap genom att ändra o tille n 1och läggs sedan in följande under <useldapserver> taggen</p>
+<p>OBS fick ta bort lite < så man kan visa taggarna i wordpress
+
+
+
+<pre>
+ useldapserver>1/useldapserver><!-- see C4::Auth_with_ldap for extra configs you must add if you want to turn this on -->
+        ldapserver id=&#8221;ldapserver&#8221;  listenref=&#8221;ldapserver&#8221;>
+        hostname>10.0.2.2/hostname>
+        base>dc=elinofied,dc=se/base>
+        user>cn=admin,dc=elinofied,dc=se/user><!-- -->
+        pass>*********/pass><!-- -->
+        replicate>1/replicate>       <!-- add new users from LDAP to Koha database -->
+        update>1/update>             <!-- update existing users in Koha database -->
+        auth_by_bind>1/auth_by_bind> <!-- set to 1 to authenticate by binding instead of password comparison, e.g., to use Active Directory-->
+        principal_name>uid=%s,ou=People,dc=elinofied,dc=se/principal_name>
+
+mapping>             <!-- match koha SQL field names to your LDAP record field names -->
+firstname    is=&#8221;givenName&#8221;>/firstname>
+surname      is=&#8221;cn&#8221;> /surname>
+address      is=&#8221;postaladdress&#8221;>Hastskovagen 76/address>
+city         is=&#8221;l&#8221;>stockholm/city>
+zipcode      is=&#8221;postalcode&#8221;>175 75/zipcode>
+branchcode   is=&#8221;&#8221;>JAK/branchcode>
+userid       is=&#8221;uid&#8221;>/userid>
+password     is=&#8221;userPassword&#8221;>/password>
+cardnumber   is=&#8221;extensionattribute2&#8243;>4111111111111111/cardnumber>
+email        is=&#8221;mail&#8221;>/email>
+categorycode is=&#8221;&#8221;>VAXTHUSET/categorycode>
+phone        is=&#8221;telephonenumber&#8221;>08-58027505/phone>
+dateenrolled is=&#8221;&#8221;>2011-03-01/dateenrolled>
+dateexpiry   is=&#8221;&#8221;>2015-06-06/dateexpiry>
+/mapping>
+/ldapserver>
+
+</pre>
+<p>Dubbel kolla så alla mapping stämmer min finns på en ubuntu 12.04 openldap server.<br />
+Så har du likande borde det funka bra.</p>
+<p>2. Nu är det daxs för tricken</p>
+<p>vi /usr/share/koha/lib/C4/Auth_with_ldap.pm</p>
+<p>och leta fram  if ($borrowernumber) {<br />
+som du ändrar till  if (!$borrowernumber) {</p>
+<p>Leta fram if (C4::Context->preference(&#8216;NotifyBorrowerDeparture&#8217;) &#038;&#038;<br />
+Och ändra den till if (! C4::Context->preference(&#8216;NotifyBorrowerDeparture&#8217;) &#038;&#038;</p>
+<p>Med ! så kör vi så att den inte kör functionen vilket gör att den inte klagar när du loggar in mot koha med dina ldap saker.</p>
+<p>The post is brought to you by <a href="http://fedorahosted.org/lekhonee">lekhonee</a> v0.7</p>

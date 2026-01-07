@@ -1,0 +1,37 @@
+---
+title: Openvas results to json and Elasticsearch and kibana
+date: 2020-02-24 14:59:57
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+
+<p>I have some openvas scanners running but to use the scanners a need the results as json files. Then i can use my ELK stack to visualize and have dashboards over the results from the scan.</p>
+
+
+
+<p>Before I used vulwisperer to export the result from openvas and to get them into elk. But from the latest release of openvas the support from vulwipspere is gone.</p>
+
+
+
+<p>So i have created my own pyton script that reads the results from openvas scannings. Store the results as json files on the filesystem.<br>Then i uses a logstash to read the file and send the results to elasticsearch.</p>
+
+
+
+<p><a href="https://github.com/mattiashem/openvas-exporter">https://github.com/mattiashem/openvas-exporter</a></p>
+
+
+
+<p>Here is the repo i used to extract the files from openvas. For how to use it and more info its all in the repo !</p>

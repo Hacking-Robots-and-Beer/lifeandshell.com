@@ -1,0 +1,10 @@
+services:
+  hugo:
+    build:
+      context: .
+      dockerfile: Dockerfile_dev
+    volumes:
+      - ./:/src/site
+      - ./output/:/output
+    ports:
+      - 1313:1313

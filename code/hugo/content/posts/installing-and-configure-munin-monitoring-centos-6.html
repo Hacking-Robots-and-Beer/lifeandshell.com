@@ -1,0 +1,54 @@
+---
+title: Installing and configure Munin Monitoring (Centos 6)
+date: 2014-02-22 21:40:44
+tags:
+    
+    - Linux
+    
+     
+categories:
+    
+    - Linux
+    
+     
+keywords: 
+    
+    - Linux
+    
+     
+---
+<p>to get some performance data from my server i use Munin monitroing system.<br />
+And here is i samm guide how to install and set up munin on the munin serer and on the munin client.</p>
+<p>First up is to setup the munin server</p>
+<pre>yum install munin munin-node &lt;-- on server
+
+yum install munin-node &lt;-- on clients</pre>
+<p>i install both the munin server and node on the same host so i can monitor the host that the munin server is on.</p>
+<p>Now when the package is install lets add some host to monitor on the server.<br />
+Here is my conf for my server. As you se my admin.elinodrift.se has the munin server on the same server. so then i use localhost</p>
+<pre>[admin.elinodrift.se]
+ address 127.0.0.1
+ use_node_name yes</pre>
+<pre>[eu1.elinodrift.se]
+ address 10.8.0.2
+ use_node_name yes</pre>
+<p>So now my munin server is ready time for setting up the munin node.<br />
+Open the file <strong>/etc/munin/munin-node.conf</strong> in this file there are two importent things.</p>
+<p><strong>host_name admin.elinodrift.se</strong>  &lt;&#8212; set this to same name you gave the client on the munin server</p>
+<p><strong>allow ^127\.0\.0\.1$</strong> &lt;&#8212; Add your munin server ip here so its allow to connect</p>
+<p>Save and restart you munin klient</p>
+<pre>/etc/init.d/munin-node restart</pre>
+<p>test from you munin server to run</p>
+<pre>telnet ip to munin client 4949</pre>
+<p>and you should se so that the munin server can connect to the munin client.</p>
+<p>So now we have a working conenctio between the munin server and the munin nodes.<br />
+So lets get some service to monitor.</p>
+<pre>cd /etc/munin/plugins/</pre>
+<p>In this folder you add the plugins you want to monitor. So for adding new plugins link in new plugins.</p>
+<pre>ln -s /usr/share/munin/plugins/name of plugin .</pre>
+<p>When you have added the plugins you want. Its time to test so that the plugins works. Run the node plugin test to verify</p>
+<pre>munin-node-configure</pre>
+<p>If you plugins need config look in the folder /etc/munin/plugin-conf.d/<br />
+After you added the plugin you want you can restart the muni-node and wait for the stats to update.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

@@ -1,0 +1,75 @@
+---
+title: Raspberry pi And Tellusd
+date: 2015-04-20 09:24:02
+tags:
+    
+    - Code
+    
+    
+    - Life
+    
+     
+categories:
+    
+    - Code
+    
+    
+    - Life
+    
+     
+keywords: 
+    
+    - Code
+    
+    
+    - Life
+    
+     
+---
+<p>Im using tellus to get info from my sensors like huminity and temp.</p>
+<p>And to get to work am using my rasp pi to recive and send siganls.<br />
+Here is a quick guide to install and setup tellusd on you raspberry.</p>
+<p>&nbsp;</p>
+<h2>1. Verify that tellus is there</h2>
+<pre>pi@raspberrypi ~ $ <strong>lsusb</strong>
+Bus 001 Device 002: ID 0424:9512 Standard Microsystems Corp. 
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp. 
+<strong>Bus 001 Device 004: ID 1781:0c31 Multiple Vendors Telldus TellStick Duo</strong>
+Bus 001 Device 005: ID 148f:5370 Ralink Technology, Corp. RT5370 Wireless Adapter</pre>
+<p>&nbsp;</p>
+<h2>2. Setup the pi</h2>
+<h3>Repos</h3>
+<p>Add the folloing to the file</p>
+<pre>deb-src http://download.telldus.com/debian/ stable main</pre>
+<p>&nbsp;</p>
+<pre>sudo nano /etc/apt/sources.list.d/telldus.list</pre>
+<p>&nbsp;</p>
+<p>Get and ad the key</p>
+<pre>sudo apt-key add http://download.telldus.se/debian/telldus-public.key</pre>
+<p>Update</p>
+<pre>sudo apt-get update</pre>
+<pre>sudo apt-get upgrade</pre>
+<p>&nbsp;</p>
+<p>Install deps</p>
+<pre>sudo apt-get install build-essential cmake libconfuse-dev libftdi-dev help2man</pre>
+<p>&nbsp;</p>
+<h2>3. Download and build</h2>
+<pre>mkdir /tmp/tellusd
+cd /tmp/tellusd</pre>
+<p>build</p>
+<pre>sudo apt-get --compile source telldus-core</pre>
+<p>Install</p>
+<pre>sudo dpkg --install *.deb</pre>
+<p>&nbsp;</p>
+<h2>4. Test and get some data</h2>
+<pre>pi@raspberrypi ~ $ <strong>tdtool -l</strong>
+Number of devices: 1
+1 Example device OFF</pre>
+<pre>PROTOCOL MODEL ID TEMP HUMIDITY RAIN WIND LAST UPDATED 
+fineoffset temperature 165 21.6° 2015-04-20 07:20:57 
+fineoffset temperature 146 9.4° 2015-04-20 07:21:01 
+fineoffset temperaturehumidity 45 11.5° 51% 2015-04-20 07:21:08 
+fineoffset temperaturehumidity 199 21.1° 45% 2015-04-20 07:20:48 
+fineoffset temperaturehumidity 99 -7.7° 45% 2015-04-20 04:33:36 
+fineoffset temperature 255 -204.7° 2015-04-20 06:52:23</pre>

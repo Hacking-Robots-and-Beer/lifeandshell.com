@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lifeandshell, Life, Linux, Security, Web on Cactus theme example</title>
+    <link>http://localhost:1313/categories/lifeandshell-life-linux-security-web/</link>
+    <description>Recent content in Lifeandshell, Life, Linux, Security, Web on Cactus theme example</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>You</copyright>
+    <lastBuildDate>Sun, 24 Nov 2013 21:25:42 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/lifeandshell-life-linux-security-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Install Diaspora one Centos 6.4 with Apache</title>
+      <link>http://localhost:1313/posts/install-diaspora-one-centos-6-4-with-apache/</link>
+      <pubDate>Sun, 24 Nov 2013 21:25:42 +0000</pubDate>
+      <guid>http://localhost:1313/posts/install-diaspora-one-centos-6-4-with-apache/</guid>
+      <description>&lt;p&gt;So Im going to test diaspora on one of my virtual server with run centos 6.4.&lt;/p&gt;&#xA;&lt;h1&gt;Setup Centos&lt;/h1&gt;&#xA;&lt;p&gt;&lt;strong&gt;Setup Repos&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;pre&gt;wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm&#xD;&#xA;wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm&#xD;&#xA;rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm&#34;&lt;/pre&gt;&#xA;&lt;p&gt;&lt;strong&gt;Install packages&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;div&gt;&#xA;&lt;pre&gt;yum install tar make automake gcc gcc-c++ git net-tools libcurl-devel libxml2-devel libffi-devel libxslt-devel tcl redis ImageMagick npm mysql-server mysql-devel httpd mod_ssl libyaml libyaml-devel patch readline-devel libtool bison&lt;/pre&gt;&#xA;&lt;p&gt;&lt;strong&gt;Start services&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;pre&gt;chkconfig --level 3 httpd on&lt;/pre&gt;&#xA;&lt;pre&gt;chkconfig --level 3 mysqld on&lt;/pre&gt;&#xA;&lt;pre&gt;chkconfig --level 3 redis on&lt;/pre&gt;&#xA;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
