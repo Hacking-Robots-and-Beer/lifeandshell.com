@@ -16,7 +16,7 @@ def getUserData():
     from github import Auth
 
     # using an access token
-    auth = Auth.Token(os.environ.get('GITHUB_TOKEN'))
+    auth = Auth.Token(os.environ.get('HRB_GITHUB_TOKEN'))
 
     # First create a Github instance:
 

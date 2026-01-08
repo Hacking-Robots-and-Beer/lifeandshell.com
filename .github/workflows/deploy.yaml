@@ -1,0 +1,22 @@
+name: Deploy To Production
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: ${{ github.repository }}
+on:
+  workflow_run:
+    workflows: [Docker Image Publish]
+    types:
+      - completed
+jobs:
+  deploy:
+    runs-on: arc-runner-set-mattiashem
+    container: lifeandshell.com:main
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Deploy settings
+        run: python get.py
