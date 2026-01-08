@@ -17,4 +17,4 @@ jobs:
       id-token: write
     steps:
       - name: Deploy settings
-        run: python get.py 
+        run: cd /code && python get.py 
