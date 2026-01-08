@@ -10,7 +10,7 @@ on:
 jobs:
   deploy:
     runs-on: arc-runner-set-mattiashem
-    container: lifeandshell.com:main
+    container: ghcr.io/Hacking-Robots-and-Beer/lifeandshell.com:master
     permissions:
       contents: read
       packages: write
@@ -19,4 +19,4 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Deploy settings
-        run: python get.py
+        run: python /code/get.py 
