@@ -10,7 +10,7 @@ on:
 jobs:
   deploy:
     runs-on: arc-runner-set-hrb
-    container: ghcr.io/hacking-robots-and-beer/lifeandshell:master
+    container: ghcr.io/hacking-robots-and-beer/lifeandshell:${{ github.sha }}
     permissions:
       contents: read
       packages: write
