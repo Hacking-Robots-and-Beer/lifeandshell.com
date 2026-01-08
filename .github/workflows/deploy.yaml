@@ -9,7 +9,7 @@ on:
       - completed
 jobs:
   deploy:
-    runs-on: arc-runner-set-mattiashem
+    runs-on: arc-runner-set-hrb
     container: ghcr.io/Hacking-Robots-and-Beer/lifeandshell.com:master
     permissions:
       contents: read
